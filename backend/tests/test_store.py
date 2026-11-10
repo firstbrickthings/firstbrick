@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import func, select
 from app.db import sessions
 from app.main import app
+from app.config import settings
 from app.models import Order, Product, Variant
 from conftest import headers
 
@@ -27,6 +28,20 @@ def test_auth_and_ownership(client):
     assert client.get('/api/me/orders/' + order['id'], headers=headers('case-other')).status_code == 404
     assert client.get('/api/me/orders', headers=headers('other')).json()['items'] == []
     assert client.get('/api/me/orders', headers=headers()).json()['items'][0]['id'] == order['id']
+
+
+def test_dashboard_phone_access_requires_verified_token_claim(client, monkeypatch):
+    monkeypatch.setattr(settings(), 'admin_verified_phones', '+919999999999')
+    assert client.get('/api/me', headers=headers()).json()['is_admin'] is True
+    assert client.get('/api/admin/products', headers=headers()).status_code == 200
+    assert client.get('/api/me', headers=headers('other')).json()['is_admin'] is False
+    assert client.get('/api/admin/products', headers=headers('other')).status_code == 403
+    assert client.get('/api/admin/products', headers=headers('bad')).status_code == 401
+    # A matching typed profile name cannot promote a different verified number.
+    assert client.put('/api/me/profile', json={**SHIPPING, 'name': 'Store Owner'}, headers=headers('other')).status_code == 200
+    assert client.get('/api/admin/products', headers=headers('other')).status_code == 403
+    # Existing UID-based owner access is preserved.
+    assert client.get('/api/admin/products', headers=headers('owner')).status_code == 200
 
 
 def test_server_totals_and_idempotency(client):

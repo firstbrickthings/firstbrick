@@ -59,8 +59,8 @@ function renderProductBatch(gridId, products, countId) {
       };
       motion.addEventListener('click',()=>{motion.setAttribute('aria-pressed',String(!window.boHeroPaused));sync()});
       reduced.addEventListener('change',sync);sync();
-      document.addEventListener('visibilitychange',()=>{if(document.hidden)clearTimeout(heroTimer);else if(!window.boHeroPaused)startHeroTimer()});
     }
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)clearTimeout(heroTimer);else if(!window.boHeroPaused)startHeroTimer()});
     const observer = new MutationObserver(records => {
       for (const record of records) for (const node of record.addedNodes) {
         if (node.nodeType === 1 && node.matches('input,select,textarea,form,div,section,article')) fields(node);

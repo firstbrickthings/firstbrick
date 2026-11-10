@@ -18,7 +18,9 @@ Verified on the hosted site:
 
 The Railway domain is authorized and the Firebase Admin JSON is configured privately on the web service. The owner has confirmed that OTP login works on the deployed website.
 
-Add the intended administrator's Firebase UID to `ADMIN_FIREBASE_UIDS` to manage regular catalogue prices, stock and sales approval. Never commit or paste the Firebase service-account key into chat.
+Owner access can use `ADMIN_FIREBASE_UIDS` or the private `ADMIN_VERIFIED_PHONES` allowlist. Phone access is matched only against the Firebase-verified `phone_number` token claim; typing an owner name or phone in a profile cannot grant access. After verified owner sign-in, the **Dashboard** button opens the existing MySQL store panel. Existing inventory, customer and order records are preserved. Never commit or paste the Firebase service-account key into chat.
+
+The original premium payment layout and UPI app section are retained. No QR option has been added. Homepage, promotional, fashion and category banners display their existing media without overlay text or buttons; source banner metadata and stored media remain intact.
 
 No mock authentication is deployed publicly.
 

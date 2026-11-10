@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     firebase_service_account_json: str = ''
     firebase_project_id: str = 'baby-one-a5cd4'
     admin_firebase_uids: str = ''
+    admin_verified_phones: str = ''
     allowed_origins: str = 'http://localhost:8000,http://127.0.0.1:8000'
     razorpay_key_id: str = ''
     razorpay_key_secret: str = ''
@@ -19,6 +20,11 @@ class Settings(BaseSettings):
     @property
     def admins(self) -> set[str]:
         return {value.strip() for value in self.admin_firebase_uids.split(',') if value.strip()}
+
+    @property
+    def admin_phones(self) -> set[str]:
+        return {phone for value in self.admin_verified_phones.split(',')
+                if (phone := value.strip()).startswith('+91') and len(phone) == 13 and phone[1:].isdigit()}
 
     @property
     def origins(self) -> list[str]:

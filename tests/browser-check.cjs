@@ -8,7 +8,7 @@ const baseURL=process.env.BASE_URL||'http://127.0.0.1:8081';
  await page.route('**/*',r=>new URL(r.request().url()).origin===new URL(baseURL).origin?r.continue():r.abort());
  await page.route('**/api/**',r=>{
   const path=new URL(r.request().url()).pathname;
-  if(path==='/api/catalog/products')return r.fulfill({json:{items:Array.from({length:60},(_,i)=>({id:'test-'+i,name:'Test product '+i,category_id:'feeding',category:'Feeding',description:'Test product',image:'assets/favicon.svg',active:true,sale_enabled:true,version:1,metadata:{},variants:[{id:'sku-'+i,label:'',price:'100.00',stock:5,enabled:true}]})),total:60}});
+  if(path==='/api/catalog/products'||path==='/api/admin/products')return r.fulfill({json:{items:Array.from({length:60},(_,i)=>({id:'test-'+i,name:'Test product '+i,category_id:'feeding',category:'Feeding',description:'Test product',image:'assets/favicon.svg',active:true,sale_enabled:true,version:1,metadata:{},variants:[{id:'sku-'+i,label:'',price:'100.00',stock:5,enabled:true}]})),total:60}});
   if(path==='/api/catalog/categories')return r.fulfill({json:[{id:'feeding',name:'Feeding',delivery_fee:'60.00'}]});
   return r.fulfill({status:401,json:{detail:'Test sign-in required'}});
  });
@@ -19,10 +19,19 @@ const baseURL=process.env.BASE_URL||'http://127.0.0.1:8081';
  for(const width of [1440,390]){
   await page.setViewportSize({width,height:900});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,'No horizontal overflow');
-  assert(await page.locator('#hero h1').isVisible(),'Hero heading visible');
-  assert(await page.locator('#hero .hero-cta').isVisible(),'Hero shopping link visible');
+  assert.equal(await page.locator('#hero .hero-copy,#hero .hero-cta,#hero button,.promo-copy,.promo button,.bo-fashion-hero-copy,#bo-fashion-hero button').count(),0,'Hero and banners contain no overlay text or buttons');
+  assert(await page.locator('#hero-slides .hero-slide.active').isVisible(),'Hero media remains visible');
 
  }
+ await page.route('**/api/me',r=>r.fulfill({json:{uid:'owner-fixture',phone:'+919999999999',is_admin:true}}));
+ await page.evaluate(async()=>{window.BOphoneOTP={getIdToken:async()=>'fixture-token'};await BOserver.checkIdentity()});
+ assert.equal(await page.locator('#bo-server-manage').textContent(),'Dashboard');
+ await page.locator('#bo-server-manage').click();await page.waitForSelector('#bo-server-query');
+ assert.equal(await page.locator('.bo-server-admin').evaluate(el=>getComputedStyle(el).position),'fixed');
+ await page.locator('#bo-server-close').click();
+ await page.unroute('**/api/me');
+ await page.evaluate(()=>BOserver.checkIdentity());
+ assert.equal(await page.locator('#bo-server-manage').count(),0,'Dashboard entry follows the verified server role');
  await page.evaluate(()=>handleSearch('<img src=x onerror="window.injected=true">'));
  assert.equal(await page.locator('#search-results-mobile img').count(),0,'No injected search element');
  assert.equal(await page.evaluate(()=>window.injected),undefined,'No injected event handler');

@@ -17,7 +17,9 @@ class Identity:
 
     @property
     def admin(self):
-        return self.uid in settings().admins
+        config = settings()
+        # Identity is constructed only from a verified Firebase token, never a profile field.
+        return self.uid in config.admins or self.phone in config.admin_phones
 
 
 @lru_cache

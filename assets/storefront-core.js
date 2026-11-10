@@ -274,11 +274,10 @@ function renderHero(){
     const videoUrl=window.matchMedia('(max-width:640px)').matches?(s.videoMobileUrl||s.videoUrl):(s.videoUrl||s.videoMobileUrl);
     const poster=s.img||'';
     const media=isVideo?`<video class="bo-hero-video" data-hero-video="${i}" muted playsinline preload="metadata" poster="${esc(poster)}" src="${esc(videoUrl)}" aria-label="${esc(s.title||'BabyOne promotional video')}"></video>`:'';
-    const link=s.productId?`<button type="button" class="bo-hero-click" onclick="boHeroOpenProduct(this.dataset.product)" data-product="${esc(s.productId)}" aria-label="Shop ${esc(s.title||'featured product')}"><span>View product <i class="fa-solid fa-arrow-right"></i></span></button>`:'';
     const style=(!isVideo&&poster)?` style="background-image:url(&quot;${esc(poster)}&quot;)"`:'';
-    return `<div ${i?'inert':''} class="hero-slide ${i===0?'active':''} ${isVideo?'bo-hero-is-video':''}"${style}>${media}${link}</div>`;
+    return `<div ${i?'inert':''} class="hero-slide ${i===0?'active':''} ${isVideo?'bo-hero-is-video':''}"${style}>${media}</div>`;
   }).join('');
-  dotsEl.innerHTML=heroSlidesData.map((_,i)=>`<button class="hero-dot ${i===0?'active':''}" onclick="goHero(${i})" aria-label="Slide ${i+1}"></button>`).join('');
+  dotsEl.replaceChildren();
   activeHero=0;startHeroTimer();
 }
 function goHero(i){
@@ -324,26 +323,14 @@ function renderPromos(){
   document.getElementById('promo-slides-1').innerHTML = adBannerData1.map((b,i)=>`
     <div class="promo-slide ${i===activeAd1?'active':''}">
       <img src="${b.bg}" alt="${b.title}" loading="lazy" />
-      <div class="promo-copy">
-        <span class="promo-tag">Exclusive</span>
-        <h3>${b.title}</h3>
-        <p>${b.subtitle}</p>
-        <button class="btn btn-light" onclick="filterByCategory('${b.category}')">${b.cta}</button>
-      </div>
     </div>`).join('');
-  document.getElementById('promo-dots-1').innerHTML = adBannerData1.map((_,i)=>`<button class="promo-dot ${i===activeAd1?'active':''}" onclick="goAd(1,${i})" aria-label="Slide ${i+1}"></button>`).join('');
+  document.getElementById('promo-dots-1').replaceChildren();
 
   document.getElementById('promo-slides-2').innerHTML = adBannerData2.map((b,i)=>`
     <div class="promo-slide ${i===activeAd2?'active':''}">
       <img src="${b.bg}" alt="${b.title}" loading="lazy" />
-      <div class="promo-copy">
-        <span class="promo-tag">Trending</span>
-        <h3>${b.title}</h3>
-        <p>${b.subtitle}</p>
-        <button class="btn btn-light" onclick="filterByCategory('${b.category}')">${b.cta}</button>
-      </div>
     </div>`).join('');
-  document.getElementById('promo-dots-2').innerHTML = adBannerData2.map((_,i)=>`<button class="promo-dot ${i===activeAd2?'active':''}" onclick="goAd(2,${i})" aria-label="Slide ${i+1}"></button>`).join('');
+  document.getElementById('promo-dots-2').replaceChildren();
 
   clearInterval(ad1Timer); clearInterval(ad2Timer);
   ad1Timer = setInterval(()=>nextAdSlide(1), 5500);
@@ -612,7 +599,7 @@ function paintCategoryHero(index){
  if(idx<0) idx=0;
  categoryHeroIndex=idx;
  const slide=categoryHeroSlides[idx];
- banner.style.backgroundImage=`linear-gradient(90deg,rgba(20,42,58,.62),rgba(20,42,58,.05) 82%),url("${slide.img}")`;
+ banner.style.backgroundImage=`url("${slide.img}")`;
  const title=document.getElementById('category-hero-title');
  const subtitle=document.getElementById('category-hero-subtitle');
  const cta=document.getElementById('category-hero-cta');

@@ -1127,6 +1127,8 @@ body{overflow-x:hidden}
 </style>
 <script src="assets/site-config.js"></script>
 <link rel="stylesheet" href="assets/payment-methods.css">
+<link rel="stylesheet" href="assets/banner-cleanup.css">
+<link rel="stylesheet" href="assets/store-dashboard.css">
 <script src="assets/frontend.js" defer></script>
 <script src="assets/payment-methods.js" defer></script>
 <script src="assets/backend.js" defer></script>
@@ -1192,16 +1194,10 @@ body{overflow-x:hidden}
 
   <!-- HOME -->
   <section id="home-page">
+    <h1 class="bo-page-heading">BabyOne baby and mom essentials</h1>
     <div class="hero" id="hero">
       <div id="hero-slides"></div>
-      <div class="hero-copy">
-        <span class="eyebrow">The BabyOne Collection</span>
-        <h1 class="hero-title">Baby essentials for every little moment.</h1>
-        <p class="hero-sub">Explore baby and mom essentials for feeding, play, comfort and everyday care.</p>
-        <a class="btn btn-light hero-cta" href="#explorer-page" onclick="openAllProducts();return false;">Shop baby essentials</a>
-      </div>
-      <div class="hero-dots" id="hero-dots"></div>
-      <button class="bo-hero-motion" type="button" id="bo-hero-motion" aria-pressed="false">Pause slideshow</button>
+      <div class="hero-dots" id="hero-dots" hidden></div>
     </div>
 
     <div class="section">
@@ -1216,9 +1212,7 @@ body{overflow-x:hidden}
     <div class="section" style="padding-top:0;">
       <div class="promo" id="promo-1">
         <div id="promo-slides-1"></div>
-        <button class="promo-arrow prev" onclick="prevAdSlide(1)" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="promo-arrow next" onclick="nextAdSlide(1)" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
-        <div class="promo-dots" id="promo-dots-1"></div>
+        <div class="promo-dots" id="promo-dots-1" hidden></div>
       </div>
     </div>
 
@@ -1234,7 +1228,7 @@ body{overflow-x:hidden}
 
     <!-- BabyOne Fashion: additive section; original catalogue is preserved. -->
     <div class="section" id="babyone-fashion">
-       <div class="bo-fashion-hero" id="bo-fashion-hero" aria-label="Fashion collection slideshow"><div id="bo-fashion-hero-slides" class="bo-fashion-hero-slides"></div><div id="bo-fashion-hero-dots" class="bo-fashion-hero-dots"></div></div>
+       <div class="bo-fashion-hero" id="bo-fashion-hero" aria-label="Fashion collection slideshow"><div id="bo-fashion-hero-slides" class="bo-fashion-hero-slides"></div><div id="bo-fashion-hero-dots" class="bo-fashion-hero-dots" hidden></div></div>
       <div class="section-head"><span class="eyebrow">Little Wardrobes</span><h2>Shop Fashion by Age</h2></div>
       <div class="bo-fashion-filter" id="bo-fashion-navigation" hidden><button type="button" class="btn btn-outline" id="bo-fashion-ages-back">Back to ages</button><span id="bo-fashion-selected-age"></span></div>
       <div id="bo-fashion-ages" class="bo-fashion-grid" aria-label="Shop fashion by age"></div>
@@ -1254,9 +1248,7 @@ body{overflow-x:hidden}
     <div class="section" style="padding-top:0;">
       <div class="promo" id="promo-2">
         <div id="promo-slides-2"></div>
-        <button class="promo-arrow prev" onclick="prevAdSlide(2)" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="promo-arrow next" onclick="nextAdSlide(2)" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
-        <div class="promo-dots" id="promo-dots-2"></div>
+        <div class="promo-dots" id="promo-dots-2" hidden></div>
       </div>
     </div>
 
@@ -1348,12 +1340,6 @@ body{overflow-x:hidden}
       <div id="explorer-grid" class="hidden"></div>
       <label class="sr-only" for="sort-select">Sort products</label><select id="sort-select" class="hidden"></select>
       <div id="category-hero-banner" class="hidden" aria-hidden="true">
-        <div class="category-hero-copy">
-          <span class="eyebrow">BABYONE COLLECTION</span>
-          <h3 id="category-hero-title">Little things. Big love.</h3>
-          <p id="category-hero-subtitle"></p>
-          <button class="btn btn-light" id="category-hero-cta" type="button"></button>
-        </div>
       </div>
 
     </div>
@@ -3982,10 +3968,10 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
     track.innerHTML=slides.map((s,i)=>{
       const url=s.displayUrl||s.imageUrl||'';
       // Image as an element allows a graceful fallback if remote images stop working.
-      return `<div class="bo-fashion-hero-slide ${i===fashionIndex?'is-active':''}" aria-hidden="${i!==fashionIndex}"><img src="${htmlEscape(url)}" alt="Baby clothing collection" loading="lazy"><div class="bo-fashion-hero-copy"><span>THE BABYONE WARDROBE</span><h3>${htmlEscape(s.title||'Beautiful little outfits')}</h3><p>${htmlEscape(s.subtitle||'Find comfortable styles for every little age.')}</p><button type="button" class="bo-fashion-explore">Shop by age <i class="fa-solid fa-arrow-right"></i></button></div></div>`;
+      return `<div class="bo-fashion-hero-slide ${i===fashionIndex?'is-active':''}" aria-hidden="${i!==fashionIndex}"><img src="${htmlEscape(url)}" alt="Baby clothing collection" loading="lazy"></div>`;
     }).join('');
     track.querySelectorAll('.bo-fashion-explore').forEach(b=>b.addEventListener('click',()=>document.getElementById('bo-fashion-ages')?.scrollIntoView({behavior:'smooth',block:'start'})));
-    dots.innerHTML=slides.map((_,i)=>`<button type="button" data-fashion-dot="${i}" class="${i===fashionIndex?'active':''}" aria-label="Fashion slide ${i+1}"></button>`).join('');
+    dots.replaceChildren();
     dots.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{fashionIndex=Number(b.dataset.fashionDot);drawFashion();scheduleFashion()}));
   }
   function scheduleFashion(){clearInterval(fashionTimer);if(state.fashion.length<2||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;

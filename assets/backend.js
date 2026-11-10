@@ -139,8 +139,8 @@
       const me = await request('/me'); adminIdentity = me.is_admin ? me : null;
       document.getElementById('bo-server-manage')?.remove();
       if (adminIdentity) {
-        const button=document.createElement('button');button.id='bo-server-manage';button.type='button';button.className='btn btn-outline';button.textContent='Manage store';button.onclick=()=>openAdmin();
-        document.querySelector('.header-actions').appendChild(button);
+        const button=document.createElement('button');button.id='bo-server-manage';button.type='button';button.className='btn btn-outline';button.textContent='Dashboard';button.onclick=()=>openAdmin();
+        document.body.appendChild(button);
       }
       return me;
     } catch (_) { adminIdentity=null;document.getElementById('bo-server-manage')?.remove(); }
