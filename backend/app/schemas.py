@@ -1,0 +1,85 @@
+from decimal import Decimal
+from typing import Annotated, Literal
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+Money = Annotated[Decimal, Field(ge=0, le=9999999, max_digits=12, decimal_places=2)]
+
+
+class Input(BaseModel):
+    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
+
+
+class CartItem(Input):
+    variant_id: str = Field(min_length=1, max_length=36)
+    quantity: int = Field(ge=1, le=100, strict=True)
+    pattern_id: str | None = Field(default=None, max_length=50)
+
+
+class QuoteInput(Input):
+    items: list[CartItem] = Field(min_length=1, max_length=50)
+
+
+class Shipping(Input):
+    name: str = Field(min_length=2, max_length=100)
+    address: str = Field(min_length=5, max_length=500)
+    city: str = Field(min_length=2, max_length=100)
+    state: str = Field(min_length=2, max_length=100)
+    pin: str = Field(pattern=r'^[1-9][0-9]{5}$')
+    email: str = Field(default='', max_length=254)
+
+    @field_validator('email')
+    @classmethod
+    def email_format(cls, value):
+        if value and ('@' not in value or '.' not in value.rsplit('@', 1)[-1]):
+            raise ValueError('Enter a valid email address.')
+        return value
+
+
+class OrderInput(QuoteInput):
+    idempotency_key: str = Field(pattern=r'^[A-Za-z0-9_-]{8,80}$')
+    quote_hash: str = Field(pattern=r'^[a-f0-9]{64}$')
+    shipping: Shipping
+    payment: Literal['COD'] = 'COD'
+
+
+class VariantInput(Input):
+    id: str | None = Field(default=None, max_length=36)
+    label: str = Field(default='', max_length=191)
+    price: Money
+    stock: int = Field(ge=0, le=10000000, strict=True)
+    enabled: bool = True
+
+
+class PatternInput(Input):
+    id: str = Field(min_length=1, max_length=50)
+    name: str = Field(min_length=1, max_length=100)
+    available: bool = True
+    photo: str = Field(default='', max_length=2000)
+
+
+class ProductInput(Input):
+    name: str = Field(min_length=2, max_length=255)
+    category_id: str = Field(min_length=1, max_length=100)
+    description: str = Field(default='', max_length=10000)
+    image: str = Field(default='', max_length=2000)
+    active: bool = True
+    sale_enabled: bool = False
+    variants: list[VariantInput] = Field(min_length=1, max_length=100)
+    patterns: list[PatternInput] = Field(default_factory=list, max_length=50)
+    expected_version: int | None = Field(default=None, ge=1)
+
+    @field_validator('image')
+    @classmethod
+    def image_url(cls, value):
+        if value and not (value.startswith('https://') or (value.startswith('assets/') and '..' not in value)):
+            raise ValueError('Use an HTTPS image URL or a local assets/ path.')
+        return value
+
+
+class CategoryInput(Input):
+    name: str = Field(min_length=2, max_length=100)
+    delivery_fee: Money
+
+
+class StatusInput(Input):
+    status: Literal['Order Confirmed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled']

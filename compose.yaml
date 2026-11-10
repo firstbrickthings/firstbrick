@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: babyone
+      MYSQL_USER: babyone
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Run python backend/setup.py first}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Run python backend/setup.py first}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_as_cs"]
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_PASSWORD mysql -h 127.0.0.1 -u babyone babyone -e 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: mysql+pymysql://babyone:${MYSQL_PASSWORD}@db:3306/babyone?charset=utf8mb4
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-baby-one-a5cd4}
+      ADMIN_FIREBASE_UIDS: ${ADMIN_FIREBASE_UIDS:-}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8000,http://127.0.0.1:8000}
+      GOOGLE_APPLICATION_CREDENTIALS: /run/credentials/service-account.json
+    volumes:
+      - ${FIREBASE_CREDENTIALS_DIR:-./secrets}:/run/credentials:ro
+    ports:
+      - "127.0.0.1:8000:8000"
+    command: ["sh", "-c", "alembic -c backend/alembic.ini upgrade head && python -m app.seed && exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --no-access-log"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/ready', timeout=4)"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+volumes:
+  mysql_data:

@@ -1125,7 +1125,9 @@ body{overflow-x:hidden}
 .bo-otp-secondary{background:transparent;border:0;padding:10px 4px;color:var(--blue-600);font-size:12px;font-weight:800}
 @media(max-width:360px){#bo-login-otp-recaptcha{transform:scale(.91);transform-origin:left top;margin-bottom:-10px}}
 </style>
+<script src="assets/site-config.js"></script>
 <script src="assets/frontend.js" defer></script>
+<script src="assets/backend.js" defer></script>
 </head>
 
 <body>
@@ -1519,6 +1521,7 @@ body{overflow-x:hidden}
   }
   let busy=false;
   async function flush(){
+    if(window.BO_USE_MYSQL)return;
     if(!configured()||busy||!navigator.onLine)return;
     busy=true;
     try{
@@ -1533,6 +1536,7 @@ body{overflow-x:hidden}
     }finally{busy=false;}
   }
   function record(type, payload={}){
+    if(window.BO_USE_MYSQL)return;
     const p=profile();
     const data={...p,...(payload.customer||{})};
     const event={eventId:'E-'+Date.now()+'-'+Math.random().toString(36).slice(2,12),
@@ -1716,12 +1720,16 @@ body{overflow-x:hidden}
         ${fields(x)}
         <button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Save Details</button>
       </form>
-      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;">Your details are kept in this browser and logged to the store spreadsheet when configured.</p>`);
-    document.getElementById('bo-edit').onsubmit = e=>{
+      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;">Your delivery details are saved to the store server for your signed-in account.</p>`);
+    document.getElementById('bo-edit').onsubmit = async e=>{
       e.preventDefault();
       const updatedProfile=Object.fromEntries(new FormData(e.target));
       updatedProfile.phone=normalizedPhone(updatedProfile.phone);
       if(!verifiedPhone(updatedProfile.phone)){showToast('Verify a different phone number through Account sign-in first.');return;}
+      try {
+        const details=Object.fromEntries(['name','address','city','state','pin','email'].map(key=>[key,updatedProfile[key]||'']));
+        await window.BOserver.request('/me/profile',{method:'PUT',body:JSON.stringify(details)});
+      }catch(error){showToast(error.message);return;}
       write(K, {...x,...updatedProfile});
       window.babyoneSheets?.record('customer_updated',{customer:updatedProfile});
       if(typeof cart!=='undefined' && cart.length) window.babyoneSheets?.cartUpdated();
@@ -1731,14 +1739,20 @@ body{overflow-x:hidden}
     };
   }
 
-  function home(){
-    const x = profile();
+  async function home(){
+    let x = profile();
     if(!x||!verifiedPhone(x.phone)){login(true);return;}
     const isOwner = !!window.babyoneOwnerIdentity?.();
     if(isOwner) sessionStorage.setItem('babyone-admin-session','yes');
     else sessionStorage.removeItem('babyone-admin-session');
     window.babyoneRefreshOwnerUI?.();
-    const list = orders().filter(o => o.phone === x.phone);
+    let list;
+    try {
+      list=await window.BOserver.myOrders();
+      const saved=await window.BOserver.request('/me/profile');
+      if(saved.details?.address){x={...x,...saved.details};write(K,x);}
+    } catch(error){show('Your orders',esc(error.message),'<button class="btn btn-outline" onclick="boU.close()">Back to shopping</button>');return;}
+
     show(`Hello, ${esc((x.name||'there').split(' ')[0])}`,'Your details and orders.',`
       <div style="border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:18px;">
         <p style="font-size:14px;font-weight:600;margin:0 0 4px;">${esc(x.name||'')}</p>
@@ -1753,7 +1767,7 @@ body{overflow-x:hidden}
       </div>
       <h3 style="font-family:'Nunito','Quicksand',sans-serif;font-size:19px;font-weight:400;margin:0 0 14px;">My Orders (${list.length})</h3>
       ${list.length ? list.slice().reverse().map(orderCard).join('') : '<p style="font-size:13px;color:var(--ink-mute);">No orders yet.</p>'}
-      <p style="font-size:11px;color:var(--ink-mute);margin-top:18px;line-height:1.6;">Your orders are saved in this browser and also sent to the store spreadsheet when connected.</p>`);
+      <p style="font-size:11px;color:var(--ink-mute);margin-top:18px;line-height:1.6;">Your orders are stored securely on the store server and are available when you sign in on another device.</p>`);
   }
 
   function orderCard(o){
@@ -1776,7 +1790,9 @@ body{overflow-x:hidden}
       </div>`;
   }
 
-  function checkout(){
+  let checkoutAttempt=0;
+  async function checkout(){
+    const attempt=++checkoutAttempt;
     if(!cart || !cart.length){ showToast('Your bag is empty'); return; }
     if(!profile()||!verifiedPhone(profile()?.phone)){
       show('Before Checkout','Sign in or add delivery details.',`
@@ -1786,13 +1802,16 @@ body{overflow-x:hidden}
     const x = profile()||{};
     const items = cart.map(i=>({...i}));
     let pendingOrder=null, submitting=false;
-    const subtotal = items.reduce((s,i)=>s+i.price*i.qty,0);
-    const deliveryBreakdown = babyoneDeliveryQuote(items);
-    const delivery = deliveryBreakdown.reduce((sum,row)=>sum+row.rate,0);
-    const total = subtotal + delivery;
+    show('Checkout','Checking current prices and stock…','<p role="status">Please wait while the store calculates your total.</p>');
+    let serverQuote;
+    try{serverQuote=await window.BOserver.quote(items);}
+    catch(error){if(attempt===checkoutAttempt)show('Checkout unavailable',esc(error.message),'<button class="btn btn-outline" onclick="boU.close()">Back to shopping</button>');return;}
+    if(attempt!==checkoutAttempt)return;
+    const subtotal=Number(serverQuote.subtotal),deliveryBreakdown=serverQuote.deliveryBreakdown;
+    const delivery=Number(serverQuote.delivery),total=Number(serverQuote.total);
     show('Checkout','Review and place your order.',`
       <div style="border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:16px;">
-        ${items.map(i=>`
+        ${serverQuote.items.map(i=>`
           <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);">
             <img src="${esc(i.image)}" style="width:48px;height:56px;object-fit:cover;border-radius:12px;" />
             <div style="flex:1;">
@@ -1817,7 +1836,7 @@ body{overflow-x:hidden}
         </select>
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
       </form>
-      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">No online payment is collected. Prices, stock and delivery will be confirmed by the store after receiving your request.</p>`);
+      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">No online payment is collected. Prices, stock and delivery are checked by the store server. Payment is cash on delivery.</p>`);
 
     document.getElementById('bo-checkout-form').onsubmit = async e=>{
       e.preventDefault();
@@ -1832,7 +1851,7 @@ body{overflow-x:hidden}
         date: new Date().toLocaleString(),
         dateISO: new Date().toISOString(),
         ...f,
-        items: babyoneOrderItems(items),
+        items: babyoneOrderItems(items),serverQuote,serverItems:window.BOserver.cartItems(items),
         subtotal, delivery, deliveryBreakdown, currency:'INR', total,
         status: 'Awaiting store confirmation'
       };
@@ -1842,13 +1861,14 @@ body{overflow-x:hidden}
       status.textContent='Waiting for the store to receive your request…';
       // Preserve the same ID across retries, including a page reload.
       const draftKey='babyone-order-draft-v1';
-      const fingerprint=JSON.stringify({name:order.name,phone:order.phone,address:order.address,city:order.city,state:order.state,pin:order.pin,payment:order.payment,items:order.items,subtotal,delivery,total});
+      const fingerprint=JSON.stringify({name:order.name,phone:order.phone,address:order.address,city:order.city,state:order.state,pin:order.pin,email:order.email||'',payment:'COD',items:order.serverItems});
       try{
         const draft=JSON.parse(sessionStorage.getItem(draftKey)||'null');
         if(draft?.fingerprint===fingerprint)order.id=draft.id;
         sessionStorage.setItem(draftKey,JSON.stringify({id:order.id,fingerprint}));
         if(!window.BOordersCloud?.submit)throw Error('The store connection is unavailable. Please try again later.');
-        await window.BOordersCloud.submit(order);
+        const receipt=await window.BOordersCloud.submit(order);
+        if(receipt && typeof receipt==='object')Object.assign(order,receipt);
       }catch(err){
         status.textContent='Receipt has not been confirmed. Your bag is kept. '+(err?.message||'Please check your connection and retry.');
         button.textContent='Retry order request';button.disabled=false;submitting=false;return;
@@ -1862,7 +1882,7 @@ body{overflow-x:hidden}
         return remaining>0?[{...line,qty:remaining}]:[];
       });updateCart();
       document.getElementById('cart-drawer').classList.add('hidden');
-      show('Order received', `Thank you, ${esc(f.name||'')}! The store will confirm availability and delivery.`,`
+      show('Order received', `Thank you, ${esc(f.name||'')}! Your order and stock reservation have been saved by the store.`,`
         <div style="text-align:center;padding:24px 0;">
           <div class="bo-success-mark" role="img" aria-label="Order request received"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44"/><path d="M29 51l14 14 29-31"/></svg></div>
           <p style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);margin:0;">Order Number</p>
@@ -2687,7 +2707,7 @@ body.bo-overlay-open #babyone-bottom-nav{opacity:0;pointer-events:none}
  const unavailable=v=>v&&(v.available===false||v.inStock===false||v.stock===0||v.stockQuantity===0||v.disabled===true);
  function swatch(i){const fills=['#d7eafb','#f5cedd','#7196b1','#b3cbdc','#dda8bd','#93b5a4','#aacbdc','#c3a5c7','#ddafbd','#91a6b8','#e2ca8d','#adc1de'];let marks='';for(let y=0;y<4;y++)for(let x=0;x<4;x++){const a=x*30+15,b=y*30+15;marks+=i%6===0?`<circle cx="${a}" cy="${b}" r="4"/>`:i%6===1?`<path d="M${x*30} 0v120" stroke="${fills[i]}" stroke-width="8"/>`:i%6===2?`<path d="M${a} ${b-7}l2 5 6 1-5 4 1 6-4-3-5 3 1-6-4-4 6-1z"/>`:i%6===3?`<rect x="${x*30}" y="${y*30}" width="15" height="15"/>`:i%6===4?`<path d="M${a} ${b+5}q-12-7-5-12q5-3 5 2q5-5 9 0q3 4-9 10z"/>`:`<ellipse cx="${a}" cy="${b}" rx="3" ry="8" transform="rotate(35 ${a} ${b})"/>`;}
  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="120" height="120" fill="${i<6?'#fdfaf7':'#eff5f8'}"/><g fill="${fills[i]}">${marks}</g></svg>`);}
- function patterns(p){const edits=read(PATTERN_EDITS,{});return names.map((name,i)=>({id:'pattern-'+(i+1),name,...(p.patterns?.find(v=>v.id==='pattern-'+(i+1))||{}),...(edits[p.id]?.['pattern-'+(i+1)]||{}),illustration:swatch(i)}));}
+ function patterns(p){if(p.serverProduct)return p.patterns||[];const edits=read(PATTERN_EDITS,{});return names.map((name,i)=>({id:'pattern-'+(i+1),name,...(p.patterns?.find(v=>v.id==='pattern-'+(i+1))||{}),...(edits[p.id]?.['pattern-'+(i+1)]||{}),illustration:swatch(i)}));}
  window.babyonePatterns=patterns;window.babyoneIsDiaper=isDiaper;
  function sizeCode(s){s=String(s||'').toLowerCase();if(/xxxl|3xl/.test(s))return 'XXXL';if(/xxl|2xl/.test(s))return 'XXL';if(/extra\s*large|\bxl\b/.test(s))return 'XL';if(/extra\s*small|\bxs\b/.test(s))return 'XS';if(/new\s*born|\bnb\b/.test(s))return 'NB';if(/small|\bs\b/.test(s))return 'S';if(/medium|\bm\b/.test(s))return 'M';if(/large|\bl\b/.test(s))return 'L';return s;}
  const sizeNames=[['NB','New Born'],['S','Small'],['M','Medium'],['L','Large'],['XL','Extra Large'],['XXL','XXL'],['XXXL','XXXL']];
@@ -2699,9 +2719,9 @@ body.bo-overlay-open #babyone-bottom-nav{opacity:0;pointer-events:none}
  window.babyoneChooseVariant=function(id,i){const p=productsData.find(p=>p.id===id);if(!p||unavailable(p.variants?.[i]))return;const shell=document.getElementById('product-modal-shell'),top=shell?.scrollTop||0;oldChoose(id,i);if(shell)shell.scrollTop=top;};
  window.babyoneSelectPattern=function(id,index,scroll=true){const p=productsData.find(p=>p.id===id),list=p?patterns(p):[],v=list[index];if(!v||unavailable(v))return;p.selectedPatternId=v.id;const main=document.getElementById('main-product-image-'+id);if(main){main.src=v.photo||v.illustration;main.alt=v.photo?p.name+' — '+v.name:'Illustrative textile swatch — '+v.name;}const caption=document.getElementById('bo-preview-caption');if(caption)caption.textContent=v.photo?'Pattern photo · '+v.name:'Illustrative textile swatch · '+v.name+' · not a garment photograph';const selected=document.getElementById('bo-selected-pattern');if(selected)selected.textContent=v.name;const counter=document.getElementById('bo-pattern-index');if(counter)counter.textContent=(index+1)+' / 12';document.querySelectorAll('[data-pattern-index]').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===index)));const track=document.getElementById('bo-pattern-track'),b=track?.children[index];if(scroll&&track&&b)track.scrollTo({left:b.offsetLeft-track.offsetLeft-(track.clientWidth-b.clientWidth)/2,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
  const oldOpen=openProductModal;
- window.openProductModal=function(id){const p=productsData.find(p=>p.id===id);if(!p)return;if(isDiaper(p))babyoneExpandDiaperSizes(p);oldOpen(id);if(!isFashion(p))return;const list=patterns(p),main=document.getElementById('main-product-image-'+id),gallery=document.getElementById('product-detail-thumbs-'+id);if(!main||!gallery)return;gallery.previousElementSibling.textContent='Original garment photos';gallery.innerHTML=babyoneProductGallery(p).map((url,i)=>`<button type="button" aria-label="Original garment photo ${i+1}" onclick="babyoneSelectGallerySlot('${p.id}',${i});document.getElementById('bo-preview-caption').textContent='Original garment photo — pattern not pictured';"><img src="${escapeHtml(url)}" alt="Original ${escapeHtml(p.name)}"></button>`).join('');gallery.nextElementSibling?.classList.contains('bo-demo-note')&&gallery.nextElementSibling.remove();main.parentElement.insertAdjacentHTML('afterend','<p id="bo-preview-caption" class="bo-preview-caption"></p>');gallery.insertAdjacentHTML('afterend',`<section class="bo-patterns" aria-label="Garment pattern choices"><div class="bo-pattern-head"><strong>Pattern: <span id="bo-selected-pattern"></span></strong><span id="bo-pattern-index"></span><div class="bo-pattern-arrows"><button class="btn btn-outline" type="button" aria-label="Previous pattern" onclick="babyoneStepPattern('${id}',-1)">‹</button><button class="btn btn-outline" type="button" aria-label="Next pattern" onclick="babyoneStepPattern('${id}',1)">›</button></div></div><div class="bo-pattern-track" id="bo-pattern-track">${list.map((v,i)=>`<button type="button" class="bo-pattern-choice" data-pattern-index="${i}" aria-pressed="false" ${unavailable(v)?'disabled':''} onclick="babyoneSelectPattern('${id}',${i})"><img src="${escapeHtml(v.photo||v.illustration)}" alt="${v.photo?'Pattern photograph':'Illustrative textile swatch'}"><span>${escapeHtml(v.name)}</span></button>`).join('')}</div><p class="bo-preview-caption">Illustrated patterns are design previews; photography and stock require confirmation.</p></section>`);const i=list.findIndex(v=>v.id===p.selectedPatternId);babyoneSelectPattern(id,i>=0?i:0,false);};
+ window.openProductModal=function(id){const p=productsData.find(p=>p.id===id);if(!p)return;if(isDiaper(p))babyoneExpandDiaperSizes(p);oldOpen(id);if(!isFashion(p)||(p.serverProduct&&!p.patterns?.length))return;const list=patterns(p),main=document.getElementById('main-product-image-'+id),gallery=document.getElementById('product-detail-thumbs-'+id);if(!main||!gallery)return;gallery.previousElementSibling.textContent='Original garment photos';gallery.innerHTML=babyoneProductGallery(p).map((url,i)=>`<button type="button" aria-label="Original garment photo ${i+1}" onclick="babyoneSelectGallerySlot('${p.id}',${i});document.getElementById('bo-preview-caption').textContent='Original garment photo — pattern not pictured';"><img src="${escapeHtml(url)}" alt="Original ${escapeHtml(p.name)}"></button>`).join('');gallery.nextElementSibling?.classList.contains('bo-demo-note')&&gallery.nextElementSibling.remove();main.parentElement.insertAdjacentHTML('afterend','<p id="bo-preview-caption" class="bo-preview-caption"></p>');gallery.insertAdjacentHTML('afterend',`<section class="bo-patterns" aria-label="Garment pattern choices"><div class="bo-pattern-head"><strong>Pattern: <span id="bo-selected-pattern"></span></strong><span id="bo-pattern-index"></span><div class="bo-pattern-arrows"><button class="btn btn-outline" type="button" aria-label="Previous pattern" onclick="babyoneStepPattern('${id}',-1)">‹</button><button class="btn btn-outline" type="button" aria-label="Next pattern" onclick="babyoneStepPattern('${id}',1)">›</button></div></div><div class="bo-pattern-track" id="bo-pattern-track">${list.map((v,i)=>`<button type="button" class="bo-pattern-choice" data-pattern-index="${i}" aria-pressed="false" ${unavailable(v)?'disabled':''} onclick="babyoneSelectPattern('${id}',${i})"><img src="${escapeHtml(v.photo||v.illustration)}" alt="${v.photo?'Pattern photograph':'Illustrative textile swatch'}"><span>${escapeHtml(v.name)}</span></button>`).join('')}</div><p class="bo-preview-caption">Illustrated patterns are design previews; photography and stock require confirmation.</p></section>`);const i=list.findIndex(v=>v.id===p.selectedPatternId);babyoneSelectPattern(id,i>=0?i:0,false);};
  window.babyoneStepPattern=function(id,d){const p=productsData.find(p=>p.id===id);if(!p)return;const list=patterns(p);let i=list.findIndex(v=>v.id===p.selectedPatternId);for(let n=0;n<12;n++){i=(i+d+12)%12;if(!unavailable(list[i])){babyoneSelectPattern(id,i);break;}}};
- function line(p){if(isDiaper(p)){babyoneExpandDiaperSizes(p);if(p.selectedVariant===null||!p.variants[p.selectedVariant]||unavailable(p.variants[p.selectedVariant])){if(document.getElementById('product-modal').classList.contains('hidden'))openProductModal(p.id);const e=document.getElementById('bo-variant-error-'+p.id);if(e){e.textContent='Please choose an available diaper size before adding to your bag.';e.scrollIntoView({block:'center'});}return null;}}const v=p.variants?.[p.selectedVariant??0],pattern=isFashion(p)?patterns(p).find(v=>v.id===p.selectedPatternId):null;if(isFashion(p)&&!pattern){openProductModal(p.id);showToast('Please choose a pattern.');return null;}const size=v?.size||'';return {...p,cartKey:p.id+'::'+encodeURIComponent(size||'default')+'::'+(pattern?.id||'default'),size,patternId:pattern?.id||null,patternName:pattern?.name||null,name:p.name+(size?' — '+size:'')+(pattern?' — Pattern: '+pattern.name:''),image:pattern?.photo||p.image,qty:1};}
+ function line(p){if(isDiaper(p)){babyoneExpandDiaperSizes(p);if(p.selectedVariant===null||!p.variants[p.selectedVariant]||unavailable(p.variants[p.selectedVariant])){if(document.getElementById('product-modal').classList.contains('hidden'))openProductModal(p.id);const e=document.getElementById('bo-variant-error-'+p.id);if(e){e.textContent='Please choose an available diaper size before adding to your bag.';e.scrollIntoView({block:'center'});}return null;}}const v=p.variants?.[p.selectedVariant??0],pattern=isFashion(p)?patterns(p).find(v=>v.id===p.selectedPatternId):null;if(isFashion(p)&&patterns(p).length&&!pattern){openProductModal(p.id);showToast('Please choose a pattern.');return null;}const size=v?.size||'';return {...p,cartKey:p.id+'::'+encodeURIComponent(size||'default')+'::'+(pattern?.id||'default'),size,patternId:pattern?.id||null,patternName:pattern?.name||null,name:p.name+(size?' — '+size:'')+(pattern?' — Pattern: '+pattern.name:''),image:pattern?.photo||p.image,qty:1};}
  window.babyoneCartLine=line;
  function add(id,buy){const p=productsData.find(p=>p.id===id);if(!p)return;const item=line(p);if(!item)return;if(p.price===null||p.price===undefined||p.price===''){showToast('Price will be updated soon');return;}const existing=cart.find(c=>(c.cartKey||c.id)===item.cartKey);if(existing)existing.qty++;else cart.push(item);updateCart();if(buy){closeProductModal();document.getElementById('cart-drawer').classList.remove('hidden');}else showToast('Added to bag');}
  window.addToCart=id=>add(id,false);window.buyProductNow=id=>add(id,true);
@@ -4210,6 +4230,7 @@ try{
   storeStatus(conflicts.length?'Some local edits differ from cloud ('+conflicts.length+' setting(s)). Use Publish this device or Load cloud catalogue to choose which copy to keep.':'Cloud catalogue connected · '+readableKeys.size+' shared setting(s) · live updates enabled.');
  }
  function startStoreSubscription(){
+  if(window.BO_USE_MYSQL)return;
   if(storeSubscription){storeSubscription();storeSubscription=null}
   storeSubscription=onSnapshot(settingCollection,fromCloudSnapshot,err=>storeStatus('Cloud catalogue cannot be read: '+(err.message||err)+'. Check Firestore rules.'));
  }
@@ -4301,6 +4322,7 @@ try{
   }catch(e){orderStatus('Received cloud order update, but local storage is full: '+e.message)}
  }
  function startOrderSubscriptions(){
+  if(window.BO_USE_MYSQL)return;
   if(orderSubscription){orderSubscription();orderSubscription=null}
   if(trafficSubscription){trafficSubscription();trafficSubscription=null}
   if(!signedIn)return;
@@ -4345,6 +4367,7 @@ try{
    }finally{clearTimeout(timer)}
   },
   flush:async()=>{
+   if(window.BO_USE_MYSQL)return;
    if(orderFlushing||!navigator.onLine)return;orderFlushing=true;
    try{let q=[];try{q=JSON.parse(localStorage.getItem(ORDER_QUEUE)||'[]')}catch(_){};
     for(const order of q.slice(0,20)){
@@ -4376,8 +4399,9 @@ try{
   },
   login:async(email,password)=>{await window.BOvideoCloud.login(email,password);await cloudOrders.load()}
  };
- window.BOordersCloud=cloudOrders;
+ window.BOlegacyOrdersCloud=cloudOrders;
  async function visit(){
+  if(window.BO_USE_MYSQL)return;
   if(sessionStorage.getItem('babyone-traffic-sent-v1'))return;
   try{await addDoc(collection(db,'babyoneTraffic'),{day:new Date().toISOString().slice(0,10),kind:'visit',page:'store',createdAt:serverTimestamp()});sessionStorage.setItem('babyone-traffic-sent-v1','1')}
   catch(err){console.info('Visitor statistics not enabled:',err?.code||err?.message)}
@@ -4562,6 +4586,7 @@ try{
  const auth=getAuth(app);auth.useDeviceLanguage();
  let confirmationResult=null,recaptchaVerifier=null,pendingNumber='';
  const asE164=x=>'+91'+String(x||'').replace(/\D/g,'').replace(/^91(?=\d{10}$)/,'');
+ api.getIdToken=async()=>{if(!auth.currentUser)throw Error('Sign in with your phone number first.');return auth.currentUser.getIdToken();};
  const cleanCaptcha=()=>{if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}recaptchaVerifier=null}};
  api.isVerified=phone=>{
    const user=auth.currentUser;

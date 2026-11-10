@@ -1,45 +1,39 @@
 # BabyOne / firstbrick
 
-BabyOne's static storefront: responsive shopping, categories, product details, wishlist, Firebase phone verification and order requests.
+BabyOne now includes a **Python FastAPI backend and MySQL 8.4 database**, connected to the existing storefront. Firebase handles SMS sign-in; MySQL owns products, approved prices, inventory, customer delivery profiles and orders.
 
-## Run locally
+The backend code is ready to configure and run. Pushing this repository does **not** deploy a public database or API. GitHub Pages can host the frontend, but cannot run Python or MySQL.
 
-Serve the entire repository, including `assets/`:
+## Start with Docker
 
-```sh
-python -m http.server 8081
-```
-
-Open http://localhost:8081. No build step is required. Open through a web server rather than double-clicking `index.html`, because Firebase modules and browser storage need a web origin.
-
-## Frontend improvements
-
-- Visible homepage heading and shopping action, with a background fallback and a slideshow pause control.
-- Locally bundled logo, available source images, fonts, icons and compiled Tailwind CSS. Raster images use WebP. Large catalog scripts load as separate cacheable files.
-- Product grids show 24 records at a time; filters and sorting reset the visible batch.
-- Escaped search queries and keyboard-accessible result buttons.
-- Explicit form labels, a skip link, dialog keyboard containment, focus restoration and reduced-motion support.
-- Sign-in opens on request. Delivery details are collected during checkout.
-- Checkout keeps the bag until the existing cloud store acknowledges receipt, reuses an order ID on retry, and labels the request as awaiting store confirmation. Card payment is not offered.
-
-## Hosting and backend requirements
-
-Deploy `index.html` **and all of `assets/` together**. Canonical and social preview URLs currently target `https://firstbrickthings.github.io/firstbrick/`; update them if the actual deployed domain differs. This commit does not enable GitHub Pages or change Firebase configuration.
-
-Firebase phone sign-in still requires an authorized HTTPS domain, Phone Authentication, the India SMS region, reCAPTCHA and sufficient quota. No test sends real SMS.
-
-The existing Firebase project and Firestore collection are preserved. Its deployed security rules and customer write permissions have not been verified here. An unavailable or denied cloud write leaves checkout unconfirmed and the bag intact. Legacy queued orders from earlier versions retain their existing synchronization behavior.
-
-**Before accepting live sales:** validate prices, shipping and stock on a trusted backend, link customer authentication to order ownership, verify database rules and order delivery to the owner, and integrate a payment provider if online payments are needed. Browser-calculated totals are estimates; cloud receipt does not establish stock availability or payment success. Sample catalog prices and product details still need owner confirmation.
-
-## Browser regression checks
-
-Install Playwright as a development dependency, install its Chromium browser, and keep the local server above running:
+Install Docker Desktop (or Docker Engine with Compose), then run from this repository:
 
 ```sh
-npm install --no-save playwright
-npx playwright install chromium
-node tests/browser-check.cjs
+python backend/setup.py
+docker compose up --build -d
 ```
 
-Optional: set `BASE_URL` to the local server and `CHROMIUM_EXECUTABLE` to an existing Chromium executable. Tests block all other origins and stub authentication and order submission; they never write live orders, send SMS or transmit analytics. They cover responsive layout, search injection, pagination, form labels, keyboard dialogs, order failure/success and retry IDs.
+Open http://localhost:8000. The API documentation is at http://localhost:8000/api/docs. Database tables and the catalog are initialized automatically. MySQL data persists in a Docker volume, and its port is not exposed publicly.
+
+This starts the storefront and database. **Real sign-in and checkout also need Firebase server credentials**; complete the steps in [backend/README.md](backend/README.md).
+
+## What is included
+
+- Public product/category API, pagination and search.
+- Firebase ID-token verification on the Python server; administrator UIDs configured privately on the server.
+- Server-calculated INR prices and delivery fees; browser-supplied prices are rejected.
+- Transactional stock reservations, protection against overselling, and retry-safe order creation.
+- Customer order history and saved delivery addresses across devices.
+- A **Manage store** screen for approved administrators: add/edit products, verify selling prices, set stock, enable sales, change delivery fees, and process orders.
+- Order status history, valid fulfilment transitions, and restocking on cancellation.
+- SQL migrations, a repeatable catalog import, Docker configuration, and automated tests.
+
+The imported **1,569 catalog records** remain drafts for selling: prices need confirmation, stock starts at zero, and sales are disabled until approved. Existing source records and photos are retained. Cash on delivery is supported; online card/UPI payment processing is not included.
+
+## Next steps
+
+1. Configure Firebase credentials and your administrator UID.
+2. Confirm real prices and quantities in **Manage store**.
+3. Choose a Python/MySQL hosting provider, configure HTTPS and backups, and set the frontend's API URL if using a separate host.
+
+See [setup, hosting and testing instructions](backend/README.md).
