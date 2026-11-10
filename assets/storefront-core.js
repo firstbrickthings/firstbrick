@@ -949,6 +949,7 @@ function openProductModal(id){
   if(!p) return;
   const related = productsData.filter(x=>!x.catalogHidden && x.id!==id && x.category===p.category).concat(productsData.filter(x=>!x.catalogHidden && x.id!==id && x.category!==p.category)).slice(0,4);
   const hasPrice = p.price!==null && p.price!==undefined && p.price!=='';
+  const canBuy = hasPrice && (!p.serverProduct || (p.sale_enabled && p.variants?.some(v=>v.available)));
   const save = p.originalPrice && hasPrice ? Math.round((1-p.price/p.originalPrice)*100) : 0;
   const inWish = wishlist.includes(p.id);
   document.getElementById('modal-product-content').innerHTML = `
@@ -979,10 +980,11 @@ function openProductModal(id){
         </div>
         <p style="font-size:14px;line-height:1.8;color:var(--ink-soft);margin:0 0 18px;">${escapeHtml(p.description||'Thoughtfully selected for everyday care and comfort. Please review product specifications before purchase.')}</p>
         ${babyoneSizeOptionsMarkup(p)}
+        ${p.serverProduct&&!canBuy?'<p role="status" style="font-size:13px;line-height:1.6;color:var(--ink-soft);">This product is not available for sale yet. To test Razorpay, use “Try test payment” at the top of the store.</p>':''}
         ${p.priceEstimate?`<p style="font-size:11px;color:#a36b34;margin:8px 0 16px">Estimated prices and size options — confirm before selling.</p>`:""}
         <div class="bo-detail-inline-actions" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <button class="btn btn-pink product-detail-add" ${hasPrice?`onclick="addToCart('${p.id}')"`:'disabled title="Price will be updated soon"'}><i class="fa-solid fa-bag-shopping"></i> Add to Cart</button>
-          <button class="btn btn-outline product-detail-buy" ${hasPrice?`onclick="buyProductNow('${p.id}')"`:'disabled title="Price will be updated soon"'}>Buy Now <i class="fa-solid fa-arrow-right"></i></button>
+          <button class="btn btn-pink product-detail-add" ${canBuy?`onclick="addToCart('${p.id}')"`:'disabled title="Product is not available for sale"'}><i class="fa-solid fa-bag-shopping"></i> Add to Cart</button>
+          <button class="btn btn-outline product-detail-buy" ${canBuy?`onclick="buyProductNow('${p.id}')"`:'disabled title="Product is not available for sale"'}>Buy Now <i class="fa-solid fa-arrow-right"></i></button>
         </div>
         <button class="btn btn-outline" style="width:100%;margin-top:12px;font-size:10px;padding:14px;" onclick="toggleWishlist('${p.id}'); openProductModal('${p.id}');">
           <i class="fa-${inWish?'solid':'regular'} fa-heart" style="color:${inWish?'var(--pink-500)':'inherit'};"></i>

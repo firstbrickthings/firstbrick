@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     razorpay_key_id: str = ''
     razorpay_key_secret: str = ''
     razorpay_webhook_secret: str = ''
+    enable_test_checkout: bool = False
     database_pool_size: int = Field(default=5, ge=1, le=50)
 
     @property
@@ -22,6 +23,11 @@ class Settings(BaseSettings):
     @property
     def origins(self) -> list[str]:
         return [value.strip() for value in self.allowed_origins.split(',') if value.strip()]
+
+    @property
+    def test_checkout_enabled(self) -> bool:
+        return (self.enable_test_checkout and self.razorpay_key_id.startswith('rzp_test_')
+                and bool(self.razorpay_key_secret))
 
 
 @lru_cache

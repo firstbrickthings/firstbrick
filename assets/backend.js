@@ -2,7 +2,7 @@
 (function () {
   const base = (window.BABYONE_API_BASE || '/api').replace(/\/$/, '');
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  let records = new Map(), categories = [], adminIdentity = null, loading;
+  let records = new Map(), categories = [], adminIdentity = null, loading, testLinkOpened = false;
   async function token() {
     if (!window.BOphoneOTP?.getIdToken) throw Error('Sign in with your verified phone number first.');
     return window.BOphoneOTP.getIdToken();
@@ -48,6 +48,16 @@
       renderProductRails();renderExplorerGrid();
       if (!document.getElementById('explorer-page')?.classList.contains('hidden')) renderPLPGrid();
       document.getElementById('bo-server-notice')?.remove();
+      document.getElementById('bo-payment-test-notice')?.remove();
+      if (all.some(p=>p.metadata?.payment_test && p.sale_enabled && p.variants.some(v=>v.enabled && v.stock>0))) {
+        const notice=document.createElement('aside');notice.id='bo-payment-test-notice';notice.className='bo-payment-test-notice';
+        notice.innerHTML='<div><strong>Razorpay Test Mode</strong><p>Try a ₹10 test payment. No real charge or delivery.</p></div><button type="button" class="btn btn-pink">Try test payment</button>';
+        notice.querySelector('button').onclick=()=>window.boU.paymentTest();
+        document.getElementById('main').prepend(notice);
+        if(!testLinkOpened && new URLSearchParams(location.search).get('payment-test')==='1'){
+          testLinkOpened=true;window.boU.paymentTest();
+        }
+      }
       return all;
     })().finally(()=>{loading=null});
     return loading;

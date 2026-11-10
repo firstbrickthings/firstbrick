@@ -14,16 +14,22 @@ Verified on the hosted site:
 - Razorpay Test Mode configuration is enabled; actual test credentials are private Railway variables.
 - A signed receiver-check notification is accepted by the public webhook endpoint. This is not proof of an actual Razorpay dashboard delivery.
 
-## Required Firebase owner actions
+## Firebase login
 
-Open https://console.firebase.google.com/project/baby-one-a5cd4/authentication/settings and add `babyone-web-test.up.railway.app` to Authorized domains. The publicly readable configuration currently lists only the project's original Firebase domains.
+The Railway domain is authorized and the Firebase Admin JSON is configured privately on the web service. The owner has confirmed that OTP login works on the deployed website.
 
-Enable Phone sign-in and the India SMS region if not already enabled. Generate the Firebase Admin service-account key in Project settings → Service accounts, then add its JSON privately to the web service's `FIREBASE_SERVICE_ACCOUNT_JSON` Railway variable. Never commit or paste that key into chat. Add the intended administrator's Firebase UID to `ADMIN_FIREBASE_UIDS`.
+Add the intended administrator's Firebase UID to `ADMIN_FIREBASE_UIDS` to manage regular catalogue prices, stock and sales approval. Never commit or paste the Firebase service-account key into chat.
 
-These actions require access to the Firebase project. The public Firebase API key embedded in the original HTML cannot grant administrative access. No mock authentication has been deployed publicly.
+No mock authentication is deployed publicly.
+
+## Dedicated payment-test product
+
+`ENABLE_TEST_CHECKOUT=true`, together with valid Razorpay Test Mode credentials, enables one separate **Razorpay Test Product**, priced at ₹10 with zero delivery. The seed creates it once and preserves consumed stock on later restarts. Imported product sales and stock are not changed. Turning the flag off or using a non-test key prevents purchases of the test item.
+
+Open `https://babyone-web-test.up.railway.app/?payment-test=1` or choose **Try test payment** above the homepage. Confirm **Use test product only** (this replaces the current bag), complete the delivery form, then use Razorpay Test Mode. This product cannot be mixed with regular products or bought with cash on delivery. No physical item is delivered and no real money moves.
 
 ## Required Razorpay dashboard action
 
 In Test Mode, register `https://babyone-web-test.up.railway.app/api/payments/razorpay/webhook`, using the private `RAZORPAY_WEBHOOK_SECRET` already stored on the web service. Subscribe to the events listed in RAZORPAY.md. API verification works independently of notifications, but real hosted checkout still requires working customer sign-in and approved product inventory.
 
-The earlier actual captured/failed gateway tests used the isolated test environment described in PAYMENT_TEST_REPORT.md. Hosted end-to-end SMS/payment testing remains pending the account configuration above.
+The earlier actual captured/failed gateway tests used the isolated test environment described in PAYMENT_TEST_REPORT.md. A captured payment on the deployed website must still be verified after the owner completes its test checkout.

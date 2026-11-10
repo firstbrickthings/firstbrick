@@ -1792,6 +1792,19 @@ body{overflow-x:hidden}
       </div>`;
   }
 
+  async function paymentTest(){
+    const product=productsData.find(p=>p.payment_test && p.sale_enabled && p.variants?.some(v=>v.available));
+    if(!product){showToast('The payment-test product is currently unavailable. Refresh the page and try again.');return;}
+    show('Try a test payment','₹10 total, with no delivery charge. Razorpay Test Mode does not move real money.',`
+      <p style="font-size:13px;line-height:1.7;margin-bottom:20px;">This uses a test product only. No physical product will be delivered.${cart.length?' The items currently in your bag will be replaced with the test product.':''}</p>
+      <button type="button" id="bo-start-payment-test" class="btn btn-pink">Use test product only</button>`);
+    document.getElementById('bo-start-payment-test').onclick=()=>{
+      const line=window.babyoneCartLine(product);if(!line)return;
+      cart.splice(0,cart.length,line);updateCart();
+      closeProductModal();document.getElementById('cart-drawer').classList.add('hidden');checkout();
+    };
+  }
+
   let checkoutAttempt=0;
   async function checkout(){
     const attempt=++checkoutAttempt;
@@ -1835,7 +1848,7 @@ body{overflow-x:hidden}
         ${fields(x)}
         <label style="${labelStyle}">Payment</label>
         <select style="${inputStyle}" name="payment">
-          <option value="COD">Cash on Delivery</option>
+          ${serverQuote.payment_test?'':'<option value="COD">Cash on Delivery</option>'}
           ${paymentConfig.razorpay_test_enabled?'<option value="RAZORPAY">Razorpay — TEST MODE (no real money)</option>':''}
         </select>
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
@@ -1907,7 +1920,7 @@ body{overflow-x:hidden}
     close(){ modal().classList.add('hidden'); document.body.style.overflow=''; },
     login, edit, home,
     orders: home,
-    checkout, support
+    checkout, paymentTest, support
   };
 
 })();
@@ -2727,7 +2740,7 @@ body.bo-overlay-open #babyone-bottom-nav{opacity:0;pointer-events:none}
  window.babyoneStepPattern=function(id,d){const p=productsData.find(p=>p.id===id);if(!p)return;const list=patterns(p);let i=list.findIndex(v=>v.id===p.selectedPatternId);for(let n=0;n<12;n++){i=(i+d+12)%12;if(!unavailable(list[i])){babyoneSelectPattern(id,i);break;}}};
  function line(p){if(isDiaper(p)){babyoneExpandDiaperSizes(p);if(p.selectedVariant===null||!p.variants[p.selectedVariant]||unavailable(p.variants[p.selectedVariant])){if(document.getElementById('product-modal').classList.contains('hidden'))openProductModal(p.id);const e=document.getElementById('bo-variant-error-'+p.id);if(e){e.textContent='Please choose an available diaper size before adding to your bag.';e.scrollIntoView({block:'center'});}return null;}}const v=p.variants?.[p.selectedVariant??0],pattern=isFashion(p)?patterns(p).find(v=>v.id===p.selectedPatternId):null;if(isFashion(p)&&patterns(p).length&&!pattern){openProductModal(p.id);showToast('Please choose a pattern.');return null;}const size=v?.size||'';return {...p,cartKey:p.id+'::'+encodeURIComponent(size||'default')+'::'+(pattern?.id||'default'),size,patternId:pattern?.id||null,patternName:pattern?.name||null,name:p.name+(size?' — '+size:'')+(pattern?' — Pattern: '+pattern.name:''),image:pattern?.photo||p.image,qty:1};}
  window.babyoneCartLine=line;
- function add(id,buy){const p=productsData.find(p=>p.id===id);if(!p)return;const item=line(p);if(!item)return;if(p.price===null||p.price===undefined||p.price===''){showToast('Price will be updated soon');return;}const existing=cart.find(c=>(c.cartKey||c.id)===item.cartKey);if(existing)existing.qty++;else cart.push(item);updateCart();if(buy){closeProductModal();document.getElementById('cart-drawer').classList.remove('hidden');}else showToast('Added to bag');}
+ function add(id,buy){const p=productsData.find(p=>p.id===id);if(!p)return;if(p.serverProduct&&(!p.sale_enabled||!p.variants?.some(v=>v.available))){showToast('This product is not available for sale yet. Use Try test payment to test Razorpay.');return;}const item=line(p);if(!item)return;if(p.price===null||p.price===undefined||p.price===''){showToast('Price will be updated soon');return;}const existing=cart.find(c=>(c.cartKey||c.id)===item.cartKey);if(existing)existing.qty++;else cart.push(item);updateCart();if(buy){closeProductModal();document.getElementById('cart-drawer').classList.remove('hidden');}else showToast('Added to bag');}
  window.addToCart=id=>add(id,false);window.buyProductNow=id=>add(id,true);
  const oldUpdate=updateCart;window.updateCart=function(){oldUpdate();write(CART_KEY,cart);};
  cart=read(CART_KEY,cart);updateCart();
@@ -3220,7 +3233,7 @@ window.boReadImage=async function(file){if(!file)return null;if(!file.type.start
     document.getElementById('bo-detail-bar-price').textContent=price;
     const variant=p.variants?.[p.selectedVariant||0]?.size;
     document.getElementById('bo-detail-bar-variant').textContent=variant?String(variant):'BabyOne';
-    const hasPrice=p.price!==null && p.price!==undefined && p.price!=='';
+    const hasPrice=p.price!==null && p.price!==undefined && p.price!=='' && (!p.serverProduct || (p.sale_enabled && p.variants?.some(v=>v.available)));
     bar.querySelectorAll('button').forEach(btn=>{btn.disabled=!hasPrice;btn.setAttribute('aria-disabled',String(!hasPrice))});
   }
   function updateGalleryCount(id){

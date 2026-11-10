@@ -6,6 +6,7 @@ from uuid import uuid4
 from sqlalchemy import select
 from .db import sessions
 from .models import Category, Product, Variant
+from .test_catalog import configure_test_product
 
 RATES = {'New Born': 50, 'Feeding': 60, 'Diapering': 60, 'Clothing': 50, 'Fashion': 50,
          'Toys & Learning': 80, 'Hospital Kit': 80, 'Nursery & Furniture': 150,
@@ -55,6 +56,8 @@ def run():
                                stock=0, enabled=option.get('available', True) is not False))
             added += 1
             existing.add(item['id'])
+        db.flush()
+        configure_test_product(db)
         db.commit()
     print(f'Imported {added} products. Sales remain disabled until prices and stock are confirmed.')
 

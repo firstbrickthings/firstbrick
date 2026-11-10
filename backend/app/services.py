@@ -8,6 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from .auth import Identity
+from .config import settings
 from .models import Category, Customer, Order, OrderEvent, Payment, Product, Variant
 from .schemas import CartItem, OrderInput
 
@@ -23,7 +24,8 @@ def money(value) -> str:
 def product_view(product: Product):
     return {'id': product.id, 'name': product.name, 'category_id': product.category_id,
             'category': product.category.name, 'description': product.description, 'image': product.image,
-            'active': product.active, 'sale_enabled': product.sale_enabled, 'currency': 'INR',
+            'active': product.active, 'sale_enabled': product.sale_enabled and
+            (not product.metadata_json.get('payment_test') or settings().test_checkout_enabled), 'currency': 'INR',
             'version': product.version, 'metadata': product.metadata_json,
             'variants': [{'id': v.id, 'label': v.label, 'price': money(v.price), 'stock': v.stock,
                           'enabled': v.enabled} for v in product.variants]}
@@ -48,6 +50,12 @@ def calculate(db: Session, items: list[CartItem], lock=False):
     if lock:
         statement = statement.with_for_update()
     products = {product.id: product for product in db.scalars(statement).unique().all()}
+    test_products = [p for p in products.values() if p.metadata_json.get('payment_test')]
+    if test_products:
+        if not settings().test_checkout_enabled:
+            raise HTTPException(409, 'Payment testing is currently unavailable.')
+        if len(test_products) != len(products):
+            raise HTTPException(409, 'Use the payment-test product in a separate bag from regular products.')
     statement = select(Variant).where(Variant.id.in_(ids)).order_by(Variant.id).execution_options(populate_existing=True)
     if lock:
         statement = statement.with_for_update()
@@ -91,6 +99,8 @@ def calculate(db: Session, items: list[CartItem], lock=False):
         raise HTTPException(422, 'This order exceeds the online order limit. Contact the store.')
     quote = {'items': lines, 'subtotal': money(subtotal), 'delivery': money(delivery),
              'deliveryBreakdown': breakdown, 'total': money(subtotal + delivery), 'currency': 'INR'}
+    if test_products:
+        quote['payment_test'] = True
     quote['quote_hash'] = digest(quote)
     return quote, quantities, variants, products
 
@@ -121,6 +131,8 @@ def place_order(db: Session, user: Identity, data: OrderInput):
             db.rollback()
             return same(existing)
         quote, quantities, variants, products = calculate(db, data.items, lock=True)
+        if quote.get('payment_test') and data.payment != 'RAZORPAY':
+            raise HTTPException(422, 'The payment-test product requires Razorpay Test Mode.')
         if quote['quote_hash'] != data.quote_hash:
             raise HTTPException(409, 'Prices or delivery charges changed. Reopen checkout to review the new total.')
         customer = db.get(Customer, user.uid)
