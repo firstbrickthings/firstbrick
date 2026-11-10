@@ -6,8 +6,7 @@
   },
   "deploy": {
     "preDeployCommand": [
-      "alembic -c backend/alembic.ini upgrade head",
-      "python -m app.seed"
+      "sh -c 'alembic -c backend/alembic.ini upgrade head && python -m app.seed'"
     ],
     "startCommand": "python -m app.serve",
     "healthcheckPath": "/api/ready",

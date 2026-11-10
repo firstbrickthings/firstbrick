@@ -1,5 +1,9 @@
 # BabyOne / firstbrick
 
+**Online test site:** https://babyone-web-test.up.railway.app
+
+Frontend, Python API and MySQL are deployed. Razorpay Test Mode is configured. Real OTP login still requires Firebase server credentials and authorization of the deployed domain; Razorpay dashboard webhook registration is also pending. No live payments are enabled.
+
 BabyOne now includes a **Python FastAPI backend and MySQL 8.4 database**, connected to the existing storefront. Firebase handles SMS sign-in; MySQL owns products, approved prices, inventory, customer delivery profiles and orders.
 
 The backend code is ready to configure and run. Pushing this repository does **not** deploy a public database or API. GitHub Pages can host the frontend, but cannot run Python or MySQL.
