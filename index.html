@@ -1849,8 +1849,9 @@ body{overflow-x:hidden}
         <label style="${labelStyle}">Payment</label>
         <select style="${inputStyle}" name="payment">
           ${serverQuote.payment_test?'':'<option value="COD">Cash on Delivery</option>'}
-          ${paymentConfig.razorpay_test_enabled?'<option value="RAZORPAY">Razorpay — TEST MODE (no real money)</option>':''}
+          ${paymentConfig.razorpay_test_enabled?`<option value="RAZORPAY_UPI" ${paymentConfig.upi_enabled?'':'disabled'}>Google Pay / UPI — ${paymentConfig.upi_enabled?'TEST MODE':'currently unavailable'}</option><option value="RAZORPAY">Cards, netbanking &amp; more — TEST MODE</option>`:''}
         </select>
+        ${paymentConfig.razorpay_test_enabled?`<p id="bo-upi-help" style="font-size:12px;line-height:1.6;margin-top:12px;color:var(--ink-soft);">${paymentConfig.upi_enabled?'UPI test payments: use <strong>success@razorpay</strong> to simulate success or <strong>failure@razorpay</strong> to simulate failure. Opening the Google Pay app requires Live Mode. No real money is charged.':'Google Pay / UPI is currently unavailable. You can complete your test with a card or netbanking. No real money is charged.'}</p>`:''}
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
       </form>
       <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">Choose cash on delivery or, when available, Razorpay Test Mode. Test Mode payments do not move real money.</p>`);
@@ -1860,6 +1861,8 @@ body{overflow-x:hidden}
       if(submitting)return;
       const form=e.currentTarget, button=form.querySelector('button[type=submit]'), status=document.getElementById('bo-order-status');
       const f = pendingOrder ? Object.fromEntries(['name','phone','state','gender','email','address','city','pin','payment'].filter(key=>pendingOrder[key]!==undefined).map(key=>[key,pendingOrder[key]])) : Object.fromEntries(new FormData(e.target));
+      const paymentPreference=f.payment==='RAZORPAY_UPI'?'upi':'all';
+      if(f.payment==='RAZORPAY_UPI')f.payment='RAZORPAY';
       f.phone=normalizedPhone(f.phone);
       if(!verifiedPhone(f.phone)){showToast('Your mobile number must be OTP verified to place an order.');return;}
       write(K,{...profile(),...f});
@@ -1868,6 +1871,7 @@ body{overflow-x:hidden}
         date: new Date().toLocaleString(),
         dateISO: new Date().toISOString(),
         ...f,
+        paymentPreference,
         items: babyoneOrderItems(items),serverQuote,serverItems:window.BOserver.cartItems(items),
         subtotal, delivery, deliveryBreakdown, currency:'INR', total,
         status: 'Awaiting store confirmation'

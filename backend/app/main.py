@@ -235,8 +235,7 @@ from .schemas import PaymentVerification
 
 @app.get('/api/payments/config')
 def payment_config():
-    config=settings()
-    return {'razorpay_test_enabled':config.razorpay_key_id.startswith('rzp_test_') and bool(config.razorpay_key_secret),'test_mode':True}
+    return payments.checkout_config()
 
 
 @app.post('/api/payments/razorpay/{order_id}/checkout')

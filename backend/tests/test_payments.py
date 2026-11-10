@@ -16,8 +16,12 @@ class FakeGateway:
     key_id='rzp_test_fake'
     secret='unit-test-secret-not-a-credential'
     def __init__(self):
-        self.orders={};self.entities={};self.creates=0;self.captures=0;self.lose_response=False
+        self.orders={};self.entities={};self.creates=0;self.captures=0;self.lose_response=False;self.upi=True;self.method_checks=0;self.methods_unavailable=False
     def call(self,method,path,data=None):
+        if method=='GET' and path.startswith('/methods?'):
+            self.method_checks+=1
+            if self.methods_unavailable:raise payments.GatewayError()
+            return {'upi':self.upi}
         if method=='POST' and path=='/orders':
             self.creates+=1;entity={**data,'id':'order_test'+str(self.creates)};self.orders[entity['id']]=entity
             if self.lose_response:self.lose_response=False;raise payments.GatewayError()
@@ -37,7 +41,9 @@ class FakeGateway:
 def gateway(monkeypatch):
     fake=FakeGateway();monkeypatch.setattr(payments,'Gateway',lambda:fake)
     monkeypatch.setattr(settings(),'razorpay_webhook_secret','unit-webhook-secret')
-    return fake
+    payments.upi_availability.cache_clear()
+    yield fake
+    payments.upi_availability.cache_clear()
 
 
 def start(client,gateway):
@@ -121,3 +127,19 @@ def test_live_key_is_rejected(monkeypatch):
     monkeypatch.setattr(settings(),'razorpay_key_id','rzp_live_forbidden')
     with pytest.raises(HTTPException) as error:payments.Gateway()
     assert error.value.status_code==503
+
+
+def test_upi_choice_follows_provider_availability_and_is_cached(client,gateway,monkeypatch):
+    monkeypatch.setattr(settings(),'razorpay_key_id','rzp_test_fixture')
+    monkeypatch.setattr(settings(),'razorpay_key_secret','fixture-secret')
+    assert client.get('/api/payments/config').json()['upi_enabled'] is True
+    assert client.get('/api/payments/config').json()['upi_enabled'] is True
+    assert gateway.method_checks==1
+    gateway.upi=False;payments.upi_availability.cache_clear()
+    result=client.get('/api/payments/config').json()
+    assert result['upi_enabled'] is False and result['razorpay_test_enabled'] is True
+    assert result['upi_availability']=='unavailable'
+    gateway.methods_unavailable=True;payments.upi_availability.cache_clear()
+    result=client.get('/api/payments/config').json()
+    assert result['upi_enabled'] is False and result['upi_availability']=='unknown'
+    assert result['razorpay_test_enabled'] is True

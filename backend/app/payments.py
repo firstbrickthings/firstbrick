@@ -4,10 +4,12 @@ import hashlib
 import hmac
 import json
 import re
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from decimal import Decimal
+from functools import lru_cache
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -42,6 +44,24 @@ class Gateway:
             raise GatewayError(uncertain=error.code>=500) from None
         except (OSError,ValueError):
             raise GatewayError() from None
+
+
+@lru_cache(maxsize=4)
+def upi_availability(public_key, minute):
+    # Cache provider capabilities for at most one minute, including failed probes.
+    try:
+        methods = Gateway().call('GET', '/methods?' + urllib.parse.urlencode({'key_id': public_key}))
+        return methods.get('upi') if isinstance(methods, dict) and isinstance(methods.get('upi'), bool) else None
+    except (GatewayError, HTTPException):
+        return None
+
+
+def checkout_config():
+    config = settings()
+    enabled = config.razorpay_key_id.startswith('rzp_test_') and bool(config.razorpay_key_secret)
+    upi = upi_availability(config.razorpay_key_id, int(time.monotonic() // 60)) if enabled else False
+    return {'razorpay_test_enabled': enabled, 'test_mode': True, 'upi_enabled': upi is True,
+            'upi_availability': 'unknown' if upi is None else ('available' if upi else 'unavailable')}
 
 
 def owned_order(db, order_id, user):

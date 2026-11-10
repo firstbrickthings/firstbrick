@@ -33,6 +33,16 @@ Firebase server credentials are still required for real customer login. Automate
 
 A failed/cancelled checkout keeps the bag and the existing pending order. Retry the same checkout or use **My Orders → Pay / Check payment**. A failed attempt cannot downgrade a payment already recorded as paid. A lost Razorpay order-creation response is reconciled by exact receipt rather than creating another provider order blindly.
 
+## Google Pay / UPI
+
+The checkout includes a Google Pay / UPI choice. `/api/payments/config` checks Razorpay's merchant payment-method availability and caches the result for up to one minute. UPI stays disabled when Razorpay reports it unavailable or the capability check fails; cards and netbanking remain usable. Enabling UPI on the merchant account is required before this choice becomes available.
+
+When UPI is available, selecting it puts a UPI block first in Standard Checkout while retaining all default payment methods. It uses the same server-created order, signature verification, capture and MySQL payment record as other Razorpay payments. The preference is a browser display setting; the API payment type remains `RAZORPAY`.
+
+Test UPI success with `success@razorpay` and failure with `failure@razorpay`. Launching Google Pay through UPI Intent and scanning a UPI QR code require Live Mode, according to the [Standard Checkout testing documentation](https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps/). No direct Google Pay app launch or QR payment is simulated by the website. Live payments remain disabled in this integration.
+
+Configuration uses Razorpay's documented [payment-method blocks and sequence](https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/configure-payment-methods/understand-configuration/). Google Pay is provided by Razorpay's [UPI integration](https://razorpay.com/docs/payments/payment-methods/upi/google-pay/); device/browser and merchant activation determine availability.
+
 Unpaid online orders retain their inventory reservation. This first test integration deliberately does not automatically restock an unpaid order while its Razorpay order could still accept a delayed payment. Review abandoned orders with the gateway before introducing an expiration/cancellation policy. Paid online orders require a separate reviewed refund implementation before cancellation; the current admin screen refuses to cancel them automatically. Cash-on-delivery orders retain the existing cancellation/restock behavior.
 
 ## Webhook setup
