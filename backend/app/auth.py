@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from functools import lru_cache
+import json
 import firebase_admin
-from firebase_admin import auth
+from firebase_admin import auth, credentials
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from .config import settings
@@ -22,7 +23,12 @@ class Identity:
 @lru_cache
 def firebase_app():
     # ADC uses GOOGLE_APPLICATION_CREDENTIALS or the host's workload identity.
-    return firebase_admin.initialize_app(options={'projectId': settings().firebase_project_id}, name='babyone-api')
+    config = settings()
+    try:
+        credential = credentials.Certificate(json.loads(config.firebase_service_account_json)) if config.firebase_service_account_json else None
+        return firebase_admin.initialize_app(credential=credential, options={'projectId': config.firebase_project_id}, name='babyone-api')
+    except (ValueError, TypeError, KeyError):
+        raise RuntimeError('Firebase server credentials are not configured correctly.') from None
 
 
 def verify_token(token: str):

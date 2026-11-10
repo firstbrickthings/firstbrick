@@ -37,3 +37,5 @@ The imported **1,569 catalog records** remain drafts for selling: prices need co
 3. Choose a Python/MySQL hosting provider, configure HTTPS and backups, and set the frontend's API URL if using a separate host.
 
 See [setup, hosting and testing instructions](backend/README.md).
+
+For an online link to the complete site, see the [Railway deployment setup](backend/RAILWAY.md).

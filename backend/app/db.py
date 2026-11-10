@@ -6,7 +6,10 @@ from .config import settings
 
 @lru_cache
 def engine():
-    return create_engine(settings().database_url, pool_pre_ping=True, pool_recycle=1800,
+    url = settings().database_url
+    if url.startswith('mysql://'):
+        url = 'mysql+pymysql://' + url[len('mysql://'):]
+    return create_engine(url, pool_pre_ping=True, pool_recycle=1800,
                          pool_size=settings().database_pool_size, isolation_level='READ COMMITTED')
 
 

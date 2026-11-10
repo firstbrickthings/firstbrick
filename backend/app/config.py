@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file='.env', extra='ignore')
     database_url: str = 'mysql+pymysql://babyone:configure-password@localhost:3306/babyone?charset=utf8mb4'
+    firebase_service_account_json: str = ''
     firebase_project_id: str = 'baby-one-a5cd4'
     admin_firebase_uids: str = ''
     allowed_origins: str = 'http://localhost:8000,http://127.0.0.1:8000'
