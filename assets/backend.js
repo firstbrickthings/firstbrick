@@ -81,7 +81,7 @@
     const shipping = Object.fromEntries(['name','address','city','state','pin','email'].map(k=>[k,String(order[k] || '')]));
     const stored=await request('/orders', {method:'POST',body:JSON.stringify({idempotency_key:order.id,
       quote_hash:order.serverQuote.quote_hash,items:order.serverItems,shipping,payment:order.payment==='RAZORPAY'?'RAZORPAY':'COD'})});
-    if(stored.payment==='RAZORPAY'){order.serverOrderId=stored.id;return completePayment(stored.id,order.paymentPreference);}
+    if(stored.payment==='RAZORPAY'){order.serverOrderId=stored.id;return completePayment(stored.id,order.paymentPreference,order.upiApp);}
     return stored;
   }
   let checkoutScript;
@@ -93,7 +93,7 @@
     });
     return checkoutScript;
   }
-  async function completePayment(orderId,paymentPreference){
+  async function completePayment(orderId,paymentPreference,upiApp){
     const current=await request('/payments/razorpay/'+encodeURIComponent(orderId)+'/status');
     if(current.payment_status==='paid')return current.order;
     const config=await request('/payments/razorpay/'+encodeURIComponent(orderId)+'/checkout',{method:'POST'});
@@ -103,8 +103,10 @@
     return new Promise((resolve,reject)=>{
       let finished=false,checking=false;
       const done=(error,order)=>{if(finished)return;finished=true;error?reject(error):resolve(order)};
+      const appNames={google_pay:'Google Pay',phonepe:'PhonePe',paytm:'Paytm',bhim:'BHIM'};
+      const selectedApp=Object.hasOwn(appNames,upiApp)?upiApp:null;
       const preferredMethods=paymentPreference==='upi'?{config:{display:{
-        blocks:{upi:{name:'Google Pay / UPI',instruments:[{method:'upi'}]}},
+        blocks:{upi:{name:selectedApp?appNames[selectedApp]+' / UPI':'UPI payments',instruments:[{method:'upi',...(selectedApp?{apps:[selectedApp]}:{})}]}},
         sequence:['block.upi'],preferences:{show_default_blocks:true}
       }}}:{};
       const checkout=new window.Razorpay({...config.checkout,...preferredMethods,

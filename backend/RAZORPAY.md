@@ -35,9 +35,11 @@ A failed/cancelled checkout keeps the bag and the existing pending order. Retry 
 
 ## Google Pay / UPI
 
-The checkout includes a Google Pay / UPI choice. `/api/payments/config` checks Razorpay's merchant payment-method availability and caches the result for up to one minute. UPI stays disabled when Razorpay reports it unavailable or the capability check fails; cards and netbanking remain usable. Enabling UPI on the merchant account is required before this choice becomes available.
+The checkout shows UPI, Card / Netbanking, and (for regular products) Cash on delivery as separate choices. Selecting UPI expands four app tiles: Google Pay, PhonePe, Paytm and BHIM. The order amount is filled automatically from the server quote. A UPI Lite explanation identifies it as a feature within a supported app, rather than a separate payment app. The website never asks for a UPI PIN.
 
-When UPI is available, selecting it puts a UPI block first in Standard Checkout while retaining all default payment methods. It uses the same server-created order, signature verification, capture and MySQL payment record as other Razorpay payments. The preference is a browser display setting; the API payment type remains `RAZORPAY`.
+`/api/payments/config` checks Razorpay's merchant payment-method availability and caches the result for up to one minute. Customers can preview app choices when UPI is unavailable, but the payment button is disabled and a direct Card / Netbanking fallback is offered. No order is created for an unavailable method. Enabling UPI on the merchant account is required before processing a UPI test payment.
+
+When UPI is available, selecting it puts a UPI block first in Standard Checkout, with the selected app's documented `apps` preference, while retaining default payment methods. App launch depends on Razorpay, device/browser support and Live Mode; the Test Mode interface explicitly labels app selection as a preview. It uses the same server-created order, signature verification, capture and MySQL payment record as other Razorpay payments. App selection is a browser display preference; the API payment type remains `RAZORPAY`.
 
 Test UPI success with `success@razorpay` and failure with `failure@razorpay`. Launching Google Pay through UPI Intent and scanning a UPI QR code require Live Mode, according to the [Standard Checkout testing documentation](https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps/). No direct Google Pay app launch or QR payment is simulated by the website. Live payments remain disabled in this integration.
 

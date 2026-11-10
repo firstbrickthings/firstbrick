@@ -1126,7 +1126,9 @@ body{overflow-x:hidden}
 @media(max-width:360px){#bo-login-otp-recaptcha{transform:scale(.91);transform-origin:left top;margin-bottom:-10px}}
 </style>
 <script src="assets/site-config.js"></script>
+<link rel="stylesheet" href="assets/payment-methods.css">
 <script src="assets/frontend.js" defer></script>
+<script src="assets/payment-methods.js" defer></script>
 <script src="assets/backend.js" defer></script>
 </head>
 
@@ -1846,20 +1848,21 @@ body{overflow-x:hidden}
       </div>
       <form id="bo-checkout-form">
         ${fields(x)}
-        <label style="${labelStyle}">Payment</label>
-        <select style="${inputStyle}" name="payment">
-          ${serverQuote.payment_test?'':'<option value="COD">Cash on Delivery</option>'}
-          ${paymentConfig.razorpay_test_enabled?`<option value="RAZORPAY_UPI" ${paymentConfig.upi_enabled?'':'disabled'}>Google Pay / UPI — ${paymentConfig.upi_enabled?'TEST MODE':'currently unavailable'}</option><option value="RAZORPAY">Cards, netbanking &amp; more — TEST MODE</option>`:''}
-        </select>
-        ${paymentConfig.razorpay_test_enabled?`<p id="bo-upi-help" style="font-size:12px;line-height:1.6;margin-top:12px;color:var(--ink-soft);">${paymentConfig.upi_enabled?'UPI test payments: use <strong>success@razorpay</strong> to simulate success or <strong>failure@razorpay</strong> to simulate failure. Opening the Google Pay app requires Live Mode. No real money is charged.':'Google Pay / UPI is currently unavailable. You can complete your test with a card or netbanking. No real money is charged.'}</p>`:''}
+        <div id="bo-payment-methods"></div>
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
       </form>
-      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">Choose cash on delivery or, when available, Razorpay Test Mode. Test Mode payments do not move real money.</p>`);
+      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">Your payment is confirmed after verification by the payment provider.</p>`);
+
+    const paymentMethods=window.BOpaymentMethods.mount(document.getElementById('bo-payment-methods'),{
+      total,testMode:paymentConfig.test_mode!==false,upiEnabled:paymentConfig.upi_enabled===true,
+      gatewayEnabled:paymentConfig.razorpay_test_enabled===true,allowCod:!serverQuote.payment_test
+    });
 
     document.getElementById('bo-checkout-form').onsubmit = async e=>{
       e.preventDefault();
       if(submitting)return;
       const form=e.currentTarget, button=form.querySelector('button[type=submit]'), status=document.getElementById('bo-order-status');
+      if(!paymentMethods.canPay()){status.textContent='This payment method is unavailable. Choose another method or try again shortly.';return;}
       const f = pendingOrder ? Object.fromEntries(['name','phone','state','gender','email','address','city','pin','payment'].filter(key=>pendingOrder[key]!==undefined).map(key=>[key,pendingOrder[key]])) : Object.fromEntries(new FormData(e.target));
       const paymentPreference=f.payment==='RAZORPAY_UPI'?'upi':'all';
       if(f.payment==='RAZORPAY_UPI')f.payment='RAZORPAY';
@@ -1872,6 +1875,7 @@ body{overflow-x:hidden}
         dateISO: new Date().toISOString(),
         ...f,
         paymentPreference,
+        upiApp:paymentPreference==='upi'?f.upi_app:null,
         items: babyoneOrderItems(items),serverQuote,serverItems:window.BOserver.cartItems(items),
         subtotal, delivery, deliveryBreakdown, currency:'INR', total,
         status: 'Awaiting store confirmation'
