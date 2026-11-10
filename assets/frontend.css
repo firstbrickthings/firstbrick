@@ -1,0 +1,25 @@
+/* Accessible storefront refinements, layered after the original design. */
+:root{--ink-mute:#596b79;--pink-500:#ad3d70;--blue-500:#356f9f}
+.skip-link{position:fixed;top:8px;left:8px;z-index:9999;transform:translateY(-200%);background:#fff;color:#243f55;padding:12px 18px;border:2px solid #427eaf;border-radius:12px}
+.skip-link:focus{transform:none}
+#hero{background:linear-gradient(115deg,#315a78,#698fa9)!important;isolation:isolate}
+#hero .hero-slide:after{background:linear-gradient(90deg,rgba(19,40,58,.82),rgba(19,40,58,.5) 60%,rgba(19,40,58,.2))}
+#hero .hero-copy{display:block!important;z-index:3;max-width:640px;pointer-events:none;padding-bottom:clamp(32px,5vw,70px)}
+#hero .hero-title,#hero .hero-sub,#hero .hero-cta{opacity:1;transform:none;pointer-events:auto}
+#hero .hero-title{font-size:clamp(32px,4.6vw,64px);font-weight:800;line-height:1.1}
+#hero .hero-cta{margin-top:24px;white-space:normal;text-align:center}
+#hero .bo-hero-click{inset:0 0 0 auto;width:30%;padding:12px}
+#hero .bo-hero-click span{font-size:11px}
+.bo-photo-unavailable:has(>.brand-logo-image):after{display:none}
+.brand-logo-image{object-fit:contain}
+.bo-field-label{display:block;font-size:12px;font-weight:700;color:var(--ink);margin:10px 0 6px}
+.bo-load-more{display:flex;margin:24px auto}
+.bo-load-more[hidden]{display:none!important}
+.icon-btn,.wish-btn,.add-btn,.promo-arrow,.bo-variant-choice,.bo-pattern-choice{min-width:44px;min-height:44px}
+#bo-order-status{font-size:13px;line-height:1.6;color:#8e294f;margin-top:16px}
+@media(max-width:640px){#hero .hero-copy{padding:24px;max-width:95%}#hero .hero-title{font-size:32px}#hero .hero-sub{font-size:14px;line-height:1.6}#hero .hero-copy .eyebrow{margin-bottom:12px}#hero .hero-cta{margin-top:16px;padding:12px 20px}#hero .bo-hero-click{width:auto;top:auto;bottom:6px;right:6px;padding:0}#hero .bo-hero-click span{padding:7px 10px;font-size:10px}}
+
+.bo-hero-motion{position:absolute;right:16px;top:16px;z-index:5;min-height:44px;border:1px solid #ffffff70;border-radius:999px;padding:10px 15px;background:#1b344be8;color:white;font-size:11px;font-weight:700}
+@media(prefers-reduced-motion:reduce){.bo-hero-motion{display:none}}
+.bo-search-result{width:100%;border:0;background:white;color:var(--ink);text-align:left;min-height:64px}
+.bo-search-result:focus-visible{background:var(--pink-50)}
