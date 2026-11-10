@@ -69,9 +69,54 @@
   async function submit(order) {
     if (!order.serverQuote) throw Error('Reopen checkout to review a server-verified total.');
     const shipping = Object.fromEntries(['name','address','city','state','pin','email'].map(k=>[k,String(order[k] || '')]));
-    return request('/orders', {method:'POST',body:JSON.stringify({idempotency_key:order.id,
-      quote_hash:order.serverQuote.quote_hash,items:order.serverItems,shipping,payment:'COD'})});
+    const stored=await request('/orders', {method:'POST',body:JSON.stringify({idempotency_key:order.id,
+      quote_hash:order.serverQuote.quote_hash,items:order.serverItems,shipping,payment:order.payment==='RAZORPAY'?'RAZORPAY':'COD'})});
+    if(stored.payment==='RAZORPAY'){order.serverOrderId=stored.id;return completePayment(stored.id);}
+    return stored;
   }
+  let checkoutScript;
+  function loadCheckout(){
+    if(window.Razorpay)return Promise.resolve();
+    if(!checkoutScript)checkoutScript=new Promise((resolve,reject)=>{
+      const script=document.createElement('script');script.src='https://checkout.razorpay.com/v1/checkout.js';script.onload=resolve;
+      script.onerror=()=>{checkoutScript=null;script.remove();reject(Error('Razorpay could not load. Check your connection and retry.'))};document.head.appendChild(script);
+    });
+    return checkoutScript;
+  }
+  async function completePayment(orderId){
+    const current=await request('/payments/razorpay/'+encodeURIComponent(orderId)+'/status');
+    if(current.payment_status==='paid')return current.order;
+    const config=await request('/payments/razorpay/'+encodeURIComponent(orderId)+'/checkout',{method:'POST'});
+    if(config.payment_status==='paid')return config.order;
+    if(!config.checkout?.key?.startsWith('rzp_test_'))throw Error('Only Razorpay Test Mode is enabled.');
+    await loadCheckout();
+    return new Promise((resolve,reject)=>{
+      let finished=false,checking=false;
+      const done=(error,order)=>{if(finished)return;finished=true;error?reject(error):resolve(order)};
+      const checkout=new window.Razorpay({...config.checkout,
+        handler:async result=>{
+          checking=true;
+          try{const verified=await request('/payments/razorpay/'+encodeURIComponent(orderId)+'/verify',{method:'POST',body:JSON.stringify(result)});
+            if(verified.payment_status==='paid'){done(null,verified.order)}
+            else done(Error('Payment is awaiting capture. Check My Orders before paying again.'));
+          }catch(error){done(Error('Payment verification is pending. Open My Orders and check payment status before paying again.'));}
+        },
+        modal:{ondismiss:async()=>{
+          if(checking||finished)return;
+          try{const current=await request('/payments/razorpay/'+encodeURIComponent(orderId)+'/status');
+            if(current.payment_status==='paid'){done(null,current.order);return;}
+          }catch(_){}
+          done(Error('Payment was not confirmed. Your bag is kept. Retry this checkout or resume the same order in My Orders.'));
+        }},theme:{color:'#ad3d70'}});
+      checkout.on('payment.failed',()=>{showToast('The test payment failed. Retry in Razorpay or close checkout.');});
+      checkout.open();
+    });
+  }
+  async function resumePayment(orderId){
+    try{await completePayment(orderId);showToast('Test payment verified.');await window.boU.home();}
+    catch(error){showToast(error.message)}
+  }
+  async function paymentConfig(){try{return await request('/payments/config',{},false)}catch(_){return {razorpay_test_enabled:false}}}
   async function myOrders() { const all=[];let page;do{page=await request('/me/orders?limit=100&offset='+all.length);all.push(...page.items)}while(all.length<page.total&&page.items.length);return all; }
   async function checkIdentity() {
     try {
@@ -125,7 +170,7 @@
     document.getElementById('bo-server-fees').onclick=run(fees);
     document.getElementById('bo-server-products').onclick=run(()=>products());document.getElementById('bo-server-orders').onclick=run(()=>orders());await run(()=>products())();
   }
-  window.BOserver={request,catalog,quote,submit,myOrders,openAdmin,cartItems,checkIdentity};
+  window.BOserver={request,catalog,quote,submit,myOrders,openAdmin,cartItems,checkIdentity,paymentConfig,resumePayment};
   window.BOordersCloud={ready:true,submit,user:()=>adminIdentity,flush:async()=>{},
     load:async()=>{const result=await request('/admin/orders?limit=100');window.BOsharedOrderRows=result.items;window.boAdmin?.refreshOrders?.();return result.items;},
     updateStatus:async(id,status)=>request('/admin/orders/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({status})})};

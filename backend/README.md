@@ -109,7 +109,7 @@ Interactive documentation: `/api/docs`. Protected routes require `Authorization:
 | `PATCH /api/admin/orders/{id}` | Fulfilment/cancellation |
 | `PUT /api/admin/categories/{id}` | Delivery fees/categories |
 
-Money is serialized as decimal strings. Quotes do not reserve stock; order creation rechecks it under database row locks. Each customer/order request key is unique, so a network retry returns the original order without reserving stock twice. Only cash on delivery is implemented; adding online payments needs provider verification and webhook handling.
+Money is serialized as decimal strings. Quotes do not reserve stock; order creation rechecks it under database row locks. Each customer/order request key is unique, so a network retry returns the original order without reserving stock twice. Cash on delivery and Razorpay Test Mode are implemented. See [RAZORPAY.md](RAZORPAY.md) for private key configuration, verification, payment states and webhook setup. Live payments remain disabled.
 
 ## Tests
 

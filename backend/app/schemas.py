@@ -39,7 +39,7 @@ class OrderInput(QuoteInput):
     idempotency_key: str = Field(pattern=r'^[A-Za-z0-9_-]{8,80}$')
     quote_hash: str = Field(pattern=r'^[a-f0-9]{64}$')
     shipping: Shipping
-    payment: Literal['COD'] = 'COD'
+    payment: Literal['COD', 'RAZORPAY'] = 'COD'
 
 
 class VariantInput(Input):
@@ -83,3 +83,9 @@ class CategoryInput(Input):
 
 class StatusInput(Input):
     status: Literal['Order Confirmed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled']
+
+
+class PaymentVerification(Input):
+    razorpay_order_id: str = Field(pattern=r'^order_[A-Za-z0-9]+$', max_length=64)
+    razorpay_payment_id: str = Field(pattern=r'^pay_[A-Za-z0-9]+$', max_length=64)
+    razorpay_signature: str = Field(pattern=r'^[a-f0-9]{64}$')

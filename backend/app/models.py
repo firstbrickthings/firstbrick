@@ -73,6 +73,7 @@ class Order(Base):
     status: Mapped[str] = mapped_column(String(40), default='Order Confirmed', index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+    payment_record: Mapped['Payment | None'] = relationship('Payment', uselist=False, lazy='selectin')
     __table_args__ = (UniqueConstraint('customer_uid', 'idempotency_key', name='uq_customer_request'),)
 
 
@@ -82,4 +83,26 @@ class OrderEvent(Base):
     order_id: Mapped[str] = mapped_column(ForeignKey('orders.id'), index=True)
     actor_uid: Mapped[str] = mapped_column(String(128))
     status: Mapped[str] = mapped_column(String(40))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class Payment(Base):
+    __tablename__ = 'payments'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    order_id: Mapped[str] = mapped_column(ForeignKey('orders.id'), unique=True)
+    provider_order_id: Mapped[str | None] = mapped_column(String(64), unique=True, nullable=True)
+    provider_payment_id: Mapped[str | None] = mapped_column(String(64), unique=True, nullable=True)
+    amount_paise: Mapped[int] = mapped_column(Integer)
+    currency: Mapped[str] = mapped_column(String(3), default='INR')
+    status: Mapped[str] = mapped_column(String(30), default='pending')
+    create_attempted: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+
+
+class PaymentEvent(Base):
+    __tablename__ = 'payment_events'
+    event_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    event_type: Mapped[str] = mapped_column(String(50))
+    provider_payment_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now)

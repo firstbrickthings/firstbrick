@@ -28,7 +28,7 @@ This starts the storefront and database. **Real sign-in and checkout also need F
 - Order status history, valid fulfilment transitions, and restocking on cancellation.
 - SQL migrations, a repeatable catalog import, Docker configuration, and automated tests.
 
-The imported **1,569 catalog records** remain drafts for selling: prices need confirmation, stock starts at zero, and sales are disabled until approved. Existing source records and photos are retained. Cash on delivery is supported; online card/UPI payment processing is not included.
+The imported **1,569 catalog records** remain drafts for selling: prices need confirmation, stock starts at zero, and sales are disabled until approved. Existing source records and photos are retained. Cash on delivery and Razorpay **Test Mode** checkout are supported. Live payments remain disabled. See the [payment integration guide](backend/RAZORPAY.md).
 
 ## Next steps
 

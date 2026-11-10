@@ -8,7 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from .auth import Identity
-from .models import Category, Customer, Order, OrderEvent, Product, Variant
+from .models import Category, Customer, Order, OrderEvent, Payment, Product, Variant
 from .schemas import CartItem, OrderInput
 
 
@@ -35,7 +35,8 @@ def order_view(order: Order):
             'phone': order.phone.removeprefix('+91'), 'items': order.items,
             'subtotal': money(order.subtotal), 'delivery': money(order.delivery),
             'deliveryBreakdown': order.delivery_breakdown, 'total': money(order.total),
-            'currency': 'INR', 'payment': order.payment, 'status': order.status}
+            'currency': 'INR', 'payment': order.payment, 'status': order.status,
+            'payment_status': order.payment_record.status if order.payment_record else 'due_on_delivery'}
 
 
 def calculate(db: Session, items: list[CartItem], lock=False):
@@ -137,9 +138,11 @@ def place_order(db: Session, user: Identity, data: OrderInput):
                       idempotency_key=data.idempotency_key, request_hash=request_hash, phone=user.phone,
                       shipping=data.shipping.model_dump(), items=quote['items'], subtotal=Decimal(quote['subtotal']),
                       delivery=Decimal(quote['delivery']), delivery_breakdown=quote['deliveryBreakdown'],
-                      total=Decimal(quote['total']), payment='COD', status='Order Confirmed')
+                      total=Decimal(quote['total']), payment=data.payment, status='Awaiting Payment' if data.payment=='RAZORPAY' else 'Order Confirmed')
         db.add(order)
         db.flush()
+        if data.payment=='RAZORPAY':
+            db.add(Payment(order_id=order.id,amount_paise=int(order.total*100),currency='INR'))
         db.add(OrderEvent(order_id=order.id, actor_uid=user.uid, status=order.status))
         db.commit()
         return order
@@ -162,6 +165,12 @@ def change_status(db: Session, order_id: str, status: str, user: Identity):
     order = db.scalar(select(Order).where(Order.id == order_id).with_for_update())
     if not order:
         raise HTTPException(404, 'Order not found.')
+    if order.payment=='RAZORPAY':
+        payment=db.scalar(select(Payment).where(Payment.order_id==order.id))
+        if not payment or payment.status!='paid':
+            raise HTTPException(409, 'Payment must be captured before fulfilment.')
+        if status=='Cancelled':
+            raise HTTPException(409, 'Online payments require a reviewed refund before cancellation. Contact the store.')
     if status == order.status:
         return order
     if status not in TRANSITIONS[order.status]:

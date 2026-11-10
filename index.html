@@ -1786,6 +1786,8 @@ body{overflow-x:hidden}
               <p style="font-size:11px;color:var(--ink-mute);margin:0;">Qty ${i.qty} · ${money(i.price)}</p>
             </div>
           </div>`).join('')}
+        <p style="font-size:12px">Payment: ${esc(o.payment==='RAZORPAY'?'Razorpay TEST · '+(o.payment_status||'pending'):'Cash on delivery')}</p>
+        ${o.payment==='RAZORPAY'&&o.payment_status!=='paid'?`<button type="button" class="btn btn-outline" data-order-id="${esc(o.id)}" onclick="BOserver.resumePayment(this.dataset.orderId)">Pay / Check payment</button>`:''}
         <div class="bo-order-bill"><div class="bo-bill-row"><span>Subtotal</span><span>${money(o.subtotal??(o.total-(o.delivery||0)))}</span></div>${(o.deliveryBreakdown||[]).map(row=>`<div class="bo-bill-row"><span>${esc(row.category)} delivery</span><span>${money(row.rate)}</span></div>`).join('')}<div class="bo-bill-row"><span>Delivery total</span><span>${money(o.delivery||0)}</span></div><div class="bo-bill-row"><strong>Final total</strong><strong>${money(o.total)}</strong></div></div>
       </div>`;
   }
@@ -1809,6 +1811,7 @@ body{overflow-x:hidden}
     if(attempt!==checkoutAttempt)return;
     const subtotal=Number(serverQuote.subtotal),deliveryBreakdown=serverQuote.deliveryBreakdown;
     const delivery=Number(serverQuote.delivery),total=Number(serverQuote.total);
+    const paymentConfig=await window.BOserver.paymentConfig();
     show('Checkout','Review and place your order.',`
       <div style="border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:16px;">
         ${serverQuote.items.map(i=>`
@@ -1832,11 +1835,12 @@ body{overflow-x:hidden}
         ${fields(x)}
         <label style="${labelStyle}">Payment</label>
         <select style="${inputStyle}" name="payment">
-          <option>Cash on Delivery — subject to store confirmation</option>
+          <option value="COD">Cash on Delivery</option>
+          ${paymentConfig.razorpay_test_enabled?'<option value="RAZORPAY">Razorpay — TEST MODE (no real money)</option>':''}
         </select>
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
       </form>
-      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">No online payment is collected. Prices, stock and delivery are checked by the store server. Payment is cash on delivery.</p>`);
+      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">Choose cash on delivery or, when available, Razorpay Test Mode. Test Mode payments do not move real money.</p>`);
 
     document.getElementById('bo-checkout-form').onsubmit = async e=>{
       e.preventDefault();
@@ -1861,7 +1865,7 @@ body{overflow-x:hidden}
       status.textContent='Waiting for the store to receive your request…';
       // Preserve the same ID across retries, including a page reload.
       const draftKey='babyone-order-draft-v1';
-      const fingerprint=JSON.stringify({name:order.name,phone:order.phone,address:order.address,city:order.city,state:order.state,pin:order.pin,email:order.email||'',payment:'COD',items:order.serverItems});
+      const fingerprint=JSON.stringify({name:order.name,phone:order.phone,address:order.address,city:order.city,state:order.state,pin:order.pin,email:order.email||'',payment:order.payment,items:order.serverItems});
       try{
         const draft=JSON.parse(sessionStorage.getItem(draftKey)||'null');
         if(draft?.fingerprint===fingerprint)order.id=draft.id;

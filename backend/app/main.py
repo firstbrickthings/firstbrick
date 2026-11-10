@@ -5,6 +5,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
 from sqlalchemy import func, or_, select, text
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session
@@ -119,6 +120,9 @@ def quote(data: QuoteInput, user: Identity = Depends(identity), db: Session = De
 
 @app.post('/api/orders')
 def create_order(data: OrderInput, user: Identity = Depends(identity), db: Session = Depends(database)):
+    if data.payment=='RAZORPAY':
+        from .payments import Gateway
+        Gateway()
     return order_view(place_order(db, user, data))
 
 
@@ -223,3 +227,34 @@ if (ROOT / 'assets').exists():
     @app.get('/', include_in_schema=False)
     def storefront():
         return FileResponse(ROOT / 'index.html', headers={'Cache-Control': 'no-cache'})
+
+
+from . import payments
+from .schemas import PaymentVerification
+
+
+@app.get('/api/payments/config')
+def payment_config():
+    config=settings()
+    return {'razorpay_test_enabled':config.razorpay_key_id.startswith('rzp_test_') and bool(config.razorpay_key_secret),'test_mode':True}
+
+
+@app.post('/api/payments/razorpay/{order_id}/checkout')
+def payment_checkout(order_id:str,user:Identity=Depends(identity),db:Session=Depends(database)):
+    return payments.begin(db,order_id,user)
+
+
+@app.post('/api/payments/razorpay/{order_id}/verify')
+def payment_verify(order_id:str,data:PaymentVerification,user:Identity=Depends(identity),db:Session=Depends(database)):
+    return payments.verify(db,order_id,user,data)
+
+
+@app.get('/api/payments/razorpay/{order_id}/status')
+def payment_status(order_id:str,user:Identity=Depends(identity),db:Session=Depends(database)):
+    return payments.refresh(db,order_id,user)
+
+
+@app.post('/api/payments/razorpay/webhook')
+async def payment_webhook(request:Request,db:Session=Depends(database)):
+    return await run_in_threadpool(
+        payments.webhook,db,await request.body(),request.headers.get('x-razorpay-signature',''),request.headers.get('x-razorpay-event-id',''))

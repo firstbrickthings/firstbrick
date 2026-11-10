@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     firebase_project_id: str = 'baby-one-a5cd4'
     admin_firebase_uids: str = ''
     allowed_origins: str = 'http://localhost:8000,http://127.0.0.1:8000'
+    razorpay_key_id: str = ''
+    razorpay_key_secret: str = ''
+    razorpay_webhook_secret: str = ''
     database_pool_size: int = Field(default=5, ge=1, le=50)
 
     @property

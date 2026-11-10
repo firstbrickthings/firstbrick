@@ -25,6 +25,9 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: mysql+pymysql://babyone:${MYSQL_PASSWORD}@db:3306/babyone?charset=utf8mb4
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
       FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-baby-one-a5cd4}
       ADMIN_FIREBASE_UIDS: ${ADMIN_FIREBASE_UIDS:-}
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8000,http://127.0.0.1:8000}
