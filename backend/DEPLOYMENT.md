@@ -37,3 +37,7 @@ Razorpay currently reports `upi: false` for this test merchant. The checkout sho
 In Test Mode, register `https://babyone-web-test.up.railway.app/api/payments/razorpay/webhook`, using the private `RAZORPAY_WEBHOOK_SECRET` already stored on the web service. Subscribe to the events listed in RAZORPAY.md. API verification works independently of notifications, but real hosted checkout still requires working customer sign-in and approved product inventory.
 
 The earlier actual captured/failed gateway tests used the isolated test environment described in PAYMENT_TEST_REPORT.md. A captured payment on the deployed website must still be verified after the owner completes its test checkout.
+
+## Original owner workspace
+
+The main Dashboard entry opens the original workspace from the owner-provided HTML, with its original navigation, editor and backup sections. The smaller MySQL editor is available through **Published prices & stock** inside that workspace. Owner access still requires the verified server identity. Shared MySQL orders are loaded across every page and merged with existing device-local history; the owner catalogue includes hidden products. Browser-only edits and backups remain on their original browser and are not silently imported into shared inventory.

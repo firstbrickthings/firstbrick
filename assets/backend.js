@@ -139,11 +139,12 @@
       const me = await request('/me'); adminIdentity = me.is_admin ? me : null;
       document.getElementById('bo-server-manage')?.remove();
       if (adminIdentity) {
-        const button=document.createElement('button');button.id='bo-server-manage';button.type='button';button.className='btn btn-outline';button.textContent='Dashboard';button.onclick=()=>openAdmin();
+        const button=document.createElement('button');button.id='bo-server-manage';button.type='button';button.className='btn btn-outline';button.textContent='Dashboard';button.onclick=()=>window.boAdmin.openDashboard();
         document.body.appendChild(button);
       }
-      return me;
+      window.babyoneRefreshOwnerUI?.();return me;
     } catch (_) { adminIdentity=null;document.getElementById('bo-server-manage')?.remove(); }
+    window.babyoneRefreshOwnerUI?.();
   }
   async function openAdmin() {
     const me = await checkIdentity();
@@ -186,15 +187,36 @@
     document.getElementById('bo-server-fees').onclick=run(fees);
     document.getElementById('bo-server-products').onclick=run(()=>products());document.getElementById('bo-server-orders').onclick=run(()=>orders());await run(()=>products())();
   }
-  window.BOserver={request,catalog,quote,submit,myOrders,openAdmin,cartItems,checkIdentity,paymentConfig,resumePayment};
+  window.BOserver={request,catalog,quote,submit,myOrders,openAdmin,cartItems,checkIdentity,paymentConfig,resumePayment,isAdmin:()=>!!adminIdentity};
   window.BOordersCloud={ready:true,submit,user:()=>adminIdentity,flush:async()=>{},
-    load:async()=>{const result=await request('/admin/orders?limit=100');window.BOsharedOrderRows=result.items;window.boAdmin?.refreshOrders?.();return result.items;},
+    load:async()=>{try{const items=[];let page;do{page=await request('/admin/orders?limit=100&offset='+items.length);items.push(...page.items)}while(items.length<page.total&&page.items.length);window.BOsharedOrderRows=items;window.boAdmin?.refreshOrders?.();return items;}catch(error){showToast('Shared orders could not load: '+error.message);return window.BOsharedOrderRows||[];}},
     updateStatus:async(id,status)=>request('/admin/orders/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({status})})};
   document.addEventListener('DOMContentLoaded',()=>{
     document.body.classList.add('bo-mysql-store');
     catalog().catch(()=>{const notice=document.createElement('p');notice.id='bo-server-notice';notice.className='bo-server-notice';notice.setAttribute('role','status');notice.textContent='The store connection is unavailable. You can browse, but checkout needs the store server.';document.getElementById('main').prepend(notice)});
-    if(window.boAdmin){window.boAdmin.openDashboard=()=>openAdmin();window.boAdmin.openLogin=()=>openAdmin();}
-    if(window.boManager)window.boManager.open=()=>openAdmin();
+    if(window.boAdmin){
+      const originalDashboard=window.boAdmin.openDashboard.bind(window.boAdmin);
+      const openDashboard=async()=>{
+        const me=await checkIdentity();
+        if(!me?.is_admin){window.boU?.login(true);return;}
+        try{
+          const all=[];let page;
+          do{page=await request('/admin/products?limit=100&offset='+all.length);all.push(...page.items)}while(all.length<page.total&&page.items.length);
+          for(const p of all)records.set(p.id,p);
+          productsData.splice(0,productsData.length,...all.map(p=>{
+            const item=storefrontProduct(p);item.stock=p.variants.filter(v=>v.enabled).reduce((n,v)=>n+v.stock,0);
+            for(const v of item.variants)v.stock=p.variants.find(raw=>raw.id===v.serverVariantId)?.stock||0;
+            return item;
+          }));
+        }catch(error){showToast('Catalogue could not refresh: '+error.message);}
+        sessionStorage.setItem('babyone-admin-session','yes');
+        window.boU?.close();originalDashboard();
+      };
+      window.boAdmin.openDashboard=openDashboard;window.boAdmin.openLogin=openDashboard;
+      if(window.boManager)window.boManager.open=openDashboard;
+      const top=document.querySelector('.bo-admin-top');
+      if(top){const live=document.createElement('button');live.id='bo-live-store-data';live.type='button';live.className='bo-admin-btn secondary';live.textContent='Published prices & stock';live.onclick=()=>openAdmin();top.appendChild(live);}
+    }
     const tracking=document.getElementById('bo-track-form');
     tracking?.addEventListener('submit',async e=>{
       e.preventDefault();e.stopImmediatePropagation();

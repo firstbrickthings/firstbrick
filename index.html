@@ -1934,8 +1934,8 @@ body{overflow-x:hidden}
     <section id="bo-admin-login" class="bo-admin-card" style="max-width:440px;margin:8vh auto">
       <h3>Administrator sign in</h3><p style="font-size:13px;color:#728496;margin:8px 0 20px">Enter your authorized admin details.</p>
       <form id="bo-admin-login-form">
-        <label for="bo-static-field-10" class="bo-admin-label">Admin name</label><label class="bo-field-label" for="bo-static-field-9">Admin name</label><input id="bo-static-field-9" class="bo-admin-field" name="name" autocomplete="username" required placeholder="Admin name">
-        <label class="bo-admin-label">Mobile number</label><input id="bo-static-field-10" class="bo-admin-field" name="phone" inputmode="tel" required placeholder="Mobile number">
+        <label class="bo-admin-label">Admin name</label><input class="bo-admin-field" name="name" autocomplete="username" required placeholder="Admin name">
+        <label class="bo-admin-label">Mobile number</label><input class="bo-admin-field" name="phone" inputmode="tel" required placeholder="Mobile number">
         <button class="bo-admin-btn" style="width:100%;margin-top:8px">Open dashboard</button>
         <p style="font-size:11px;color:#8a99a7;line-height:1.6;margin-top:15px">Prototype sign-in only. Do not deploy this browser-only check as security; use Firebase Authentication and server-side authorization before going live.</p>
       </form>
@@ -1962,7 +1962,7 @@ body{overflow-x:hidden}
             </div>
             <div class="bo-admin-card" style="margin-top:14px">
               <div class="bo-sync-top"><div><h3>Orders & store traffic</h3><p class="bo-muted">Orders by date, compared with measured visits. Traffic needs Firebase access.</p></div>
-                <label class="bo-field-label" for="bo-overview-range">Timeline range</label><select id="bo-overview-range" class="bo-admin-field" aria-label="Timeline range" onchange="window.boDrawOrderChart?.()"><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select></div>
+                <select id="bo-overview-range" class="bo-admin-field" aria-label="Timeline range" onchange="window.boDrawOrderChart?.()"><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select></div>
               <div id="bo-overview-traffic-stats" class="bo-traffic-totals"></div>
               <div class="bo-timeline-legend"><span><i class="bo-legend-orders"></i> Orders</span><span><i class="bo-legend-visits"></i> Visits</span></div>
               <div id="bo-orders-timeline" class="bo-orders-timeline" role="img" aria-label="Orders and visits timeline"></div>
@@ -1970,7 +1970,7 @@ body{overflow-x:hidden}
             </div>
             <div class="bo-admin-card" style="margin-top:14px">
               <h3>Sync orders across devices</h3><p class="bo-muted">Connect your Firebase owner account to securely load orders and update their status across devices. This does not change the Google Sheets logging.</p>
-              <div class="bo-owner-connect"><label class="bo-field-label" for="bo-orders-owner-email">Firebase owner email</label><input class="bo-admin-field" id="bo-orders-owner-email" type="email" autocomplete="username" placeholder="Firebase owner email" aria-label="Firebase owner email"><label class="bo-field-label" for="bo-orders-owner-password">Firebase password</label><input class="bo-admin-field" id="bo-orders-owner-password" type="password" autocomplete="current-password" placeholder="Firebase password" aria-label="Firebase password"><button class="bo-admin-btn" type="button" id="bo-orders-owner-connect">Connect owner</button><button class="bo-admin-btn secondary" type="button" id="bo-orders-refresh">Refresh orders</button><button class="bo-admin-btn secondary" type="button" id="bo-orders-signout">Sign out</button></div>
+              <div class="bo-owner-connect"><input class="bo-admin-field" id="bo-orders-owner-email" type="email" autocomplete="username" placeholder="Firebase owner email" aria-label="Firebase owner email"><input class="bo-admin-field" id="bo-orders-owner-password" type="password" autocomplete="current-password" placeholder="Firebase password" aria-label="Firebase password"><button class="bo-admin-btn" type="button" id="bo-orders-owner-connect">Connect owner</button><button class="bo-admin-btn secondary" type="button" id="bo-orders-refresh">Refresh orders</button><button class="bo-admin-btn secondary" type="button" id="bo-orders-signout">Sign out</button></div>
               <p class="bo-muted" id="bo-orders-cloud-status" role="status" aria-live="polite">Checking cloud connection…</p>
               <div class="bo-store-sync-box"><h3>Shared products, categories & inventory</h3>
                 <p class="bo-muted">Published catalogue changes appear on other devices automatically. Use “Publish this device” once to migrate old saved changes; on other devices, use “Load cloud data”.</p>
@@ -2012,10 +2012,10 @@ body{overflow-x:hidden}
           <section class="bo-admin-panel" id="bo-admin-panel-products">
             <div class="bo-admin-card"><h3>Add a product</h3><p style="font-size:13px;color:#728496;margin:8px 0 18px">Add multiple gallery images. Product data is saved to this browser in this prototype.</p>
               <form id="bo-admin-product-form">
-                <label for="bo-static-field-17" class="bo-admin-label">Product name</label><label class="bo-field-label" for="bo-static-field-16">e.g. Organic Cotton Swaddle Set</label><input id="bo-static-field-16" class="bo-admin-field" name="name" required placeholder="e.g. Organic Cotton Swaddle Set">
-                <label class="bo-admin-label">Category</label><select id="bo-static-field-17" class="bo-admin-field" name="category"><option>New Born</option><option>Feeding</option><option>Diapering</option><option>Clothing</option><option>Toys & Learning</option><option>Hospital Kit</option><option>Cradles & Rockers</option><option>Bath & Skincare</option><option>Travel & Gear</option><option>Mom Care</option><option>Potty</option></select>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label for="bo-static-field-19" class="bo-admin-label">Selling price (₹)</label><label class="bo-field-label" for="bo-static-field-18">Price</label><input id="bo-static-field-18" class="bo-admin-field" name="price" type="number" min="0" step=".01" required></div><div><label for="bo-static-field-20" class="bo-admin-label">Original price (₹, optional)</label><input id="bo-static-field-19" class="bo-admin-field" name="originalPrice" type="number" min="0" step=".01"></div></div>
-                <label for="bo-admin-product-images" class="bo-admin-label">Description</label><textarea id="bo-static-field-20" class="bo-admin-field" name="description" rows="3" placeholder="Product details"></textarea>
+                <label class="bo-admin-label">Product name</label><input class="bo-admin-field" name="name" required placeholder="e.g. Organic Cotton Swaddle Set">
+                <label class="bo-admin-label">Category</label><select class="bo-admin-field" name="category"><option>New Born</option><option>Feeding</option><option>Diapering</option><option>Clothing</option><option>Toys & Learning</option><option>Hospital Kit</option><option>Cradles & Rockers</option><option>Bath & Skincare</option><option>Travel & Gear</option><option>Mom Care</option><option>Potty</option></select>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="bo-admin-label">Selling price (₹)</label><input class="bo-admin-field" name="price" type="number" min="0" step=".01" required></div><div><label class="bo-admin-label">Original price (₹, optional)</label><input class="bo-admin-field" name="originalPrice" type="number" min="0" step=".01"></div></div>
+                <label class="bo-admin-label">Description</label><textarea class="bo-admin-field" name="description" rows="3" placeholder="Product details"></textarea>
                 <label class="bo-admin-label">Product images (select multiple)</label><input class="bo-admin-field" id="bo-admin-product-images" type="file" accept="image/*" multiple>
                 
                 <button class="bo-admin-btn">Save product</button>
@@ -2037,18 +2037,18 @@ body{overflow-x:hidden}
           <section class="bo-admin-panel" id="bo-admin-panel-hero">
             <div class="bo-admin-card"><h3>Hero slider imagery</h3><p style="font-size:13px;color:#728496;margin:8px 0 18px">Upload an image from your device. Use licensed images you have permission to publish.</p>
               <form id="bo-admin-hero-form">
-                <label for="bo-static-field-29" class="bo-admin-label">Slide</label><label class="bo-field-label" for="bo-admin-hero-index">Index</label><select class="bo-admin-field" name="index" id="bo-admin-hero-index"></select>
-                <label class="bo-admin-label">Upload new slide image</label><input id="bo-static-field-29" class="bo-admin-field" name="upload" type="file" accept="image/*" required>
+                <label class="bo-admin-label">Slide</label><select class="bo-admin-field" name="index" id="bo-admin-hero-index"></select>
+                <label class="bo-admin-label">Upload new slide image</label><input class="bo-admin-field" name="upload" type="file" accept="image/*" required>
                 <button class="bo-admin-btn">Update slide</button>
               </form><p id="bo-admin-hero-feedback" style="font-size:12px;margin-top:14px"></p>
               <p style="font-size:11px;color:#8493a1;line-height:1.6;margin-top:16px">Changes to localStorage affect only this browser. For a live storefront, save slide URLs in Firebase and upload images to Firebase Storage.</p>
             </div>
           </section>
 
-<section class="bo-admin-panel" id="bo-admin-panel-inventory"><div class="bo-admin-card"><h3>Inventory & size availability</h3><p>Update stock for existing products and variants. Changes save locally and publish when your Firebase owner account is connected.</p><label class="bo-field-label" for="bo-pro-inventory-search">Search inventory</label><input class="bo-admin-field" id="bo-pro-inventory-search" placeholder="Search products or SKU"><div id="bo-pro-inventory-list"></div></div></section>
-<section class="bo-admin-panel" id="bo-admin-panel-catalogue"><div class="bo-admin-card"><h3>Edit existing catalogue</h3><p>Change names, prices, photos and descriptions without deleting the original product records.</p><label class="bo-field-label" for="bo-pro-catalogue-search">Search catalog</label><input class="bo-admin-field" id="bo-pro-catalogue-search" placeholder="Search all products"><div id="bo-pro-catalogue-list"></div><div id="bo-pro-editor"></div></div></section>
+<section class="bo-admin-panel" id="bo-admin-panel-inventory"><div class="bo-admin-card"><h3>Inventory & size availability</h3><p>Update stock for existing products and variants. Changes save locally and publish when your Firebase owner account is connected.</p><input class="bo-admin-field" id="bo-pro-inventory-search" placeholder="Search products or SKU"><div id="bo-pro-inventory-list"></div></div></section>
+<section class="bo-admin-panel" id="bo-admin-panel-catalogue"><div class="bo-admin-card"><h3>Edit existing catalogue</h3><p>Change names, prices, photos and descriptions without deleting the original product records.</p><input class="bo-admin-field" id="bo-pro-catalogue-search" placeholder="Search all products"><div id="bo-pro-catalogue-list"></div><div id="bo-pro-editor"></div></div></section>
 <section class="bo-admin-panel" id="bo-admin-panel-customers"><div class="bo-admin-card"><h3>Customers from saved orders</h3><div id="bo-pro-customers-list"></div></div></section>
-<section class="bo-admin-panel" id="bo-admin-panel-backup"><div class="bo-admin-card"><h3>Data safety & backup</h3><p>Download your browser's BabyOne saved data before making major changes. Restoring merges saved keys and never clears unrelated keys.</p><button class="bo-admin-btn" id="bo-pro-export">Export complete BabyOne data</button><label class="bo-admin-label" style="display:block;margin-top:20px">Restore a BabyOne JSON backup</label><label class="bo-field-label" for="bo-pro-import">Form option</label><input class="bo-admin-field" id="bo-pro-import" type="file" accept="application/json,.json"><button class="bo-admin-btn secondary" id="bo-pro-restore">Restore backup</button><p id="bo-pro-backup-message" role="status"></p></div></section>
+<section class="bo-admin-panel" id="bo-admin-panel-backup"><div class="bo-admin-card"><h3>Data safety & backup</h3><p>Download your browser's BabyOne saved data before making major changes. Restoring merges saved keys and never clears unrelated keys.</p><button class="bo-admin-btn" id="bo-pro-export">Export complete BabyOne data</button><label class="bo-admin-label" style="display:block;margin-top:20px">Restore a BabyOne JSON backup</label><input class="bo-admin-field" id="bo-pro-import" type="file" accept="application/json,.json"><button class="bo-admin-btn secondary" id="bo-pro-restore">Restore backup</button><p id="bo-pro-backup-message" role="status"></p></div></section>
         </main>
       </div>
     </div>
@@ -3036,15 +3036,7 @@ window.boReadImage=async function(file){if(!file)return null;if(!file.type.start
 // UI-only restriction: name and number are NOT secure proof of identity.
 (function(){
   'use strict';
-  window.babyoneOwnerIdentity=function(){
-    try{
-      const p=JSON.parse(localStorage.getItem('babyone-profile-v1')||'null');
-      if(!p || String(p.name||'').trim().toLowerCase()!=='hadhi')return false;
-      const phone=String(p.phone||'').replace(/\D/g,'');
-      // Accept ordinary ten-digit entries and the same number with India's +91 prefix.
-      return phone==='9645762324' || phone==='919645762324';
-    }catch(e){return false;}
-  };
+  window.babyoneOwnerIdentity=function(){ return window.BOserver?.isAdmin?.() === true; };
   window.babyoneRefreshOwnerUI=function(){
     const owner=window.babyoneOwnerIdentity();
     const top=document.getElementById('bo-top-dashboard');
