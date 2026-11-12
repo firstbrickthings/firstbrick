@@ -6,7 +6,7 @@ Money = Annotated[Decimal, Field(ge=0, le=9999999, max_digits=12, decimal_places
 
 
 class Input(BaseModel):
-    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
+    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True, validate_default=True)
 
 
 class CartItem(Input):
@@ -17,6 +17,8 @@ class CartItem(Input):
 
 class QuoteInput(Input):
     items: list[CartItem] = Field(min_length=1, max_length=50)
+    pin: str = Field(default='', pattern=r'^$|^[1-9][0-9]{5}$')
+    payment: Literal['COD', 'RAZORPAY'] = 'RAZORPAY'
 
 
 class Shipping(Input):
@@ -67,11 +69,21 @@ class ProductInput(Input):
     variants: list[VariantInput] = Field(min_length=1, max_length=100)
     patterns: list[PatternInput] = Field(default_factory=list, max_length=50)
     expected_version: int | None = Field(default=None, ge=1)
+    shipping: dict | None = None
+
+    @field_validator('shipping')
+    @classmethod
+    def parcel(cls, value):
+        if value is not None:
+            from .shipping import Parcel
+            return Parcel.model_validate(value).model_dump(mode='json')
+        return None
 
     @field_validator('image')
     @classmethod
     def image_url(cls, value):
-        if value and not (value.startswith('https://') or (value.startswith('assets/') and '..' not in value)):
+        from .workspace import safe_url
+        if value and not safe_url(value):
             raise ValueError('Use an HTTPS image URL or a local assets/ path.')
         return value
 

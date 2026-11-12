@@ -1,4 +1,6 @@
 import logging
+import asyncio
+from contextlib import asynccontextmanager, suppress
 from pathlib import Path
 from uuid import uuid4
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
@@ -7,7 +9,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 from sqlalchemy import func, or_, select, text
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm import Session
 from .auth import Identity, admin, identity
 from .config import settings
@@ -17,9 +19,21 @@ from .schemas import CategoryInput, OrderInput, ProductInput, QuoteInput, Shippi
 from .services import calculate, change_status, order_view, place_order, product_view
 
 ROOT = Path(__file__).resolve().parents[2]
-app = FastAPI(title='BabyOne store API', version='1.0.0', docs_url='/api/docs', openapi_url='/api/openapi.json')
+@asynccontextmanager
+async def lifespan(app):
+    from .reporting import worker
+    from .workspace import probe_storage
+    await run_in_threadpool(probe_storage)
+    task=asyncio.create_task(worker())
+    yield
+    task.cancel()
+    with suppress(asyncio.CancelledError):
+        await task
+
+
+app = FastAPI(lifespan=lifespan, title='BabyOne store API', version='1.0.0', docs_url='/api/docs', openapi_url='/api/openapi.json')
 app.add_middleware(CORSMiddleware, allow_origins=settings().origins, allow_credentials=False,
-                   allow_methods=['GET', 'POST', 'PUT', 'PATCH'], allow_headers=['Authorization', 'Content-Type'])
+                   allow_methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], allow_headers=['Authorization', 'Content-Type'])
 
 
 @app.middleware('http')
@@ -27,6 +41,19 @@ async def headers(request: Request, call_next):
     # Bound JSON bodies before parsing; the reverse proxy should also enforce this limit.
     if request.method in {'POST', 'PUT', 'PATCH'}:
         length = request.headers.get('content-length')
+        if request.url.path == '/api/admin/media' and request.method == 'POST':
+            if not length or not length.isdigit():
+                return JSONResponse({'detail': 'The upload needs a content length.'}, status_code=411)
+            if int(length) > 101*1024*1024:
+                return JSONResponse({'detail': 'Choose a file up to 100 MB.'}, status_code=413)
+            from fastapi.security import HTTPAuthorizationCredentials
+            try:
+                scheme, _, credential = request.headers.get('authorization','').partition(' ')
+                user = await run_in_threadpool(identity, HTTPAuthorizationCredentials(scheme=scheme,credentials=credential) if credential else None)
+                admin(user)
+            except HTTPException as exc:
+                return JSONResponse({'detail': exc.detail},status_code=exc.status_code)
+            return await call_next(request)
         if length and (not length.isdigit() or int(length) > 262144):
             return JSONResponse({'detail': 'Request is too large.'}, status_code=413)
         content = await request.body()
@@ -44,6 +71,11 @@ async def headers(request: Request, call_next):
 async def database_error(request, error):
     logging.getLogger(__name__).error('Database operation failed (%s)', type(error).__name__)
     return JSONResponse({'detail': 'Store database is temporarily unavailable. Please retry.'}, status_code=503)
+
+
+@app.exception_handler(IntegrityError)
+async def conflict_error(request, error):
+    return JSONResponse({'detail': 'Another session changed this record. Reload before saving.'}, status_code=409)
 
 
 @app.get('/api/health')
@@ -73,7 +105,8 @@ def profile(user: Identity = Depends(identity), db: Session = Depends(database))
 def save_profile(data: Shipping, user: Identity = Depends(identity), db: Session = Depends(database)):
     customer = db.get(Customer, user.uid)
     if not customer:
-        customer = Customer(uid=user.uid, phone=user.phone)
+        from .models import now
+        customer = Customer(uid=user.uid, phone=user.phone, first_verified_at=now())
         db.add(customer)
     customer.phone, customer.details = user.phone, data.model_dump()
     db.commit()
@@ -114,7 +147,7 @@ def product(product_id: str, db: Session = Depends(database)):
 
 @app.post('/api/checkout/quote')
 def quote(data: QuoteInput, user: Identity = Depends(identity), db: Session = Depends(database)):
-    result, *_ = calculate(db, data.items)
+    result, *_ = calculate(db, data.items, pin=data.pin, payment=data.payment)
     return result
 
 
@@ -129,28 +162,39 @@ def create_order(data: OrderInput, user: Identity = Depends(identity), db: Sessi
 @app.get('/api/me/orders')
 def my_orders(offset: int = Query(0, ge=0), limit: int = Query(25, ge=1, le=100),
               user: Identity = Depends(identity), db: Session = Depends(database)):
+    from .legacy import list_orders
     query = select(Order).where(Order.customer_uid == user.uid)
-    total = db.scalar(select(func.count()).select_from(query.subquery()))
-    return {'items': [order_view(o) for o in db.scalars(query.order_by(Order.created_at.desc()).offset(offset).limit(limit))], 'total': total}
+    regular=[order_view(o) for o in db.scalars(query.order_by(Order.created_at.desc()).limit(offset+limit))]
+    legacy=list_orders(db,user.phone)
+    total=db.scalar(select(func.count()).select_from(query.subquery()))+len(legacy)
+    items=sorted(regular+legacy,key=lambda o:o['dateISO'],reverse=True)[offset:offset+limit]
+    return {'items':items,'total':total}
 
 
 @app.get('/api/me/orders/{order_id}')
 def my_order(order_id: str, user: Identity = Depends(identity), db: Session = Depends(database)):
     record = db.scalar(select(Order).where(Order.id == order_id, Order.customer_uid == user.uid))
     if not record:
-        raise HTTPException(404, 'Order not found.')
+        from .legacy import find,view
+        return view(find(db,order_id,user.phone))
     return order_view(record)
 
 
 @app.get('/api/admin/orders')
 def admin_orders(offset: int = Query(0, ge=0), limit: int = Query(25, ge=1, le=100),
                  user: Identity = Depends(admin), db: Session = Depends(database)):
-    total = db.scalar(select(func.count()).select_from(Order))
-    return {'items': [order_view(o) for o in db.scalars(select(Order).order_by(Order.created_at.desc()).offset(offset).limit(limit))], 'total': total}
+    from .legacy import list_orders
+    legacy=list_orders(db)
+    total=db.scalar(select(func.count()).select_from(Order))+len(legacy)
+    regular=[order_view(o) for o in db.scalars(select(Order).order_by(Order.created_at.desc()).limit(offset+limit))]
+    return {'items':sorted(regular+legacy,key=lambda o:o['dateISO'],reverse=True)[offset:offset+limit],'total':total}
 
 
 @app.patch('/api/admin/orders/{order_id}')
 def status(order_id: str, data: StatusInput, user: Identity = Depends(admin), db: Session = Depends(database)):
+    if not db.get(Order,order_id):
+        from .legacy import change
+        return change(db,order_id,data.status)
     return order_view(change_status(db, order_id, data.status, user))
 
 
@@ -176,6 +220,8 @@ def write_product(db, data, record):
     record.description, record.image = data.description, data.image
     record.active, record.sale_enabled = data.active, data.sale_enabled
     record.metadata_json = {**(record.metadata_json or {}), 'patterns': [pattern.model_dump() for pattern in data.patterns]}
+    if 'shipping' in data.model_fields_set:
+        record.metadata_json = {**record.metadata_json, 'shipping': data.shipping}
     for variant in current.values():
         variant.enabled = False  # Preserve historic variant IDs and order references.
     for position, item in enumerate(data.variants):
@@ -185,6 +231,8 @@ def write_product(db, data, record):
             db.add(variant)
         variant.label, variant.price, variant.stock = item.label, item.price, item.stock
         variant.position, variant.enabled = position, item.enabled
+    from .services import touch_catalog
+    touch_catalog(db)
     db.flush()
     db.expire(record, ['variants', 'category'])
     db.commit()
@@ -257,3 +305,20 @@ def payment_status(order_id:str,user:Identity=Depends(identity),db:Session=Depen
 async def payment_webhook(request:Request,db:Session=Depends(database)):
     return await run_in_threadpool(
         payments.webhook,db,await request.body(),request.headers.get('x-razorpay-signature',''),request.headers.get('x-razorpay-event-id',''))
+
+
+from .workspace import router as workspace_router
+app.include_router(workspace_router)
+
+
+@app.get('/api/admin/orders/{order_id}')
+def admin_order(order_id: str, user: Identity = Depends(admin), db: Session = Depends(database)):
+    row=db.get(Order,order_id)
+    if not row:
+        from .legacy import find,view
+        return view(find(db,order_id))
+    return order_view(row)
+
+
+from .legacy import router as legacy_router
+app.include_router(legacy_router)

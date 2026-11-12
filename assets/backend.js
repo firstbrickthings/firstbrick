@@ -44,7 +44,7 @@
       records = new Map(all.map(p => [p.id, p]));
       productsData.splice(0, productsData.length, ...all.map(storefrontProduct));
       for (const c of categories) window.babyoneDeliveryRates[c.name] = Number(c.delivery_fee);
-      for (const c of categories) if (!categoriesData.some(old=>old.name===c.name)) categoriesData.push({id:c.id,name:c.name,img:'',subcategories:[]});
+      for (const c of categories) if (!window.BOsharedCategories && !categoriesData.some(old=>old.name===c.name)) categoriesData.push({id:c.id,name:c.name,img:'',subcategories:[]});
       renderProductRails();renderExplorerGrid();
       if (!document.getElementById('explorer-page')?.classList.contains('hidden')) renderPLPGrid();
       document.getElementById('bo-server-notice')?.remove();
@@ -72,9 +72,9 @@
       return {variant_id:variant.id, quantity:line.qty, pattern_id:line.patternId || null};
     });
   }
-  async function quote(lines) {
+  async function quote(lines, destination = {}) {
     if (!records.size) await catalog();
-    return request('/checkout/quote', {method:'POST',body:JSON.stringify({items:cartItems(lines)})});
+    return request('/checkout/quote', {method:'POST',body:JSON.stringify({items:cartItems(lines),pin:destination.pin||'',payment:destination.payment||'RAZORPAY'})});
   }
   async function submit(order) {
     if (!order.serverQuote) throw Error('Reopen checkout to review a server-verified total.');
@@ -136,7 +136,7 @@
   async function myOrders() { const all=[];let page;do{page=await request('/me/orders?limit=100&offset='+all.length);all.push(...page.items)}while(all.length<page.total&&page.items.length);return all; }
   async function checkIdentity() {
     try {
-      const me = await request('/me'); adminIdentity = me.is_admin ? me : null;
+      const me = await request('/me'); await request('/me/register',{method:'POST'}); adminIdentity = me.is_admin ? me : null;
       document.getElementById('bo-server-manage')?.remove();
       if (adminIdentity) {
         const button=document.createElement('button');button.id='bo-server-manage';button.type='button';button.className='btn btn-outline';button.textContent='Dashboard';button.onclick=()=>window.boAdmin.openDashboard();
@@ -177,13 +177,10 @@
       }catch(e){status.textContent=e.message;button.disabled=false;}};
     }
     async function orders(offset=0){const page=await request('/admin/orders?limit=20&offset='+offset);content.innerHTML=`<h3>Orders (${page.total})</h3><div id="bo-server-order-list"></div><button id="bo-order-prev" class="btn btn-outline" ${offset===0?'disabled':''}>Previous</button><button id="bo-order-next" class="btn btn-outline" ${offset+20>=page.total?'disabled':''}>Next</button>`;
-      for(const order of page.items){const row=document.createElement('article');row.className='bo-server-order';row.innerHTML=`<h4>${esc(order.id)}</h4><p>${esc(order.name)} · ${esc(order.phone)} · ₹${esc(order.total)}</p><p>${esc(order.address)}, ${esc(order.city)}, ${esc(order.state)} ${esc(order.pin)}</p><ul>${order.items.map(i=>`<li>${esc(i.name)} × ${i.qty}</li>`).join('')}</ul><label>Status<select>${['Order Confirmed','Packed','Shipped','Out for Delivery','Delivered','Cancelled'].map(s=>`<option ${order.status===s?'selected':''}>${s}</option>`).join('')}</select></label><button class="btn btn-outline">Save status</button>`;row.querySelector('button').onclick=run(async()=>{await request('/admin/orders/'+encodeURIComponent(order.id),{method:'PATCH',body:JSON.stringify({status:row.querySelector('select').value})});await orders(offset)});content.querySelector('#bo-server-order-list').appendChild(row)}
+      for(const order of page.items){const row=document.createElement('article');row.className='bo-server-order';row.innerHTML=`<h4>${esc(order.id)}</h4><p>${esc(order.name)} · ${esc(order.phone)} · ₹${esc(order.total)}</p><p>${esc(order.address)}, ${esc(order.city)}, ${esc(order.state)} ${esc(order.pin)}</p><ul>${order.items.map(i=>`<li>${esc(i.name)} × ${i.qty}</li>`).join('')}</ul><label>Status<select>${[order.status,...(order.allowed_next_statuses||[])].map(s=>`<option ${order.status===s?'selected':''}>${s}</option>`).join('')}</select></label><button class="btn btn-outline">Save status</button>`;row.querySelector('button').onclick=run(async()=>{await request('/admin/orders/'+encodeURIComponent(order.id),{method:'PATCH',body:JSON.stringify({status:row.querySelector('select').value})});await orders(offset)});content.querySelector('#bo-server-order-list').appendChild(row)}
       document.getElementById('bo-order-prev').onclick=run(()=>orders(offset-20));document.getElementById('bo-order-next').onclick=run(()=>orders(offset+20));
     }
-    async function fees(){
-      categories=await request('/catalog/categories',{},false);content.innerHTML='<h3>Delivery fees</h3><p>One fee per category in an order, independent of quantity.</p>';
-      for(const category of categories){const form=document.createElement('form');form.innerHTML='<label>'+esc(category.name)+' (₹)<input type="number" min="0" step="0.01" required value="'+esc(category.delivery_fee)+'"></label><button class="btn btn-outline">Save fee</button>';form.onsubmit=async e=>{e.preventDefault();try{await request('/admin/categories/'+encodeURIComponent(category.id),{method:'PUT',body:JSON.stringify({name:category.name,delivery_fee:form.querySelector('input').value})});await catalog();status.textContent='Delivery fee saved.'}catch(error){status.textContent=error.message}};content.appendChild(form);}
-    }
+    async function fees(){ close(); window.boAdmin.tab('delivery'); }
     document.getElementById('bo-server-fees').onclick=run(fees);
     document.getElementById('bo-server-products').onclick=run(()=>products());document.getElementById('bo-server-orders').onclick=run(()=>orders());await run(()=>products())();
   }
@@ -224,10 +221,10 @@
       if(!box)return;
       box.textContent='Checking your order…';
       try{
-        const id=new FormData(tracking).get('orderId');
-        const order=await request('/me/orders/'+encodeURIComponent(id));
-        box.innerHTML='<p><strong>'+esc(order.id)+'</strong></p><p>'+esc(order.status)+' · ₹'+esc(order.total)+'</p>';
-      }catch(error){box.textContent=error.message;}
+        const id=String(new FormData(tracking).get('orderId')||'').trim();
+        const order=await request((adminIdentity?'/admin/orders/':'/me/orders/')+encodeURIComponent(id));
+        box.innerHTML=window.BOworkspace?.trackingCard(order)||'<p>'+esc(order.id)+' · '+esc(order.status)+'</p>';box.dataset.orderId=order.id;
+      }catch(error){delete box.dataset.orderId;box.textContent=error.message;}
     },true);
   });
   window.addEventListener('babyone-phone-auth-state',checkIdentity);

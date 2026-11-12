@@ -1620,7 +1620,7 @@ body{overflow-x:hidden}
     const existing=profile()||{};
     if(!force&&verifiedPhone(existing.phone)){home();return;}
     const x=force&&pendingLoginData?{...existing,...pendingLoginData}:existing;
-    show('Verify your mobile','Secure sign-in with an SMS code from Firebase. Your saved shopping details are preserved.',`
+    show('Verify your mobile','Sign in securely with an SMS code. Your saved shopping details are preserved.',`
       <form id="bo-login">
         <label style="${labelStyle}">Full name</label>
         <input style="${inputStyle}" name="name" value="${esc(x.name||'')}" required autocomplete="name" placeholder="Your full name" />
@@ -1628,7 +1628,7 @@ body{overflow-x:hidden}
         <input style="${inputStyle}" name="phone" type="tel" value="${esc(x.phone||'')}" required inputmode="tel" autocomplete="tel" maxlength="16" placeholder="10-digit mobile number" />
         <label style="display:flex;align-items:flex-start;gap:10px;margin:17px 0 0;font-size:11px;color:var(--ink-soft);line-height:1.55;cursor:pointer;">
           <input type="checkbox" name="consent" value="yes" required style="margin-top:3px;accent-color:var(--pink-500);width:16px;height:16px;flex:none;" />
-          <span>I agree to BabyOne saving my profile in its customer Google Sheet for shopping and order support.</span>
+          <span>I agree to BabyOne saving my profile for shopping and order support.</span>
         </label>
         <div id="bo-login-otp-recaptcha" aria-label="Anti-spam verification"></div>
         <div id="bo-otp-send-status" class="bo-otp-status" role="status" aria-live="polite">Complete reCAPTCHA if prompted, then request your code.</div>
@@ -1680,6 +1680,8 @@ body{overflow-x:hidden}
         // from a different user on a shared computer into the newly verified profile.
         const record={...(samePhone?previous:{}),...pendingLoginData,phone,phoneVerifiedAt:new Date().toISOString(),firebaseUid:firebaseUser.uid};
         write(K,record);
+        await window.BOserver?.request('/me/register',{method:'POST',body:JSON.stringify({name:record.name||''})});
+        await window.BOserver?.checkIdentity();
         window.babyoneRefreshOwnerUI?.();
         if(window.babyoneOwnerIdentity?.()){
           sessionStorage.setItem('babyone-admin-session','yes');
@@ -1753,8 +1755,8 @@ body{overflow-x:hidden}
           ${sessionStorage.getItem('babyone-admin-session')==='yes' ? '<button class="btn btn-pink" style="font-size:10px;padding:10px 16px;" onclick="boU.close();boAdmin.openDashboard();"><i class="fa-solid fa-sliders" style="margin-right:6px;"></i>Admin Dashboard</button>' : ''}
         </div>
       </div>
-      <h3 style="font-family:'Nunito','Quicksand',sans-serif;font-size:19px;font-weight:400;margin:0 0 14px;">My Orders (${list.length})</h3>
-      ${list.length ? list.slice().reverse().map(orderCard).join('') : '<p style="font-size:13px;color:var(--ink-mute);">No orders yet.</p>'}
+      <h3 id="bo-my-orders-title" style="font-family:'Nunito','Quicksand',sans-serif;font-size:19px;font-weight:400;margin:0 0 14px;">My Orders (${list.length})</h3><div id="bo-my-orders-list">
+      ${list.length ? list.map(orderCard).join('') : '<p style="font-size:13px;color:var(--ink-mute);">No orders yet.</p>'}</div>
       <p style="font-size:11px;color:var(--ink-mute);margin-top:18px;line-height:1.6;">Your orders are stored securely on the store server and are available when you sign in on another device.</p>`);
   }
 
@@ -1774,7 +1776,7 @@ body{overflow-x:hidden}
               <p style="font-size:11px;color:var(--ink-mute);margin:0;">Qty ${i.qty} · ${money(i.price)}</p>
             </div>
           </div>`).join('')}
-        <p style="font-size:12px">Payment: ${esc(o.payment==='RAZORPAY'?'Razorpay TEST · '+(o.payment_status||'pending'):'Cash on delivery')}</p>
+        <p style="font-size:12px">Payment: ${esc(o.payment==='RAZORPAY'?'Razorpay TEST · '+(o.payment_status||'pending'):o.payment==='LEGACY'?'Historical order · payment not verified':'Cash on delivery')}</p>
         ${o.payment==='RAZORPAY'&&o.payment_status!=='paid'?`<button type="button" class="btn btn-outline" data-order-id="${esc(o.id)}" onclick="BOserver.resumePayment(this.dataset.orderId)">Pay / Check payment</button>`:''}
         <div class="bo-order-bill"><div class="bo-bill-row"><span>Subtotal</span><span>${money(o.subtotal??(o.total-(o.delivery||0)))}</span></div>${(o.deliveryBreakdown||[]).map(row=>`<div class="bo-bill-row"><span>${esc(row.category)} delivery</span><span>${money(row.rate)}</span></div>`).join('')}<div class="bo-bill-row"><span>Delivery total</span><span>${money(o.delivery||0)}</span></div><div class="bo-bill-row"><strong>Final total</strong><strong>${money(o.total)}</strong></div></div>
       </div>`;
@@ -1807,11 +1809,11 @@ body{overflow-x:hidden}
     let pendingOrder=null, submitting=false;
     show('Checkout','Checking current prices and stock…','<p role="status">Please wait while the store calculates your total.</p>');
     let serverQuote;
-    try{serverQuote=await window.BOserver.quote(items);}
+    try{serverQuote=await window.BOserver.quote(items,{pin:x.pin||'',payment:'RAZORPAY'});}
     catch(error){if(attempt===checkoutAttempt)show('Checkout unavailable',esc(error.message),'<button class="btn btn-outline" onclick="boU.close()">Back to shopping</button>');return;}
     if(attempt!==checkoutAttempt)return;
-    const subtotal=Number(serverQuote.subtotal),deliveryBreakdown=serverQuote.deliveryBreakdown;
-    const delivery=Number(serverQuote.delivery),total=Number(serverQuote.total);
+    let subtotal=Number(serverQuote.subtotal),deliveryBreakdown=serverQuote.deliveryBreakdown;
+    let delivery=Number(serverQuote.delivery),total=Number(serverQuote.total);
     const paymentConfig=await window.BOserver.paymentConfig();
     show('Checkout','Review and place your order.',`
       <div style="border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:16px;">
@@ -1824,11 +1826,11 @@ body{overflow-x:hidden}
             </div>
             <strong style="font-size:12px;">${money(i.price*i.qty)}</strong>
           </div>`).join('')}
-        <div style="font-size:12px;line-height:1.9;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);">
+        <div id="bo-checkout-bill" style="font-size:12px;line-height:1.9;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);">
           Subtotal: ${money(subtotal)}<br>
-          ${deliveryBreakdown.map(row=>`<div class="bo-bill-row"><span>${esc(row.category)} delivery</span><span>${money(row.rate)}</span></div>`).join('')}
+          ${deliveryBreakdown.map(row=>`<div class="bo-bill-row"><span>${esc(row.category)}${row.zone?' · '+esc(row.zone):''}</span><span>${money(row.rate)}</span></div>`).join('')}
           <div class="bo-bill-row"><span>Delivery total</span><span>${money(delivery)}</span></div>
-          <small>Fixed fee per category, charged once per order. Quantities do not increase this fee.</small><br>
+          <small>${serverQuote.delivery_pending?'Enter your delivery PIN below to calculate the complete total.':'Delivery uses the postal zone and measured packed weight. The final charge is confirmed before payment.'}</small><br>
           <strong style="font-family:'Nunito','Quicksand',sans-serif;font-size:17px;">Total: ${money(total)}</strong>
         </div>
       </div>
@@ -1840,7 +1842,7 @@ body{overflow-x:hidden}
       <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">Your payment is confirmed after verification by the payment provider.</p>`);
 
     const paymentMethods=window.BOpaymentMethods.mount(document.getElementById('bo-payment-methods'),{
-      total,testMode:paymentConfig.test_mode!==false,upiEnabled:paymentConfig.upi_enabled===true,
+      total,deliveryPending:serverQuote.delivery_pending,testMode:paymentConfig.test_mode!==false,upiEnabled:paymentConfig.upi_enabled===true,
       gatewayEnabled:paymentConfig.razorpay_test_enabled===true,allowCod:!serverQuote.payment_test
     });
 
@@ -1854,6 +1856,18 @@ body{overflow-x:hidden}
       if(f.payment==='RAZORPAY_UPI')f.payment='RAZORPAY';
       f.phone=normalizedPhone(f.phone);
       if(!verifiedPhone(f.phone)){showToast('Your mobile number must be OTP verified to place an order.');return;}
+      if(!pendingOrder){
+        button.disabled=true;status.textContent='Checking delivery for '+f.pin+'…';
+        try{
+          const finalQuote=await window.BOserver.quote(items,{pin:f.pin,payment:f.payment});
+          if(finalQuote.delivery_pending)throw Error('Enter your complete delivery PIN to calculate delivery.');
+          if(finalQuote.quote_hash!==serverQuote.quote_hash){
+            serverQuote=finalQuote;subtotal=Number(finalQuote.subtotal);delivery=Number(finalQuote.delivery);deliveryBreakdown=finalQuote.deliveryBreakdown;total=Number(finalQuote.total);
+            document.getElementById('bo-checkout-bill').innerHTML='<div class="bo-bill-row"><span>Subtotal</span><span>'+money(subtotal)+'</span></div>'+deliveryBreakdown.map(r=>'<div class="bo-bill-row"><span>'+esc(r.category)+(r.zone?' · '+esc(r.zone):'')+'</span><span>'+money(r.rate)+'</span></div>').join('')+'<div class="bo-bill-row"><strong>Total, including delivery</strong><strong>'+money(total)+'</strong></div><small>Delivery uses postal zone and measured packed weight.</small>';
+            paymentMethods.setTotal?.(total);button.textContent='Confirm order · '+money(total);status.textContent='Please review the complete total above, then confirm your order.';button.disabled=false;return;
+          }
+        }catch(error){status.textContent=error.message;button.disabled=false;return;}
+      }
       write(K,{...profile(),...f});
       const order = pendingOrder || {
         id: 'BO-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,7).toUpperCase(),
@@ -1910,6 +1924,7 @@ body{overflow-x:hidden}
       <p style="font-size:12px;color:var(--ink-soft);margin-top:16px;text-align:center;">+91 96457 62324</p>`);
   }
 
+  window.BOorderCard=orderCard;
   window.boU = {
     close(){ modal().classList.add('hidden'); document.body.style.overflow=''; },
     login, edit, home,
@@ -1981,18 +1996,18 @@ body{overflow-x:hidden}
             <div class="bo-admin-card" style="margin-top:18px"><h3>Fulfilment checklist</h3><p style="font-size:13px;color:#728496;line-height:1.8">Confirm order → Pack items → Mark dispatched/shipped → Update delivery status → Print the delivery sheet. New orders sync when Firebase is configured and its secure access rules are deployed.</p></div>
           </section>
           <section class="bo-admin-panel" id="bo-admin-panel-orders">
-            <div class="bo-admin-card"><h3>Orders & delivery</h3><p style="font-size:13px;color:#728496;margin:8px 0 18px">Orders from this browser and your authorized shared cloud. Update the status and print a delivery sheet.</p><p id="bo-orders-panel-cloud" class="bo-muted"></p>
+            <div class="bo-admin-card"><h3>Orders & delivery</h3><p style="font-size:13px;color:#728496;margin:8px 0 18px">Shared store orders and preserved device records. Status changes are confirmed by the store server.</p><p id="bo-orders-panel-cloud" class="bo-muted"></p>
               <div class="bo-order-find"><label for="bo-order-id-search" class="bo-admin-label">Find an order by Order ID</label>
                 <div class="bo-order-find-controls"><input class="bo-admin-field" id="bo-order-id-search" type="search" autocomplete="off" placeholder="Search order ID (full or partial)" oninput="boAdmin.refreshOrders()" aria-label="Search orders by ID">
                   <button class="bo-admin-btn secondary" type="button" onclick="document.getElementById('bo-order-id-search').value='';boAdmin.refreshOrders()">Clear</button>
-                  <button class="bo-admin-btn secondary" type="button" onclick="window.BOordersCloud?.load?.()">Refresh cloud</button></div>
+                  <button class="bo-admin-btn secondary" type="button" onclick="window.BOordersCloud?.load?.()">Refresh shared orders</button></div>
                 <p class="bo-muted" id="bo-order-search-count" aria-live="polite"></p>
               </div><div class="bo-table-wrap" id="bo-admin-orders-list"></div></div>
           </section>
           <section class="bo-admin-panel" id="bo-admin-panel-analytics">
             <div class="bo-admin-card">
               <h3>Sales data analysis</h3>
-              <p style="font-size:13px;color:#728496;margin:8px 0 16px">Explore revenue, order volume and product performance from available orders (shared cloud + device).</p>
+              <p style="font-size:13px;color:#728496;margin:8px 0 16px">Explore revenue, order volume and product performance from available orders (shared store + device).</p>
               <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px">
                 <label class="bo-admin-label" for="bo-analytics-range">Reporting period</label>
                 <select class="bo-admin-field" id="bo-analytics-range" style="max-width:240px;margin:0" onchange="boAdmin.renderAnalytics()">
@@ -2080,7 +2095,7 @@ body{overflow-x:hidden}
    const searchText=String($('bo-order-id-search')?.value||'').trim().toLowerCase();
    const matching=orders.map((o,i)=>({o,i})).filter(({o})=>!searchText||String(o.id||o.orderId||o.orderID||'').toLowerCase().includes(searchText));
    const count=$('bo-order-search-count');if(count)count.textContent=searchText?`${matching.length} of ${orders.length} orders match “${searchText}”`:`${orders.length} order(s) available`; 
-   $('bo-admin-orders-list').innerHTML=matching.length?`<table class="bo-admin-table"><thead><tr><th>Order / customer</th><th>Items</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody>${matching.map(({o,i})=>`<tr><td><b>${esc(o.id||o.orderId||o.orderID||'Order')}</b><br>${esc(o.name||'Customer')}<br>${esc(o.phone||'')}<br><small>${esc(o.address||'')} ${esc(o.city||'')} ${esc(o.pin||'')}</small></td><td>${(o.items||[]).map(it=>`${esc(it.name)} × ${Number(it.qty||1)}`).join('<br>')}</td><td>${money(o.total)}</td><td><select class="bo-admin-field" style="min-width:145px;margin:0" onchange="boAdmin.status(${i},this.value)">${['Order Confirmed','Packed','Dispatched','Shipped','Out for Delivery','Delivered','Cancelled'].map(st=>`<option ${st===(o.status||'Order Confirmed')?'selected':''}>${st}</option>`).join('')}</select></td><td><button class="bo-admin-btn secondary" onclick="boAdmin.print(${i})">Print delivery</button></td></tr>`).join('')}</tbody></table>`:(searchText?'<p class="bo-muted" style="padding:16px 0">No order matches that ID. Check the number or clear the search.</p>':'<p class="bo-muted" style="padding:16px 0">No orders are saved yet. Connect your Firebase owner account in Overview to load orders from all devices.</p>');
+   $('bo-admin-orders-list').innerHTML=matching.length?`<table class="bo-admin-table"><thead><tr><th>Order / customer</th><th>Items</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody>${matching.map(({o,i})=>`<tr><td><b>${esc(o.id||o.orderId||o.orderID||'Order')}</b><br>${esc(o.name||'Customer')}<br>${esc(o.phone||'')}<br><small>${esc(o.address||'')} ${esc(o.city||'')} ${esc(o.pin||'')}</small></td><td>${(o.items||[]).map(it=>`${esc(it.name)} × ${Number(it.qty||1)}`).join('<br>')}</td><td>${money(o.total)}</td><td><select class="bo-admin-field" style="min-width:145px;margin:0" onchange="boAdmin.status(${i},this.value)">${[o.status||'Order Confirmed',...(o.allowed_next_statuses||[])].map(st=>`<option ${st===(o.status||'Order Confirmed')?'selected':''}>${st}</option>`).join('')}</select></td><td><button class="bo-admin-btn secondary" onclick="boAdmin.print(${i})">Print delivery</button></td></tr>`).join('')}</tbody></table>`:(searchText?'<p class="bo-muted" style="padding:16px 0">No order matches that ID. Check the number or clear the search.</p>':'<p class="bo-muted" style="padding:16px 0">No orders are saved yet. Connect your Firebase owner account in Overview to load orders from all devices.</p>');
    window.boDrawOrderChart?.();
    const p=products();
    $('bo-admin-product-list').innerHTML=p.length?`<h3 style="font-size:16px;margin:12px 0">Products added here (${p.length})</h3>${p.map(x=>`<div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1f5"><img src="${esc((x.images||[])[0]||'')}" style="width:52px;height:60px;object-fit:cover;border-radius:8px"><div><b>${esc(x.name)}</b><div style="font-size:12px;color:#728496">${esc(x.category)} · ${money(x.price)} · ${(x.images||[]).length} image(s)</div></div></div>`).join('')}`:'';
@@ -2145,17 +2160,18 @@ window.boAdmin={
   openDashboard(){ if(!window.babyoneOwnerIdentity?.()){sessionStorage.removeItem('babyone-admin-session');$('bo-admin-layer').classList.add('hidden');return;} if(sessionStorage.getItem('babyone-admin-session')!=='yes'){this.openLogin();return;} $('bo-admin-layer').classList.remove('hidden'); $('bo-admin-login').classList.add('hidden'); $('bo-admin-dashboard').classList.remove('hidden'); refresh(); initHeroSelect(); renderAnalytics(); window.BOordersCloud?.load?.(); },
   close(){ $('bo-admin-layer').classList.add('hidden'); },
   tab(name,btn){document.querySelectorAll('.bo-admin-panel').forEach(x=>x.classList.remove('active'));$('bo-admin-panel-'+name).classList.add('active');document.querySelectorAll('.bo-admin-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');refresh();if(name==='analytics')renderAnalytics();},
-  status(i,status){
+  async status(i,status){
    const selected=allOrders()[i];if(!selected)return;
-   const now=new Date().toISOString(),local=read(ORD,[]),row=local.find(o=>String(o.id)===String(selected.id));
-   if(row){row.status=status;row.updatedAtISO=now;write(ORD,local)}
-   const remote=window.BOsharedOrderRows?.find(o=>String(o.id)===String(selected.id));
-   if(remote){remote.status=status;remote.updatedAtISO=now}
-   refresh();
-   if(window.BOordersCloud?.user?.())window.BOordersCloud.updateStatus(String(selected.id),status).catch(e=>{
-    const el=document.getElementById('bo-orders-panel-cloud');if(el)el.textContent='Cloud update failed: '+(e.message||e)+' · refresh to check the current status.';
-   });
-   else{const el=document.getElementById('bo-orders-panel-cloud');if(el)el.textContent='Saved locally only. Sign in as the Firebase owner to update other devices.'}
+   const message=document.getElementById('bo-orders-panel-cloud');
+   if(message)message.textContent='Saving order status…';
+   try{
+    const saved=await window.BOordersCloud.updateStatus(String(selected.id),status==='Dispatched'?'Shipped':status);
+    const local=read(ORD,[]),row=local.find(o=>String(o.id)===String(saved.id));
+    if(row){try{Object.assign(row,saved);write(ORD,local)}catch(_){/* Shared database save already succeeded. */}}
+    const remote=window.BOsharedOrderRows?.find(o=>String(o.id)===String(saved.id));
+    if(remote)Object.assign(remote,saved);
+    refresh();if(message)message.textContent='Saved. The customer can now see this status.';
+   }catch(error){refresh();if(message)message.textContent='Status was not saved. '+(error.message||'Try again.');showToast('Status was not saved. '+error.message)}
   },
   print(i){const o=allOrders()[i];if(!o)return;const w=window.open('','_blank','width=800,height=900');if(!w){alert('Allow pop-ups to print the delivery sheet.');return}w.document.write(`<!doctype html><html><head><title>BabyOne delivery sheet</title><style>body{font:14px Arial;padding:28px;color:#222}h1{margin-bottom:4px}small{color:#555}.line{border-bottom:1px solid #ddd;padding:10px 0}.row{display:flex;justify-content:space-between;gap:15px}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border-bottom:1px solid #ddd;padding:10px;text-align:left} @media print{button{display:none}}</style></head><body>
 <h1>BabyOne</h1><small>Delivery & packing slip</small><hr><div class="line"><b>Order:</b> ${esc(o.id||'')} &nbsp; <b>Date:</b> ${esc(o.date||'')}<br><b>Status:</b> ${esc(o.status||'Order Confirmed')}</div><div class="line"><b>Deliver to</b><br>${esc(o.name||'')}<br>${esc(o.phone||'')}<br>${esc(o.address||'')}<br>${esc(o.city||'')} ${esc(o.pin||'')}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Unit price</th></tr></thead><tbody>${(o.items||[]).map(it=>`<tr><td>${esc(it.name)}</td><td>${Number(it.qty||1)}</td><td>${money(it.price)}</td></tr>`).join('')}</tbody></table><h3>Total: ${money(o.total)}</h3><p>Pack carefully. Thank you for choosing BabyOne.</p><script>window.onload=()=>window.print()<\/script>
@@ -2759,9 +2775,9 @@ body.bo-overlay-open #babyone-bottom-nav{opacity:0;pointer-events:none}
 @media(prefers-reduced-motion:reduce){.bo-success-mark{animation:none}.bo-success-mark circle,.bo-success-mark path{animation:none;stroke-dashoffset:0}}
 </style>
 <script id="bo-delivery-rates">
-// One fixed fee for each distinct category in the order; quantity-independent.
+// Delivery is calculated by the Python API using destination postal zones and packed weight.
 window.babyoneDeliveryRates={'New Born':50,'Feeding':60,'Diapering':60,'Clothing':50,'Fashion':50,'Toys & Learning':80,'Hospital Kit':80,'Nursery & Furniture':150,'Cradles & Rockers':150,'Bath & Skincare':50,'Travel & Gear':150,'Mom Care':50};
-window.babyoneDeliveryQuote=function(items){const groups=new Map();items.forEach(function(item){const product=productsData.find(p=>p.id===item.id);let category=item.category||product?.category||'Other';if(category==='Fashion')category='Clothing';groups.set(category,{category:category==='Clothing'?'Fashion':category,rate:window.babyoneDeliveryRates[category]??60});});return Array.from(groups.values());};
+window.babyoneDeliveryQuote=function(){return [];};
 </script>
 
 <style id="bo-compact-swipe-style">
@@ -3875,7 +3891,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
   };
   // Retain any formerly uploaded homepage image rather than discarding a dashboard edit.
   try{
-    const prior=JSON.parse(localStorage.getItem('babyone-admin-hero-v1')||'{}');
+    const prior=window.BO_USE_MYSQL?{}:JSON.parse(localStorage.getItem('babyone-admin-hero-v1')||'{}');
     Object.keys(prior).forEach(key=>{const s=initial.home[Number(key)];if(s&&typeof prior[key]==='string'&&prior[key])s.imageUrl=prior[key]});
   }catch(_){}
   const ids=new Set(), state={};
@@ -3953,7 +3969,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
   }
   function drawFashion(){
     const wrap=document.getElementById('bo-fashion-hero');if(!wrap)return;
-    const slides=state.fashion; if(!slides.length)return;
+    const slides=state.fashion;wrap.hidden=!slides.length;if(!slides.length)return;
     fashionIndex%=slides.length;
     const track=document.getElementById('bo-fashion-hero-slides'),dots=document.getElementById('bo-fashion-hero-dots');
     if(!track||!dots)return;
@@ -4132,12 +4148,12 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
   }
   window.boHeroApplyCloud=async galleries=>{
     if(!Array.isArray(galleries))return;
-    for(const item of galleries){if(item&&SECTION_NAMES[item.section]&&Array.isArray(item.slides)&&item.slides.length){state[item.section]=item.slides.map(s=>({...s,id:s.id||newId()}))}}
+    for(const item of galleries){if(item&&SECTION_NAMES[item.section]&&Array.isArray(item.slides)){state[item.section]=item.slides.map(s=>({...s,id:s.id||newId()}))}}
     await apply();scheduleFashion();
   };
   window.boHeroGalleryDebug=()=>({counts:Object.fromEntries(Object.entries(state).map(([k,v])=>[k,v.length])),editor:!!editor,selectedSection});
-  restoreSaved();
-  setupEditor();
+  if(!window.BO_USE_MYSQL)restoreSaved();
+  if(!window.BO_USE_MYSQL)setupEditor();
   apply().then(()=>{loaded=true;scheduleFashion();}).catch(e=>console.warn('Hero gallery initialization:',e));
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)scheduleFashion()});
   // Keep the upload control as concise as the product editor: file, title, linked product, save.
@@ -4149,6 +4165,8 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
 
 </script>
 <script type="module" id="bo-firebase-cloud-video-v1">
+if(!window.BO_USE_MYSQL){
+
 /* Optional public video backend. Firebase Auth and restrictive Storage/Firestore rules must be enabled by owner.
    Local-device mode works without internet; no unsafe anonymous cloud write permissions. */
 const options={apiKey:'AIzaSyCUjhZo0w2cT3qbAqFDmO4oamGI43PF2Zk',authDomain:'baby-one-a5cd4.firebaseapp.com',projectId:'baby-one-a5cd4',storageBucket:'baby-one-a5cd4.firebasestorage.app',messagingSenderId:'802416402185',appId:'1:802416402185:web:5a13749d67a28aeb38fdd8',measurementId:'G-945RWWZ57S'};
@@ -4340,6 +4358,7 @@ try{
  }
  onAuthStateChanged(auth,user=>{
   signedIn=user||null;
+  if(window.BO_USE_MYSQL)return;
   // Signed-out shoppers still receive public catalogue updates but never private orders.
   if(user){startOrderSubscriptions();storeStatus('Signed in. Checking shared catalogue permissions…');}
   else{window.BOsharedOrderRows=[];window.boTrafficDates=null;startOrderSubscriptions();refreshAdmin();storeStatus('Published catalogue can display to customers. Sign in to edit it.');}
@@ -4419,7 +4438,7 @@ try{
   if(signedIn)orderStatus('Connected as '+signedIn.email+' · shared orders update live.');
  };
  document.addEventListener('DOMContentLoaded',connectUI);connectUI();
- onAuthStateChanged(auth,user=>{signedIn=user||null;if(user){cloudOrders.load()}else{window.boTrafficDates=null;refreshAdmin()}connectUI()});
+ onAuthStateChanged(auth,user=>{signedIn=user||null;if(window.BO_USE_MYSQL)return;if(user){cloudOrders.load()}else{window.boTrafficDates=null;refreshAdmin()}connectUI()});
  window.addEventListener('visibilitychange',()=>{if(!document.hidden&&signedIn&&document.getElementById('bo-admin-layer')&&!document.getElementById('bo-admin-layer').classList.contains('hidden'))cloudOrders.load()});
  // Live Firestore listeners now replace periodic order polling.
  cloudOrders.flush();visit();
@@ -4440,6 +4459,8 @@ try{
  },e=>console.info('BabyOne cloud video list unavailable. Enable public read access in Firestore rules if intended.',e?.code||e?.message));
  window.dispatchEvent(new Event('bo-video-cloud-change'));
 }catch(err){console.info('Cloud video SDK unavailable. Device storage mode remains available.',err?.message);}
+
+}
 </script>
 <style id="bo-mobile-desktop-design-parity-2026">
 /* The same BabyOne visual language on laptop and phone. Compact, consistent rhythm. */
@@ -4629,6 +4650,8 @@ try{
 }
 </script>
 <link rel="stylesheet" href="assets/frontend.css" />
+<link rel="stylesheet" href="assets/glass-workspace.css" />
+<script src="assets/store-workspace.js"></script>
 </body>
 </html>
 

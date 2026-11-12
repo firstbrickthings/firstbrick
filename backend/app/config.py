@@ -15,6 +15,14 @@ class Settings(BaseSettings):
     razorpay_key_secret: str = ''
     razorpay_webhook_secret: str = ''
     enable_test_checkout: bool = False
+    media_endpoint: str = ''
+    media_bucket: str = ''
+    media_region: str = 'auto'
+    media_access_key: str = ''
+    media_secret_key: str = ''
+    sheets_url: str = ''
+    sheets_secret: str = ''
+    sheets_enabled: bool = False
     database_pool_size: int = Field(default=5, ge=1, le=50)
 
     @property

@@ -13,7 +13,7 @@ os.environ['ADMIN_FIREBASE_UIDS'] = 'owner-test-uid'
 from app import auth
 from app.db import engine, sessions
 from app.main import app
-from app.models import Base, Category, Product, Variant
+from app.models import Base, Category, Product, Variant, StoreDocument
 from fastapi.testclient import TestClient
 
 
@@ -23,9 +23,10 @@ def isolated_database(monkeypatch):
     Base.metadata.create_all(engine())
     with sessions()() as db:
         db.add(Category(id='feeding', name='Feeding', delivery_fee='60.00'))
-        db.add(Product(id='bottle', name='Baby bottle', category_id='feeding', sale_enabled=True, metadata_json={}))
+        db.add(Product(id='bottle', name='Baby bottle', category_id='feeding', sale_enabled=True, metadata_json={'shipping':{'weight_kg':'0.5','length_cm':'10','width_cm':'10','height_cm':'10','bulky':False}}))
         db.flush()
         db.add(Variant(id='sku-bottle', product_id='bottle', label='250 ml', price='499.00', stock=5))
+        db.add(StoreDocument(key='shipping',value={'confirmed':True,'cod_enabled':True,'zones':[{'id':'test-kerala','name':'Test Kerala','pin_prefixes':['68'],'bands':[{'up_to_kg':'1','price':'30'}],'extra_kg':'10','max_kg':'35'}]},version=1))
         db.commit()
     def verify(token):
         users = {'customer': ('customer-uid', '+919999999999'), 'other': ('other-uid', '+918888888888'),

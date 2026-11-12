@@ -148,7 +148,7 @@ window.boCloudMergeReels = function(rows){
   try{renderReels();window.boRefreshRails?.()}catch(_e){}
  }
 };
-try{const saved=JSON.parse(localStorage.getItem('babyone-owner-reels-v1')||'null');if(Array.isArray(saved))reelsData.splice(0,reelsData.length,...saved)}catch(e){}
+try{const saved=window.BO_USE_MYSQL?null:JSON.parse(localStorage.getItem('babyone-owner-reels-v1')||'null');if(Array.isArray(saved))reelsData.splice(0,reelsData.length,...saved)}catch(e){}
 /* BabyOne video storage v3 — OPFS with ArrayBuffer IndexedDB fallback.
    Do not put Android content:// File/Blob objects directly into IDB (InvalidBlob).
    Never silently claim local storage publishes videos to all customers. */
@@ -311,11 +311,9 @@ window.addEventListener('resize',()=>{
 
 /* ================= CATEGORIES ================= */
 function renderCategories(){
-  document.getElementById('cat-container').innerHTML = categoriesData.map(c=>`
-    <button class="cat-tile" onclick="filterByCategory('${c.name}')" aria-label="Shop ${c.name}">
-      <img src="${c.img}" alt="${c.name}" loading="lazy" style="--cat-bg:${['#DCEBFA','#F8DFE6','#EAF2FA','#F7E8EC','#E6EFF8','#F5E8DF','#DCEBFA','#F8DFE6','#E6EFF8','#F7E8EC'][categoriesData.indexOf(c)]}" />
-      <span>${c.name}</span>
-    </button>`).join('');
+  const container=document.getElementById('cat-container');if(!container)return;
+  container.innerHTML=categoriesData.map(c=>`<button class="cat-tile" aria-label="Shop ${escapeHtml(c.name)}"><img src="${escapeHtml(c.img)}" alt="${escapeHtml(c.name)}" loading="lazy"><span>${escapeHtml(c.name)}</span></button>`).join('');
+  container.querySelectorAll('button').forEach((button,i)=>button.onclick=()=>filterByCategory(categoriesData[i].name));
 }
 
 /* ================= PROMOS ================= */
@@ -491,7 +489,7 @@ function renderReels(){
           <span class="reel-play"><i class="fa-solid fa-play"></i></span>
         </div>
         <div class="reel-caption">
-          <div class="reel-author">${reel.author}</div>
+          <div class="reel-author">${escapeHtml(reel.author)}</div>
           <h4 class="reel-title">${escapeHtml(reel.title)}</h4>
           ${product ? `
             <div class="reel-shop" onclick="event.stopPropagation(); openProductModal('${product.id}')">
@@ -551,22 +549,9 @@ function stopInlineReel(index, event){
 
 /* ================= REVIEWS ================= */
 function renderReviews(){
-  let stored = [];
-  try { stored = JSON.parse(localStorage.getItem('babyone-site-reviews')||'[]'); } catch(e){}
-  const samples = [
-    { name:'A happy parent', rating:5, message:'Thoughtful essentials and a truly lovely shopping experience.' },
-    { name:'A growing family', rating:5, message:'Beautifully curated for our little one — we keep coming back.' },
-    { name:'BabyOne customer', rating:5, message:'Easy to browse, with such gentle, calming colours.' },
-    { name:'New parents', rating:5, message:'Everything arrived beautifully packaged and exactly as described.' }
-  ];
-  const all = [...stored, ...samples];
-  const html = all.map(r=>`
-    <div class="review-card">
-      <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
-      <p class="review-text">"${escapeHtml(r.message)}"</p>
-      <div class="review-name">— ${escapeHtml(r.name)}</div>
-    </div>`).join('');
-  document.getElementById('reviews-track').innerHTML = html + html;
+  const all=window.BOpublishedReviews||[];
+  const track=document.getElementById('reviews-track');if(!track)return;
+  track.innerHTML=all.map(r=>`<article class="review-card"><div class="review-stars" aria-label="${r.rating} out of 5 stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><p class="review-text">“${escapeHtml(r.message)}”</p><div class="review-name">— ${escapeHtml(r.name)}</div></article>`).join('')||'<p class="bo-review-empty">Parent stories will appear here as they are shared.</p>';
 }
 
 /* ================= NAV ================= */

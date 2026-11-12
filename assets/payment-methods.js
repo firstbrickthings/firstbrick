@@ -9,7 +9,8 @@
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function mount(root, options) {
     const {total, testMode, upiEnabled, gatewayEnabled, allowCod} = options;
-    const amount = '₹' + Number(total).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+    let amount = '₹' + Number(total).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+    let deliveryPending=options.deliveryPending===true;
     const defaultMethod = upiEnabled && gatewayEnabled ? 'RAZORPAY_UPI' : gatewayEnabled ? 'RAZORPAY' : allowCod ? 'COD' : '';
     const methods = [
       ...(gatewayEnabled ? [
@@ -44,12 +45,12 @@
       const appName=apps.find(a=>a.id===app)?.name || 'UPI';
       root.querySelector('#bo-upi-selection').textContent=appName+' selected'+(testMode?' · preview for live payments':'');
       submit.disabled=!canPay();
-      submit.textContent=!canPay()?(upi?'UPI unavailable · choose another method':'Payment unavailable · try again'):method==='COD'?'Place order · '+amount:testMode?(upi?'Test UPI payment · ':'Pay securely · ')+amount:'Pay '+amount+(upi?' with '+appName:'');
+      submit.textContent=deliveryPending&&canPay()?'Calculate delivery':!canPay()?(upi?'UPI unavailable · choose another method':'Payment unavailable · try again'):method==='COD'?'Place order · '+amount:testMode?(upi?'Test UPI payment · ':'Pay securely · ')+amount:'Pay '+amount+(upi?' with '+appName:'');
     }
     root.addEventListener('change',update);
     root.querySelector('.bo-upi-fallback')?.addEventListener('click',()=>{root.querySelector('#bo-payment-RAZORPAY').checked=true;update();root.querySelector('#bo-payment-RAZORPAY').focus();});
     update();
-    return {selection,canPay};
+    return {selection,canPay,setTotal(value){deliveryPending=false;amount='₹'+Number(value).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});root.querySelector('.bo-pay-amount strong').textContent=amount;update();}};
   }
   window.BOpaymentMethods={mount};
 })();

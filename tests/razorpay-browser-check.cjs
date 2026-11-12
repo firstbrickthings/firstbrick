@@ -11,6 +11,8 @@ const baseURL=process.env.BASE_URL||'http://127.0.0.1:8081';
   await page.route('**/*',r=>new URL(r.request().url()).origin===new URL(baseURL).origin?r.continue():r.abort());
   await page.route('**/api/**',r=>{
    const path=new URL(r.request().url()).pathname;
+   if(path==='/api/store/content')return r.fulfill({json:{}});
+   if(path==='/api/store/reviews')return r.fulfill({json:[]});
    if(path==='/api/catalog/products')return r.fulfill({json:{items:[product],total:1}});
    if(path==='/api/catalog/categories')return r.fulfill({json:[{id:'feeding',name:'Feeding',delivery_fee:'60.00'}]});
    if(path==='/api/payments/config')return r.fulfill({json:{razorpay_test_enabled:true,test_mode:true,upi_enabled:upiScenario,upi_availability:upiScenario?'available':'unavailable'}});
@@ -22,7 +24,7 @@ const baseURL=process.env.BASE_URL||'http://127.0.0.1:8081';
    return r.fulfill({status:401,json:{detail:'Test sign-in required'}});
   });
   await page.goto(baseURL,{waitUntil:'networkidle'});
-  await page.waitForFunction(()=>productsData.some(p=>p.serverProduct));
+  await page.waitForFunction(()=>productsData.some(p=>p.serverProduct));await page.locator('[data-decline]').click();
   await page.evaluate(scenario=>{
    window.BOphoneOTP={ready:true,isVerified:()=>true,getIdToken:async()=>'fixture-token'};
    localStorage.setItem('babyone-profile-v1',JSON.stringify({name:'Test Parent',phone:'9999999999',address:'12 Test Street',city:'Kochi',state:'Kerala',pin:'682001'}));

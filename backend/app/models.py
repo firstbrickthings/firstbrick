@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from decimal import Decimal
-from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, Integer, JSON, Numeric, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, Integer, JSON, LargeBinary, Numeric, String, Text, UniqueConstraint
+from sqlalchemy.dialects.mysql import LONGBLOB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -54,6 +55,7 @@ class Customer(Base):
     phone: Mapped[str] = mapped_column(String(20))
     details: Mapped[dict] = mapped_column(JSON, default=dict)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+    first_verified_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
 
 class Order(Base):
@@ -105,4 +107,61 @@ class PaymentEvent(Base):
     event_id: Mapped[str] = mapped_column(String(64), primary_key=True)
     event_type: Mapped[str] = mapped_column(String(50))
     provider_payment_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class StoreDocument(Base):
+    __tablename__ = 'store_documents'
+    key: Mapped[str] = mapped_column(String(100), primary_key=True)
+    value: Mapped[dict] = mapped_column(JSON)
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+
+
+class SiteReview(Base):
+    __tablename__ = 'site_reviews'
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    name: Mapped[str] = mapped_column(String(100))
+    message: Mapped[str] = mapped_column(Text)
+    rating: Mapped[int] = mapped_column(Integer)
+    published: Mapped[bool] = mapped_column(Boolean, default=False)
+    position: Mapped[int] = mapped_column(Integer, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+    __table_args__ = (CheckConstraint('rating >= 1 AND rating <= 5'),)
+
+
+class VisitSession(Base):
+    __tablename__ = 'visit_sessions'
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    source: Mapped[str] = mapped_column(String(100), default='Direct / Unknown')
+    first_seen: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
+    last_seen: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
+
+
+class MediaFile(Base):
+    __tablename__ = 'media_files'
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    object_key: Mapped[str] = mapped_column(String(200))
+    content_type: Mapped[str] = mapped_column(String(100))
+    size: Mapped[int] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class ReportingEvent(Base):
+    __tablename__ = 'reporting_events'
+    id: Mapped[str] = mapped_column(String(80), primary_key=True)
+    kind: Mapped[str] = mapped_column(String(50))
+    payload: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(20), default='pending', index=True)
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    last_error: Mapped[str] = mapped_column(String(150), default='')
+    next_attempt: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class StoreSnapshot(Base):
+    __tablename__ = 'store_snapshots'
+    id: Mapped[str] = mapped_column(String(80), primary_key=True)
+    payload: Mapped[bytes] = mapped_column(LargeBinary().with_variant(LONGBLOB(), 'mysql'))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now)

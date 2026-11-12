@@ -13,7 +13,7 @@ SHIPPING = {'name': 'Test Parent', 'address': '12 Test Street', 'city': 'Kochi',
 
 def payload(client, items=None, key='test-order-request-001'):
     items = items or ITEMS
-    response = client.post('/api/checkout/quote', json={'items': items}, headers=headers())
+    response = client.post('/api/checkout/quote', json={'items': items,'pin':SHIPPING['pin']}, headers=headers())
     assert response.status_code == 200, response.text
     return {'items': items, 'shipping': SHIPPING, 'quote_hash': response.json()['quote_hash'], 'idempotency_key': key}
 

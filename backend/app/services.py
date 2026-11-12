@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from .auth import Identity
 from .config import settings
-from .models import Category, Customer, Order, OrderEvent, Payment, Product, Variant
+from .models import StoreDocument, now, Category, Customer, Order, OrderEvent, Payment, Product, Variant
 from .schemas import CartItem, OrderInput
 
 
@@ -33,15 +33,19 @@ def product_view(product: Product):
 
 def order_view(order: Order):
     date = order.created_at.replace(tzinfo=timezone.utc).isoformat()
+    next_statuses = sorted(TRANSITIONS.get(order.status, set()))
+    if order.payment == 'RAZORPAY':
+        next_statuses = [s for s in next_statuses if s != 'Cancelled'] if order.payment_record and order.payment_record.status == 'paid' else []
     return {'id': order.id, 'dateISO': date, 'date': date, **order.shipping,
             'phone': order.phone.removeprefix('+91'), 'items': order.items,
             'subtotal': money(order.subtotal), 'delivery': money(order.delivery),
             'deliveryBreakdown': order.delivery_breakdown, 'total': money(order.total),
             'currency': 'INR', 'payment': order.payment, 'status': order.status,
-            'payment_status': order.payment_record.status if order.payment_record else 'due_on_delivery'}
+            'payment_status': order.payment_record.status if order.payment_record else 'due_on_delivery',
+            'allowed_next_statuses': next_statuses, 'updatedAtISO': order.updated_at.replace(tzinfo=timezone.utc).isoformat()}
 
 
-def calculate(db: Session, items: list[CartItem], lock=False):
+def calculate(db: Session, items: list[CartItem], lock=False, pin='', payment='RAZORPAY'):
     # Lock products and variants in a consistent order to avoid overselling.
     ids = sorted({item.variant_id for item in items})
     initial = db.scalars(select(Variant).where(Variant.id.in_(ids))).all()
@@ -93,12 +97,13 @@ def calculate(db: Session, items: list[CartItem], lock=False):
                       'name': label, 'image': product.image, 'price': money(variant.price), 'qty': quantity,
                       'category': category.name, 'line_total': money(variant.price * quantity)})
     subtotal = sum((Decimal(line['line_total']) for line in lines), Decimal('0'))
-    breakdown = [categories[key] for key in sorted(categories)]
-    delivery = sum((Decimal(row['rate']) for row in breakdown), Decimal('0'))
+    from .shipping import delivery_quote
+    delivery, breakdown, pending = delivery_quote(db, products, quantities, variants, pin, payment)
     if subtotal + delivery > Decimal('9999999.00'):
         raise HTTPException(422, 'This order exceeds the online order limit. Contact the store.')
     quote = {'items': lines, 'subtotal': money(subtotal), 'delivery': money(delivery),
-             'deliveryBreakdown': breakdown, 'total': money(subtotal + delivery), 'currency': 'INR'}
+             'deliveryBreakdown': breakdown, 'total': money(subtotal + delivery), 'currency': 'INR',
+             'delivery_pending': pending, 'destination_pin': pin}
     if test_products:
         quote['payment_test'] = True
     quote['quote_hash'] = digest(quote)
@@ -130,14 +135,17 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         if existing:
             db.rollback()
             return same(existing)
-        quote, quantities, variants, products = calculate(db, data.items, lock=True)
+        quote, quantities, variants, products = calculate(db, data.items, lock=True, pin=data.shipping.pin, payment=data.payment)
+        if quote['delivery_pending']:
+            raise HTTPException(409, 'Review your delivery quote before placing the order.')
         if quote.get('payment_test') and data.payment != 'RAZORPAY':
             raise HTTPException(422, 'The payment-test product requires Razorpay Test Mode.')
         if quote['quote_hash'] != data.quote_hash:
             raise HTTPException(409, 'Prices or delivery charges changed. Reopen checkout to review the new total.')
         customer = db.get(Customer, user.uid)
         if not customer:
-            customer = Customer(uid=user.uid, phone=user.phone, details=data.shipping.model_dump())
+            from .models import now
+            customer = Customer(uid=user.uid, phone=user.phone, details=data.shipping.model_dump(), first_verified_at=now())
             db.add(customer)
             db.flush()
         else:
@@ -156,6 +164,9 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         if data.payment=='RAZORPAY':
             db.add(Payment(order_id=order.id,amount_paise=int(order.total*100),currency='INR'))
         db.add(OrderEvent(order_id=order.id, actor_uid=user.uid, status=order.status))
+        from .reporting import enqueue_order
+        enqueue_order(db, order, 'order_created')
+        touch_catalog(db)
         db.commit()
         return order
     except IntegrityError:
@@ -185,7 +196,7 @@ def change_status(db: Session, order_id: str, status: str, user: Identity):
             raise HTTPException(409, 'Online payments require a reviewed refund before cancellation. Contact the store.')
     if status == order.status:
         return order
-    if status not in TRANSITIONS[order.status]:
+    if status not in TRANSITIONS.get(order.status, set()):
         raise HTTPException(409, 'This status transition is not allowed.')
     if status == 'Cancelled':
         ids = sorted({line['variant_id'] for line in order.items})
@@ -196,7 +207,17 @@ def change_status(db: Session, order_id: str, status: str, user: Identity):
             variants[line['variant_id']].stock += line['qty']
         for product in products:
             product.version += 1
+    if status == 'Cancelled':
+        touch_catalog(db)
     order.status = status
     db.add(OrderEvent(order_id=order.id, actor_uid=user.uid, status=status))
+    from .reporting import enqueue_order
+    enqueue_order(db, order, 'order_status')
     db.commit()
     return order
+
+
+def touch_catalog(db):
+    from sqlalchemy.dialects.mysql import insert
+    statement=insert(StoreDocument).values(key='catalog_revision',value={},version=1,updated_at=now())
+    db.execute(statement.on_duplicate_key_update(version=StoreDocument.version+1,updated_at=now()))

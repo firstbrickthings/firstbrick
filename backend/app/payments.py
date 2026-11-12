@@ -143,6 +143,8 @@ def apply_payment(db,order,payment,remote,gateway,capture=True):
         if order.status=='Awaiting Payment':
             order.status='Order Confirmed'
             db.add(OrderEvent(order_id=order.id,actor_uid='razorpay',status='Order Confirmed'))
+            from .reporting import enqueue_order
+            enqueue_order(db,order,'payment_confirmed')
     elif remote.get('status')=='failed':payment.status='failed'
     elif remote.get('status')=='authorized':payment.status='authorized'
 

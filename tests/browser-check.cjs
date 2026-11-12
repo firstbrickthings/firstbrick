@@ -10,11 +10,15 @@ const baseURL=process.env.BASE_URL||'http://127.0.0.1:8081';
   const path=new URL(r.request().url()).pathname;
   if(path==='/api/catalog/products'||path==='/api/admin/products')return r.fulfill({json:{items:Array.from({length:60},(_,i)=>({id:'test-'+i,name:'Test product '+i,category_id:'feeding',category:'Feeding',description:'Test product',image:'assets/favicon.svg',active:true,sale_enabled:true,version:1,metadata:{},variants:[{id:'sku-'+i,label:'',price:'100.00',stock:5,enabled:true}]})),total:60}});
   if(path==='/api/catalog/categories')return r.fulfill({json:[{id:'feeding',name:'Feeding',delivery_fee:'60.00'}]});
+  if(path==='/api/me/register')return r.fulfill({json:{registered:true}});
+  if(path==='/api/store/content')return r.fulfill({json:{}});
+  if(path==='/api/store/reviews')return r.fulfill({json:[]});
+  if(path==='/api/admin/overview')return r.fulfill({json:{total_customers:0,new_signups_today:0,total_traffic:0,active_users:0,traffic:[],growth:[],sources:[],recent_customers:[],note:'Fixture'}});
   if(path==='/api/admin/orders')return r.fulfill({json:{items:[],total:0}});
   return r.fulfill({status:401,json:{detail:'Test sign-in required'}});
  });
  await page.goto(baseURL,{waitUntil:'networkidle'});
- await page.waitForTimeout(6000);
+ await page.waitForTimeout(6000);await page.locator('[data-decline]').click();
  assert(await page.locator('#bo-u-modal').evaluate(x=>x.classList.contains('hidden')),'No automatic login popup');
  assert.equal(await page.locator('h1').count(),1,'One meaningful homepage heading');
  for(const width of [1440,390]){
