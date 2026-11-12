@@ -58,6 +58,7 @@
           testLinkOpened=true;window.boU.paymentTest();
         }
       }
+      window.dispatchEvent(new Event('babyone-catalog-ready'));
       return all;
     })().finally(()=>{loading=null});
     return loading;
@@ -214,17 +215,20 @@
       const top=document.querySelector('.bo-admin-top');
       if(top){const live=document.createElement('button');live.id='bo-live-store-data';live.type='button';live.className='bo-admin-btn secondary';live.textContent='Published prices & stock';live.onclick=()=>openAdmin();top.appendChild(live);}
     }
+    let trackingAttempt=0;
     const tracking=document.getElementById('bo-track-form');
     tracking?.addEventListener('submit',async e=>{
       e.preventDefault();e.stopImmediatePropagation();
       const box=document.getElementById('bo-track-result');
       if(!box)return;
-      box.textContent='Checking your order…';
+      const attempt=++trackingAttempt,button=tracking.querySelector('button[type=submit]');delete box.dataset.orderId;
+      box.textContent='Checking your order…';button.disabled=true;button.textContent='Checking…';
       try{
         const id=String(new FormData(tracking).get('orderId')||'').trim();
         const order=await request((adminIdentity?'/admin/orders/':'/me/orders/')+encodeURIComponent(id));
-        box.innerHTML=window.BOworkspace?.trackingCard(order)||'<p>'+esc(order.id)+' · '+esc(order.status)+'</p>';box.dataset.orderId=order.id;
-      }catch(error){delete box.dataset.orderId;box.textContent=error.message;}
+        if(attempt!==trackingAttempt)return;box.innerHTML=window.BOworkspace?.trackingCard(order)||'<p>'+esc(order.id)+' · '+esc(order.status)+'</p>';box.dataset.orderId=order.id;
+      }catch(error){if(attempt!==trackingAttempt)return;delete box.dataset.orderId;box.textContent=error.message;}
+      finally{if(attempt===trackingAttempt){button.disabled=false;button.textContent='Track order';}}
     },true);
   });
   window.addEventListener('babyone-phone-auth-state',checkIdentity);

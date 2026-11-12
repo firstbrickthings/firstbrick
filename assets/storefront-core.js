@@ -433,12 +433,13 @@ function productCard(p){
   if(p.catalogHidden) return '';
   const inWish = wishlist.includes(p.id);
   return `
-    <article class="product babyone-pro-card" role="button" tabindex="0" aria-label="View ${escapeHtml(p.name)} details" onclick="openProductModal('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProductModal('${p.id}')}" >
+    <article class="product babyone-pro-card" role="button" tabindex="0" aria-label="View ${escapeHtml(p.name)} details" onclick="openProductModal('${p.id}')" onkeydown="if(event.target===this&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openProductModal('${p.id}')}" >
       <div class="product-media">
         <span class="product-badge">${escapeHtml(p.badge||'BabyOne Essential')}</span>
         <button class="wish-btn ${inWish?'active':''}" onclick="event.stopPropagation(); toggleWishlist('${p.id}')" aria-label="Save to wishlist">
           <i class="${inWish?'fa-solid':'fa-regular'} fa-heart"></i>
         </button>
+        <button type="button" class="bo-product-share" data-product-id="${escapeHtml(String(p.id))}" onclick="event.stopPropagation();BOproductShare.share(this.dataset.productId)" aria-label="Share ${escapeHtml(p.name)}"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.closest('.product')?.classList.add('image-fallback')" />
         <span class="babyone-card-view">View product <i class="fa-solid fa-arrow-right"></i></span>
       </div>
@@ -958,6 +959,7 @@ function openProductModal(id){
           <button class="btn btn-pink product-detail-add" ${canBuy?`onclick="addToCart('${p.id}')"`:'disabled title="Product is not available for sale"'}><i class="fa-solid fa-bag-shopping"></i> Add to Cart</button>
           <button class="btn btn-outline product-detail-buy" ${canBuy?`onclick="buyProductNow('${p.id}')"`:'disabled title="Product is not available for sale"'}>Buy Now <i class="fa-solid fa-arrow-right"></i></button>
         </div>
+        <button type="button" class="btn btn-outline bo-detail-share" data-product-id="${escapeHtml(String(p.id))}" onclick="BOproductShare.share(this.dataset.productId)"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8" stroke-linecap="round" stroke-linejoin="round"/></svg> Share product</button>
         <button class="btn btn-outline" style="width:100%;margin-top:12px;font-size:10px;padding:14px;" onclick="toggleWishlist('${p.id}'); openProductModal('${p.id}');">
           <i class="fa-${inWish?'solid':'regular'} fa-heart" style="color:${inWish?'var(--pink-500)':'inherit'};"></i>
           ${inWish ? 'Saved to Wishlist' : 'Save to Wishlist'}

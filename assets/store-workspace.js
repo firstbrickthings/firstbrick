@@ -13,7 +13,11 @@ function field(label,name,value='',type='text',extra=''){return `<label class="b
 function check(label,name,checked){return `<label class="bo-work-check"><input name="${name}" type="checkbox" ${checked?'checked':''}> ${esc(label)}</label>`}
 function card(title,text,html){return `<div class="bo-admin-card bo-work-card"><h3>${esc(title)}</h3>${text?`<p class="bo-muted">${esc(text)}</p>`:''}${html}</div>`}
 function table(headers,rows){return `<div class="bo-table-wrap"><table class="bo-admin-table"><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${headers.length}">No records yet.</td></tr>`}</tbody></table></div>`}
-function trackingCard(order){const first=order.items?.[0]||{},more=Math.max(0,(order.items?.length||1)-1),status=String(order.status||'Order received'),cls=status==='Delivered'?'delivered':status==='Cancelled'?'cancelled':'pending';return `<article class="bo-track-card"><img src="${esc(first.image||'assets/favicon.svg')}" alt="${esc(first.name||'Order product')}" loading="lazy"><div><h3>${esc(first.name||'BabyOne order')}${more?` <small>+ ${more} more ${more===1?'item':'items'}</small>`:''}</h3><p>Order ID: ${esc(order.id)}</p><p>Delivery update: ${esc(status)}</p><p>Total: ${money(order.total)}</p><span class="bo-track-pill ${cls}">${esc(status)}</span>${order.updatedAtISO?`<p class="bo-track-stamp">Updated ${esc(new Date(order.updatedAtISO).toLocaleString('en-IN'))}</p>`:''}</div></article>`}
+function trackingCard(order){
+ const first=order.items?.[0]||{},more=Math.max(0,(order.items?.length||1)-1),status=String(order.status||'Order received'),cls=status==='Cancelled'?'cancelled':status==='Awaiting Payment'?'awaiting':'confirmed';
+ const total='₹'+Number(order.total||0).toLocaleString('en-IN',{maximumFractionDigits:2});
+ return `<article class="bo-track-card"><img src="${esc(first.image||'assets/favicon.svg')}" alt="${esc(first.name||'Order product')}" loading="lazy"><div class="bo-track-details"><h3>${esc(first.name||'BabyOne order')}${more?` <span>· +${more} item(s)</span>`:''}</h3><p>Order ID: ${esc(order.id)}</p><p>Delivery update: ${esc(status)}</p><p>Total: ${total}</p><span class="bo-track-pill ${cls}">${esc(status)}</span></div></article>`;
+}
 window.BOworkspace={trackingCard};
 
 async function refreshPublic(force=false){
@@ -166,7 +170,7 @@ async function renderPanel(name){
   if(name==='overview')await overview(target);
   else if(['catalogue','inventory','products'].includes(name))await productList(target,name==='products');
   else if(name==='hero')await contentEditor(target,'hero');
-  else if(name==='video-manager')await contentEditor(target,'videos');
+  else if(name==='video-manager')await BOvideoManager.mount(target,{defaults:defaults.videos,upload,refresh:()=>refreshPublic(true)});
   else if(name==='category-manager')await contentEditor(target,'categories');
   else if(name==='reviews')await reviewsEditor(target);
   else if(name==='delivery')await shippingEditor(target);
@@ -201,6 +205,7 @@ function start(){
  for(const [key,title] of [['reviews','Website Reviews'],['delivery','Delivery charges']])if(!$('bo-admin-panel-'+key)){const button=document.createElement('button');button.type='button';button.dataset.panel=key;button.textContent=title;button.onclick=()=>boAdmin.tab(key,button);nav.appendChild(button);const panel=document.createElement('section');panel.id='bo-admin-panel-'+key;panel.className='bo-admin-panel';main.appendChild(panel)}
  const originalTab=boAdmin.tab;
  boAdmin.tab=function(name,btn){
+  if(name!=='video-manager')window.BOvideoManager?.pause();
   const custom=['overview','catalogue','inventory','products','hero','video-manager','category-manager','reviews','delivery','customers','backup'];
   if(!custom.includes(name)){currentPanel=name;return originalTab.call(this,name,btn)}
   if(!BOserver.isAdmin())return;

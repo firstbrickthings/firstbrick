@@ -43,3 +43,11 @@ The existing premium payment UI is retained, with UPI app choices and no QR. Pro
 - Migration check preserves a full existing catalogue and historical customers, verifies the private snapshot and checks safe reruns/schema consistency.
 - Browser checks cover the original workspace, responsive layouts, image-only promotions, premium payment states, and real API/MySQL product/review/video publishing into a second clean browser, plus owner status saves and customer tracking.
 - Browser authentication/provider fixtures operate only against an isolated `*_test` database or intercept browser responses. They never weaken deployed authentication, send OTP SMS or create live charges.
+
+## Video uploads, sharing and tracking
+
+The Videos panel lists published and hidden videos with Edit, Publish/Hide, ordering and removal controls. Add new video opens file inputs for video and cover, title and a searchable product picker; there are no URL/product-ID inputs. Product search supports all matching results through pagination and keyboard selection. Editing keeps existing files unless replacements are selected. Old device videos can be recovered for review without removing the original files. Saving uses the shared document version, so an upload failure or a conflicting edit cannot silently overwrite a saved video.
+
+Each product card and product detail has Share. Supported devices use native sharing; the fallback copies a product-specific `?product=ID` URL or shows a manual copy dialog. Opening that URL waits for the shared catalogue and opens the matching visible product. Unavailable products do not expose hidden catalogue records.
+
+Order tracking uses the reference's stacked input/button layout and a product-image summary with ID, latest status, total and status badge. The existing verified-customer/owner access checks remain in place.
