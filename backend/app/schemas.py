@@ -58,6 +58,13 @@ class PatternInput(Input):
     available: bool = True
     photo: str = Field(default='', max_length=2000)
 
+    @field_validator('photo')
+    @classmethod
+    def safe_photo(cls,value):
+        from .workspace import safe_url
+        if value and not safe_url(value):raise ValueError('Use a valid website image.')
+        return value
+
 
 class ProductInput(Input):
     name: str = Field(min_length=2, max_length=255)
@@ -70,6 +77,19 @@ class ProductInput(Input):
     patterns: list[PatternInput] = Field(default_factory=list, max_length=50)
     expected_version: int | None = Field(default=None, ge=1)
     shipping: dict | None = None
+    brand: str | None = Field(default=None,max_length=100)
+    sku: str | None = Field(default=None,max_length=100)
+    subcategory: str | None = Field(default=None,max_length=100)
+    badge: str | None = Field(default=None,max_length=100)
+    gallery_images: list[str] | None = Field(default=None,max_length=50)
+
+    @field_validator('gallery_images')
+    @classmethod
+    def safe_gallery(cls,value):
+        from .workspace import safe_url
+        if value is not None and any(not safe_url(v) for v in value):
+            raise ValueError('Use valid uploaded website images.')
+        return value
 
     @field_validator('shipping')
     @classmethod

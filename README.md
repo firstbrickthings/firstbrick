@@ -2,7 +2,7 @@
 
 **Online test site:** https://babyone-web-test.up.railway.app
 
-Frontend, Python API and MySQL are deployed. Razorpay Test Mode is configured. Real OTP login still requires Firebase server credentials and authorization of the deployed domain; Razorpay dashboard webhook registration is also pending. No live payments are enabled.
+Frontend, Python API and MySQL are deployed. Razorpay Test Mode is configured. Firebase phone login is configured on the deployed site. Provider limits and delivery rules still apply. No live payments are enabled.
 
 BabyOne now includes a **Python FastAPI backend and MySQL 8.4 database**, connected to the existing storefront. Firebase handles SMS sign-in; MySQL owns products, approved prices, inventory, customer delivery profiles and orders.
 
@@ -27,7 +27,9 @@ This starts the storefront and database. **Real sign-in and checkout also need F
 - Firebase ID-token verification on the Python server; administrator UIDs configured privately on the server.
 - Server-calculated INR prices and delivery fees; browser-supplied prices are rejected.
 - Transactional stock reservations, protection against overselling, and retry-safe order creation.
-- Customer order history and saved delivery addresses across devices.
+- Customer order history, saved delivery addresses and versioned account carts across devices.
+- Customer profile and saved-cart inspection for verified store administrators.
+- WhatsApp chat button, separate opt-in choices and a durable queue for 20-minute cart reminders and saved order-status updates. Cloud API account registration, private credentials and template approval are required before automatic sending; see the [setup guide](assets/whatsapp-setup.html).
 - A **Manage store** screen for approved administrators: add/edit products, verify selling prices, set stock, enable sales, change delivery fees, and process orders.
 - Order status history, valid fulfilment transitions, and restocking on cancellation.
 - SQL migrations, a repeatable catalog import, Docker configuration, and automated tests.
@@ -38,7 +40,9 @@ The imported **1,569 catalog records** remain drafts for selling: prices need co
 
 1. Configure Firebase credentials and your administrator UID.
 2. Confirm real prices and quantities in **Manage store**.
-3. Choose a Python/MySQL hosting provider, configure HTTPS and backups, and set the frontend's API URL if using a separate host.
+3. Confirm India Post rate cards and product/carton measurements in Dashboard → Delivery charges. PIN prefixes select approved postal zones; the site does not calculate road distance or fetch live postal tariffs.
+4. Connect and verify the store’s Meta WhatsApp account, approve templates and test with an opted-in recipient before enabling automatic sends.
+5. Monitor the existing Railway deployment and keep database backups private.
 
 See [setup, hosting and testing instructions](backend/README.md).
 

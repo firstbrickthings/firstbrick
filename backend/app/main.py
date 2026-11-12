@@ -24,11 +24,16 @@ async def lifespan(app):
     from .reporting import worker
     from .workspace import probe_storage
     await run_in_threadpool(probe_storage)
+    from .messaging import worker as whatsapp_worker
     task=asyncio.create_task(worker())
+    whatsapp_task=asyncio.create_task(whatsapp_worker())
     yield
     task.cancel()
+    whatsapp_task.cancel()
     with suppress(asyncio.CancelledError):
         await task
+    with suppress(asyncio.CancelledError):
+        await whatsapp_task
 
 
 app = FastAPI(lifespan=lifespan, title='BabyOne store API', version='1.0.0', docs_url='/api/docs', openapi_url='/api/openapi.json')
@@ -118,14 +123,21 @@ def categories(db: Session = Depends(database)):
     return [{'id': c.id, 'name': c.name, 'delivery_fee': str(c.delivery_fee)} for c in db.scalars(select(Category).order_by(Category.name))]
 
 
-def product_list(db, offset, limit, q='', category=None, include_hidden=False):
+def product_list(db, offset, limit, q='', category=None, include_hidden=False, subcategory='', stock=''):
     query = select(Product)
     if not include_hidden:
         query = query.where(Product.active.is_(True))
     if q:
-        query = query.where(or_(Product.name.contains(q, autoescape=True), Product.id.contains(q, autoescape=True)))
+        query = query.where(or_(Product.name.contains(q, autoescape=True), Product.id.contains(q, autoescape=True),Product.metadata_json['brand'].as_string().contains(q,autoescape=True),Product.metadata_json['sku'].as_string().contains(q,autoescape=True)))
     if category:
         query = query.where(Product.category_id == category)
+    if subcategory:query=query.where(Product.metadata_json['subcategory'].as_string()==subcategory)
+    if stock=='visible':query=query.where(Product.active.is_(True))
+    elif stock=='hidden':query=query.where(Product.active.is_(False))
+    elif stock=='awaiting':query=query.where(Product.sale_enabled.is_(False))
+    elif stock in {'out','low'}:
+        units=select(func.coalesce(func.sum(Variant.stock),0)).where(Variant.product_id==Product.id,Variant.enabled.is_(True)).scalar_subquery()
+        query=query.where(units==0) if stock=='out' else query.where(units.between(1,5))
     total = db.scalar(select(func.count()).select_from(query.subquery()))
     records = db.scalars(query.order_by(Product.id).offset(offset).limit(limit)).unique().all()
     return {'items': [product_view(p) for p in records], 'total': total, 'offset': offset, 'limit': limit}
@@ -200,8 +212,10 @@ def status(order_id: str, data: StatusInput, user: Identity = Depends(admin), db
 
 @app.get('/api/admin/products')
 def admin_products(offset: int = Query(0, ge=0), limit: int = Query(24, ge=1, le=100),
-                   q: str = Query('', max_length=100), user: Identity = Depends(admin), db: Session = Depends(database)):
-    return product_list(db, offset, limit, q, include_hidden=True)
+                   q: str = Query('', max_length=100), category: str | None = Query(None,max_length=100),
+                   subcategory: str = Query('',max_length=100), stock: str = Query('',pattern=r'^(|visible|hidden|awaiting|out|low)$'),
+                   user: Identity = Depends(admin), db: Session = Depends(database)):
+    return product_list(db, offset, limit, q, category, include_hidden=True,subcategory=subcategory,stock=stock)
 
 
 def write_product(db, data, record):
@@ -220,6 +234,10 @@ def write_product(db, data, record):
     record.description, record.image = data.description, data.image
     record.active, record.sale_enabled = data.active, data.sale_enabled
     record.metadata_json = {**(record.metadata_json or {}), 'patterns': [pattern.model_dump() for pattern in data.patterns]}
+    if len({p.id for p in data.patterns})!=len(data.patterns):raise HTTPException(422,'Pattern IDs must be unique.')
+    for key in ['brand','sku','subcategory','badge']:
+        if key in data.model_fields_set:record.metadata_json={**record.metadata_json,key:getattr(data,key) or ''}
+    if 'gallery_images' in data.model_fields_set:record.metadata_json={**record.metadata_json,'galleryImages':data.gallery_images or []}
     if 'shipping' in data.model_fields_set:
         record.metadata_json = {**record.metadata_json, 'shipping': data.shipping}
     for variant in current.values():
@@ -322,3 +340,12 @@ def admin_order(order_id: str, user: Identity = Depends(admin), db: Session = De
 
 from .legacy import router as legacy_router
 app.include_router(legacy_router)
+
+
+from .carts import router as carts_router
+from .messaging import router as messaging_router
+app.include_router(carts_router)
+app.include_router(messaging_router)
+
+from .catalogue_admin import router as catalogue_admin_router
+app.include_router(catalogue_admin_router)

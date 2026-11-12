@@ -97,13 +97,13 @@ def configuration(db):
     return ShippingConfig.model_validate(row.value) if row else ShippingConfig()
 
 
-def delivery_quote(db, products, quantities, variants, pin='', payment='RAZORPAY'):
+def delivery_quote(db, products, quantities, variants, pin='', payment='RAZORPAY', allow_draft=False):
     if products and all(p.metadata_json.get('payment_test') for p in products.values()):
         return Decimal('0'), [{'category': 'Test payment — no delivery', 'rate': '0.00'}], False
     if not pin:
         return Decimal('0'), [], True
     config = configuration(db)
-    if not config.confirmed:
+    if not config.confirmed and not allow_draft:
         raise HTTPException(409, 'Delivery rates are being confirmed. Contact BabyOne with your PIN for a delivery quote. Your bag is kept.')
     matches = [(len(prefix), zone) for zone in config.zones for prefix in zone.pin_prefixes if pin.startswith(prefix)]
     if not matches:

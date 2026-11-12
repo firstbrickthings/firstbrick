@@ -1379,7 +1379,7 @@ body{overflow-x:hidden}
 
 <!-- FOOTER -->
 <footer class="site-footer bo-compact-footer">
- <div class="bo-footer-top"><a class="bo-footer-logo" href="#" onclick="showSection('home-page');return false">BabyOne</a><a href="tel:+919645762324">+91 96457 62324</a><a href="https://wa.me/919645762324" target="_blank" rel="noopener">WhatsApp support</a></div>
+ <div class="bo-footer-top"><a class="bo-footer-logo" href="#" onclick="showSection('home-page');return false">BabyOne</a><a href="tel:+917034476592">+91 70344 76592</a><a href="https://wa.me/917034476592" target="_blank" rel="noopener">WhatsApp support</a></div>
  <nav class="bo-footer-links" aria-label="Footer"><a href="#" onclick="openAllProducts();return false">Shop</a><a href="#" onclick="boU.orders();return false">My orders</a><a href="#" onclick="boU.support();return false">Contact</a><a href="#" onclick="boU.support();return false">Shipping &amp; return enquiries</a></nav>
  <div class="bo-footer-copy">© 2026 BabyOne. All rights reserved.</div>
 </footer>
@@ -1920,8 +1920,8 @@ body{overflow-x:hidden}
 
   function support(){
     show('Customer Support','We can help with products, payments and deliveries.',`
-      <a class="btn btn-pink" style="display:block;text-align:center;text-decoration:none;width:100%;" href="https://wa.me/919645762324?text=Hi%20BabyOne%2C%20I%20need%20support." target="_blank" rel="noopener">Chat on WhatsApp</a>
-      <p style="font-size:12px;color:var(--ink-soft);margin-top:16px;text-align:center;">+91 96457 62324</p>`);
+      <a class="btn btn-pink" style="display:block;text-align:center;text-decoration:none;width:100%;" href="https://wa.me/917034476592?text=Hi%20BabyOne%2C%20I%20need%20support." target="_blank" rel="noopener">Chat on WhatsApp</a>
+      <p style="font-size:12px;color:var(--ink-soft);margin-top:16px;text-align:center;"><a href="tel:+917034476592">+91 70344 76592</a><br><a href="mailto:babyonestore@gmail.com">babyonestore@gmail.com</a></p>`);
   }
 
   window.BOorderCard=orderCard;
@@ -1997,9 +1997,9 @@ body{overflow-x:hidden}
           </section>
           <section class="bo-admin-panel" id="bo-admin-panel-orders">
             <div class="bo-admin-card"><h3>Orders & delivery</h3><p style="font-size:13px;color:#728496;margin:8px 0 18px">Shared store orders and preserved device records. Status changes are confirmed by the store server.</p><p id="bo-orders-panel-cloud" class="bo-muted"></p>
-              <div class="bo-order-find"><label for="bo-order-id-search" class="bo-admin-label">Find an order by Order ID</label>
-                <div class="bo-order-find-controls"><input class="bo-admin-field" id="bo-order-id-search" type="search" autocomplete="off" placeholder="Search order ID (full or partial)" oninput="boAdmin.refreshOrders()" aria-label="Search orders by ID">
-                  <button class="bo-admin-btn secondary" type="button" onclick="document.getElementById('bo-order-id-search').value='';boAdmin.refreshOrders()">Clear</button>
+              <div class="bo-order-find"><label for="bo-order-id-search" class="bo-admin-label">Find by order ID, customer or phone</label>
+                <div class="bo-order-find-controls"><input class="bo-admin-field" id="bo-order-id-search" type="search" autocomplete="off" placeholder="Search order ID, name or phone" oninput="boAdmin.refreshOrders()" aria-label="Search orders by ID">
+                  <select class="bo-admin-field" id="bo-order-status-filter" aria-label="Filter order status" onchange="boAdmin.refreshOrders()"><option value="">All statuses</option><option>Awaiting Payment</option><option>Order Confirmed</option><option>Packed</option><option>Shipped</option><option>Out for Delivery</option><option>Delivered</option><option>Cancelled</option></select><button class="bo-admin-btn secondary" type="button" onclick="document.getElementById('bo-order-id-search').value='';boAdmin.refreshOrders()">Clear</button>
                   <button class="bo-admin-btn secondary" type="button" onclick="window.BOordersCloud?.load?.()">Refresh shared orders</button></div>
                 <p class="bo-muted" id="bo-order-search-count" aria-live="polite"></p>
               </div><div class="bo-table-wrap" id="bo-admin-orders-list"></div></div>
@@ -2093,7 +2093,8 @@ body{overflow-x:hidden}
     ['In transit',orders.filter(o=>['Shipped','Dispatched','Out for Delivery'].includes(o.status)).length],['Delivered',orders.filter(o=>o.status==='Delivered').length]
    ].map(x=>`<div class="bo-admin-stat"><span style="font-size:11px;color:#718497">${x[0]}</span><strong>${x[1]}</strong></div>`).join('');
    const searchText=String($('bo-order-id-search')?.value||'').trim().toLowerCase();
-   const matching=orders.map((o,i)=>({o,i})).filter(({o})=>!searchText||String(o.id||o.orderId||o.orderID||'').toLowerCase().includes(searchText));
+   const statusFilter=String($('bo-order-status-filter')?.value||'');
+   const matching=orders.map((o,i)=>({o,i})).filter(({o})=>(!searchText||[o.id||o.orderId||o.orderID||'',o.name||'',o.phone||''].join(' ').toLowerCase().includes(searchText))&&(!statusFilter||o.status===statusFilter));
    const count=$('bo-order-search-count');if(count)count.textContent=searchText?`${matching.length} of ${orders.length} orders match “${searchText}”`:`${orders.length} order(s) available`; 
    $('bo-admin-orders-list').innerHTML=matching.length?`<table class="bo-admin-table"><thead><tr><th>Order / customer</th><th>Items</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody>${matching.map(({o,i})=>`<tr><td><b>${esc(o.id||o.orderId||o.orderID||'Order')}</b><br>${esc(o.name||'Customer')}<br>${esc(o.phone||'')}<br><small>${esc(o.address||'')} ${esc(o.city||'')} ${esc(o.pin||'')}</small></td><td>${(o.items||[]).map(it=>`${esc(it.name)} × ${Number(it.qty||1)}`).join('<br>')}</td><td>${money(o.total)}</td><td><select class="bo-admin-field" style="min-width:145px;margin:0" onchange="boAdmin.status(${i},this.value)">${[o.status||'Order Confirmed',...(o.allowed_next_statuses||[])].map(st=>`<option ${st===(o.status||'Order Confirmed')?'selected':''}>${st}</option>`).join('')}</select></td><td><button class="bo-admin-btn secondary" onclick="boAdmin.print(${i})">Print delivery</button></td></tr>`).join('')}</tbody></table>`:(searchText?'<p class="bo-muted" style="padding:16px 0">No order matches that ID. Check the number or clear the search.</p>':'<p class="bo-muted" style="padding:16px 0">No orders are saved yet. Connect your Firebase owner account in Overview to load orders from all devices.</p>');
    window.boDrawOrderChart?.();
@@ -4652,9 +4653,14 @@ try{
 <link rel="stylesheet" href="assets/frontend.css" />
 <link rel="stylesheet" href="assets/glass-workspace.css" />
 <link rel="stylesheet" href="assets/video-sharing-tracking.css" />
+<link rel="stylesheet" href="assets/store-upgrade.css" />
 <script src="assets/video-manager.js"></script>
 <script src="assets/product-sharing.js"></script>
+<script src="assets/admin-catalogue.js"></script>
+<script src="assets/admin-sections.js"></script>
 <script src="assets/store-workspace.js"></script>
+<script src="assets/cart-sync.js"></script>
+<script src="assets/store-support.js"></script>
 </body>
 </html>
 

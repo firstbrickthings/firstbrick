@@ -166,6 +166,10 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         db.add(OrderEvent(order_id=order.id, actor_uid=user.uid, status=order.status))
         from .reporting import enqueue_order
         enqueue_order(db, order, 'order_created')
+        from .carts import mark_ordered
+        from .messaging import enqueue_order as enqueue_whatsapp
+        mark_ordered(db,user.uid)
+        enqueue_whatsapp(db,order)
         touch_catalog(db)
         db.commit()
         return order
@@ -213,6 +217,8 @@ def change_status(db: Session, order_id: str, status: str, user: Identity):
     db.add(OrderEvent(order_id=order.id, actor_uid=user.uid, status=status))
     from .reporting import enqueue_order
     enqueue_order(db, order, 'order_status')
+    from .messaging import enqueue_order as enqueue_whatsapp
+    enqueue_whatsapp(db,order)
     db.commit()
     return order
 

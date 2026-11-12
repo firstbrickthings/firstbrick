@@ -145,6 +145,8 @@ def apply_payment(db,order,payment,remote,gateway,capture=True):
             db.add(OrderEvent(order_id=order.id,actor_uid='razorpay',status='Order Confirmed'))
             from .reporting import enqueue_order
             enqueue_order(db,order,'payment_confirmed')
+            from .messaging import enqueue_order as enqueue_whatsapp
+            enqueue_whatsapp(db,order)
     elif remote.get('status')=='failed':payment.status='failed'
     elif remote.get('status')=='authorized':payment.status='authorized'
 

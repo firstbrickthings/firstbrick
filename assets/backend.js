@@ -68,7 +68,7 @@
       const product = records.get(line.id);
       if (!product) throw Error('A product is no longer available. Refresh the catalog and update your bag.');
       const label = line.size || line.variants?.[line.selectedVariant ?? 0]?.size || '';
-      const variant = product.variants.find(v=>v.label===label && v.enabled);
+      const variant = product.variants.find(v=>(line.serverVariantId?v.id===line.serverVariantId:v.label===label)&&v.enabled);
       if (!variant) throw Error('A product option changed. Remove it and select it again.');
       return {variant_id:variant.id, quantity:line.qty, pattern_id:line.patternId || null};
     });
@@ -143,8 +143,8 @@
         const button=document.createElement('button');button.id='bo-server-manage';button.type='button';button.className='btn btn-outline';button.textContent='Dashboard';button.onclick=()=>window.boAdmin.openDashboard();
         document.body.appendChild(button);
       }
-      window.babyoneRefreshOwnerUI?.();return me;
-    } catch (_) { adminIdentity=null;document.getElementById('bo-server-manage')?.remove(); }
+      window.BOverifiedIdentity=me;window.dispatchEvent(new CustomEvent('babyone-server-identity',{detail:me}));window.babyoneRefreshOwnerUI?.();return me;
+    } catch (_) { window.BOverifiedIdentity=null;window.dispatchEvent(new CustomEvent('babyone-server-identity',{detail:null}));adminIdentity=null;document.getElementById('bo-server-manage')?.remove(); }
     window.babyoneRefreshOwnerUI?.();
   }
   async function openAdmin() {

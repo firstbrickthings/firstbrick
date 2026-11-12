@@ -1,0 +1,68 @@
+/* Saved bags belong to verified accounts. Conflicts require an explicit customer choice. */
+(function(){
+'use strict';
+let uid=null,version=0,epoch=0,applying=false,loading=false,dirty=false,timer=null,saving=false,consentBusy=false;
+const api=(path,options={})=>BOserver.request(path,options),read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')??d}catch(_){return d}},write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
+const ownerKey='babyone-cart-owner-v1',cacheKey=id=>'babyone-saved-bag-'+id,previousOwner=read(ownerKey,null)||read('babyone-profile-v1',{})?.firebaseUid;
+if(previousOwner&&typeof cart!=='undefined'&&cart.length){if(!read(cacheKey(previousOwner),null))write(cacheKey(previousOwner),{cart,version:0,dirty:true});applying=true;cart=[];updateCart();applying=false;}
+function cache(){if(uid)write(cacheKey(uid),{cart,version,dirty})}
+const oldUpdate=window.updateCart;
+window.updateCart=function(){oldUpdate.apply(this,arguments);if(applying||loading)return;if(uid){dirty=true;cache();clearTimeout(timer);timer=setTimeout(save,600)}};
+function showStatus(text,choices){
+ let box=document.getElementById('bo-saved-bag-status');if(!box){box=document.createElement('aside');box.id='bo-saved-bag-status';box.className='bo-saved-bag-status';box.setAttribute('role','status');document.getElementById('cart-items-container')?.before(box)}if(!box)return;
+ box.replaceChildren();const p=document.createElement('p');p.textContent=text;box.appendChild(p);for(const [label,fn] of choices||[]){const b=document.createElement('button');b.type='button';b.className='btn btn-outline';b.textContent=label;b.onclick=fn;box.appendChild(b)}
+}
+function fromServer(data){
+ const rows=data.ordered?[]:data.items;
+ return rows.map(line=>{const p=productsData.find(p=>String(p.id)===String(line.id))||{id:line.id||line.variant_id,variants:[],serverProduct:true,currency:'INR'};const index=p.variants.findIndex(v=>v.serverVariantId===line.variant_id);return {...p,cartKey:p.id+'::'+encodeURIComponent(line.size||'default')+'::'+(line.pattern_id||'default'),serverVariantId:line.variant_id,name:line.name+(line.size?' — '+line.size:'')+(line.pattern_name?' — '+line.pattern_name:''),image:line.image||'assets/favicon.svg',price:Number(line.price),size:line.size||'',patternId:line.pattern_id||null,patternName:line.pattern_name||null,qty:line.quantity,selectedVariant:index>=0?index:0}});
+}
+function apply(data){version=data.version;applying=true;cart=fromServer(data);updateCart();applying=false;dirty=false;cache();document.getElementById('bo-saved-bag-status')?.remove()}
+function lines(){return BOserver.cartItems(cart)}
+async function save(){
+ if(!uid||loading||saving||!dirty)return;const account=uid,stamp=epoch;
+ let items;try{items=lines()}catch(e){showStatus(e.message,[['Reload catalogue',async()=>{await BOserver.catalog();save()}]]);return}
+ saving=true;
+ try{
+  const result=await api('/me/cart',{method:'PUT',body:JSON.stringify({items,expected_version:version})});if(stamp!==epoch||uid!==account)return;
+  version=result.version;const changed=JSON.stringify(lines())!==JSON.stringify(items);dirty=changed;cache();if(changed)timer=setTimeout(save,50);else document.getElementById('bo-saved-bag-status')?.remove();
+ }catch(e){if(stamp!==epoch)return;showStatus(e.message,[['Load saved bag',async()=>{const server=await api('/me/cart');apply(server)}],['Keep this device’s bag',async()=>{const server=await api('/me/cart');version=server.version;dirty=true;cache();save()}]])}
+ finally{saving=false;}
+}
+async function connect(me){
+ if(me&&uid===me.uid)return;
+ const stamp=++epoch;clearTimeout(timer);
+ document.querySelectorAll('.bo-whatsapp-choices').forEach(box=>box.remove());
+ if(!me){if(!uid)return;if(uid)cache();uid=null;version=0;dirty=false;loading=false;applying=true;cart=[];updateCart();applying=false;write(ownerKey,null);return;}
+ const guest=uid||previousOwner?[]:structuredClone(cart);if(uid)cache();uid=me.uid;loading=true;dirty=false;write(ownerKey,uid);
+ try{
+  await BOserver.catalog();const server=await api('/me/cart');if(stamp!==epoch)return;
+  const cached=read(cacheKey(uid),null);
+  apply(server);
+  const pending=cached?.dirty?(cached.cart||[]):guest;
+  if(cached?.dirty||pending.length){
+   if(cached?.dirty&&cached.version!==server.version&&server.items.length){applying=true;cart=pending;updateCart();applying=false;dirty=true;showStatus('Your saved bag changed on another device. Choose which version to keep.',[['Load saved bag',()=>apply(server)],['Keep this device’s bag',()=>{version=server.version;dirty=true;save()}]]);return;}
+   const merged=new Map((cached?.dirty?[]:cart).map(i=>[i.cartKey||i.id,i]));for(const line of pending){const key=line.cartKey||line.id,old=merged.get(key);merged.set(key,old?{...old,qty:Math.max(old.qty,line.qty)}:line)}applying=true;cart=[...merged.values()];updateCart();applying=false;dirty=true;cache();
+  }
+  const params=new URLSearchParams(location.search),recovery=params.get('recover_cart');
+  if(params.get('track')){document.getElementById('bo-track-id').value=params.get('track');boU.close();document.getElementById('home-track-order').scrollIntoView({block:'start'});document.getElementById('bo-track-form').requestSubmit();}
+  if(recovery){const restored=await api('/me/cart/recover?'+new URLSearchParams({message_id:recovery,expires:params.get('expires')||'',signature:params.get('signature')||''}));if(stamp!==epoch)return;apply(restored);params.delete('recover_cart');params.delete('expires');params.delete('signature');history.replaceState(null,'',location.pathname+(params.size?'?'+params:'')+location.hash);setTimeout(()=>boU.checkout(),50);}
+ }catch(e){if(stamp===epoch)showStatus('Your bag is kept on this device. '+e.message,[['Retry sync',()=>{const identity=window.BOverifiedIdentity;uid=null;connect(identity)}]])}
+ finally{if(stamp===epoch){loading=false;if(dirty)timer=setTimeout(save,100);mountChoices()}}
+}
+async function mountChoices(){
+ const checkout=document.getElementById('bo-checkout-form'),account=document.getElementById('bo-my-orders-list');const host=checkout||account?.parentElement;if(!uid||!host||host.querySelector('.bo-whatsapp-choices')||consentBusy)return;consentBusy=true;
+ const stamp=epoch;try{const [prefs,contact]=await Promise.all([api('/me/whatsapp'),BOserver.request('/store/contact',{},false)]);if(stamp!==epoch||!host.isConnected||host.querySelector('.bo-whatsapp-choices'))return;
+ const box=document.createElement('fieldset');box.className='bo-whatsapp-choices';box.innerHTML='<legend>WhatsApp updates (optional)</legend><p>Choose messages for your verified mobile number. You can turn them off here or reply STOP.</p><label><input type="checkbox" name="bo_wa_orders"> Order confirmations and delivery updates</label><label><input type="checkbox" name="bo_wa_cart"> One reminder after my bag is unchanged for 20 minutes</label><button type="button" class="btn btn-outline">Save WhatsApp choices</button><p class="bo-wa-choice-status" role="status"></p>';
+ box.querySelector('[name=bo_wa_orders]').checked=prefs.order_updates;box.querySelector('[name=bo_wa_cart]').checked=prefs.cart_reminders;box.querySelector('.bo-wa-choice-status').textContent=contact.whatsapp_automation_active?'':'Automatic messaging is awaiting the store’s WhatsApp connection.';
+ box.querySelector('button').onclick=async()=>{const button=box.querySelector('button'),status=box.querySelector('.bo-wa-choice-status');button.disabled=true;try{await api('/me/whatsapp',{method:'PUT',body:JSON.stringify({order_updates:box.querySelector('[name=bo_wa_orders]').checked,cart_reminders:box.querySelector('[name=bo_wa_cart]').checked})});status.textContent=contact.whatsapp_automation_active?'Your WhatsApp choices are saved.':'Your choices are saved. Messages will start when the store connects WhatsApp.'}catch(e){status.textContent=e.message}finally{button.disabled=false}};
+ if(checkout)checkout.querySelector('#bo-payment-methods')?.before(box);else host.appendChild(box);
+ }catch(_){}finally{consentBusy=false}
+}
+window.addEventListener('babyone-server-identity',e=>connect(e.detail));
+new MutationObserver(()=>mountChoices()).observe(document.body,{childList:true,subtree:true});
+setInterval(async()=>{if(!uid||dirty||loading||saving||document.hidden)return;const stamp=epoch;try{const remote=await api('/me/cart');if(stamp===epoch&&remote.version!==version)apply(remote)}catch(_){}},30000);
+window.BOcartSync={save,connect};
+// Cart recovery keeps the link through OTP sign-in, then opens authenticated checkout.
+if(new URLSearchParams(location.search).has('recover_cart')||new URLSearchParams(location.search).has('track'))setTimeout(()=>{if(!window.BOverifiedIdentity)boU.login(true)},2000);
+const track=new URLSearchParams(location.search).get('track');if(track){document.getElementById('bo-track-id').value=track;document.getElementById('home-track-order')?.scrollIntoView({block:'start'});}
+})();

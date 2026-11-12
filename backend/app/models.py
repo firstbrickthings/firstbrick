@@ -165,3 +165,40 @@ class StoreSnapshot(Base):
     id: Mapped[str] = mapped_column(String(80), primary_key=True)
     payload: Mapped[bytes] = mapped_column(LargeBinary().with_variant(LONGBLOB(), 'mysql'))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class CustomerCart(Base):
+    __tablename__ = 'customer_carts'
+    customer_uid: Mapped[str] = mapped_column(ForeignKey('customers.uid'), primary_key=True)
+    items: Mapped[list] = mapped_column(JSON, default=list)
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+    ordered_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class WhatsAppPreference(Base):
+    __tablename__ = 'whatsapp_preferences'
+    customer_uid: Mapped[str] = mapped_column(ForeignKey('customers.uid'), primary_key=True)
+    phone: Mapped[str] = mapped_column(String(20), index=True)
+    order_updates: Mapped[bool] = mapped_column(Boolean, default=False)
+    cart_reminders: Mapped[bool] = mapped_column(Boolean, default=False)
+    consent_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+
+
+class WhatsAppMessage(Base):
+    __tablename__ = 'whatsapp_messages'
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    customer_uid: Mapped[str] = mapped_column(ForeignKey('customers.uid'), index=True)
+    event_key: Mapped[str] = mapped_column(String(191), unique=True)
+    kind: Mapped[str] = mapped_column(String(30))
+    order_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    cart_version: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    payload: Mapped[dict] = mapped_column(JSON, default=dict)
+    status: Mapped[str] = mapped_column(String(30), default='pending', index=True)
+    provider_id: Mapped[str | None] = mapped_column(String(191), unique=True, nullable=True)
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    last_error: Mapped[str] = mapped_column(String(150), default='')
+    due_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)

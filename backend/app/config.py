@@ -23,6 +23,18 @@ class Settings(BaseSettings):
     sheets_url: str = ''
     sheets_secret: str = ''
     sheets_enabled: bool = False
+    public_store_url: str = 'https://babyone-web-test.up.railway.app'
+    cart_link_secret: str = ''
+    whatsapp_enabled: bool = False
+    whatsapp_access_token: str = ''
+    whatsapp_phone_number_id: str = ''
+    whatsapp_waba_id: str = ''
+    whatsapp_app_secret: str = ''
+    whatsapp_verify_token: str = ''
+    whatsapp_graph_version: str = ''
+    whatsapp_language: str = 'en_US'
+    whatsapp_cart_template: str = 'babyone_cart_reminder'
+    whatsapp_order_template: str = 'babyone_order_update'
     database_pool_size: int = Field(default=5, ge=1, le=50)
 
     @property

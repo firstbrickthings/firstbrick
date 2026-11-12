@@ -11,7 +11,7 @@ from botocore.config import Config
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from fastapi.responses import RedirectResponse, Response
 from pydantic import Field, field_validator
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 from .auth import Identity, admin, identity
 from .config import settings
@@ -270,10 +270,15 @@ def overview(days: int = Query(7,ge=1,le=30),user: Identity = Depends(admin),db:
 
 
 @router.get('/admin/customers')
-def customers(offset: int=Query(0,ge=0),limit: int=Query(50,ge=1,le=100),user: Identity=Depends(admin),db: Session=Depends(database)):
-    rows=db.scalars(select(Customer).order_by(Customer.updated_at.desc()).offset(offset).limit(limit))
-    return {'items':[{'uid':c.uid,'phone':c.phone,'details':c.details,'signup_at':c.first_verified_at.isoformat()+'Z' if c.first_verified_at else None} for c in rows],
-            'total':db.scalar(select(func.count()).select_from(Customer))}
+def customers(offset: int=Query(0,ge=0),limit: int=Query(50,ge=1,le=100),q:str=Query('',max_length=100),user: Identity=Depends(admin),db: Session=Depends(database)):
+    from .models import CustomerCart
+    query=select(Customer)
+    if q:query=query.where(or_(Customer.uid.contains(q,autoescape=True),Customer.phone.contains(q,autoescape=True),Customer.details['name'].as_string().contains(q,autoescape=True)))
+    rows=db.scalars(query.order_by(Customer.updated_at.desc()).offset(offset).limit(limit)).all()
+    carts={c.customer_uid:c for c in db.scalars(select(CustomerCart).where(CustomerCart.customer_uid.in_([r.uid for r in rows])))}
+    return {'items':[{'uid':c.uid,'phone':c.phone,'details':c.details,'signup_at':c.first_verified_at.isoformat()+'Z' if c.first_verified_at else None,
+                      'cart_items':sum(i['quantity'] for i in carts[c.uid].items) if c.uid in carts and not carts[c.uid].ordered_at else 0} for c in rows],
+            'total':db.scalar(select(func.count()).select_from(query.subquery()))}
 
 
 def storage():
