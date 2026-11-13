@@ -2741,7 +2741,7 @@ body.bo-overlay-open #babyone-bottom-nav{opacity:0;pointer-events:none}
  window.babyonePatterns=patterns;window.babyoneIsDiaper=isDiaper;
  function sizeCode(s){s=String(s||'').toLowerCase();if(/xxxl|3xl/.test(s))return 'XXXL';if(/xxl|2xl/.test(s))return 'XXL';if(/extra\s*large|\bxl\b/.test(s))return 'XL';if(/extra\s*small|\bxs\b/.test(s))return 'XS';if(/new\s*born|\bnb\b/.test(s))return 'NB';if(/small|\bs\b/.test(s))return 'S';if(/medium|\bm\b/.test(s))return 'M';if(/large|\bl\b/.test(s))return 'L';return s;}
  const sizeNames=[['NB','New Born'],['S','Small'],['M','Medium'],['L','Large'],['XL','Extra Large'],['XXL','XXL'],['XXXL','XXXL']];
- window.babyoneExpandDiaperSizes=function(p){if(p.boSizesNormalized)return;const old=Array.isArray(p.variants)?p.variants.map(v=>({...v})):[];p.originalDiaperVariants=old;p.variants=sizeNames.map(([code,label])=>{const match=old.find(v=>sizeCode(v.size)===code);return match?{...match,size:match.size,sizeLabel:label}:{size:label,sizeLabel:label,price:p.price,originalPrice:p.originalPrice,availabilityUnconfirmed:true}});old.forEach(v=>{if(!sizeNames.some(([c])=>c===sizeCode(v.size)))p.variants.push(v)});p.selectedVariant=null;p.boSizesNormalized=true;};
+ window.babyoneExpandDiaperSizes=function(p){if(p.boSizesNormalized)return;if(p.serverProduct){p.boSizesNormalized=true;return;}const old=Array.isArray(p.variants)?p.variants.map(v=>({...v})):[];p.originalDiaperVariants=old;p.variants=sizeNames.map(([code,label])=>{const match=old.find(v=>sizeCode(v.size)===code);return match?{...match,size:match.size,sizeLabel:label}:{size:label,sizeLabel:label,price:p.price,originalPrice:p.originalPrice,availabilityUnconfirmed:true}});old.forEach(v=>{if(!sizeNames.some(([c])=>c===sizeCode(v.size)))p.variants.push(v)});p.selectedVariant=null;p.boSizesNormalized=true;};
  window.babyoneDiaperSizeMarkup=function(p){babyoneExpandDiaperSizes(p);return `<div class="babyone-size-options" data-diaper-sizes><strong>Choose size</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${p.selectedVariant===i?'selected':''}" aria-pressed="${p.selectedVariant===i}" ${unavailable(v)?'disabled':''} onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.sizeLabel||v.size)}${unavailable(v)?' · unavailable':''}</button>`).join('')}</div><small>Sizes without confirmed stock are subject to store confirmation.</small></div><p class="bo-variant-error" id="bo-variant-error-${p.id}" role="alert"></p>`};
  const oldSizes=babyoneSizeOptionsMarkup;
  window.babyoneSizeOptionsMarkup=p=>isDiaper(p)?babyoneDiaperSizeMarkup(p):oldSizes(p);
@@ -3238,7 +3238,7 @@ window.boReadImage=async function(file){if(!file)return null;if(!file.type.start
     document.getElementById('bo-detail-bar-price').textContent=price;
     const variant=p.variants?.[p.selectedVariant||0]?.size;
     document.getElementById('bo-detail-bar-variant').textContent=variant?String(variant):'BabyOne';
-    const hasPrice=p.price!==null && p.price!==undefined && p.price!=='' && (!p.serverProduct || (p.sale_enabled && p.variants?.some(v=>v.available)));
+    const hasPrice=babyonePurchaseState(p).canBuy;
     bar.querySelectorAll('button').forEach(btn=>{btn.disabled=!hasPrice;btn.setAttribute('aria-disabled',String(!hasPrice))});
   }
   function updateGalleryCount(id){
@@ -3518,13 +3518,14 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
  if(!modal||!shell||typeof window.openProductModal!=='function')return;
  if(backBtn){backBtn.innerHTML='<span aria-hidden="true" style="font-size:20px;line-height:1;margin-right:12px">‹</span> Back to shopping';backBtn.setAttribute('aria-label','Back to shopping');}
  const oldOpen=window.openProductModal, oldClose=window.closeProductModal;
- let previousFocus=null, lastOpen=0, lastId=null, routeOpening=false;
+ let previousFocus=null, lastOpen=0, lastId=null, lastSelection=null, routeOpening=false;
  function open(id,opts={}){
    const product=(typeof productsData!=='undefined')?productsData.find(p=>String(p.id)===String(id)):null;
    if(!product)return;
    const now=performance.now();
-   if(now-lastOpen<240 && lastId===String(id))return;
-   lastOpen=now;lastId=String(id);
+   const selection=JSON.stringify([product.selectedVariant,product.selectedPatternId,product.price,product.sale_enabled,product.version]);
+   if(now-lastOpen<240 && lastId===String(id)&&lastSelection===selection)return;
+   lastOpen=now;lastId=String(id);lastSelection=selection;
    if(!document.body.classList.contains('bo-product-open'))previousFocus=document.activeElement;
    oldOpen(String(product.id));
    modal.classList.remove('hidden');
@@ -4663,6 +4664,7 @@ try{
 <script src="assets/store-workspace.js"></script>
 <script src="assets/cart-sync.js"></script>
 <script src="assets/store-support.js"></script>
+<script src="assets/purchase-actions.js"></script>
 </body>
 </html>
 

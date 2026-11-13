@@ -23,3 +23,8 @@
  #home-page #babyone-fashion{padding-top:20px!important;padding-bottom:20px!important}.bo-compact-footer{margin-top:8px!important}.bo-footer-top{gap:12px!important}.bo-footer-top a[href^="mailto:"]{word-break:break-word;max-width:100%}
 }
 @media(prefers-reduced-motion:reduce){.bo-whatsapp-float{transition:none}}
+/* Purchase feedback stays visible above the mobile product page and its fixed actions. */
+#toast{z-index:1200!important}body.bo-product-open #toast{bottom:calc(90px + env(safe-area-inset-bottom,0px))!important}
+.bo-purchase-availability{font-size:13px;line-height:1.6;color:#6d5370;padding:12px 14px;border:1px solid #eadce6;background:#fff8fb;border-radius:12px}
+
+#bo-share-sheet{z-index:1150}

@@ -24,12 +24,14 @@
   function storefrontProduct(p) {
     const metadata = p.metadata || {};
     const variants = p.variants.filter(v => v.enabled);
+    const selectedVariant=Math.max(0,variants.findIndex(v=>p.sale_enabled&&Number(v.stock)>0));
+    const selected=variants[selectedVariant];
     return {...metadata, id:p.id, name:p.name, category:p.category, description:p.description,
       image:p.image, currency:'INR', catalogHidden:!p.active, serverProduct:true,
-      sale_enabled:p.sale_enabled, price:variants[0] ? Number(variants[0].price) : null,
+      sale_enabled:p.sale_enabled, price:selected ? Number(selected.price) : null,
       stock:p.sale_enabled ? variants.reduce((sum,v)=>sum+v.stock,0) : 0,
       variants:variants.map(v=>({size:v.label,price:Number(v.price),stock:p.sale_enabled?v.stock:0,serverVariantId:v.id,available:p.sale_enabled&&v.stock>0})),
-      patterns:metadata.patterns || [], selectedVariant:0, diaperSizesExpanded:true,
+      patterns:metadata.patterns || [], selectedVariant, diaperSizesExpanded:true,
       badge:p.sale_enabled ? (metadata.badge || 'BabyOne') : 'Details awaiting confirmation', rating:0, reviews:0};
   }
   async function catalog() {

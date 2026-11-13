@@ -411,18 +411,30 @@ function babyoneExpandDiaperSizes(p){
 }
 function babyoneDiaperSizeMarkup(p){
   babyoneExpandDiaperSizes(p);
-  return `<div class="babyone-size-options"><strong>Choose size</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div><small>Size guide — pick the size that matches your baby's weight.</small></div>`;
+  return `<div class="babyone-size-options"><strong>Choose size</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" ${p.serverProduct&&v.available===false?'disabled title="Out of stock"':''} onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div><small>Size guide — pick the size that matches your baby's weight.</small></div>`;
 }
 function babyoneSizeOptionsMarkup(p){
   if(p.category==='Diapering'&&p.subcategory==='Diapers') return babyoneDiaperSizeMarkup(p);
   if(Array.isArray(p.variants)&&p.variants.length){
-    return `<div class="babyone-size-options"><strong>${p.category==='Diapering'?'Choose size / pack':(p.variants.some(v=>/\bml\b|millilit/i.test(String(v.size||'')))?'Choose volume (ML)':(p.variants.some(v=>/^(red|blue|pink|green|black|white|yellow|purple|grey|gray|beige|brown|orange|navy|cream)$/i.test(String(v.size||'')))?'Choose colour':'Choose size / option'))}</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div></div>`;
+    return `<div class="babyone-size-options"><strong>${p.category==='Diapering'?'Choose size / pack':(p.variants.some(v=>/\bml\b|millilit/i.test(String(v.size||'')))?'Choose volume (ML)':(p.variants.some(v=>/^(red|blue|pink|green|black|white|yellow|purple|grey|gray|beige|brown|orange|navy|cream)$/i.test(String(v.size||'')))?'Choose colour':'Choose size / option'))}</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" ${p.serverProduct&&v.available===false?'disabled title="Out of stock"':''} onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div></div>`;
   }
   return ''; // No size, ml or colour variants configured for this item.
+}
+function babyonePurchaseState(p){
+  if(!p)return {canBuy:false,reason:'This product is unavailable.',stock:0};
+  const v=p.variants?.[p.selectedVariant??0];
+  const price=Number(v?.price??p.price);
+  if(p.serverProduct){
+    if(!p.sale_enabled)return {canBuy:false,reason:'This product is currently unavailable. Contact BabyOne for availability.',stock:0};
+    if(!v||v.available===false||Number(v.stock)<=0)return {canBuy:false,reason:'This option is out of stock. Choose an available size or option.',stock:0};
+  }
+  if(!Number.isFinite(price)||price<=0)return {canBuy:false,reason:'The selling price is being updated. Contact BabyOne for details.',stock:0};
+  return {canBuy:true,reason:'',stock:p.serverProduct?Math.min(100,Number(v.stock)):100};
 }
 function babyoneChooseVariant(id,index){
   const p=productsData.find(x=>x.id===id), v=p?.variants?.[index];
   if(!v)return;
+  if(p.serverProduct&&v.available===false){showToast('This option is out of stock. Choose another option.');return;}
   p.selectedVariant=index;
   p.price=v.price==null?null:Number(v.price);
   p.originalPrice=v.originalPrice==null?null:Number(v.originalPrice);
@@ -439,7 +451,6 @@ function productCard(p){
         <button class="wish-btn ${inWish?'active':''}" onclick="event.stopPropagation(); toggleWishlist('${p.id}')" aria-label="Save to wishlist">
           <i class="${inWish?'fa-solid':'fa-regular'} fa-heart"></i>
         </button>
-        <button type="button" class="bo-product-share" data-product-id="${escapeHtml(String(p.id))}" onclick="event.stopPropagation();BOproductShare.share(this.dataset.productId)" aria-label="Share ${escapeHtml(p.name)}"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.closest('.product')?.classList.add('image-fallback')" />
         <span class="babyone-card-view">View product <i class="fa-solid fa-arrow-right"></i></span>
       </div>
@@ -768,12 +779,12 @@ function updateCart(){
           <p class="cart-line-name">${escapeHtml(i.name)}</p>
           <p class="cart-line-price">${babyoneINRText(unit)}</p>
           <div class="cart-qty-control">
-            <button onclick="changeQty('${i.cartKey||i.id}',-1)" aria-label="Decrease quantity">−</button>
+            <button type="button" data-cart-key="${escapeHtml(i.cartKey||i.id)}" onclick="changeQty(this.dataset.cartKey,-1)" aria-label="Decrease quantity">−</button>
             <span>${i.qty}</span>
-            <button onclick="changeQty('${i.cartKey||i.id}',1)" aria-label="Increase quantity">+</button>
+            <button type="button" data-cart-key="${escapeHtml(i.cartKey||i.id)}" onclick="changeQty(this.dataset.cartKey,1)" aria-label="Increase quantity">+</button>
           </div>
         </div>
-        <button class="cart-remove" onclick="removeFromCart('${i.cartKey||i.id}')" aria-label="Remove ${escapeHtml(i.name)}"><i class="fa-regular fa-trash-can"></i></button>
+        <button class="cart-remove" type="button" data-cart-key="${escapeHtml(i.cartKey||i.id)}" onclick="removeFromCart(this.dataset.cartKey)" aria-label="Remove ${escapeHtml(i.name)}"><i class="fa-regular fa-trash-can"></i></button>
       </article>`;
   }).join('');
   document.getElementById('cart-subtotal').textContent = babyoneINRText(sub);
@@ -922,7 +933,7 @@ function openProductModal(id){
   if(!p) return;
   const related = productsData.filter(x=>!x.catalogHidden && x.id!==id && x.category===p.category).concat(productsData.filter(x=>!x.catalogHidden && x.id!==id && x.category!==p.category)).slice(0,4);
   const hasPrice = p.price!==null && p.price!==undefined && p.price!=='';
-  const canBuy = hasPrice && (!p.serverProduct || (p.sale_enabled && p.variants?.some(v=>v.available)));
+  const purchaseState=babyonePurchaseState(p),canBuy=purchaseState.canBuy;
   const save = p.originalPrice && hasPrice ? Math.round((1-p.price/p.originalPrice)*100) : 0;
   const inWish = wishlist.includes(p.id);
   document.getElementById('modal-product-content').innerHTML = `
@@ -953,7 +964,7 @@ function openProductModal(id){
         </div>
         <p style="font-size:14px;line-height:1.8;color:var(--ink-soft);margin:0 0 18px;">${escapeHtml(p.description||'Thoughtfully selected for everyday care and comfort. Please review product specifications before purchase.')}</p>
         ${babyoneSizeOptionsMarkup(p)}
-        ${p.serverProduct&&!canBuy?'<p role="status" style="font-size:13px;line-height:1.6;color:var(--ink-soft);">This product is not available for sale yet. To test Razorpay, use “Try test payment” at the top of the store.</p>':''}
+        ${!canBuy?'<p role="status" class="bo-purchase-availability">'+escapeHtml(purchaseState.reason)+'</p>':''}
         ${p.priceEstimate?`<p style="font-size:11px;color:#a36b34;margin:8px 0 16px">Estimated prices and size options — confirm before selling.</p>`:""}
         <div class="bo-detail-inline-actions" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <button class="btn btn-pink product-detail-add" ${canBuy?`onclick="addToCart('${p.id}')"`:'disabled title="Product is not available for sale"'}><i class="fa-solid fa-bag-shopping"></i> Add to Cart</button>
