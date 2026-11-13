@@ -3,6 +3,7 @@ import base64
 from email import message_from_bytes
 from sqlalchemy import func, select
 from app import owner_notifications as emails
+from app import payments
 from app.db import sessions
 from app.live_check_catalog import configure, PRODUCT_ID, VARIANT_ID
 from app.models import ReportingEvent, Variant
@@ -152,8 +153,12 @@ def test_one_rupee_check_is_separate_free_delivery_and_does_not_reset(client,liv
     assert saved.json()['kind']=='gateway_check'
     payment=client.post('/api/payments/razorpay/'+saved.json()['id']+'/checkout',headers=headers()).json()
     assert payment['checkout']['amount']==100
+    assert '₹1.00' in payment['checkout']['description'] and '₹10' not in payment['checkout']['description']
     verified=client.post('/api/payments/razorpay/'+saved.json()['id']+'/verify',json=callback(live,payment),headers=headers()).json()
     assert verified['order']['status']=='Payment Verified'
+    captures=live.captures
+    assert payments.audit_recent_live_check()=={'mode':'live','amount_paise':100,'currency':'INR','provider_status':'captured','captured':True,'recorded_status':'paid'}
+    assert live.captures==captures, 'The diagnostic must never capture a payment'
     kept=client.get('/api/me/cart',headers=headers()).json()
     assert kept['version']==cart['version'] and kept['ordered'] is False and kept['items'][0]['variant_id']=='sku-bottle'
     assert client.get('/api/admin/order-activity',headers=headers('owner')).json()['new_count']==0

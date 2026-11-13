@@ -101,3 +101,10 @@ Set `RAZORPAY_MODE=live` after preparation succeeds. The public payment configur
 Each payment stores its original mode and Key ID. Existing rows migrate to `test`; paid history retains that label. An unpaid test order cannot be reopened as a live charge. Quote hashes change when the configured mode changes, requiring customers to review checkout again. The ₹10 no-charge test product is disabled in live mode. Product prices, stock and measured delivery rules still need owner approval before regular sales.
 
 Verification checks HMAC signatures, provider order/amount/currency and captured state in both modes. Test and live callbacks use separate endpoints and secrets, and cannot confirm one another's records. A browser success callback alone never marks an order paid. Complete one owner-initiated live payment to verify the end-to-end UPI flow and inspect its captured status; bank settlement follows the provider's schedule.
+
+
+### Payment descriptions and receipt diagnostics
+
+Live payment-check descriptions use the actual order amount, including the ₹1 catalogue check. The UPI app’s merchant/banking name comes from the Razorpay merchant account, independently of the website hostname or checkout label.
+
+On startup, the server can audit the latest live ₹1 check created within the last hour with a read-only provider request. Operational logs contain only the amount, mode, captured/provider state and MySQL payment state. The audit never captures, refunds or changes an order. Rejected webhook signatures are logged without payloads, signature headers or secrets.

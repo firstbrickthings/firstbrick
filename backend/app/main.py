@@ -27,6 +27,8 @@ async def lifespan(app):
     if settings().razorpay_prepare_live or settings().razorpay_mode=='live':
         from .payments import prepare_live_connection
         await run_in_threadpool(prepare_live_connection)
+        from .payments import audit_recent_live_check
+        await run_in_threadpool(audit_recent_live_check)
     from .messaging import worker as whatsapp_worker
     task=asyncio.create_task(worker())
     whatsapp_task=asyncio.create_task(whatsapp_worker())

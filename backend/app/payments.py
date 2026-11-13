@@ -9,6 +9,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from decimal import Decimal
+from datetime import timedelta
 from functools import lru_cache
 from fastapi import HTTPException
 from sqlalchemy import select
@@ -16,6 +17,37 @@ from sqlalchemy.exc import IntegrityError
 from .config import settings
 from .models import Order, OrderEvent, Payment, PaymentEvent
 from .services import order_view
+
+
+def audit_recent_live_check():
+    """Read one recent ₹1 check at the provider. Never capture, refund or change an order."""
+    if settings().razorpay_mode != 'live':
+        return None
+    import logging
+    from .db import sessions
+    from .models import now
+    logger = logging.getLogger(__name__)
+    try:
+        with sessions()() as db:
+            payment = db.scalar(select(Payment).join(Order).where(
+                Order.kind == 'gateway_check', Payment.mode == 'live', Payment.amount_paise == 100,
+                Payment.provider_order_id.is_not(None), Payment.created_at >= now()-timedelta(hours=1)
+            ).order_by(Payment.created_at.desc(), Payment.id.desc()).limit(1))
+            if not payment:
+                return None
+            rows = Gateway('live').call('GET', '/orders/'+payment.provider_order_id+'/payments').get('items', [])
+            matched = [row for row in rows if row.get('order_id') == payment.provider_order_id
+                       and row.get('amount') == payment.amount_paise and row.get('currency') == 'INR']
+            remote = next((row for row in matched if row.get('status') == 'captured' and row.get('captured') is True), matched[-1] if matched else {})
+            result = {'mode':'live', 'amount_paise':100, 'currency':'INR',
+                      'provider_status':remote.get('status', 'not_found'), 'captured':remote.get('captured') is True,
+                      'recorded_status':payment.status}
+            # Operational status only; no customer details, tokens or payment identifiers.
+            logger.warning('Recent live payment check: %s', json.dumps(result, sort_keys=True))
+            return result
+    except Exception:
+        logger.warning('Recent live payment check: provider status unavailable.')
+        return None
 
 
 class GatewayError(Exception):
@@ -187,7 +219,7 @@ def begin(db,order_id,user):
         validate_provider_order(remote,order,payment)
         payment.provider_order_id=remote['id'];db.commit()
     return {**payment_view(order,payment),'checkout':{'key':gateway.key_id,'order_id':payment.provider_order_id,
-        'amount':payment.amount_paise,'currency':'INR','name':'BabyOne','description':'BabyOne one-time ₹10 payment check' if order.kind=='gateway_check' else 'BabyOne TEST payment' if payment.mode=='test' else 'BabyOne order '+order.id,
+        'amount':payment.amount_paise,'currency':'INR','name':'BabyOne','description':('BabyOne live payment check · ₹'+str((Decimal(payment.amount_paise)/100).quantize(Decimal('0.01')))) if order.kind=='gateway_check' else 'BabyOne TEST payment' if payment.mode=='test' else 'BabyOne order '+order.id,
         'prefill':{'name':order.shipping['name'],'contact':order.phone,'email':order.shipping.get('email','')}}}
 
 
@@ -255,7 +287,10 @@ def webhook(db,body,signature,event_id,mode='test'):
     secret=settings().razorpay_live_webhook_secret if mode=='live' else settings().razorpay_webhook_secret
     if not secret:raise HTTPException(503,'Payment notifications are not configured.')
     expected=hmac.new(secret.encode(),body,hashlib.sha256).hexdigest()
-    if not signature or not hmac.compare_digest(expected,signature):raise HTTPException(400,'Invalid webhook signature.')
+    if not signature or not hmac.compare_digest(expected,signature):
+        import logging
+        logging.getLogger(__name__).warning('Razorpay %s webhook rejected: signature verification failed.',mode)
+        raise HTTPException(400,'Invalid webhook signature.')
     try:data=json.loads(body)
     except ValueError:raise HTTPException(400,'Invalid notification.') from None
     event_type=data.get('event','')
