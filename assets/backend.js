@@ -140,7 +140,7 @@
     });
   }
   async function resumePayment(orderId){
-    try{await completePayment(orderId);showToast('Payment verified.');await window.boU.home();}
+    try{const order=await completePayment(orderId);if(window.BOconfirmation)BOconfirmation.show(order);else{showToast('Payment verified.');await window.boU.home();}}
     catch(error){showToast(error.message)}
   }
   async function paymentConfig(){try{return await request('/payments/config',{},false)}catch(_){return {razorpay_test_enabled:false}}}

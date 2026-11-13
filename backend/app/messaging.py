@@ -44,7 +44,20 @@ def enqueue_order(db,order):
     if db.scalar(select(WhatsAppMessage.id).where(WhatsAppMessage.event_key==key)):return
     db.add(WhatsAppMessage(id=str(uuid4()),customer_uid=order.customer_uid,event_key=key,kind='order_update',order_id=order.id,payload={
         'name':order.shipping.get('name','Customer'),'order_id':order.id,'status':order.status,'total':str(order.total),
-        'items':', '.join(f"{i['name']} × {i['qty']}" for i in order.items)[:600]},due_at=now().replace(microsecond=0)))
+        'items':item_summary(order.items)},due_at=now().replace(microsecond=0)))
+
+
+def item_summary(items):
+    from decimal import Decimal
+    parts=[]
+    for item in items:
+        quantity=item.get('qty',item.get('quantity',1))
+        line=f"{str(item['name'])[:55]} × {quantity} — ₹{Decimal(str(item['price']))*quantity:.2f}"
+        if len(', '.join(parts+[line]))>540:break
+        parts.append(line)
+    remaining=len(items)-len(parts)
+    if remaining:parts.append(f'+{remaining} more item(s); full bill in the checkout link')
+    return ', '.join(parts)
 
 
 def recovery_link(message):
@@ -64,6 +77,8 @@ def recover_cart(message_id:str=Query(...,pattern=r'^[a-f0-9-]{36}$'),expires:in
     from .carts import cart_view
     cart=db.get(CustomerCart,user.uid)
     result=cart_view(db,cart);result['cart_changed']=not cart or cart.version!=row.cart_version
+    customer=db.get(Customer,user.uid)
+    result['checkout_profile']={key:customer.details.get(key,'') for key in ['name','address','city','state','pin','email']} if customer else {}
     return result
 
 
@@ -97,20 +112,35 @@ def build_template(db,message,customer,preference,cart):
     s=settings()
     if message.kind=='cart_reminder':
         if not preference.cart_reminders or not cart or cart.ordered_at or not cart.items or cart.version!=message.cart_version:return None
-        if now()-cart.updated_at<timedelta(minutes=20):return None
+        from .carts import reminder_due
+        if reminder_due(db,cart)>now():return None
         if now()-message.created_at>timedelta(days=1):return None
         # An order placed after this cart activity cancels the reminder even when its cart was saved elsewhere.
-        if db.scalar(select(Order.id).where(Order.customer_uid==customer.uid,Order.created_at>=cart.updated_at).limit(1)):return None
+        if db.scalar(select(Order.id).where(Order.customer_uid==customer.uid,Order.kind=='purchase',Order.created_at>=cart.updated_at).limit(1)):return None
         from .carts import cart_view
         view=cart_view(db,cart)
-        names=', '.join(f"{line['name']} × {line['quantity']}" for line in view['items'])[:600]
-        link=recovery_link(message);values=[customer.details.get('name','Customer'),names,'₹'+view['subtotal']]
+        if not view['items'] or any(not line['available'] for line in view['items']):return None
+        from .live_check_catalog import PRODUCT_ID as live_check_id
+        if any(line.get('id')==live_check_id for line in view['items']):return None
+        names=item_summary(view['items'])
+        summary='Products ₹'+view['subtotal']+' · Delivery calculated at checkout'
+        if customer.details.get('pin'):
+            from .services import calculate
+            from .schemas import CartItem
+            try:
+                quote,*_=calculate(db,[CartItem.model_validate(item) for item in cart.items],pin=customer.details['pin'])
+                if not quote['delivery_pending']:summary='Products ₹'+quote['subtotal']+' · Delivery ₹'+quote['delivery']+' · Total ₹'+quote['total']+' · Est. delivery 5–6 days'
+            except HTTPException:pass
+        link=recovery_link(message);values=[customer.details.get('name','Customer'),names,summary]
         button=link.split('/?',1)[1];template=s.whatsapp_cart_template
     else:
         if not preference.order_updates:return None
         order=db.get(Order,message.order_id)
         if not order or order.status!=message.payload.get('status') or now()-message.created_at>timedelta(days=2):return None
-        p=message.payload;values=[p.get('name','Customer'),p['order_id'],p['status'],p['items'],'₹'+p['total']]
+        p=message.payload
+        summary=f'Products ₹{order.subtotal:.2f} · Delivery ₹{order.delivery:.2f} · Total ₹{order.total:.2f}'
+        if order.status not in {'Delivered','Cancelled'}:summary+=' · Est. delivery 5–6 days'
+        values=[p.get('name','Customer'),p['order_id'],p['status'],p['items'],summary]
         button='?track='+p['order_id'];template=s.whatsapp_order_template
     return {'messaging_product':'whatsapp','recipient_type':'individual','to':preference.phone.removeprefix('+'),
             'type':'template','biz_opaque_callback_data':message.id,
@@ -132,6 +162,10 @@ def drain():
             cart=db.get(CustomerCart,initial.customer_uid);preference=db.get(WhatsAppPreference,initial.customer_uid)
             row=db.scalar(select(WhatsAppMessage).where(WhatsAppMessage.id==identifier).with_for_update().execution_options(populate_existing=True))
             if not row or row.status!='pending' or row.due_at>now():continue
+            if row.kind=='cart_reminder' and cart:
+                from .carts import reminder_due
+                due=reminder_due(db,cart)
+                if due>now():row.due_at=due;db.commit();continue
             body=build_template(db,row,customer,preference,cart) if customer and preference else None
             if body is None:row.status='cancelled';db.commit();continue
             row.attempts+=1;row.status='processing';db.commit()
@@ -142,6 +176,10 @@ def drain():
             cart=db.get(CustomerCart,uid);preference=db.get(WhatsAppPreference,uid)
             row=db.scalar(select(WhatsAppMessage).where(WhatsAppMessage.id==identifier).with_for_update())
             if row.status!='processing':continue
+            if row.kind=='cart_reminder' and cart:
+                from .carts import reminder_due
+                due=reminder_due(db,cart)
+                if due>now():row.status='pending';row.due_at=due;db.commit();continue
             body=build_template(db,row,customer,preference,cart) if customer and preference else None
             if body is None:row.status='cancelled';db.commit();continue
             try:
@@ -165,7 +203,7 @@ async def worker():
         except Exception:
             import logging
             logging.getLogger(__name__).error('WhatsApp worker failed; queued messages retained.')
-        await asyncio.sleep(20)
+        await asyncio.sleep(5)
 
 
 @router.get('/webhooks/whatsapp')

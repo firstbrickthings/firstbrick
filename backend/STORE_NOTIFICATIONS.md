@@ -22,7 +22,15 @@ The worker commits a send intent before calling Gmail. Uncertain responses and i
 
 The optional order-update permission and separate cart-reminder permission are saved to the verified customer's MySQL record. A saved yes or no removes the permission section from future checkouts, across devices. Preferences remain editable under Account; STOP also opts out through the signed WhatsApp webhook. Cookies and store terms do not substitute for these choices.
 
-Cloud API access, the verified store sender, approved utility/marketing templates and signed webhook setup are still required. The floating chat button works independently. The Notifications panel reports missing configuration and distinguishes queued, accepted, delivered and uncertain messages. Existing 20-minute cart-reminder cancellation, order-update and opt-out protections remain in place.
+Cloud API access, the verified store sender, approved utility/marketing templates and signed webhook setup are still required. The floating chat button works independently. The Notifications panel reports missing configuration and distinguishes queued, accepted, delivered and uncertain messages.
+
+Order messages include product quantities/prices and the saved subtotal, delivery charge and total. They show the store's 5–6 day delivery estimate while an order is in progress. Confirmations are queued only after a real order is confirmed (and a prepaid payment is verified); the worker checks the queue every five seconds. Meta controls actual delivery timing.
+
+Cart reminders use the later of the last cart change and authenticated customer activity. Opted-in accounts with active saved bags can report functional activity at most once per 50 seconds; this stores a timestamp, not browsing history. The client reports interaction only while visible and recently used. A private `cart-activity:<uid hash>` document delays the existing single reminder without modifying cart contents, versions or saved-product timestamps. Changes, orders and opt-outs still cancel obsolete reminders.
+
+One signed recovery link restores the complete authenticated bag and fills missing checkout contact fields from the saved customer profile. Current prices and delivery are calculated again before payment. WhatsApp lists quantities and line prices, with a full delivery-inclusive bill where a valid saved PIN permits a quote; otherwise delivery is calculated at checkout. Long carts explicitly show a “more items” note and put the entire bill in the linked checkout. Payment-check products are not promoted as delivery orders.
+
+Checkout now opens Razorpay as the single payment-method selector. A cash-on-delivery choice remains only where the saved delivery configuration allows it. The full-screen verified receipt includes the complete bill, delivery address and estimate; gateway checks explicitly show that no delivery is scheduled. The dashboard redesign changes presentation and navigation while retaining existing data and handlers.
 
 ## Dashboard and reviews
 

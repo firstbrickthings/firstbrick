@@ -5,6 +5,7 @@
  const api=(path,options={})=>BOserver.request(path,options);
  function categoryBanner(){
   const listing=document.getElementById('plp-view');if(!listing)return;
+  const specific=typeof navState!=='undefined'&&navState.subcategory&&navState.subcategory!=='All';listing.classList.toggle('bo-subcategory-view',!!specific);
   let banner=document.getElementById('bo-plp-banner');
   if(!banner){banner=document.createElement('figure');banner.id='bo-plp-banner';banner.className='bo-plp-banner';banner.innerHTML='<img alt="" loading="eager" decoding="async">';listing.querySelector('.bo-plp-heading').after(banner)}
   const published=window.BOpublicContent?.banners?.value.items||[];

@@ -1821,7 +1821,7 @@ body{overflow-x:hidden}
         </div>
       </section>
       <form id="bo-checkout-form"><fieldset class="bo-checkout-delivery"><legend>Delivery details</legend>
-        ${fields(x,true)}</fieldset>
+        ${fields(x,true)}${serverQuote.live_gateway_check?'':'<p class="bo-delivery-promise">Estimated delivery: 5–6 days.</p>'}</fieldset>
         <div id="bo-payment-methods"></div>
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
       </form></div>
@@ -1902,6 +1902,7 @@ body{overflow-x:hidden}
         return remaining>0?[{...line,qty:remaining}]:[];
       });updateCart();
       document.getElementById('cart-drawer').classList.add('hidden');
+      if(window.BOconfirmation){BOconfirmation.show(order);return;}
       show(order.kind==='gateway_check'?'Payment verified':'Order received', order.kind==='gateway_check'?'Your live payment check succeeded. No physical product will be delivered.':`Thank you, ${esc(f.name||'')}! Your order and stock reservation have been saved by the store.`,`
         <div style="text-align:center;padding:24px 0;">
           <div class="bo-success-mark" role="img" aria-label="Order request received"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44"/><path d="M29 51l14 14 29-31"/></svg></div>
@@ -4368,6 +4369,9 @@ try{
 <script src="assets/product-details.js"></script>
 <script src="assets/logistics-admin.js"></script>
 <script src="assets/store-experience.js"></script>
+<link rel="stylesheet" href="assets/premium-workspace.css">
+<script src="assets/order-confirmation.js"></script>
+<script src="assets/premium-workspace.js"></script>
 </body>
 </html>
 

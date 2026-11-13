@@ -32,17 +32,9 @@ const baseURL=process.env.BASE_URL||'http://127.0.0.1:8081';
    const p=productsData[0];cart=[{...p,qty:1,size:'',cartKey:p.id}];updateCart();boU.checkout();
   },scenario);
   await page.waitForSelector('#bo-checkout-form');
-  assert.equal(await page.locator('#bo-checkout-form input[type=password]').count(),0,'No PIN collection in checkout');
-  assert.equal(await page.locator('.bo-upi-lite,.bo-upi-help,.bo-upi-steps,.bo-upi-selection').count(),0,'No repeated instructions below the app choices');
-  if(upiScenario){
-   await page.locator('label:has(#bo-payment-RAZORPAY_UPI)').click();
-   assert(await page.locator('#bo-pay-panel-RAZORPAY_UPI').isVisible());
-   assert.equal(await page.locator('.bo-upi-app').count(),6);
-   await page.locator('label:has(#bo-upi-'+app+')').click();
-  }else{
-   assert.equal(await page.locator('#bo-payment-RAZORPAY_UPI').count(),0,'Unavailable UPI is not offered');
-   assert(await page.locator('#bo-payment-RAZORPAY').isChecked(),'Cards remain available');
-  }
+  assert.equal(await page.locator('#bo-checkout-form input[type=password]').count(),0);
+  assert.equal(await page.locator('.bo-upi-app,.bo-pay-method,.bo-upi-lite,.bo-upi-help').count(),0,'Razorpay is the only payment method selector');
+  assert(await page.locator('.bo-checkout-provider').isVisible());
   assert(!(await page.locator('#bo-checkout-form button[type=submit]').isDisabled()));
   for(const width of [1440,390]){
    await page.setViewportSize({width,height:900});
@@ -50,16 +42,15 @@ const baseURL=process.env.BASE_URL||'http://127.0.0.1:8081';
   }
   await page.locator('#bo-checkout-form button[type=submit]').click();
   if(['paid','upi-disabled'].includes(scenario)||upiScenario){
-   await page.waitForFunction(()=>document.querySelector('#bo-u-content h2').textContent==='Order received');assert.equal(await page.evaluate(()=>cart.length),0);assert.equal(verified,1);
+   await page.waitForFunction(()=>!!document.querySelector('#bo-confirmation-title'));assert.equal(await page.evaluate(()=>cart.length),0);assert.equal(verified,1);
    assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('babyone-orders-v1'))[0].payment_status),'paid');
   }else{await page.waitForFunction(()=>document.querySelector('#bo-order-status').textContent.includes('Receipt has not been confirmed'));assert.equal(await page.evaluate(()=>cart.length),1);assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('babyone-orders-v1')||'[]').length),0);}
   if(upiScenario){
    const display=await page.evaluate(()=>checkoutOptions.config.display);
-   assert.equal(display.blocks.payments.instruments[0].method,'upi');
-   assert.deepEqual(display.blocks.payments.instruments[0].apps,[app]);
+   assert.deepEqual(display.blocks.payments.instruments.map(i=>i.method),['upi','card','netbanking','wallet']);
    assert.deepEqual(display.sequence,['block.payments']);
-   assert.equal(display.preferences.show_default_blocks,false,'One block prevents duplicated UPI options');
-   assert.deepEqual(display.blocks.payments.instruments.map(i=>i.method),['upi','card','netbanking','wallet'],'Fallback channels remain in the same block');
+   assert.equal(display.preferences.show_default_blocks,false);
+   assert.equal(display.blocks.payments.instruments[0].apps,undefined,'Choose the app directly in Razorpay');
   }
   assert.equal(created,1);await context.close();
  }

@@ -8,7 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from .auth import Identity, admin, identity
 from .db import database
-from .models import Customer, CustomerCart, Order, Product, Variant, WhatsAppMessage, WhatsAppPreference, now
+from .models import Customer, CustomerCart, Order, Product, Variant, WhatsAppMessage, WhatsAppPreference, StoreDocument, now
 from .schemas import CartItem, Input
 
 router=APIRouter(prefix='/api')
@@ -71,6 +71,21 @@ def cancel_reminders(db,uid):
         message.status='cancelled'
 
 
+def activity_key(uid):
+    import hashlib
+    return 'cart-activity:'+hashlib.sha256(uid.encode()).hexdigest()
+
+
+def reminder_due(db,cart):
+    from datetime import datetime
+    latest=cart.updated_at
+    activity=db.get(StoreDocument,activity_key(cart.customer_uid))
+    if activity:
+        try:latest=max(latest,datetime.fromisoformat(activity.value['last_active_at']))
+        except (ValueError,KeyError,TypeError):pass
+    return latest+timedelta(minutes=20)
+
+
 def schedule_reminder(db,cart):
     preference=db.get(WhatsAppPreference,cart.customer_uid)
     if not cart.items or cart.ordered_at or not preference or not preference.cart_reminders:return
@@ -78,7 +93,27 @@ def schedule_reminder(db,cart):
     key=event_key('cart',cart.customer_uid,str(cart.version))
     if not db.scalar(select(WhatsAppMessage.id).where(WhatsAppMessage.event_key==key)):
         from uuid import uuid4
-        db.add(WhatsAppMessage(id=str(uuid4()),customer_uid=cart.customer_uid,event_key=key,kind='cart_reminder',cart_version=cart.version,payload={},due_at=cart.updated_at+timedelta(minutes=20)))
+        db.add(WhatsAppMessage(id=str(uuid4()),customer_uid=cart.customer_uid,event_key=key,kind='cart_reminder',cart_version=cart.version,payload={},due_at=reminder_due(db,cart)))
+
+
+@router.post('/me/cart/activity')
+def cart_activity(user:Identity=Depends(identity),db:Session=Depends(database)):
+    lock_customer(db,user)
+    cart=db.get(CustomerCart,user.uid);preference=db.get(WhatsAppPreference,user.uid)
+    if not cart or not cart.items or cart.ordered_at or not preference or not preference.cart_reminders:
+        return {'tracked':False}
+    key=activity_key(user.uid);row=db.get(StoreDocument,key);stamp=now().replace(microsecond=0)
+    if row:
+        from datetime import datetime
+        try:
+            if stamp-datetime.fromisoformat(row.value['last_active_at'])<timedelta(seconds=50):return {'tracked':True}
+        except (ValueError,KeyError,TypeError):pass
+        row.value={'last_active_at':stamp.isoformat()};row.version+=1
+    else:db.add(StoreDocument(key=key,value={'last_active_at':stamp.isoformat()},version=1))
+    db.flush()
+    for message in db.scalars(select(WhatsAppMessage).where(WhatsAppMessage.customer_uid==user.uid,WhatsAppMessage.kind=='cart_reminder',WhatsAppMessage.status=='pending',WhatsAppMessage.cart_version==cart.version).with_for_update()):
+        message.due_at=max(message.due_at,reminder_due(db,cart))
+    db.commit();return {'tracked':True}
 
 
 @router.get('/me/cart')

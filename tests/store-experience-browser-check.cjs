@@ -22,6 +22,7 @@ const base='http://127.0.0.1:8081';
    if(path==='/api/me/reviews'){assert.equal(method,'POST');reviewWrites++;return r.fulfill({status:201,json:{id:'fixture-review',published:false,message:'Thank you. Your review is saved for the store to review before publishing.'}})}
    if(path==='/api/me')return r.fulfill({json:{uid:'fixture-owner',phone:'+919999999999',is_admin:owner}});
    if(path==='/api/me/register')return r.fulfill({json:{registered:true}});
+   if(path==='/api/me/cart/activity')return r.fulfill({json:{tracked:preferences.cart_reminders}});
    if(path==='/api/me/cart')return r.fulfill({json:{items:[],version:0,subtotal:'0',ordered:false}});
    if(path==='/api/me/whatsapp'){
     if(method==='PUT'){writes++;preferences={...preferences,...r.request().postDataJSON(),consent_at:new Date().toISOString()}}else reads++;
@@ -43,6 +44,7 @@ const base='http://127.0.0.1:8081';
    return r.fulfill({status:401,json:{detail:'Fixture sign-in required'}});
   });
   await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>productsData.some(p=>p.id==='babyone-hospital-bag-payment-check'&&p.serverProduct));
+  const hero=await page.locator('#hero').boundingBox();assert(Math.abs(hero.width/hero.height-(width<761?1.6:2.35))<.05,'Hero uses its responsive frame');await page.screenshot({path:'/workspace/work/review/refined-home-'+width+'.png'});
   await page.evaluate(async()=>{window.BOphoneOTP={isVerified:()=>true,getIdToken:async()=>'fixture-only'};localStorage.setItem('babyone-profile-v1',JSON.stringify({name:'Parent',phone:'9999999999',address:'12 Test Street',city:'Mukkam',state:'Kerala',pin:'673661'}));await BOserver.checkIdentity()});
   await page.waitForSelector('#bo-server-manage .bo-order-count');assert.equal(await page.locator('#bo-server-manage .bo-order-count').textContent(),'1');
   await page.evaluate(()=>selectSubcategoryTile('New Born','Hospital Bags'));await page.waitForSelector('#bo-plp-banner img');assert((await page.locator('#bo-plp-banner img').getAttribute('src')).includes('hospital-bag-payment-check'));
@@ -54,25 +56,31 @@ const base='http://127.0.0.1:8081';
   await page.locator('[name=bo_wa_orders]').check();assert.equal(await page.locator('[name=bo_wa_cart]').isChecked(),false);
   await page.evaluate(()=>BOcartSync.saveCheckoutChoices());assert.equal(writes,1);
   await checkout();await page.waitForTimeout(200);assert.equal(await page.locator('#bo-checkout-form .bo-whatsapp-choices').count(),0,'Saved consent is not repeated in checkout');
-  const readsAfter=reads;await page.locator('label:has(#bo-upi-phonepe)').click();await page.waitForTimeout(80);assert.equal(reads,readsAfter,'Hidden saved consent does not cause repeated network reads');
-  assert.equal(await page.locator('.bo-pay-method').count(),4);assert.equal(await page.locator('.bo-upi-app').count(),6);
-  assert.equal(await page.locator('.bo-upi-help,.bo-upi-steps,.bo-upi-lite,.bo-upi-selection').count(),0);
+  const readsAfter=reads;await page.waitForTimeout(80);assert.equal(reads,readsAfter,'Hidden saved consent does not cause repeated reads');
+  assert.equal(await page.locator('.bo-pay-method,.bo-upi-app,.bo-upi-help,.bo-upi-steps,.bo-upi-lite,.bo-upi-selection').count(),0,'Payment is selected only inside Razorpay');
   assert.equal(await page.locator('.bo-pay-action-bar button[type=submit]').count(),1);
   assert((await page.locator('.bo-pay-action-bar .bo-pay-amount strong').textContent()).includes('1.00'));
-  for(const choice of ['RAZORPAY','RAZORPAY_NETBANKING','RAZORPAY_WALLET']){
-   await page.locator('label:has(#bo-payment-'+choice+')').click();assert(await page.locator('#bo-pay-panel-'+choice).isVisible());assert(await page.locator('#bo-pay-panel-RAZORPAY_UPI').isHidden());
-  }
-  await page.locator('label:has(#bo-payment-RAZORPAY_UPI)').click();await page.locator('.bo-payments-premium').scrollIntoViewIfNeeded();
+  assert(await page.locator('#plp-sort').isHidden(),'No filters on a subcategory page');
+  assert((await page.locator('#bo-plp-banner img').boundingBox()).height>=180);
+  await page.locator('.bo-pay-action-bar').scrollIntoViewIfNeeded();
   assert(await page.locator('#bo-u-modal>div').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
-  await page.screenshot({path:'/workspace/work/review/premium-payments-'+width+'.png'});
+  await page.screenshot({path:'/workspace/work/review/direct-checkout-'+width+'.png'});
+  await page.evaluate(o=>BOconfirmation.show({...o,items:[{name:'Cotton Swaddle',qty:1,price:'10.00',image:'assets/favicon.svg'}],name:'Parent',address:'12 Test Road',city:'Mukkam',state:'Kerala',pin:'673661',subtotal:'10.00',delivery:'60.00',total:'70.00'}),orders[0]);
+  assert((await page.locator('.bo-receipt-delivery').textContent()).includes('5–6 days'));
+  assert((await page.locator('.bo-receipt-bill').textContent()).includes('70.00'));
+  assert(await page.locator('#bo-confirmation-page').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
+  await page.screenshot({path:'/workspace/work/review/full-receipt-'+width+'.png'});
+  await page.evaluate(()=>BOconfirmation.close());
   await page.evaluate(()=>{boU.close();showSection('home-page')});await page.locator('.bo-review-invitation button').click();await page.locator('#review-name').fill('A parent');await page.locator('#review-message').fill('Our real purchase feedback.');await page.locator('#site-review-form-wrap button[type=submit]').click();await page.waitForSelector('button:has-text("Review saved")');assert.equal(reviewWrites,1);assert.equal(await page.locator('#reviews-track .review-card').count(),0,'Moderated feedback is not published immediately');
-  await page.evaluate(()=>boAdmin.openDashboard());await page.waitForSelector('#bo-admin-panel-overview.active');assert.equal(acknowledged,0,'Opening the overview leaves new orders unread');
-  await page.locator('.bo-admin-nav [data-panel=orders]').click();await page.waitForFunction(()=>!document.querySelector('#bo-server-manage .bo-order-count'));assert(acknowledged>=1);
-  await page.locator('.bo-admin-nav [data-panel=reviews]').click();await page.waitForSelector('.bo-review-layout-preview');assert((await page.locator('.bo-review-layout-preview').textContent()).includes('not customer reviews'));
-  await page.locator('.bo-admin-nav [data-panel=whatsapp]').click();await page.waitForSelector('#bo-owner-email-status');assert((await page.locator('#bo-owner-email-status').textContent()).includes('Gmail connection required'));
+  await page.evaluate(()=>boAdmin.openDashboard());await page.waitForSelector('#bo-admin-panel-overview.active');assert.equal(acknowledged,0,'Opening the overview leaves new orders unread');assert(await page.locator('.bo-admin-top').evaluate(e=>e.scrollWidth<=e.clientWidth+1),'Dashboard toolbar fits');
+  await page.screenshot({path:'/workspace/work/review/premium-dashboard-'+width+'.png'});
+  async function tab(key){if(width<=900)await page.locator('#bo-dashboard-menu').click();await page.locator('.bo-admin-nav [data-panel='+key+']').click()}
+  await tab('orders');await page.waitForFunction(()=>!document.querySelector('#bo-server-manage .bo-order-count'));assert(acknowledged>=1);
+  await tab('reviews');await page.waitForSelector('.bo-review-layout-preview');assert((await page.locator('.bo-review-layout-preview').textContent()).includes('not customer reviews'));
+  await tab('whatsapp');await page.waitForSelector('#bo-owner-email-status');assert((await page.locator('#bo-owner-email-status').textContent()).includes('Gmail connection required'));
   await page.locator('#bo-email-connection-check').click();await page.waitForFunction(()=>document.querySelector('#bo-owner-email-status [role=status]').textContent.includes('Connect the store Gmail'));
   owner=false;await page.evaluate(()=>BOserver.checkIdentity());assert.equal(await page.locator('#bo-server-manage').count(),0,'Customer accounts never see the owner badge');
   assert.deepEqual(errors,[]);await context.close();
  }
- await browser.close();console.log('PASS: premium payment accordion, ₹1 action row, catalogue banner, persisted opt-in without repeats or request loops, private new-order badges, moderated reviews, labelled admin previews and honest notification readiness at 320/390/1440. No messages or payments sent.');
+ await browser.close();console.log('PASS: direct Razorpay checkout, full-page receipt, premium dashboard, ₹1 action row, larger catalogue banner, persisted opt-in without repeats or request loops, private new-order badges, moderated reviews, labelled admin previews and honest notification readiness at 320/390/1440. No messages or payments sent.');
 })().catch(e=>{console.error(e);process.exit(1)});

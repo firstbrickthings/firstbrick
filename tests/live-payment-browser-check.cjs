@@ -22,10 +22,10 @@ const base='http://127.0.0.1:8081';
   });
   await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>productsData.some(p=>p.serverProduct));await page.locator('[data-decline]').click();
   await page.evaluate(()=>{window.BOphoneOTP={isVerified:()=>true,getIdToken:async()=>'fixture'};localStorage.setItem('babyone-profile-v1',JSON.stringify({name:'Fixture Parent',phone:'9999999999',address:'12 Test Street',city:'Kochi',state:'Kerala',pin:'682001'}));window.Razorpay=function(opts){window.fixtureCheckout=opts;this.on=()=>{};this.open=()=>{window.fixtureOpened=true;opts.handler({razorpay_order_id:'order_livefixture',razorpay_payment_id:'pay_livefixture',razorpay_signature:'a'.repeat(64)})}};cart=[{...productsData[0],qty:1,size:'',cartKey:'bottle'}];updateCart();boU.checkout()});
-  await page.waitForSelector('#bo-checkout-form');assert.equal(await page.locator('.bo-pay-test-badge').count(),0);assert.equal(await page.locator('.bo-upi-app').count(),6);assert.equal(await page.locator('#bo-upi-help,.bo-upi-steps,.bo-upi-lite').count(),0);
-  await page.locator('label:has(#bo-upi-google_pay)').click();assert((await page.locator('#bo-checkout-form button[type=submit]').textContent()).includes('Google Pay'));
+  await page.waitForSelector('#bo-checkout-form');assert.equal(await page.locator('.bo-pay-test-badge').count(),0);assert.equal(await page.locator('.bo-upi-app').count(),0);assert.equal(await page.locator('#bo-upi-help,.bo-upi-steps,.bo-upi-lite').count(),0);
+  assert((await page.locator('#bo-checkout-form button[type=submit]').textContent()).includes('Pay securely'));
   await page.locator('#bo-checkout-form button[type=submit]').click();
-  if(scenario==='paid'){await page.waitForFunction(()=>document.querySelector('#bo-u-content h2').textContent==='Order received');assert.equal(await page.evaluate(()=>cart.length),0);assert.equal(verified,1);assert.equal(await page.evaluate(()=>fixtureCheckout.config.display.blocks.payments.instruments[0].apps[0]),'google_pay');}
+  if(scenario==='paid'){await page.waitForFunction(()=>!!document.querySelector('#bo-confirmation-title'));assert.equal(await page.evaluate(()=>cart.length),0);assert.equal(verified,1);assert.equal(await page.evaluate(()=>fixtureCheckout.config.display.blocks.payments.instruments[0].method),'upi');}
   else{await page.waitForFunction(()=>document.querySelector('#bo-order-status').textContent.includes('Receipt has not been confirmed'));assert.equal(await page.evaluate(()=>cart.length),1);if(scenario==='wrong-mode-key'){assert.equal(await page.evaluate(()=>!!window.fixtureOpened),false);assert.equal(verified,0)}}
   assert.equal(created,1);assert.deepEqual(errors,[]);await context.close();
  }
