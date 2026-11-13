@@ -149,7 +149,7 @@ def customer_details(uid:str=Query(...,min_length=1,max_length=128),user:Identit
 
 class DeliveryPreview(Input):
     pin: str = Field(pattern=r'^[1-9][0-9]{5}$')
-    parcel: dict
+    parcel: dict | None = None
     parcels: int = Field(default=1,ge=1,le=100,strict=True)
     payment: str = Field(default='RAZORPAY',pattern=r'^(COD|RAZORPAY)$')
 
@@ -158,8 +158,11 @@ class DeliveryPreview(Input):
 def preview_delivery(data:DeliveryPreview,user:Identity=Depends(admin),db:Session=Depends(database)):
     from types import SimpleNamespace
     from .shipping import Parcel,configuration,delivery_quote
-    try:parcel=Parcel.model_validate(data.parcel)
-    except ValueError:raise HTTPException(422,'Check all four packed parcel measurements.') from None
-    product=SimpleNamespace(id='preview-parcel',name='Packed parcel',metadata_json={'shipping':parcel.model_dump(mode='json')})
+    metadata={}
+    if configuration(db).pricing_mode == 'weight':
+        try:parcel=Parcel.model_validate(data.parcel)
+        except ValueError:raise HTTPException(422,'Check all four packed parcel measurements.') from None
+        metadata={'shipping':parcel.model_dump(mode='json')}
+    product=SimpleNamespace(id='preview-parcel',name='Packed parcel',metadata_json=metadata)
     total,breakdown,_=delivery_quote(db,{'preview-parcel':product},{'preview-variant':data.parcels},{'preview-variant':SimpleNamespace(product_id='preview-parcel')},data.pin,data.payment,allow_draft=True)
     return {'delivery':str(total),'breakdown':breakdown,'rates_confirmed':configuration(db).confirmed}

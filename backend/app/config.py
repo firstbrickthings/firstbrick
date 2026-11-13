@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     catalog_stock_five_once: bool = False
     catalog_price_ten_once: bool = False
     catalog_publish_prices_once: bool = False
+    shipping_flat_99_once: bool = False
     media_endpoint: str = ''
     media_bucket: str = ''
     media_region: str = 'auto'

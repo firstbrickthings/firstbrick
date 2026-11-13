@@ -61,6 +61,8 @@ def run():
         db.commit()
         from .catalog_setup import apply_requested_setup
         apply_requested_setup(db)
+        from .shipping_setup import apply_flat_delivery
+        apply_flat_delivery(db)
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 
 

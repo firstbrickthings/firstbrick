@@ -2,6 +2,7 @@
 No postcode distance or packaging measurement is invented at checkout.
 """
 from decimal import Decimal, ROUND_CEILING
+from typing import Literal
 from fastapi import HTTPException
 from pydantic import Field, model_validator
 from .schemas import Input, Money
@@ -70,6 +71,8 @@ class Carton(Parcel):
 
 class ShippingConfig(Input):
     origin_pin: str = Field(default='673602', pattern=r'^[1-9][0-9]{5}$')
+    pricing_mode: Literal['weight', 'flat'] = 'weight'
+    flat_rate: Money = Decimal('0')
     confirmed: bool = False
     divisor: int = Field(default=5000, ge=1000, le=10000)
     packing_per_parcel: Money = Decimal('0')
@@ -87,7 +90,7 @@ class ShippingConfig(Input):
             raise ValueError('Zone IDs and PIN prefixes must be unique. More specific prefixes take priority.')
         if len({c.id for c in self.cartons})!=len(self.cartons):
             raise ValueError('Carton IDs must be unique.')
-        if self.confirmed and not self.zones:
+        if self.confirmed and self.pricing_mode == 'weight' and not self.zones:
             raise ValueError('Add a verified postal zone before enabling checkout delivery.')
         return self
 
@@ -105,6 +108,17 @@ def delivery_quote(db, products, quantities, variants, pin='', payment='RAZORPAY
     config = configuration(db)
     if not config.confirmed and not allow_draft:
         raise HTTPException(409, 'Delivery rates are being confirmed. Contact BabyOne with your PIN for a delivery quote. Your bag is kept.')
+    if config.pricing_mode == 'flat':
+        if payment == 'COD' and not config.cod_enabled:
+            raise HTTPException(409, 'Cash on delivery is unavailable. Choose a prepaid payment.')
+        breakdown = [{'category': 'Flat delivery per order', 'mode': 'flat',
+                      'origin_pin': config.origin_pin, 'destination_pin': pin,
+                      'rate': str(config.flat_rate.quantize(Decimal('0.01')))}]
+        total = config.flat_rate
+        if payment == 'COD' and config.cod_surcharge:
+            total += config.cod_surcharge
+            breakdown.append({'category': 'Cash on delivery handling', 'rate': str(config.cod_surcharge)})
+        return total, breakdown, False
     matches = [(len(prefix), zone) for zone in config.zones for prefix in zone.pin_prefixes if pin.startswith(prefix)]
     if not matches:
         raise HTTPException(409, 'Please request a delivery quote for this PIN. Your bag is kept.')

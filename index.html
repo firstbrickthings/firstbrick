@@ -1393,12 +1393,13 @@ body{overflow-x:hidden}
         <i class="fa-solid fa-xmark"></i>
       </button>
       <div id="modal-product-content"></div>
+    </div>
+    <!-- Keep viewport purchase controls outside the scrolling glass panel. -->
       <div id="bo-detail-sticky-bar" hidden role="group" aria-label="Product purchasing options">
         <div class="bo-detail-sticky-summary"><strong id="bo-detail-bar-price"></strong><small id="bo-detail-bar-variant">Selected product</small></div>
         <button type="button" class="bo-detail-sticky-cart" onclick="boProductCTA('cart')"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span>Add to Cart</span></button>
         <button type="button" class="bo-detail-sticky-buy" onclick="boProductCTA('buy')">Buy Now <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
       </div>
-    </div>
   </div>
 </div>
 
@@ -1830,7 +1831,7 @@ body{overflow-x:hidden}
           Subtotal: ${money(subtotal)}<br>
           ${deliveryBreakdown.map(row=>`<div class="bo-bill-row"><span>${esc(row.category)}${row.zone?' · '+esc(row.zone):''}</span><span>${money(row.rate)}</span></div>`).join('')}
           <div class="bo-bill-row"><span>Delivery total</span><span>${money(delivery)}</span></div>
-          <small>${serverQuote.delivery_pending?'Enter your delivery PIN below to calculate the complete total.':'Delivery uses the postal zone and measured packed weight. The final charge is confirmed before payment.'}</small><br>
+          <small>${serverQuote.delivery_pending?'Enter your delivery PIN below to calculate the complete total.':deliveryBreakdown.some(row=>row.mode==='flat')?'One fixed delivery charge applies to this order. The total is confirmed before payment.':'Delivery uses the postal zone and measured packed weight. The final charge is confirmed before payment.'}</small><br>
           <strong style="font-family:'Nunito','Quicksand',sans-serif;font-size:17px;">Total: ${money(total)}</strong>
         </div>
       </div>
@@ -1865,7 +1866,7 @@ body{overflow-x:hidden}
           if(finalQuote.delivery_pending)throw Error('Enter your complete delivery PIN to calculate delivery.');
           if(finalQuote.quote_hash!==serverQuote.quote_hash){
             serverQuote=finalQuote;subtotal=Number(finalQuote.subtotal);delivery=Number(finalQuote.delivery);deliveryBreakdown=finalQuote.deliveryBreakdown;total=Number(finalQuote.total);
-            document.getElementById('bo-checkout-bill').innerHTML='<div class="bo-bill-row"><span>Subtotal</span><span>'+money(subtotal)+'</span></div>'+deliveryBreakdown.map(r=>'<div class="bo-bill-row"><span>'+esc(r.category)+(r.zone?' · '+esc(r.zone):'')+'</span><span>'+money(r.rate)+'</span></div>').join('')+'<div class="bo-bill-row"><strong>Total, including delivery</strong><strong>'+money(total)+'</strong></div><small>Delivery uses postal zone and measured packed weight.</small>';
+            document.getElementById('bo-checkout-bill').innerHTML='<div class="bo-bill-row"><span>Subtotal</span><span>'+money(subtotal)+'</span></div>'+deliveryBreakdown.map(r=>'<div class="bo-bill-row"><span>'+esc(r.category)+(r.zone?' · '+esc(r.zone):'')+'</span><span>'+money(r.rate)+'</span></div>').join('')+'<div class="bo-bill-row"><strong>Total, including delivery</strong><strong>'+money(total)+'</strong></div><small>'+(deliveryBreakdown.some(row=>row.mode==='flat')?'One fixed delivery charge applies to this order.':'Delivery uses postal zone and measured packed weight.')+'</small>';
             paymentMethods.setTotal?.(total);button.textContent='Confirm order · '+money(total);status.textContent='Please review the complete total above, then confirm your order.';button.disabled=false;return;
           }
         }catch(error){status.textContent=error.message;button.disabled=false;return;}
