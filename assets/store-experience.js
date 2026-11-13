@@ -14,7 +14,11 @@
   const categoryImage=categoriesData.find(c=>c.name===category)?.img;
   const origin=custom?.image||published.find(b=>b.published!==false&&b.image)?.image||categoryImage||heroSlidesData.find(s=>s.img)?.img||'';
   const image=banner.querySelector('img');banner.hidden=!origin;
-  if(origin&&image.getAttribute('src')!==origin){image.src=origin;image.onload=()=>{banner.hidden=false};image.onerror=()=>{banner.hidden=true}}
+  if(origin&&image.getAttribute('src')!==origin){
+   image.onload=()=>{banner.hidden=false;banner.classList.toggle('bo-banner-contained',image.naturalWidth/image.naturalHeight<1.6)};
+   image.onerror=()=>{banner.hidden=true};image.src=origin;
+   if(image.complete&&image.naturalWidth)image.onload();
+  }
   const check=productsData.find(p=>p.id==='babyone-hospital-bag-payment-check');
   const newborn=categoriesData.find(c=>c.name==='New Born');
   if(check&&!check.catalogHidden&&check.category==='New Born'&&!window.BOsharedCategories&&newborn&&!(newborn.subcategories||[]).includes('Hospital Bags')){newborn.subcategories=[...(newborn.subcategories||[]),'Hospital Bags'];renderCategories()}

@@ -19,6 +19,8 @@
   for(const button of buttons){const key=button.dataset.panel||'';if(!key)continue;const label=document.createElement('span');label.className='bo-admin-nav-label';label.textContent=labels[key]||button.textContent.trim();button.replaceChildren();button.insertAdjacentHTML('beforeend',icon(key));button.appendChild(label)}
   const assigned=new Set();for(const [name,keys] of groups){const label=document.createElement('span');label.className='bo-admin-nav-group';label.textContent=name;nav.appendChild(label);for(const key of keys){const button=buttons.find(b=>b.dataset.panel===key);if(button){nav.appendChild(button);assigned.add(button)}}}for(const button of buttons)if(!assigned.has(button))nav.appendChild(button);
   const previous=boAdmin.tab;boAdmin.tab=function(name){const result=previous.apply(this,arguments);title.textContent=labels[name]||'Store workspace';nav.querySelectorAll('[data-panel]').forEach(b=>b.setAttribute('aria-current',b.dataset.panel===name?'page':'false'));if(layer.classList.contains('bo-admin-menu-open'))drawer(false);return result};
+  const sectionLabel=document.createElement('span');sectionLabel.className='bo-admin-context';sectionLabel.textContent='STORE MANAGEMENT';title.before(sectionLabel);
+  const account=document.createElement('span');account.className='bo-admin-account';account.innerHTML='<span aria-hidden="true">B</span><span>BabyOne<small>Store workspace</small></span>';header.insertBefore(account,back);
   title.textContent='Overview';
   const resize=()=>{if(innerWidth>900&&layer.classList.contains('bo-admin-menu-open'))drawer(false);nav.inert=innerWidth<=900&&!layer.classList.contains('bo-admin-menu-open')};window.addEventListener('resize',resize);
  }
