@@ -2,7 +2,7 @@
 
 **Online test site:** https://babyone-web-test.up.railway.app
 
-Frontend, Python API and MySQL are deployed. Razorpay Test Mode is configured. Firebase phone login is configured on the deployed site. Provider limits and delivery rules still apply. No live payments are enabled.
+Frontend, Python API and MySQL are deployed. Razorpay Test Mode is configured. Firebase phone login is configured on the deployed site. Provider limits and delivery rules still apply. Live-payment support uses separate private credentials and an explicit mode switch; live readiness is checked before new charges are allowed.
 
 BabyOne now includes a **Python FastAPI backend and MySQL 8.4 database**, connected to the existing storefront. Firebase handles SMS sign-in; MySQL owns products, approved prices, inventory, customer delivery profiles and orders.
 
@@ -34,7 +34,7 @@ This starts the storefront and database. **Real sign-in and checkout also need F
 - Order status history, valid fulfilment transitions, and restocking on cancellation.
 - SQL migrations, a repeatable catalog import, Docker configuration, and automated tests.
 
-The imported **1,569 catalog records** remain drafts for selling: prices need confirmation, stock starts at zero, and sales are disabled until approved. Existing source records and photos are retained. Cash on delivery and Razorpay **Test Mode** checkout are supported. Live payments remain disabled. See the [payment integration guide](backend/RAZORPAY.md).
+The imported **1,569 catalog records** remain drafts for selling: prices need confirmation, stock starts at zero, and sales are disabled until approved. Existing source records and photos are retained. Cash on delivery and Razorpay **Test Mode** checkout are supported. The dedicated no-charge test item is unavailable in live mode; regular products require approved stock, prices and delivery rules. See the [payment integration guide](backend/RAZORPAY.md).
 
 ## Next steps
 

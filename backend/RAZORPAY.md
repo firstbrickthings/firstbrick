@@ -1,6 +1,6 @@
 # Razorpay Test Mode
 
-The Python server integrates Razorpay Standard Checkout with MySQL order/payment records. **Only `rzp_test_` keys are accepted. Live keys are rejected.** No real money is collected by Test Mode.
+The Python server integrates Razorpay Standard Checkout with MySQL order/payment records. **Test and Live modes use separate private keys.** `RAZORPAY_MODE` defaults to `test`. Live charges require verified live credentials and a configured live webhook. Test Mode does not collect real money.
 
 ## Private configuration
 
@@ -73,7 +73,7 @@ A localhost server cannot receive Razorpay webhooks directly. A temporary HTTPS 
 
 See [PAYMENT_TEST_REPORT.md](PAYMENT_TEST_REPORT.md) for the actual captured Test Mode transaction and the limits of the checks.
 
-Run the backend test suite against a throwaway MySQL `_test` database as described in [README.md](README.md). Gateway unit tests use an explicit fake adapter and never access a real merchant account. They cover valid capture, forged signatures, wrong amounts, customer isolation, retries after failures, uncertain gateway creation, webhook signatures/deduplication and rejection of live keys.
+Run the backend test suite against a throwaway MySQL `_test` database as described in [README.md](README.md). Gateway unit tests use an explicit fake adapter and never access a real merchant account. They cover valid capture, forged signatures, wrong amounts, customer isolation, retries after failures, uncertain gateway creation, webhook signatures/deduplication and rejection of wrong-mode keys. Live-mode unit/browser checks use synthetic credentials and mocked provider responses.
 
 UI contract tests block external payment services and simulate SDK callbacks:
 
@@ -82,3 +82,22 @@ CHROMIUM_EXECUTABLE=/usr/bin/chromium node tests/razorpay-browser-check.cjs
 ```
 
 For an actual Razorpay Test Mode transaction, use the official [test card documentation](https://razorpay.com/docs/payments/payments/test-card-details/) and [Standard Checkout integration guide](https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps/). Use test cards only; do not enter real card/bank details. A provider test transaction and a simulated gateway unit test are different checks. Public webhook registration/delivery and real SMS login must be verified separately once their hosting and account configuration exist.
+
+## Live payments
+
+Set `RAZORPAY_LIVE_KEY_ID` and `RAZORPAY_LIVE_KEY_SECRET` privately in Railway. Keep `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` for historical test-order reconciliation. Use a separate strong `RAZORPAY_LIVE_WEBHOOK_SECRET`.
+
+With `RAZORPAY_PREPARE_LIVE=true`, startup authenticates the live pair through a read-only order-list request, then uses the provider webhook API to register/update only this store's dedicated callback. It does not create a payment order, charge a card or debit a bank account. Other webhook URLs remain untouched. New live orders remain disabled until the credentials and webhook are ready.
+
+If the account cannot manage webhooks through its API, configure this in Razorpay Dashboard → Live Mode → Account & Settings → Webhooks:
+
+- URL: `https://babyone-web-test.up.railway.app/api/payments/razorpay/webhook/live`
+- Secret: the value of `RAZORPAY_LIVE_WEBHOOK_SECRET`, copied privately from Railway. Do not use an API Key Secret.
+- Events: `payment.authorized`, `payment.captured`, `payment.failed`, `order.paid`.
+- Keep the webhook enabled. After confirming the correct URL/events/secret, set `RAZORPAY_LIVE_WEBHOOK_CONFIRMED=true` and redeploy. This is owner confirmation of setup, not evidence of a delivered event.
+
+Set `RAZORPAY_MODE=live` after preparation succeeds. The public payment configuration reports the active mode, readiness and provider UPI availability. The frontend shows real-payment labels and keeps the existing UPI app preferences. Payment approval happens inside the supported UPI app; the store never collects a UPI PIN.
+
+Each payment stores its original mode and Key ID. Existing rows migrate to `test`; paid history retains that label. An unpaid test order cannot be reopened as a live charge. Quote hashes change when the configured mode changes, requiring customers to review checkout again. The ₹10 no-charge test product is disabled in live mode. Product prices, stock and measured delivery rules still need owner approval before regular sales.
+
+Verification checks HMAC signatures, provider order/amount/currency and captured state in both modes. Test and live callbacks use separate endpoints and secrets, and cannot confirm one another's records. A browser success callback alone never marks an order paid. Complete one owner-initiated live payment to verify the end-to-end UPI flow and inspect its captured status; bank settlement follows the provider's schedule.

@@ -11,6 +11,7 @@ if not url or not (make_url(url).database or '').endswith('_test'):
     raise RuntimeError('Set DATABASE_URL to a separate MySQL database whose name ends in _test.')
 os.environ['ADMIN_FIREBASE_UIDS'] = 'owner-test-uid'
 from app import auth
+from app.config import settings
 from app.db import engine, sessions
 from app.main import app
 from app.models import Base, Category, Product, Variant, StoreDocument
@@ -19,6 +20,7 @@ from fastapi.testclient import TestClient
 
 @pytest.fixture(autouse=True)
 def isolated_database(monkeypatch):
+    for key,value in {'razorpay_mode':'test','razorpay_key_id':'rzp_test_fixture','razorpay_key_secret':'unit-test-secret-not-a-credential','razorpay_prepare_live':False,'razorpay_live_webhook_confirmed':False}.items():monkeypatch.setattr(settings(),key,value)
     Base.metadata.drop_all(engine())
     Base.metadata.create_all(engine())
     with sessions()() as db:

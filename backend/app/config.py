@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Literal
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -14,6 +15,12 @@ class Settings(BaseSettings):
     razorpay_key_id: str = ''
     razorpay_key_secret: str = ''
     razorpay_webhook_secret: str = ''
+    razorpay_mode: Literal['test','live'] = 'test'
+    razorpay_live_key_id: str = ''
+    razorpay_live_key_secret: str = ''
+    razorpay_live_webhook_secret: str = ''
+    razorpay_prepare_live: bool = False
+    razorpay_live_webhook_confirmed: bool = False
     enable_test_checkout: bool = False
     media_endpoint: str = ''
     media_bucket: str = ''
@@ -52,8 +59,16 @@ class Settings(BaseSettings):
 
     @property
     def test_checkout_enabled(self) -> bool:
-        return (self.enable_test_checkout and self.razorpay_key_id.startswith('rzp_test_')
+        return (self.razorpay_mode == 'test' and self.enable_test_checkout and self.razorpay_key_id.startswith('rzp_test_')
                 and bool(self.razorpay_key_secret))
+
+    def payment_keys(self, mode=None):
+        return (self.razorpay_live_key_id,self.razorpay_live_key_secret) if (mode or self.razorpay_mode)=='live' else (self.razorpay_key_id,self.razorpay_key_secret)
+
+    def payment_keys_configured(self, mode=None):
+        mode=mode or self.razorpay_mode
+        key,secret=self.payment_keys(mode)
+        return mode in {'test','live'} and key.startswith('rzp_'+mode+'_') and len(key)<=80 and bool(secret) and not any(c.isspace() for c in key+secret)
 
 
 @lru_cache

@@ -99,7 +99,8 @@
     if(current.payment_status==='paid')return current.order;
     const config=await request('/payments/razorpay/'+encodeURIComponent(orderId)+'/checkout',{method:'POST'});
     if(config.payment_status==='paid')return config.order;
-    if(!config.checkout?.key?.startsWith('rzp_test_'))throw Error('Only Razorpay Test Mode is enabled.');
+    const mode=config.payment_mode||(config.test_mode===false?'live':'test');
+    if(!['test','live'].includes(mode)||!config.checkout?.key?.startsWith('rzp_'+mode+'_')||(config.order?.payment_mode&&config.order.payment_mode!==mode))throw Error('Payment mode verification failed. Reopen checkout.');
     await loadCheckout();
     return new Promise((resolve,reject)=>{
       let finished=false,checking=false;
@@ -125,12 +126,12 @@
           }catch(_){}
           done(Error('Payment was not confirmed. Your bag is kept. Retry this checkout or resume the same order in My Orders.'));
         }},theme:{color:'#ad3d70'}});
-      checkout.on('payment.failed',()=>{showToast('The test payment failed. Retry in Razorpay or close checkout.');});
+      checkout.on('payment.failed',()=>{showToast('The payment failed. Retry in Razorpay or close checkout.');});
       checkout.open();
     });
   }
   async function resumePayment(orderId){
-    try{await completePayment(orderId);showToast('Test payment verified.');await window.boU.home();}
+    try{await completePayment(orderId);showToast('Payment verified.');await window.boU.home();}
     catch(error){showToast(error.message)}
   }
   async function paymentConfig(){try{return await request('/payments/config',{},false)}catch(_){return {razorpay_test_enabled:false}}}

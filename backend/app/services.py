@@ -42,6 +42,7 @@ def order_view(order: Order):
             'deliveryBreakdown': order.delivery_breakdown, 'total': money(order.total),
             'currency': 'INR', 'payment': order.payment, 'status': order.status,
             'payment_status': order.payment_record.status if order.payment_record else 'due_on_delivery',
+            'payment_mode': order.payment_record.mode if order.payment_record else None,
             'allowed_next_statuses': next_statuses, 'updatedAtISO': order.updated_at.replace(tzinfo=timezone.utc).isoformat()}
 
 
@@ -104,6 +105,7 @@ def calculate(db: Session, items: list[CartItem], lock=False, pin='', payment='R
     quote = {'items': lines, 'subtotal': money(subtotal), 'delivery': money(delivery),
              'deliveryBreakdown': breakdown, 'total': money(subtotal + delivery), 'currency': 'INR',
              'delivery_pending': pending, 'destination_pin': pin}
+    quote['payment_mode']=settings().razorpay_mode
     if test_products:
         quote['payment_test'] = True
     quote['quote_hash'] = digest(quote)
@@ -125,6 +127,9 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         if existing:
             db.rollback()
             return same(existing)
+        if data.payment=='RAZORPAY':
+            from .payments import new_payments_enabled
+            if not new_payments_enabled():raise HTTPException(503,'Online payments are being configured. Your bag is kept; please try again shortly.')
         # A concurrent retry may have missed the first lookup before the other
         # transaction committed. Recheck after its product locks are released,
         # before stock validation (the original order may have consumed all stock).
@@ -162,7 +167,7 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         db.add(order)
         db.flush()
         if data.payment=='RAZORPAY':
-            db.add(Payment(order_id=order.id,amount_paise=int(order.total*100),currency='INR'))
+            db.add(Payment(order_id=order.id,amount_paise=int(order.total*100),currency='INR',mode=settings().razorpay_mode,key_id=settings().payment_keys()[0] or None))
         db.add(OrderEvent(order_id=order.id, actor_uid=user.uid, status=order.status))
         from .reporting import enqueue_order
         enqueue_order(db, order, 'order_created')

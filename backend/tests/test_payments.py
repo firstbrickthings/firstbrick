@@ -13,7 +13,7 @@ from test_store import payload
 
 
 class FakeGateway:
-    key_id='rzp_test_fake'
+    key_id='rzp_test_fixture'
     secret='unit-test-secret-not-a-credential'
     def __init__(self):
         self.orders={};self.entities={};self.creates=0;self.captures=0;self.lose_response=False;self.upi=True;self.method_checks=0;self.methods_unavailable=False
@@ -39,7 +39,7 @@ class FakeGateway:
 
 @pytest.fixture
 def gateway(monkeypatch):
-    fake=FakeGateway();monkeypatch.setattr(payments,'Gateway',lambda:fake)
+    fake=FakeGateway();monkeypatch.setattr(payments,'Gateway',lambda mode=None:fake)
     monkeypatch.setattr(settings(),'razorpay_webhook_secret','unit-webhook-secret')
     payments.upi_availability.cache_clear()
     yield fake

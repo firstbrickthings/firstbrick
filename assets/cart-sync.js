@@ -52,16 +52,23 @@ async function connect(me){
 async function mountChoices(){
  const checkout=document.getElementById('bo-checkout-form'),account=document.getElementById('bo-my-orders-list');const host=checkout||account?.parentElement;if(!uid||!host||host.querySelector('.bo-whatsapp-choices')||consentBusy)return;consentBusy=true;
  const stamp=epoch;try{const [prefs,contact]=await Promise.all([api('/me/whatsapp'),BOserver.request('/store/contact',{},false)]);if(stamp!==epoch||!host.isConnected||host.querySelector('.bo-whatsapp-choices'))return;
- const box=document.createElement('fieldset');box.className='bo-whatsapp-choices';box.innerHTML='<legend>WhatsApp updates (optional)</legend><p>Choose messages for your verified mobile number. You can turn them off here or reply STOP.</p><label><input type="checkbox" name="bo_wa_orders"> Order confirmations and delivery updates</label><label><input type="checkbox" name="bo_wa_cart"> One reminder after my bag is unchanged for 20 minutes</label><button type="button" class="btn btn-outline">Save WhatsApp choices</button><p class="bo-wa-choice-status" role="status"></p>';
+ const box=document.createElement('fieldset');box.className='bo-whatsapp-choices';
+ const orderLabel='<label><input type="checkbox" name="bo_wa_orders"> Send my order confirmations and delivery updates to '+prefs.phone+' on WhatsApp</label>';
+ const cartLabel='<label><input type="checkbox" name="bo_wa_cart"> Send one reminder after my bag is unchanged for 20 minutes</label>';
+ const choices=orderLabel+(checkout?'<details><summary>Optional shopping reminder</summary>'+cartLabel+'</details>':cartLabel);
+ box.innerHTML='<legend>WhatsApp updates (optional)</legend>'+(checkout&&prefs.consent_at?'<details><summary>Order updates: '+(prefs.order_updates?'On':'Off')+' · Change saved choice</summary>'+choices+'</details>':choices)+'<p>Your choice is saved for future orders. Change it in Account or reply STOP.</p>'+(checkout?'':'<button type="button" class="btn btn-outline">Save WhatsApp choices</button>')+'<p class="bo-wa-choice-status" role="status"></p>';
  box.querySelector('[name=bo_wa_orders]').checked=prefs.order_updates;box.querySelector('[name=bo_wa_cart]').checked=prefs.cart_reminders;box.querySelector('.bo-wa-choice-status').textContent=contact.whatsapp_automation_active?'':'Automatic messaging is awaiting the store’s WhatsApp connection.';
- box.querySelector('button').onclick=async()=>{const button=box.querySelector('button'),status=box.querySelector('.bo-wa-choice-status');button.disabled=true;try{await api('/me/whatsapp',{method:'PUT',body:JSON.stringify({order_updates:box.querySelector('[name=bo_wa_orders]').checked,cart_reminders:box.querySelector('[name=bo_wa_cart]').checked})});status.textContent=contact.whatsapp_automation_active?'Your WhatsApp choices are saved.':'Your choices are saved. Messages will start when the store connects WhatsApp.'}catch(e){status.textContent=e.message}finally{button.disabled=false}};
+ let saved=prefs;
+ box._save=async()=>{if(stamp!==epoch)throw Error('Your account changed. Reopen checkout before saving WhatsApp choices.');const next={order_updates:box.querySelector('[name=bo_wa_orders]').checked,cart_reminders:box.querySelector('[name=bo_wa_cart]').checked};if(saved.consent_at&&next.order_updates===saved.order_updates&&next.cart_reminders===saved.cart_reminders)return;saved=await api('/me/whatsapp',{method:'PUT',body:JSON.stringify(next)});if(stamp!==epoch)throw Error('Your account changed. Reopen checkout.');box.querySelector('.bo-wa-choice-status').textContent=contact.whatsapp_automation_active?'Your WhatsApp choices are saved.':'Your choices are saved. Messages will start when the store connects WhatsApp.';};
+ if(!checkout)box.querySelector('button').onclick=async()=>{const button=box.querySelector('button'),status=box.querySelector('.bo-wa-choice-status');button.disabled=true;try{await box._save()}catch(e){status.textContent=e.message}finally{button.disabled=false}};
+
  if(checkout)checkout.querySelector('#bo-payment-methods')?.before(box);else host.appendChild(box);
  }catch(_){}finally{consentBusy=false}
 }
 window.addEventListener('babyone-server-identity',e=>connect(e.detail));
 new MutationObserver(()=>mountChoices()).observe(document.body,{childList:true,subtree:true});
 setInterval(async()=>{if(!uid||dirty||loading||saving||document.hidden)return;const stamp=epoch;try{const remote=await api('/me/cart');if(stamp===epoch&&remote.version!==version)apply(remote)}catch(_){}},30000);
-window.BOcartSync={save,connect};
+window.BOcartSync={save,connect,async saveCheckoutChoices(){const box=document.querySelector('#bo-checkout-form .bo-whatsapp-choices');if(box)await box._save()}};
 // Cart recovery keeps the link through OTP sign-in, then opens authenticated checkout.
 if(new URLSearchParams(location.search).has('recover_cart')||new URLSearchParams(location.search).has('track'))setTimeout(()=>{if(!window.BOverifiedIdentity)boU.login(true)},2000);
 const track=new URLSearchParams(location.search).get('track');if(track){document.getElementById('bo-track-id').value=track;document.getElementById('home-track-order')?.scrollIntoView({block:'start'});}

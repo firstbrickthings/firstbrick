@@ -24,6 +24,9 @@ async def lifespan(app):
     from .reporting import worker
     from .workspace import probe_storage
     await run_in_threadpool(probe_storage)
+    if settings().razorpay_prepare_live or settings().razorpay_mode=='live':
+        from .payments import prepare_live_connection
+        await run_in_threadpool(prepare_live_connection)
     from .messaging import worker as whatsapp_worker
     task=asyncio.create_task(worker())
     whatsapp_task=asyncio.create_task(whatsapp_worker())
@@ -323,6 +326,12 @@ def payment_status(order_id:str,user:Identity=Depends(identity),db:Session=Depen
 async def payment_webhook(request:Request,db:Session=Depends(database)):
     return await run_in_threadpool(
         payments.webhook,db,await request.body(),request.headers.get('x-razorpay-signature',''),request.headers.get('x-razorpay-event-id',''))
+
+
+@app.post('/api/payments/razorpay/webhook/live')
+async def live_payment_webhook(request:Request,db:Session=Depends(database)):
+    return await run_in_threadpool(
+        payments.webhook,db,await request.body(),request.headers.get('x-razorpay-signature',''),request.headers.get('x-razorpay-event-id',''),'live')
 
 
 from .workspace import router as workspace_router
