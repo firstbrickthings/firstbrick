@@ -1309,25 +1309,15 @@ body{overflow-x:hidden}
 
       <!-- VIEW 2: PRODUCT LISTING PAGE -->
       <div id="plp-view" class="hidden">
-        <nav class="subcat-breadcrumb" id="plp-breadcrumb"></nav>
-        <div style="margin-bottom:18px;">
-          <span class="eyebrow" id="plp-eyebrow">Products</span>
-          <h2 id="plp-title" style="font-size:clamp(26px,4vw,40px);margin-top:8px;">All products</h2>
+        <div class="bo-plp-heading">
+          <nav class="subcat-breadcrumb" id="plp-breadcrumb"></nav>
+          <div class="bo-plp-title"><span class="eyebrow" id="plp-eyebrow">Products</span><h2 id="plp-title">All products</h2></div>
         </div>
-
         <nav class="plp-subcategory-nav" id="plp-subcategory-nav" role="tablist" aria-label="Switch subcategory"></nav>
-        <div class="plp-filter-nav" id="plp-filter-nav" role="tablist" aria-label="Filter products"></div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 22px;flex-wrap:wrap;">
-          <p id="plp-count" style="font-size:12px;color:var(--ink-mute);font-weight:600;margin:0;"></p>
-          <label class="bo-field-label" for="plp-sort">Sort products</label><select id="plp-sort" onchange="sortPLP(this.value)" style="font-size:12px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:11px 18px;color:var(--ink);cursor:pointer;">
-            <option value="featured">Sort: Featured</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="rating">Highest Rated</option>
-          </select>
+        <div class="bo-plp-controls">
+          <div class="plp-filter-nav" id="plp-filter-nav" role="tablist" aria-label="Filter products"></div>
+          <div class="bo-plp-toolbar"><p id="plp-count" aria-live="polite"></p><label class="bo-field-label" for="plp-sort">Sort products</label><select id="plp-sort" aria-label="Sort products" onchange="sortPLP(this.value)"><option value="featured">Featured</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option><option value="rating">Highest Rated</option></select></div>
         </div>
-
         <div id="plp-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(14px,2.2vw,26px);"></div>
 
 
@@ -1587,26 +1577,15 @@ body{overflow-x:hidden}
     document.body.style.overflow='hidden';
   }
 
-  function fields(x={}){
-    return `
-      <label style="${labelStyle}">Full name</label>
-      <input style="${inputStyle}" name="name" value="${esc(x.name||'')}" required autocomplete="name" />
-      <label style="${labelStyle}">Mobile number</label>
-      <input style="${inputStyle}" name="phone" value="${esc(x.phone||'')}" required inputmode="tel" autocomplete="tel" />
-      <label style="${labelStyle}">State</label>
-      <select style="${inputStyle}" name="state" required>
-        ${['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Delhi','Jammu and Kashmir','Ladakh','Puducherry'].map(st=>`<option value="${st}" ${x.state===st?'selected':''}>${st}</option>`).join('')}
-      </select>
-      <label style="${labelStyle}">Gender (optional)</label>
-      <select style="${inputStyle}" name="gender"><option value="">Select gender</option><option ${x.gender==='Female'?'selected':''}>Female</option><option ${x.gender==='Male'?'selected':''}>Male</option><option ${x.gender==='Non-binary'?'selected':''}>Non-binary</option><option ${x.gender==='Prefer not to say'?'selected':''}>Prefer not to say</option></select>
-      <label style="${labelStyle}">Email (optional)</label>
-      <input style="${inputStyle}" name="email" type="email" value="${esc(x.email||'')}" />
-      <label style="${labelStyle}">Delivery address</label>
-      <textarea style="${inputStyle}" name="address" rows="2" required autocomplete="street-address">${esc(x.address||'')}</textarea>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div><label style="${labelStyle}">City</label><input style="${inputStyle}" name="city" autocomplete="address-level2" value="${esc(x.city||'')}" required /></div>
-        <div><label style="${labelStyle}">PIN code</label><input style="${inputStyle}" name="pin" pattern="[1-9][0-9]{5}" minlength="6" maxlength="6" autocomplete="postal-code" title="Enter a 6-digit Indian PIN code" value="${esc(x.pin||'')}" required inputmode="numeric" /></div>
-      </div>`;
+  function fields(x={},checkout=false){
+    const input=(label,name,type='text',extra='')=>`<label class="bo-address-field ${['name','address','email'].includes(name)?'bo-address-wide':''}" for="bo-field-${name}"><span>${label}</span><input id="bo-field-${name}" name="${name}" type="${type}" value="${esc(x[name]||'')}" ${extra}></label>`;
+    return `<div class="bo-address-grid">${input('Full name','name','text','required autocomplete="name"')}${input('Mobile number','phone','tel','required autocomplete="tel" inputmode="tel"')}<label class="bo-address-field" for="bo-field-state"><span>State</span><select id="bo-field-state" name="state" required>${['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Delhi','Jammu and Kashmir','Ladakh','Puducherry'].map(st=>`<option value="${st}" ${x.state===st?'selected':''}>${st}</option>`).join('')}</select></label>${input('Email (optional)','email','email','autocomplete="email"')}<label class="bo-address-field bo-address-wide" for="bo-field-address"><span>Delivery address</span><textarea id="bo-field-address" name="address" required rows="2" autocomplete="street-address">${esc(x.address||'')}</textarea></label>${input('City','city','text','required autocomplete="address-level2"')}${input('PIN code','pin','text','required pattern="[1-9][0-9]{5}" minlength="6" maxlength="6" autocomplete="postal-code" inputmode="numeric"')}</div>`;
+  }
+  function deliveryNote(quote){
+    if(quote.delivery_pending)return 'Enter your PIN to see the complete total.';
+    const policy=quote.deliveryBreakdown.find(row=>row.mode==='policy');
+    if(policy)return policy.bulky?'Oversized handling is included. This order requires prepaid payment.':Number(quote.delivery)===0?'Standard delivery is free for this order.':'Standard delivery. Free from '+money(policy.free_threshold)+' for eligible orders.';
+    return quote.deliveryBreakdown.some(row=>row.mode==='flat')?'One fixed delivery charge applies to this order.':'Delivery uses the postal zone and measured packed weight.';
   }
 
   let pendingLoginData=null;
@@ -1806,7 +1785,7 @@ body{overflow-x:hidden}
     if(!cart || !cart.length){ showToast('Your bag is empty'); return; }
     if(!profile()||!verifiedPhone(profile()?.phone)){
       show('Before Checkout','Sign in or add delivery details.',`
-        <button class="btn btn-pink" style="width:100%;margin-bottom:10px;" onclick="boU.login(true)">Verify phone with OTP</button>`);
+        <button class="btn btn-pink" style="width:100%;margin-bottom:10px;" onclick="boU.login(true)">${window.BOauth?.shouldUseEmail()?'Sign in with email':'Verify phone with OTP'}</button>`);
       return;
     }
     const x = profile()||{};
@@ -1820,8 +1799,8 @@ body{overflow-x:hidden}
     let subtotal=Number(serverQuote.subtotal),deliveryBreakdown=serverQuote.deliveryBreakdown;
     let delivery=Number(serverQuote.delivery),total=Number(serverQuote.total);
     const paymentConfig=await window.BOserver.paymentConfig();
-    show('Checkout','Review and place your order.',`
-      <div style="border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:16px;">
+    show('Checkout','Your bag, delivery and secure payment in one place.',`
+      <div class="bo-checkout-layout"><section class="bo-checkout-summary"><h3>Your order</h3><div class="bo-checkout-items">
         ${serverQuote.items.map(i=>`
           <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);">
             <img src="${esc(i.image)}" style="width:48px;height:56px;object-fit:cover;border-radius:12px;" />
@@ -1831,24 +1810,24 @@ body{overflow-x:hidden}
             </div>
             <strong style="font-size:12px;">${money(i.price*i.qty)}</strong>
           </div>`).join('')}
-        <div id="bo-checkout-bill" style="font-size:12px;line-height:1.9;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);">
+        </div><div id="bo-checkout-bill" style="font-size:12px;line-height:1.9;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);">
           Subtotal: ${money(subtotal)}<br>
           ${deliveryBreakdown.map(row=>`<div class="bo-bill-row"><span>${esc(row.category)}${row.zone?' · '+esc(row.zone):''}</span><span>${money(row.rate)}</span></div>`).join('')}
           <div class="bo-bill-row"><span>Delivery total</span><span>${money(delivery)}</span></div>
-          <small>${serverQuote.delivery_pending?'Enter your delivery PIN below to calculate the complete total.':deliveryBreakdown.some(row=>row.mode==='flat')?'One fixed delivery charge applies to this order. The total is confirmed before payment.':'Delivery uses the postal zone and measured packed weight. The final charge is confirmed before payment.'}</small><br>
+          <small>${esc(deliveryNote(serverQuote))}</small><br>
           <strong style="font-family:'Nunito','Quicksand',sans-serif;font-size:17px;">Total: ${money(total)}</strong>
         </div>
-      </div>
-      <form id="bo-checkout-form">
-        ${fields(x)}
+      </section>
+      <form id="bo-checkout-form"><fieldset class="bo-checkout-delivery"><legend>Delivery details</legend>
+        ${fields(x,true)}</fieldset>
         <div id="bo-payment-methods"></div>
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
-      </form>
+      </form></div>
       <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">Your payment is confirmed after verification by the payment provider.</p>`);
 
     const paymentMethods=window.BOpaymentMethods.mount(document.getElementById('bo-payment-methods'),{
       total,deliveryPending:serverQuote.delivery_pending,testMode:paymentConfig.test_mode!==false,upiEnabled:paymentConfig.upi_enabled===true,
-      gatewayEnabled:paymentConfig.razorpay_enabled===true||paymentConfig.razorpay_test_enabled===true,allowCod:!serverQuote.payment_test
+      gatewayEnabled:paymentConfig.razorpay_enabled===true||paymentConfig.razorpay_test_enabled===true,allowCod:serverQuote.cod_allowed!==false&&!serverQuote.payment_test
     });
 
     document.getElementById('bo-checkout-form').onsubmit = async e=>{
@@ -1870,7 +1849,7 @@ body{overflow-x:hidden}
           if(finalQuote.delivery_pending)throw Error('Enter your complete delivery PIN to calculate delivery.');
           if(finalQuote.quote_hash!==serverQuote.quote_hash){
             serverQuote=finalQuote;subtotal=Number(finalQuote.subtotal);delivery=Number(finalQuote.delivery);deliveryBreakdown=finalQuote.deliveryBreakdown;total=Number(finalQuote.total);
-            document.getElementById('bo-checkout-bill').innerHTML='<div class="bo-bill-row"><span>Subtotal</span><span>'+money(subtotal)+'</span></div>'+deliveryBreakdown.map(r=>'<div class="bo-bill-row"><span>'+esc(r.category)+(r.zone?' · '+esc(r.zone):'')+'</span><span>'+money(r.rate)+'</span></div>').join('')+'<div class="bo-bill-row"><strong>Total, including delivery</strong><strong>'+money(total)+'</strong></div><small>'+(deliveryBreakdown.some(row=>row.mode==='flat')?'One fixed delivery charge applies to this order.':'Delivery uses postal zone and measured packed weight.')+'</small>';
+            document.getElementById('bo-checkout-bill').innerHTML='<div class="bo-bill-row"><span>Subtotal</span><span>'+money(subtotal)+'</span></div>'+deliveryBreakdown.map(r=>'<div class="bo-bill-row"><span>'+esc(r.category)+(r.zone?' · '+esc(r.zone):'')+'</span><span>'+money(r.rate)+'</span></div>').join('')+'<div class="bo-bill-row"><strong>Total, including delivery</strong><strong>'+money(total)+'</strong></div><small>'+esc(deliveryNote(serverQuote))+'</small>';
             paymentMethods.setTotal?.(total);button.textContent='Confirm order · '+money(total);status.textContent='Please review the complete total above, then confirm your order.';button.disabled=false;return;
           }
         }catch(error){status.textContent=error.message;button.disabled=false;return;}
@@ -1889,7 +1868,7 @@ body{overflow-x:hidden}
       };
       pendingOrder=order;
       form.querySelectorAll('input,select,textarea').forEach(field=>field.disabled=true);
-      submitting=true;button.disabled=true;button.textContent='Sending order request…';
+      submitting=true;button.disabled=true;button.textContent=order.payment==='RAZORPAY'?'Opening secure payment…':'Placing your order…';
       status.textContent='Waiting for the store to receive your request…';
       // Preserve the same ID across retries, including a page reload.
       const draftKey='babyone-order-draft-v1';
@@ -1902,6 +1881,13 @@ body{overflow-x:hidden}
         const receipt=await window.BOordersCloud.submit(order);
         if(receipt && typeof receipt==='object')Object.assign(order,receipt);
       }catch(err){
+        if(err.savedOrder){
+          const saved=err.savedOrder,key=order.id;Object.assign(order,saved);order.id=key;order.serverOrderId=saved.id;
+          subtotal=Number(saved.subtotal);delivery=Number(saved.delivery);deliveryBreakdown=saved.deliveryBreakdown||[];total=Number(saved.total);
+          document.querySelector('.bo-checkout-items').innerHTML=saved.items.map(i=>'<div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)"><img src="'+esc(i.image||'assets/favicon.svg')+'" alt="" style="width:48px;height:56px;object-fit:contain;border-radius:12px"><div style="flex:1"><p style="font-size:12px;margin:0">'+esc(i.name)+'</p><small>Qty '+Number(i.qty)+' · '+money(i.price)+'</small></div><strong style="font-size:12px">'+money(Number(i.price)*Number(i.qty))+'</strong></div>').join('');
+          document.getElementById('bo-checkout-bill').innerHTML='<div class="bo-bill-row"><span>Subtotal</span><span>'+money(subtotal)+'</span></div><div class="bo-bill-row"><span>Original delivery charge</span><span>'+money(delivery)+'</span></div><div class="bo-bill-row"><strong>Saved order total</strong><strong>'+money(total)+'</strong></div>';
+          paymentMethods.setTotal?.(total);button.textContent='Confirm saved order · '+money(total);status.textContent='This saved order keeps its original prices and delivery charge. Review the total above before confirming payment.';button.disabled=false;submitting=false;return;
+        }
         status.textContent='Receipt has not been confirmed. Your bag is kept. '+(err?.message||'Please check your connection and retry.');
         button.textContent='Retry order request';button.disabled=false;submitting=false;return;
       }
@@ -2103,7 +2089,7 @@ body{overflow-x:hidden}
    const statusFilter=String($('bo-order-status-filter')?.value||'');
    const matching=orders.map((o,i)=>({o,i})).filter(({o})=>(!searchText||[o.id||o.orderId||o.orderID||'',o.name||'',o.phone||''].join(' ').toLowerCase().includes(searchText))&&(!statusFilter||o.status===statusFilter));
    const count=$('bo-order-search-count');if(count)count.textContent=searchText?`${matching.length} of ${orders.length} orders match “${searchText}”`:`${orders.length} order(s) available`; 
-   $('bo-admin-orders-list').innerHTML=matching.length?`<table class="bo-admin-table"><thead><tr><th>Order / customer</th><th>Items</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody>${matching.map(({o,i})=>`<tr><td><b>${esc(o.id||o.orderId||o.orderID||'Order')}</b><br>${o.payment==='RAZORPAY'?'<small>Razorpay '+(o.payment_mode==='live'?'LIVE':'TEST')+'</small><br>':''}${esc(o.name||'Customer')}<br>${esc(o.phone||'')}<br><small>${esc(o.address||'')} ${esc(o.city||'')} ${esc(o.pin||'')}</small></td><td>${(o.items||[]).map(it=>`${esc(it.name)} × ${Number(it.qty||1)}`).join('<br>')}</td><td>${money(o.total)}</td><td><select class="bo-admin-field" style="min-width:145px;margin:0" onchange="boAdmin.status(${i},this.value)">${[o.status||'Order Confirmed',...(o.allowed_next_statuses||[])].map(st=>`<option ${st===(o.status||'Order Confirmed')?'selected':''}>${st}</option>`).join('')}</select></td><td><button class="bo-admin-btn secondary" onclick="boAdmin.print(${i})">Print delivery</button></td></tr>`).join('')}</tbody></table>`:(searchText?'<p class="bo-muted" style="padding:16px 0">No order matches that ID. Check the number or clear the search.</p>':'<p class="bo-muted" style="padding:16px 0">No orders are saved yet. Connect your Firebase owner account in Overview to load orders from all devices.</p>');
+   $('bo-admin-orders-list').innerHTML=matching.length?`<table class="bo-admin-table"><thead><tr><th>Order / customer</th><th>Items</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody>${matching.map(({o,i})=>`<tr><td><b>${esc(o.id||o.orderId||o.orderID||'Order')}</b><br>${o.payment==='RAZORPAY'?'<small>Razorpay '+(o.payment_mode==='live'?'LIVE':'TEST')+'</small><br>':''}${esc(o.name||'Customer')}<br>${esc(o.phone||'')}<br><small>${esc(o.address||'')} ${esc(o.city||'')} ${esc(o.pin||'')}</small></td><td>${(o.items||[]).map(it=>`${esc(it.name)} × ${Number(it.qty||1)}`).join('<br>')}</td><td>${money(o.total)}</td><td><select class="bo-admin-field" style="min-width:145px;margin:0" onchange="boAdmin.status(${i},this.value)">${[o.status||'Order Confirmed',...(o.allowed_next_statuses||[])].map(st=>`<option ${st===(o.status||'Order Confirmed')?'selected':''}>${st}</option>`).join('')}</select></td><td><button class="bo-admin-btn secondary" onclick="boAdmin.print(${i})">Print delivery</button><button type="button" class="bo-admin-btn secondary" data-logistics-order="${esc(o.id)}">Delivery &amp; margin</button></td></tr>`).join('')}</tbody></table>`:(searchText?'<p class="bo-muted" style="padding:16px 0">No order matches that ID. Check the number or clear the search.</p>':'<p class="bo-muted" style="padding:16px 0">No orders are saved yet. Connect your Firebase owner account in Overview to load orders from all devices.</p>');
    window.boDrawOrderChart?.();
    const p=products();
    $('bo-admin-product-list').innerHTML=p.length?`<h3 style="font-size:16px;margin:12px 0">Products added here (${p.length})</h3>${p.map(x=>`<div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1f5"><img src="${esc((x.images||[])[0]||'')}" style="width:52px;height:60px;object-fit:cover;border-radius:8px"><div><b>${esc(x.name)}</b><div style="font-size:12px;color:#728496">${esc(x.category)} · ${money(x.price)} · ${(x.images||[]).length} image(s)</div></div></div>`).join('')}`:'';
@@ -4367,6 +4353,7 @@ try{
 <link rel="stylesheet" href="assets/glass-workspace.css" />
 <link rel="stylesheet" href="assets/video-sharing-tracking.css" />
 <link rel="stylesheet" href="assets/store-upgrade.css" />
+<link rel="stylesheet" href="assets/polished-store.css" />
 <script src="assets/video-manager.js"></script>
 <script src="assets/product-sharing.js"></script>
 <script src="assets/payment-check.js"></script>
@@ -4377,6 +4364,7 @@ try{
 <script src="assets/store-support.js"></script>
 <script src="assets/purchase-actions.js"></script>
 <script src="assets/product-details.js"></script>
+<script src="assets/logistics-admin.js"></script>
 </body>
 </html>
 

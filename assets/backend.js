@@ -86,7 +86,11 @@
     const shipping = Object.fromEntries(['name','address','city','state','pin','email'].map(k=>[k,String(order[k] || '')]));
     const stored=await request('/orders', {method:'POST',body:JSON.stringify({idempotency_key:order.id,
       quote_hash:order.serverQuote.quote_hash,items:order.serverItems,shipping,payment:order.payment==='RAZORPAY'?'RAZORPAY':'COD'})});
-    if(stored.payment==='RAZORPAY'){order.serverOrderId=stored.id;return completePayment(stored.id,order.paymentPreference,order.upiApp);}
+    if(stored.payment==='RAZORPAY'){
+      order.serverOrderId=stored.id;
+      if(Number(stored.total)!==Number(order.total)){const error=Error('Review the original total of your saved order before paying.');error.savedOrder=stored;throw error;}
+      return completePayment(stored.id,order.paymentPreference,order.upiApp);
+    }
     return stored;
   }
   let checkoutScript;

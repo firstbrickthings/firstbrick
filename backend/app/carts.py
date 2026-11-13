@@ -151,6 +151,8 @@ def customer_details(uid:str=Query(...,min_length=1,max_length=128),user:Identit
 
 
 class DeliveryPreview(Input):
+    tier: int = Field(default=1,ge=1,le=3)
+    order_value: Decimal = Field(default=Decimal('0'),ge=0,le=9999999,decimal_places=2)
     pin: str = Field(pattern=r'^[1-9][0-9]{5}$')
     parcel: dict | None = None
     parcels: int = Field(default=1,ge=1,le=100,strict=True)
@@ -161,8 +163,14 @@ class DeliveryPreview(Input):
 def preview_delivery(data:DeliveryPreview,user:Identity=Depends(admin),db:Session=Depends(database)):
     from types import SimpleNamespace
     from .shipping import Parcel,configuration,delivery_quote
+    config=configuration(db)
+    if config.pricing_mode=='policy':
+        from .logistics import evaluate
+        product=SimpleNamespace(id='preview-parcel',name='Preview item',metadata_json={'logistics':{'tier':data.tier}})
+        fee,public,report=evaluate(config.policy,{'preview-parcel':product},{'preview-variant':data.parcels},{'preview-variant':SimpleNamespace(product_id='preview-parcel',price=data.order_value/data.parcels)},data.pin,data.order_value,config.cod_enabled,data.payment,origin_pin=config.origin_pin)
+        return {'delivery':str(fee),'breakdown':[public],'rates_confirmed':config.confirmed,'report':report}
     metadata={}
-    if configuration(db).pricing_mode == 'weight':
+    if config.pricing_mode == 'weight':
         try:parcel=Parcel.model_validate(data.parcel)
         except ValueError:raise HTTPException(422,'Check all four packed parcel measurements.') from None
         metadata={'shipping':parcel.model_dump(mode='json')}

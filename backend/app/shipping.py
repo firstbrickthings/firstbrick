@@ -7,6 +7,7 @@ from fastapi import HTTPException
 from pydantic import Field, model_validator
 from .schemas import Input, Money
 from .models import StoreDocument
+from .logistics import LogisticsPolicy,product_tier,customer_fee,evaluate
 
 
 class Parcel(Input):
@@ -71,8 +72,9 @@ class Carton(Parcel):
 
 class ShippingConfig(Input):
     origin_pin: str = Field(default='673602', pattern=r'^[1-9][0-9]{5}$')
-    pricing_mode: Literal['weight', 'flat'] = 'weight'
+    pricing_mode: Literal['weight', 'flat', 'policy'] = 'weight'
     flat_rate: Money = Decimal('0')
+    policy: LogisticsPolicy = Field(default_factory=LogisticsPolicy)
     confirmed: bool = False
     divisor: int = Field(default=5000, ge=1000, le=10000)
     packing_per_parcel: Money = Decimal('0')
@@ -108,6 +110,10 @@ def delivery_quote(db, products, quantities, variants, pin='', payment='RAZORPAY
     config = configuration(db)
     if not config.confirmed and not allow_draft:
         raise HTTPException(409, 'Delivery rates are being confirmed. Contact BabyOne with your PIN for a delivery quote. Your bag is kept.')
+    if config.pricing_mode == 'policy':
+        subtotal=sum((variants[vid].price*qty for vid,qty in quantities.items()),Decimal('0'))
+        fee,public,_=evaluate(config.policy,products,quantities,variants,pin,subtotal,config.cod_enabled,payment,origin_pin=config.origin_pin)
+        return fee,[public],False
     if config.pricing_mode == 'flat':
         if payment == 'COD' and not config.cod_enabled:
             raise HTTPException(409, 'Cash on delivery is unavailable. Choose a prepaid payment.')

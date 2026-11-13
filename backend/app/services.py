@@ -107,6 +107,10 @@ def calculate(db: Session, items: list[CartItem], lock=False, pin='', payment='R
     quote = {'items': lines, 'subtotal': money(subtotal), 'delivery': money(delivery),
              'deliveryBreakdown': breakdown, 'total': money(subtotal + delivery), 'currency': 'INR',
              'delivery_pending': pending, 'destination_pin': pin}
+    from .shipping import configuration
+    from .logistics import product_tier
+    shipping_config=configuration(db)
+    quote['cod_allowed']=shipping_config.cod_enabled and not (shipping_config.pricing_mode=='policy' and any(product_tier(p)==3 for p in products.values()))
     quote['payment_mode']=settings().razorpay_mode
     if test_products:
         quote['payment_test'] = True
@@ -144,6 +148,8 @@ def place_order(db: Session, user: Identity, data: OrderInput):
             return same(existing)
         if not user.phone or len(user.phone)!=13:
             raise HTTPException(422,'Enter your delivery contact mobile number before placing the order.')
+        # Freeze the delivery rules for pricing and the private order-time report.
+        db.scalar(select(StoreDocument).where(StoreDocument.key=='shipping').with_for_update())
         quote, quantities, variants, products = calculate(db, data.items, lock=True, pin=data.shipping.pin, payment=data.payment)
         if quote['delivery_pending']:
             raise HTTPException(409, 'Review your delivery quote before placing the order.')
@@ -172,6 +178,14 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         db.flush()
         if data.payment=='RAZORPAY':
             db.add(Payment(order_id=order.id,amount_paise=int(order.total*100),currency='INR',mode=settings().razorpay_mode,key_id=settings().payment_keys()[0] or None))
+        from .shipping import configuration
+        config=configuration(db)
+        if config.pricing_mode=='policy':
+            from .logistics_admin import cost_key
+            from .logistics import evaluate
+            costs={pid:doc.value.get('amount') for pid in products if (doc:=db.get(StoreDocument,cost_key(pid)))}
+            _,_,report=evaluate(config.policy,products,quantities,variants,data.shipping.pin,order.subtotal,config.cod_enabled,data.payment,state=data.shipping.state,unit_costs=costs,origin_pin=config.origin_pin)
+            db.add(StoreDocument(key='logistics-order:'+order.id,value=report,version=1))
         db.add(OrderEvent(order_id=order.id, actor_uid=user.uid, status=order.status))
         from .reporting import enqueue_order
         enqueue_order(db, order, 'order_created')
@@ -212,6 +226,15 @@ def change_status(db: Session, order_id: str, status: str, user: Identity):
         return order
     if status not in TRANSITIONS.get(order.status, set()):
         raise HTTPException(409, 'This status transition is not allowed.')
+    if status=='Shipped':
+        report=db.get(StoreDocument,'logistics-order:'+order.id)
+        if report:
+            from .shipping import Parcel
+            bulky={line['product_id'] for line in report.value.get('lines',[]) if line.get('tier')==3}
+            for pid in bulky:
+                product=db.get(Product,pid)
+                try:Parcel.model_validate(product.metadata_json.get('shipping') if product else None)
+                except ValueError:raise HTTPException(409,'Add valid packed weight and dimensions for every oversized product before marking this order shipped.') from None
     if status == 'Cancelled':
         ids = sorted({line['variant_id'] for line in order.items})
         product_ids = sorted({line['id'] for line in order.items})

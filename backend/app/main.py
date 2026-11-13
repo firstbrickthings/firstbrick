@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session
 from .auth import Identity, admin, identity, resolve_identity
 from .config import settings
 from .db import database, sessions
-from .models import Category, Customer, Order, Product, Variant
+from .models import Category, Customer, Order, Product, Variant, StoreDocument
 from .schemas import CategoryInput, OrderInput, ProductInput, QuoteInput, Shipping, StatusInput
 from .services import calculate, change_status, order_view, place_order, product_view
 
@@ -146,7 +146,7 @@ def product_list(db, offset, limit, q='', category=None, include_hidden=False, s
         query=query.where(units==0) if stock=='out' else query.where(units.between(1,5))
     total = db.scalar(select(func.count()).select_from(query.subquery()))
     records = db.scalars(query.order_by(Product.id).offset(offset).limit(limit)).unique().all()
-    return {'items': [product_view(p) for p in records], 'total': total, 'offset': offset, 'limit': limit}
+    return {'items': [owner_product_view(db,p) if include_hidden else product_view(p) for p in records], 'total': total, 'offset': offset, 'limit': limit}
 
 
 @app.get('/api/catalog/products')
@@ -226,6 +226,12 @@ def admin_products(offset: int = Query(0, ge=0), limit: int = Query(24, ge=1, le
     return product_list(db, offset, limit, q, category, include_hidden=True,subcategory=subcategory,stock=stock)
 
 
+def owner_product_view(db,record):
+    from .logistics_admin import cost_key
+    row=db.get(StoreDocument,cost_key(record.id))
+    return {**product_view(record),'unit_cost':row.value.get('amount') if row else None}
+
+
 def write_product(db, data, record):
     with db.no_autoflush:
         if not db.get(Category, data.category_id):
@@ -245,6 +251,18 @@ def write_product(db, data, record):
     if len({p.id for p in data.patterns})!=len(data.patterns):raise HTTPException(422,'Pattern IDs must be unique.')
     for key in ['brand','sku','subcategory','badge']:
         if key in data.model_fields_set:record.metadata_json={**record.metadata_json,key:getattr(data,key) or ''}
+    if 'logistics_tier' in data.model_fields_set or 'logistics_weight_kg' in data.model_fields_set:
+        logistic={**record.metadata_json.get('logistics',{})}
+        if 'logistics_tier' in data.model_fields_set:logistic['tier']=data.logistics_tier
+        if 'logistics_weight_kg' in data.model_fields_set:logistic['weight_kg']=str(data.logistics_weight_kg) if data.logistics_weight_kg is not None else None
+        record.metadata_json={**record.metadata_json,'logistics':logistic}
+    if 'unit_cost' in data.model_fields_set:
+        from .logistics_admin import cost_key
+        doc=db.get(StoreDocument,cost_key(record.id))
+        if data.unit_cost is None:
+            if doc:db.delete(doc)
+        elif doc:doc.value={'product_id':record.id,'amount':str(data.unit_cost)};doc.version+=1
+        else:db.add(StoreDocument(key=cost_key(record.id),value={'product_id':record.id,'amount':str(data.unit_cost)},version=1))
     if 'product_details' in data.model_fields_set:record.metadata_json={**record.metadata_json,'product_details':data.product_details or {}}
     if 'gallery_images' in data.model_fields_set:record.metadata_json={**record.metadata_json,'galleryImages':data.gallery_images or []}
     if 'shipping' in data.model_fields_set:
@@ -263,7 +281,7 @@ def write_product(db, data, record):
     db.flush()
     db.expire(record, ['variants', 'category'])
     db.commit()
-    return product_view(record)
+    return owner_product_view(db,record)
 
 
 @app.post('/api/admin/products', status_code=201)
@@ -370,3 +388,6 @@ app.include_router(payment_check_router)
 
 from .email_auth import router as email_auth_router
 app.include_router(email_auth_router)
+
+from .logistics_admin import router as logistics_router
+app.include_router(logistics_router)

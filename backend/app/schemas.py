@@ -82,6 +82,9 @@ class ProductInput(Input):
     subcategory: str | None = Field(default=None,max_length=100)
     badge: str | None = Field(default=None,max_length=100)
     product_details: dict[str,str] | None = None
+    logistics_tier: int | None = Field(default=None,ge=1,le=3)
+    logistics_weight_kg: Decimal | None = Field(default=None,gt=0,le=35,decimal_places=3)
+    unit_cost: Money | None = None
     gallery_images: list[str] | None = Field(default=None,max_length=50)
 
     @field_validator('product_details')

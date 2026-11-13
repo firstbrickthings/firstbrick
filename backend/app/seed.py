@@ -63,6 +63,8 @@ def run():
         apply_requested_setup(db)
         from .shipping_setup import apply_flat_delivery
         apply_flat_delivery(db)
+        from .shipping_setup import apply_shipping_policy
+        apply_shipping_policy(db)
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 
 
