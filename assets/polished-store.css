@@ -14,3 +14,68 @@ body{background:radial-gradient(ellipse at 0 10%,#eaf2fa 0,transparent 48%),radi
 #bo-checkout-form{width:100%;max-width:none;margin:0}#bo-u-modal.bo-full-checkout>div{max-width:none!important}#bo-u-modal.bo-full-checkout .bo-address-field input,#bo-u-modal.bo-full-checkout .bo-address-field select,#bo-u-modal.bo-full-checkout .bo-address-field textarea{font-size:16px!important}.bo-logistics-close{min-width:44px;min-height:44px}
 @media(max-width:760px){#bo-u-modal.bo-full-checkout>div{padding:calc(20px + env(safe-area-inset-top,0px)) 14px calc(28px + env(safe-area-inset-bottom,0px))!important}.bo-plp-heading #plp-breadcrumb{min-height:44px}#plp-breadcrumb .nav-back-button{width:44px;min-width:44px!important;min-height:44px;height:44px}#plp-sort,#plp-filter-nav .plp-filter-tab{min-height:44px}}
 .site-footer.bo-compact-footer{background:linear-gradient(120deg,#f0f6fcdf,#fff8fbdf)!important;color:#344f65!important;border:1px solid #ccd9e599;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 -8px 30px #29466308}.bo-compact-footer a{color:#344f65!important}.bo-compact-footer .bo-footer-logo{color:#923760!important}.bo-compact-footer .bo-footer-copy{color:#52697d!important;border-top-color:#becfdd80!important}
+
+/* One spacing scale takes precedence over the earlier compact layouts. */
+:root{
+  --bo-space-section:clamp(32px,3.4vw,48px);
+  --bo-space-heading:clamp(24px,2.4vw,32px);
+  --bo-space-card:clamp(14px,1.5vw,20px);
+  --bo-space-detail:16px;
+}
+#home-page>.section,
+#home-page>#babyone-fashion,
+#home-page>#bo-joys-section,
+#home-page>#home-track-order,
+#reviews-section{
+  padding-top:var(--bo-space-section)!important;
+  padding-bottom:var(--bo-space-section)!important;
+}
+#home-page>.section[style*="padding-top:0"]{padding-top:0!important;padding-bottom:var(--bo-space-section)!important}
+#home-page>.section>.section-head,
+#home-page>#babyone-fashion>.section-head,
+#reviews-section>.section-head,
+#subcat-landing>.section-head{
+  margin-bottom:var(--bo-space-heading)!important;
+}
+#home-page .section-head .eyebrow,
+#reviews-section .section-head .eyebrow,
+#subcat-landing .section-head .eyebrow{margin-bottom:10px!important}
+#home-page .section-head h2,
+#reviews-section .section-head h2,
+#subcat-landing .section-head h2{line-height:1.22!important}
+#home-page>.section .section-head p,
+#reviews-section .section-head p,
+#subcat-landing .section-head p{margin-top:10px!important;line-height:1.6!important}
+#home-page>#babyone-fashion>.bo-fashion-hero+.section-head{margin-top:var(--bo-space-heading)!important}
+#home-page .prod-scroll,#home-page #reels-track{gap:var(--bo-space-card)!important}
+#home-page #cat-container .category-grid,
+#home-page .bo-fashion-grid,
+#explorer-page #subcat-tile-grid,
+#explorer-page #plp-grid{gap:var(--bo-space-card)!important}
+#explorer-page>.section{padding-top:32px!important;padding-bottom:var(--bo-space-section)!important}
+#subcat-landing .subcat-breadcrumb{margin-bottom:20px!important}
+.bo-plp-heading{margin-bottom:24px}
+.bo-plp-controls{margin-bottom:24px}
+#product-modal-shell .modal-grid{gap:clamp(24px,3vw,40px)!important}
+#product-modal-shell .modal-grid>div:nth-child(2)>h2{line-height:1.25!important;margin-top:10px!important;margin-bottom:20px!important}
+#product-modal-shell .bo-product-specifications{margin-block:24px;padding:20px}
+.bo-checkout-layout{margin-top:28px;gap:24px}
+.bo-checkout-delivery .bo-address-grid{margin-top:16px;row-gap:20px}
+.bo-payments{margin-top:24px}
+.bo-pay-method-list{gap:12px}
+.bo-upi-apps{gap:12px}
+.bo-admin-card h3{margin-bottom:12px!important;line-height:1.4}
+.bo-work-card>.bo-muted{margin:8px 0 24px}
+.bo-work-two,.bo-work-four{row-gap:24px}
+.bo-email-intro{margin-bottom:24px}
+.site-footer.bo-compact-footer{margin-top:16px!important}
+@media(max-width:760px){
+  #explorer-page>.section{padding:20px 14px 32px!important}
+  #plp-view .bo-plp-heading{gap:12px;margin-bottom:16px}
+  .bo-plp-controls{margin-bottom:20px;gap:12px}
+  .bo-checkout-layout{margin-top:24px;gap:20px}
+  .bo-checkout-delivery .bo-address-grid{row-gap:18px}
+  .bo-upi-apps{gap:10px}
+  .bo-work-two,.bo-work-four{row-gap:20px}
+  #product-modal-shell .bo-product-specifications{padding:16px}
+}
