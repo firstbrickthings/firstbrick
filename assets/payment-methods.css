@@ -1,51 +1,47 @@
 .bo-payment-test-notice{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;padding:18px 24px;background:#fff3f7;color:#623047;text-align:center}.bo-payment-test-notice strong{font-size:15px}.bo-payment-test-notice p{font-size:13px;line-height:1.5;margin:5px 0 0}.bo-payment-test-notice .btn{white-space:nowrap}
-.bo-payments{margin-top:28px;padding-top:24px;border-top:1px solid #e5e8ed;color:#26384a}
-.bo-pay-heading,.bo-upi-title{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.bo-pay-eyebrow{font-size:10px;letter-spacing:.14em;color:#718092;font-weight:800}
-.bo-pay-heading h3{font-size:23px;letter-spacing:-.03em;margin:6px 0 0;font-weight:700}
-.bo-pay-test-badge{padding:6px 9px;border-radius:6px;background:#fff3d6;color:#946518;font-size:9px;letter-spacing:.08em;font-weight:800;white-space:nowrap}
-.bo-pay-amount{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px;margin:20px 0;border-radius:14px;background:#f3f7fb;font-size:13px;font-weight:700}
-.bo-pay-amount small{display:block;margin-top:5px;font-size:10px;font-weight:400;color:#718092;line-height:1.5}
-.bo-pay-amount strong{font-size:24px;letter-spacing:-.04em;white-space:nowrap}
-.bo-pay-method-list,.bo-upi-apps{border:0;padding:0;margin:0;min-width:0}
-.bo-pay-method-list{display:grid;gap:10px}
-.bo-pay-method{position:relative;display:flex;align-items:center;gap:13px;border:1px solid #dfe5ec;border-radius:14px;padding:16px;cursor:pointer;transition:background .15s,border-color .15s}
-.bo-pay-method:hover{background:#fafbfd}
-.bo-pay-method:has(input:checked){border-color:#ad3d70;background:#fff6fa;box-shadow:0 0 0 1px #ad3d7010}
-.bo-pay-method:has(input:focus-visible),.bo-upi-app:has(input:focus-visible){outline:3px solid #2463a5;outline-offset:3px}
-.bo-pay-method:has(input:disabled),.bo-upi-app:has(input:disabled){cursor:default;opacity:.65}
-.bo-pay-method input,.bo-upi-app input,.bo-pay-sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0!important}
-.bo-pay-method-icon{display:grid;place-items:center;width:38px;height:38px;flex-shrink:0;border-radius:10px;background:#edf2f7;color:#264b70;font-size:22px}
-.bo-pay-upi-icon{font-size:12px;font-weight:800;letter-spacing:-.4px}
-.bo-pay-method-text{flex:1;min-width:0}
-.bo-pay-method-text strong{display:block;font-size:14px;font-weight:800}
-.bo-pay-method-text small{display:block;font-size:11px;font-weight:400;color:#718092;margin-top:4px;line-height:1.5}
-.bo-pay-radio{width:18px;height:18px;border:1.5px solid #c6ced9;border-radius:50%;flex-shrink:0}
-.bo-pay-method:has(input:checked) .bo-pay-radio{border:5px solid #ad3d70;background:white}
-.bo-upi-panel{border:1px solid #e3e7ee;border-radius:16px;padding:20px;margin-top:14px}
-.bo-upi-panel[hidden]{display:none!important}
-.bo-upi-title h4{font-size:14px;margin:0;font-weight:800}
-.bo-upi-title>span{font-size:10px;color:#718092;white-space:nowrap}
-.bo-upi-apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:17px}
-.bo-upi-app{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:17px 8px 13px;border:1px solid #e0e6ee;border-radius:12px;background:white;cursor:pointer}
-.bo-upi-app strong{font-size:11px;white-space:nowrap}
-.bo-upi-app:has(input:checked){border-color:#ad3d70;background:#fff8fb;box-shadow:0 0 0 1px #ad3d70}
-.bo-upi-logo{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;font-family:Arial,sans-serif;font-size:28px;font-weight:800}
-.bo-upi-logo-google{color:#4285f4;background:#f1f5fe}
-.bo-upi-logo-phonepe{color:white;background:#6739b7}
-.bo-upi-logo-paytm{color:#00a9df;background:#effaff;font-size:16px;letter-spacing:-1px}
-.bo-upi-logo-bhim{color:#397d4c;background:#f1f7ed;font-size:12px;font-style:italic}
-.bo-upi-selected{display:none;position:absolute;right:6px;top:6px;width:15px;height:15px;border-radius:50%;background:#ad3d70;color:white;font-size:10px;text-align:center;line-height:15px}
+/* A single, accessible payment accordion and one amount/action row. */
+.bo-payments-premium{color:#263b50}
+.bo-payments-premium .bo-pay-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+.bo-payments-premium .bo-pay-eyebrow{display:block;font-size:9px;letter-spacing:.14em;font-weight:800;color:#8d4669}
+.bo-payments-premium .bo-pay-heading h3{font-size:22px;font-weight:750;letter-spacing:-.035em;margin:7px 0 0;line-height:1.25}
+.bo-pay-lock{display:grid;place-items:center;width:36px;height:36px;border:1px solid #dce4ed;border-radius:50%;color:#6f8192;background:#ffffffa0;flex:none}
+.bo-pay-lock svg{width:18px;height:18px}
+.bo-pay-test-badge{padding:7px 10px;border-radius:8px;background:#fff2d8;color:#78540f;font-size:9px;font-weight:800;white-space:nowrap}
+.bo-pay-sr,.bo-pay-method input,.bo-upi-app input{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0!important}
+.bo-payments-premium .bo-pay-method-list{display:block;border:1px solid #d5dfe8;border-radius:18px;overflow:hidden;padding:0;margin:0;min-width:0;background:#ffffff75}
+.bo-pay-option+.bo-pay-option{border-top:1px solid #e1e7ed}
+.bo-payments-premium .bo-pay-method{position:relative;display:flex;align-items:center;gap:12px;padding:18px 16px;min-height:66px;border:0!important;border-radius:0;cursor:pointer;background:transparent!important;box-shadow:none!important;transition:background .15s}
+.bo-payments-premium .bo-pay-method:hover{background:#f5f7fb!important}
+.bo-pay-method-icon{display:grid;place-items:center;flex:none;width:25px;height:25px;color:#9b466f}
+.bo-pay-method-icon svg{width:25px;height:25px}
+.bo-pay-method-text{min-width:0;flex:1}
+.bo-pay-method-text strong{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.bo-pay-chevron{font-size:19px;line-height:1;transition:transform .15s;color:#63758a}
+.bo-pay-method:has(input:checked) .bo-pay-chevron{transform:rotate(180deg)}
+.bo-pay-method:has(input:focus-visible),.bo-upi-app:has(input:focus-visible){outline:3px solid #3974a3;outline-offset:-3px}
+.bo-payment-mini-apps{display:flex;align-items:center;padding-right:6px}
+.bo-payment-mini-apps b{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:2px solid #fff;background:#f4f7fb;font:bold 12px Arial;margin-left:-4px}
+.bo-mini-google{color:#4285f4}.bo-mini-phonepe{color:#6739b7}.bo-payment-mini-apps .bo-mini-paytm{font-size:7px;color:#007bb4}
+.bo-pay-option-body{padding:0 14px 16px;background:linear-gradient(160deg,#fff6fa90,#f6f8fd60)}
+.bo-pay-option-body[hidden]{display:none!important}
+.bo-pay-option-body>p{font-size:12px;line-height:1.6;margin:0;padding:4px 2px;color:#5a6c7e}
+.bo-payments-premium .bo-upi-apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;border:0;padding:0;margin:0;min-width:0}
+.bo-payments-premium .bo-upi-app{position:relative;display:flex;flex-direction:row;align-items:center;gap:10px;min-height:65px;padding:14px 10px;border:1px solid #dce2eb!important;border-radius:12px;background:#ffffffdb!important;cursor:pointer;min-width:0;box-shadow:0 3px 9px #29425b03}
+.bo-payments-premium .bo-upi-app:has(input:checked){border-color:#a84674!important;background:#fff6fa!important;box-shadow:0 0 0 1px #a8467414}
+.bo-payments-premium .bo-upi-app strong{font-size:12px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.bo-upi-logo{display:grid;place-items:center;flex:0 0 27px;width:27px;height:27px;border-radius:8px;font-family:Arial,sans-serif;font-size:22px;font-weight:800}
+.bo-upi-logo-google{color:#4285f4;background:#f0f5fe}.bo-upi-logo-phonepe{color:#fff;background:#6739b7;font-size:20px}.bo-upi-logo-paytm{color:#00a2d6;font-size:12px;letter-spacing:-.7px}.bo-upi-logo-cred{background:#171b21;color:#fff;font-size:17px;border:2px double #fff;outline:1px solid #171b21}.bo-upi-logo-bhim{color:#d97930;background:#f2f8ec;font-size:23px}.bo-upi-logo-other{color:#a24873;font-size:17px;letter-spacing:1px}
+.bo-upi-logo:has(img){background:none;border:0;outline:0}.bo-upi-logo img{display:block;width:28px;height:28px;object-fit:contain}.bo-payment-mini-apps img{display:block;width:17px;height:17px;object-fit:contain}
+.bo-upi-selected{display:none;position:absolute;right:4px;top:4px;width:13px;height:13px;border-radius:50%;background:#a84674;color:#fff;font-size:9px;line-height:13px;text-align:center}
 .bo-upi-app:has(input:checked) .bo-upi-selected{display:block}
-.bo-upi-selection{font-size:11px;font-weight:700;color:#8d3e63;margin:14px 0!important;line-height:1.5}
-.bo-upi-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;list-style:none;padding:14px 0;margin:0;border-top:1px solid #edf0f4;border-bottom:1px solid #edf0f4}
-.bo-upi-steps li{display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;font-size:10px;color:#526477}
-.bo-upi-steps li span{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#eef3f8;color:#264b70;font-size:10px;font-weight:800}
-.bo-upi-security{font-size:11px!important;line-height:1.65;margin:14px 0!important;color:#607084}
-.bo-upi-lite{border-radius:10px;background:#f7f8fb;padding:13px;font-size:12px}
-.bo-upi-lite summary{cursor:pointer;font-weight:700}
-.bo-upi-lite p{font-size:11px;line-height:1.7;color:#607084;margin:10px 0 0}
-.bo-upi-help{margin-top:14px;padding:12px 14px;border:1px solid #f1dfb6;background:#fffbf1;color:#7a6029;border-radius:10px;font-size:11px;line-height:1.7}
-.bo-upi-fallback{background:transparent;border:0;color:#8d3e63;font-size:12px;font-weight:800;cursor:pointer;margin-top:12px;padding:8px 0;text-align:left;min-height:40px}
-.bo-pay-footer{text-align:center;font-size:11px!important;color:#718092;margin:15px 0 0!important;line-height:1.5}
-@media(max-width:520px){.bo-upi-apps{grid-template-columns:repeat(2,minmax(0,1fr))}.bo-upi-panel{padding:16px}.bo-pay-method{padding:14px}.bo-pay-heading h3{font-size:21px}.bo-pay-amount{padding:15px}.bo-pay-amount strong{font-size:23px}}
+.bo-pay-provider{display:flex;justify-content:center;align-items:center;gap:5px;font-size:11px!important;line-height:1.5!important;color:#6a7d8e!important;margin:18px 0 0!important}
+.bo-pay-provider strong{color:#34577e;font-style:italic;font-size:13px}
+.bo-pay-unavailable{font-size:13px;line-height:1.6;color:#8c3b60}
+.bo-pay-action-bar{position:sticky;bottom:0;z-index:4;display:flex;align-items:center;gap:16px;margin-top:20px;padding:16px 0 max(16px,env(safe-area-inset-bottom,0px));background:linear-gradient(120deg,#fbfdfff5,#fff8fcf5);border-top:1px solid #d7e0e9;box-shadow:0 -12px 25px #29425b05}
+.bo-pay-action-bar .bo-pay-amount{display:flex;flex-direction:column;gap:4px;flex:none;background:none;border:0;padding:0;margin:0;min-width:80px}
+.bo-pay-action-bar .bo-pay-amount span{font-size:10px;font-weight:500;color:#64788b;order:2}
+.bo-pay-action-bar .bo-pay-amount strong{font-size:22px;font-weight:800;letter-spacing:-.04em;line-height:1.2;color:#293f52}
+.bo-pay-action-bar>button[type=submit]{flex:1;width:auto!important;min-height:52px;margin:0!important;padding:13px 16px!important;border-radius:13px!important;font-size:12px;letter-spacing:.01em;text-transform:none;line-height:1.4;background:linear-gradient(115deg,#a63d70,#bd4f82)!important;box-shadow:0 5px 15px #a63d701a;color:#fff}
+#bo-order-status:empty{display:none}
+@media(max-width:360px){.bo-payments-premium .bo-pay-method{padding:16px 12px;gap:10px}.bo-pay-option-body{padding:0 9px 12px}.bo-payments-premium .bo-upi-apps{gap:8px}.bo-payments-premium .bo-upi-app{gap:7px;padding:14px 8px}.bo-payments-premium .bo-upi-app strong{font-size:11px}.bo-pay-action-bar{gap:12px}.bo-pay-action-bar .bo-pay-amount strong{font-size:20px}.bo-pay-action-bar>button[type=submit]{font-size:11px;padding:12px!important}}
+@media(prefers-reduced-motion:reduce){.bo-pay-method,.bo-pay-chevron{transition:none}}

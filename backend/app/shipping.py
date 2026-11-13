@@ -103,6 +103,9 @@ def configuration(db):
 
 
 def delivery_quote(db, products, quantities, variants, pin='', payment='RAZORPAY', allow_draft=False):
+    from .live_check_catalog import is_live_check
+    if products and all(is_live_check(p) for p in products.values()):
+        return Decimal('0'), [{'category':'Payment check · no delivery', 'rate':'0.00'}], False
     if products and all(p.metadata_json.get('payment_test') for p in products.values()):
         return Decimal('0'), [{'category': 'Test payment — no delivery', 'rate': '0.00'}], False
     if not pin:

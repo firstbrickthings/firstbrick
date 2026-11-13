@@ -563,7 +563,7 @@ function stopInlineReel(index, event){
 function renderReviews(){
   const all=window.BOpublishedReviews||[];
   const track=document.getElementById('reviews-track');if(!track)return;
-  track.innerHTML=all.map(r=>`<article class="review-card"><div class="review-stars" aria-label="${r.rating} out of 5 stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><p class="review-text">“${escapeHtml(r.message)}”</p><div class="review-name">— ${escapeHtml(r.name)}</div></article>`).join('')||'<p class="bo-review-empty">Parent stories will appear here as they are shared.</p>';
+  track.innerHTML=all.map(r=>`<article class="review-card"><div class="review-stars" aria-label="${r.rating} out of 5 stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><p class="review-text">“${escapeHtml(r.message)}”</p><div class="review-name">— ${escapeHtml(r.name)}</div>${r.verified_purchase?'<span class="bo-review-verified">Verified purchase</span>':''}</article>`).join('')||'<article class="bo-review-invitation"><span class="bo-review-heart" aria-hidden="true">♡</span><div><h3>Your experience, another parent’s guide</h3><p>Shopped with BabyOne? Tell us what you loved and what we can improve. Every story is reviewed before it appears here.</p><button type="button" class="btn btn-outline" onclick="toggleSiteReviewForm()">Write the first review</button></div></article>';
 }
 
 /* ================= NAV ================= */
@@ -1131,20 +1131,16 @@ function toggleSiteReviewForm(){
   w.style.display = w.style.display==='none' ? 'block' : 'none';
   if(w.style.display==='block') w.scrollIntoView({behavior:'smooth', block:'center'});
 }
-function submitSiteReview(e){
+async function submitSiteReview(e){
   e.preventDefault();
-  const name = document.getElementById('review-name').value.trim();
-  const rating = Number(document.getElementById('review-rating').value);
-  const message = document.getElementById('review-message').value.trim();
-  if(!name || !message) return;
-  let stored = [];
-  try { stored = JSON.parse(localStorage.getItem('babyone-site-reviews')||'[]'); } catch(err){}
-  stored.unshift({name, rating, message});
-  localStorage.setItem('babyone-site-reviews', JSON.stringify(stored.slice(0,30)));
-  renderReviews();
-  e.target.reset();
-  document.getElementById('site-review-form-wrap').style.display='none';
-  showToast('Thank you for your review');
+  const form=e.currentTarget,button=form.querySelector('[type=submit]');
+  if(!window.BOverifiedIdentity){showToast('Sign in to share a review from your purchase.');boU.login(true);return;}
+  const payload={name:document.getElementById('review-name').value.trim(),rating:Number(document.getElementById('review-rating').value),message:document.getElementById('review-message').value.trim()};
+  button.disabled=true;
+  let status=form.querySelector('[role=status]');if(!status){status=document.createElement('p');status.className='bo-review-submit-status';status.setAttribute('role','status');form.appendChild(status)}
+  status.textContent='Saving your review…';
+  try{const result=await BOserver.request('/me/reviews',{method:'POST',body:JSON.stringify(payload)});status.textContent=result.message;form.reset();button.textContent='Review saved';}
+  catch(error){status.textContent=error.message;button.disabled=false;}
 }
 
 /* ================= HELPERS ================= */

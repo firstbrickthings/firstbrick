@@ -58,6 +58,13 @@ def calculate(db: Session, items: list[CartItem], lock=False, pin='', payment='R
         statement = statement.with_for_update()
     products = {product.id: product for product in db.scalars(statement).unique().all()}
     test_products = [p for p in products.values() if p.metadata_json.get('payment_test')]
+    from .live_check_catalog import is_live_check
+    live_checks = [p for p in products.values() if is_live_check(p)]
+    if live_checks:
+        if settings().razorpay_mode != 'live':
+            raise HTTPException(409, 'This ₹1 check requires Live Mode.')
+        if len(products) != 1 or sum(item.quantity for item in items) != 1:
+            raise HTTPException(409, 'Buy the ₹1 payment-check item on its own, quantity 1. Keep regular products in a separate order.')
     if test_products:
         if not settings().test_checkout_enabled:
             raise HTTPException(409, 'Payment testing is currently unavailable.')
@@ -112,6 +119,9 @@ def calculate(db: Session, items: list[CartItem], lock=False, pin='', payment='R
     shipping_config=configuration(db)
     quote['cod_allowed']=shipping_config.cod_enabled and not (shipping_config.pricing_mode=='policy' and any(product_tier(p)==3 for p in products.values()))
     quote['payment_mode']=settings().razorpay_mode
+    if live_checks:
+        quote['live_gateway_check'] = True
+        quote['cod_allowed'] = False
     if test_products:
         quote['payment_test'] = True
     quote['quote_hash'] = digest(quote)
@@ -153,7 +163,7 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         quote, quantities, variants, products = calculate(db, data.items, lock=True, pin=data.shipping.pin, payment=data.payment)
         if quote['delivery_pending']:
             raise HTTPException(409, 'Review your delivery quote before placing the order.')
-        if quote.get('payment_test') and data.payment != 'RAZORPAY':
+        if (quote.get('payment_test') or quote.get('live_gateway_check')) and data.payment != 'RAZORPAY':
             raise HTTPException(422, 'The payment-test product requires Razorpay Test Mode.')
         if quote['quote_hash'] != data.quote_hash:
             raise HTTPException(409, 'Prices or delivery charges changed. Reopen checkout to review the new total.')
@@ -175,12 +185,14 @@ def place_order(db: Session, user: Identity, data: OrderInput):
                       delivery=Decimal(quote['delivery']), delivery_breakdown=quote['deliveryBreakdown'],
                       total=Decimal(quote['total']), payment=data.payment, status='Awaiting Payment' if data.payment=='RAZORPAY' else 'Order Confirmed')
         db.add(order)
+        if quote.get('live_gateway_check'):
+            order.kind = 'gateway_check'
         db.flush()
         if data.payment=='RAZORPAY':
             db.add(Payment(order_id=order.id,amount_paise=int(order.total*100),currency='INR',mode=settings().razorpay_mode,key_id=settings().payment_keys()[0] or None))
         from .shipping import configuration
         config=configuration(db)
-        if config.pricing_mode=='policy':
+        if config.pricing_mode=='policy' and order.kind != 'gateway_check':
             from .logistics_admin import cost_key
             from .logistics import evaluate
             costs={pid:doc.value.get('amount') for pid in products if (doc:=db.get(StoreDocument,cost_key(pid)))}
@@ -191,8 +203,9 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         enqueue_order(db, order, 'order_created')
         from .carts import mark_ordered
         from .messaging import enqueue_order as enqueue_whatsapp
-        mark_ordered(db,user.uid)
-        enqueue_whatsapp(db,order)
+        if order.kind == 'purchase':
+            mark_ordered(db,user.uid)
+            enqueue_whatsapp(db,order)
         touch_catalog(db)
         db.commit()
         return order

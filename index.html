@@ -1780,16 +1780,17 @@ body{overflow-x:hidden}
   }
 
   let checkoutAttempt=0;
-  async function checkout(){
+  async function checkout(options={}){
     const attempt=++checkoutAttempt;
-    if(!cart || !cart.length){ showToast('Your bag is empty'); return; }
+    const checkoutItems=Array.isArray(options.items)?options.items:cart;
+    if(!checkoutItems || !checkoutItems.length){ showToast('Your bag is empty'); return; }
     if(!profile()||!verifiedPhone(profile()?.phone)){
       show('Before Checkout','Sign in or add delivery details.',`
         <button class="btn btn-pink" style="width:100%;margin-bottom:10px;" onclick="boU.login(true)">${window.BOauth?.shouldUseEmail()?'Sign in with email':'Verify phone with OTP'}</button>`);
       return;
     }
     const x = profile()||{};
-    const items = cart.map(i=>({...i}));
+    const items = checkoutItems.map(i=>({...i}));
     let pendingOrder=null, submitting=false;
     show('Checkout','Checking current prices and stock…','<p role="status">Please wait while the store calculates your total.</p>');
     let serverQuote;
@@ -1800,6 +1801,7 @@ body{overflow-x:hidden}
     let delivery=Number(serverQuote.delivery),total=Number(serverQuote.total);
     const paymentConfig=await window.BOserver.paymentConfig();
     show('Checkout','Your bag, delivery and secure payment in one place.',`
+      ${serverQuote.live_gateway_check?'<p class="bo-checkout-check-note">Live payment check · Real money is charged. No physical delivery.</p>':''}
       <div class="bo-checkout-layout"><section class="bo-checkout-summary"><h3>Your order</h3><div class="bo-checkout-items">
         ${serverQuote.items.map(i=>`
           <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);">
@@ -1823,7 +1825,7 @@ body{overflow-x:hidden}
         <div id="bo-payment-methods"></div>
         <p id="bo-order-status" role="status" aria-live="polite"></p><button class="btn btn-pink" type="submit" style="width:100%;margin-top:20px;">Send order request · ${money(total)}</button>
       </form></div>
-      <p style="font-size:11px;color:var(--ink-mute);margin-top:14px;line-height:1.6;">Your payment is confirmed after verification by the payment provider.</p>`);
+      `);
 
     const paymentMethods=window.BOpaymentMethods.mount(document.getElementById('bo-payment-methods'),{
       total,deliveryPending:serverQuote.delivery_pending,testMode:paymentConfig.test_mode!==false,upiEnabled:paymentConfig.upi_enabled===true,
@@ -1836,7 +1838,7 @@ body{overflow-x:hidden}
       const form=e.currentTarget, button=form.querySelector('button[type=submit]'), status=document.getElementById('bo-order-status');
       if(!paymentMethods.canPay()){status.textContent='This payment method is unavailable. Choose another method or try again shortly.';return;}
       const f = pendingOrder ? Object.fromEntries(['name','phone','state','gender','email','address','city','pin','payment'].filter(key=>pendingOrder[key]!==undefined).map(key=>[key,pendingOrder[key]])) : Object.fromEntries(new FormData(e.target));
-      const paymentPreference=f.payment==='RAZORPAY_UPI'?'upi':'all';
+      const paymentPreference=pendingOrder?.paymentPreference||paymentMethods.selection().preference;
       if(f.payment==='RAZORPAY_UPI')f.payment='RAZORPAY';
       f.phone=normalizedPhone(f.phone);
       if(!verifiedPhone(f.phone)){showToast('Sign in and enter a valid delivery contact mobile number before placing your order.');return;}
@@ -1861,7 +1863,7 @@ body{overflow-x:hidden}
         dateISO: new Date().toISOString(),
         ...f,
         paymentPreference,
-        upiApp:paymentPreference==='upi'?f.upi_app:null,
+        upiApp:paymentPreference==='upi'?paymentMethods.selection().app:null,
         items: babyoneOrderItems(items),serverQuote,serverItems:window.BOserver.cartItems(items),
         subtotal, delivery, deliveryBreakdown, currency:'INR', total,
         status: 'Awaiting store confirmation'
@@ -1894,13 +1896,13 @@ body{overflow-x:hidden}
       try{sessionStorage.removeItem(draftKey);}catch(_){}
       const all=orders();if(!all.some(o=>o.id===order.id)){all.push(order);write(O,all);}
       window.babyoneSheets?.record('order_placed',{customer:f,orderId:order.id,total:order.total,items:order.items});
-      cart=cart.flatMap(line=>{
+      if(!options.keepBag)cart=cart.flatMap(line=>{
         const ordered=items.find(item=>(item.cartKey||item.id)===(line.cartKey||line.id));
         const remaining=line.qty-(ordered?.qty||0);
         return remaining>0?[{...line,qty:remaining}]:[];
       });updateCart();
       document.getElementById('cart-drawer').classList.add('hidden');
-      show('Order received', `Thank you, ${esc(f.name||'')}! Your order and stock reservation have been saved by the store.`,`
+      show(order.kind==='gateway_check'?'Payment verified':'Order received', order.kind==='gateway_check'?'Your live payment check succeeded. No physical product will be delivered.':`Thank you, ${esc(f.name||'')}! Your order and stock reservation have been saved by the store.`,`
         <div style="text-align:center;padding:24px 0;">
           <div class="bo-success-mark" role="img" aria-label="Order request received"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44"/><path d="M29 51l14 14 29-31"/></svg></div>
           <p style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);margin:0;">Order Number</p>
@@ -4365,6 +4367,7 @@ try{
 <script src="assets/purchase-actions.js"></script>
 <script src="assets/product-details.js"></script>
 <script src="assets/logistics-admin.js"></script>
+<script src="assets/store-experience.js"></script>
 </body>
 </html>
 

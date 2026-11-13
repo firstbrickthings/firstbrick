@@ -19,6 +19,10 @@ function add(id,buy){
  const variant=p.variants?.[p.selectedVariant??0];item.serverVariantId=variant?.serverVariantId;item.price=Number(variant?.price??p.price);
  const pattern=p.patterns?.find(pattern=>pattern.id===item.patternId);
  if(pattern?.available===false){report('This pattern is unavailable. Choose another pattern.');return false;}
+ if(buy&&p.id==='babyone-hospital-bag-payment-check'&&p.live_gateway_check){
+  window.closeProductModal?.();showBag(false);
+  window.boU.checkout({items:[{...item,qty:1}],keepBag:true});return true;
+ }
  const existing=cart.find(c=>(c.cartKey||c.id)===item.cartKey),units=unitsFor(item);
  if(units+(buy&&existing?0:1)>state.stock){report('Only '+state.stock+' unit(s) of this option are available. Please review the quantity in your bag.');if(buy)showBag(true);return false;}
  if(existing){if(!buy)existing.qty=Number(existing.qty||0)+1;existing.price=item.price;existing.serverVariantId=item.serverVariantId;}else cart.push(item);

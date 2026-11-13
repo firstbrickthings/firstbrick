@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     admin_verified_emails: str = ''
     gmail_oauth_client_id: str = ''
     gmail_oauth_client_secret: str = ''
+    order_email_enabled: bool = True
     admin_firebase_uids: str = ''
     admin_verified_phones: str = ''
     allowed_origins: str = 'http://localhost:8000,http://127.0.0.1:8000'

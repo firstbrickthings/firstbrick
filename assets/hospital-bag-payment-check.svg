@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="800" viewBox="0 0 640 800">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#eaf2fa"/><stop offset="1" stop-color="#fceef4"/></linearGradient></defs>
+  <rect width="640" height="800" rx="40" fill="url(#bg)"/>
+  <rect x="84" y="104" width="472" height="590" rx="38" fill="#fff" fill-opacity=".78" stroke="#d9dfe8"/>
+  <g fill="none" stroke="#a64373" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="204" y="244" width="232" height="184" rx="24"/><path d="M271 244v-26a49 49 0 0 1 98 0v26M204 296h232M320 328v55m-27-27h54"/>
+  </g>
+  <g text-anchor="middle" font-family="Arial,sans-serif">
+    <text x="320" y="164" font-size="18" letter-spacing="5" fill="#a64373">BABYONE</text>
+    <text x="320" y="506" font-size="48" font-weight="700" fill="#2c4357">₹1 payment check</text>
+    <text x="320" y="554" font-size="23" fill="#60778b">₹0 delivery · Live payment</text>
+    <text x="320" y="618" font-size="19" fill="#a64373">No physical product supplied</text>
+  </g>
+</svg>

@@ -11,7 +11,7 @@ def apply_requested_setup(db):
         if not enabled or db.get(StoreSnapshot,identifier):continue
         products=db.scalars(select(Product).where(Product.active.is_(True)).order_by(Product.id).with_for_update()).unique().all()
         if db.get(StoreSnapshot,identifier):db.rollback();continue
-        products=[p for p in products if not p.metadata_json.get('payment_test')]
+        products=[p for p in products if not p.metadata_json.get('payment_test') and not p.metadata_json.get('live_gateway_check')]
         ids=[p.id for p in products]
         variants=db.scalars(select(Variant).where(Variant.product_id.in_(ids)).order_by(Variant.id).with_for_update()).all() if ids else []
         before={'format':'babyone-catalogue-change-v1','operation':kind,'products':[{'id':p.id,'active':p.active,'sale_enabled':p.sale_enabled,'version':p.version,'metadata':p.metadata_json} for p in products],

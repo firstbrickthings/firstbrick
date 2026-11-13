@@ -150,7 +150,8 @@ def review_view(row):
 
 @router.get('/store/reviews')
 def public_reviews(db: Session = Depends(database)):
-    return [review_view(row) for row in db.scalars(select(SiteReview).where(SiteReview.published.is_(True)).order_by(SiteReview.position,SiteReview.created_at))]
+    verified = {row.value.get('review_id') for row in db.scalars(select(StoreDocument).where(StoreDocument.key.like('customer-review:%'))) if row.value.get('verified_purchase')}
+    return [{**review_view(row), 'verified_purchase':row.id in verified} for row in db.scalars(select(SiteReview).where(SiteReview.published.is_(True)).order_by(SiteReview.position,SiteReview.created_at))]
 
 
 @router.get('/admin/reviews')
@@ -341,7 +342,7 @@ def backup(user: Identity=Depends(admin),db: Session=Depends(database)):
 @router.get('/admin/reporting')
 def reporting(user: Identity=Depends(admin),db: Session=Depends(database)):
     s=settings()
-    totals=dict(db.execute(select(ReportingEvent.status,func.count()).group_by(ReportingEvent.status)).all())
+    totals=dict(db.execute(select(ReportingEvent.status,func.count()).where(ReportingEvent.kind!='owner_order_email').group_by(ReportingEvent.status)).all())
     return {'enabled':s.sheets_enabled and bool(s.sheets_url and s.sheets_secret),'counts':totals,
             'message':'MySQL is the primary database. Sheets delivery is enabled only after the signed receiver is configured.'}
 

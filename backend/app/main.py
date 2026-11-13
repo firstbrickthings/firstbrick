@@ -30,13 +30,18 @@ async def lifespan(app):
     from .messaging import worker as whatsapp_worker
     task=asyncio.create_task(worker())
     whatsapp_task=asyncio.create_task(whatsapp_worker())
+    from .owner_notifications import worker as email_worker
+    email_task=asyncio.create_task(email_worker())
     yield
     task.cancel()
     whatsapp_task.cancel()
+    email_task.cancel()
     with suppress(asyncio.CancelledError):
         await task
     with suppress(asyncio.CancelledError):
         await whatsapp_task
+    with suppress(asyncio.CancelledError):
+        await email_task
 
 
 app = FastAPI(lifespan=lifespan, title='BabyOne store API', version='1.0.0', docs_url='/api/docs', openapi_url='/api/openapi.json')
@@ -391,3 +396,7 @@ app.include_router(email_auth_router)
 
 from .logistics_admin import router as logistics_router
 app.include_router(logistics_router)
+from .store_activity import router as activity_router
+app.include_router(activity_router)
+from .owner_notifications import router as owner_email_router
+app.include_router(owner_email_router)

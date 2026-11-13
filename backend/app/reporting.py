@@ -14,6 +14,11 @@ from .models import ReportingEvent, now
 
 
 def enqueue_order(db, order, kind):
+    if order.kind != 'purchase':
+        return
+    if kind in {'order_created','payment_confirmed'}:
+        from .owner_notifications import enqueue_order as enqueue_email
+        enqueue_email(db, order)
     db.add(ReportingEvent(id=str(uuid4()),kind=kind,payload={
         'order_id':order.id,'status':order.status,'payment':order.payment,'total':str(order.total),
         'customer':{'phone':order.phone,**order.shipping},'items':order.items,
@@ -27,7 +32,7 @@ def drain():
         logging.getLogger(__name__).error('Sheets reporting URL is not a deployed Apps Script endpoint');return
     for _ in range(10):
         with sessions()() as db:
-            event=db.scalar(select(ReportingEvent).where(ReportingEvent.status=='pending',ReportingEvent.next_attempt<=now()).order_by(ReportingEvent.created_at).with_for_update(skip_locked=True).limit(1))
+            event=db.scalar(select(ReportingEvent).where(ReportingEvent.kind!='owner_order_email',ReportingEvent.status=='pending',ReportingEvent.next_attempt<=now()).order_by(ReportingEvent.created_at).with_for_update(skip_locked=True).limit(1))
             if not event:return
             event.attempts+=1
             body=json.dumps({'event_id':event.id,'kind':event.kind,'payload':event.payload},sort_keys=True,separators=(',',':'))

@@ -79,3 +79,41 @@ body{background:radial-gradient(ellipse at 0 10%,#eaf2fa 0,transparent 48%),radi
   .bo-work-two,.bo-work-four{row-gap:20px}
   #product-modal-shell .bo-product-specifications{padding:16px}
 }
+
+/* Catalogue artwork and real customer feedback share the quiet glass treatment. */
+.bo-plp-banner{margin:0 0 24px;border:1px solid #d4dfe9;border-radius:18px;overflow:hidden;background:#eef3f9;box-shadow:0 8px 24px #2b40530a}
+.bo-plp-banner[hidden]{display:none!important}
+.bo-plp-banner img{display:block;width:100%;height:clamp(150px,15vw,220px);object-fit:cover;object-position:center 40%}
+.bo-order-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;margin-left:8px;border-radius:999px;background:#a63d70;color:#fff;font:750 11px/1 'Nunito',sans-serif;box-shadow:0 2px 7px #a63d7022}
+.bo-admin-nav [data-panel=orders]{display:flex;align-items:center;justify-content:space-between;gap:5px}
+.bo-review-invitation{display:flex;align-items:flex-start;gap:22px;width:min(720px,100%);padding:28px;border:1px solid #d5dfe8;border-radius:22px;background:linear-gradient(130deg,#ffffffc9,#fff3f8b5);box-shadow:var(--bo-glass-shadow);text-align:left;backdrop-filter:blur(16px)}
+.bo-review-heart{display:grid;place-items:center;flex:0 0 52px;height:52px;border-radius:17px;background:#f8e8f0;color:#a64373;font-size:32px;line-height:1}
+.bo-review-invitation h3{font-size:21px;line-height:1.35;font-weight:750;letter-spacing:-.03em;margin:0 0 12px;color:#2b4257}
+.bo-review-invitation p{font-size:13px;line-height:1.75;color:#5c7387;margin:0 0 20px}
+.bo-review-invitation .btn{min-height:44px;font-size:10px;background:#ffffffb5;border-color:#c9d5e1}
+.bo-review-verified{display:inline-flex;margin-top:12px;font-size:10px;font-weight:650;color:#2b7358;background:#e9f5ee;border:1px solid #d0e6da;padding:6px 10px;border-radius:999px}
+.bo-review-submit-status{font-size:12px;line-height:1.7;color:#557084;margin-top:16px;white-space:pre-wrap}
+.bo-checkout-check-note{font-size:12px;line-height:1.6;padding:12px 16px;border:1px solid #e5d6b8;border-radius:13px;background:#fff9ed;color:#79603b;margin-top:20px}
+.bo-review-preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px;margin-top:20px}.bo-review-preview-grid .review-card{width:100%;min-width:0;padding:20px}.bo-preview-label{display:block;font-size:9px;font-weight:750;letter-spacing:.12em;color:#90613c;margin-bottom:16px}
+#bo-owner-email-status .bo-kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:22px 0}
+/* Override the older payment-card skin after removing its duplicate content. */
+.bo-payments.bo-payments-premium{padding:24px;border-radius:22px;background:linear-gradient(135deg,#ffffffe0,#fff7fbba)!important}
+.bo-payments-premium .bo-pay-method-list{gap:0}
+.bo-payments-premium .bo-upi-app{min-height:65px}
+.bo-pay-action-bar .bo-pay-amount{background:none;border:0;margin:0;padding:0}
+.bo-pay-action-bar .bo-pay-amount strong{font-size:22px}
+.bo-pay-action-bar button[type=submit]{width:auto!important;margin-top:0!important}
+@media(max-width:760px){
+  .bo-plp-banner{margin-bottom:20px;border-radius:15px}
+  .bo-plp-banner img{height:120px}
+  .bo-payments.bo-payments-premium{padding:18px 14px;border-radius:19px}
+  .bo-review-invitation{padding:22px 18px;gap:14px}
+  .bo-review-heart{flex-basis:42px;height:42px;border-radius:13px;font-size:28px}
+  .bo-review-invitation h3{font-size:18px}
+  .bo-review-invitation p{font-size:12px}
+}
+@media(max-width:360px){
+  .bo-payments.bo-payments-premium{padding:16px 11px}
+  .bo-pay-action-bar .bo-pay-amount strong{font-size:20px}
+  .bo-review-invitation{display:block}.bo-review-heart{width:42px;margin-bottom:16px}
+}

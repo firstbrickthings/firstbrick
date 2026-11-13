@@ -113,12 +113,13 @@
     return new Promise((resolve,reject)=>{
       let finished=false,checking=false;
       const done=(error,order)=>{if(finished)return;finished=true;error?reject(error):resolve(order)};
-      const appNames={google_pay:'Google Pay',phonepe:'PhonePe',paytm:'Paytm',bhim:'BHIM'};
+      const appNames={google_pay:'Google Pay',phonepe:'PhonePe',paytm:'Paytm',bhim:'BHIM',cred:'CRED UPI'};
       const selectedApp=Object.hasOwn(appNames,upiApp)?upiApp:null;
-      const preferredMethods=paymentPreference==='upi'?{config:{display:{
-        blocks:{upi:{name:selectedApp?appNames[selectedApp]+' / UPI':'UPI payments',instruments:[{method:'upi',...(selectedApp?{apps:[selectedApp]}:{})}]}},
-        sequence:['block.upi'],preferences:{show_default_blocks:true}
-      }}}:{};
+      const channels=['upi','card','netbanking','wallet'];
+      const first=channels.includes(paymentPreference)?paymentPreference:'upi';
+      const instruments=[first,...channels.filter(method=>method!==first)].map(method=>({method,...(method==='upi'&&paymentPreference==='upi'&&selectedApp?{apps:[selectedApp]}:{})}));
+      // One provider block prevents the earlier custom UPI + default UPI duplication.
+      const preferredMethods={config:{display:{blocks:{payments:{name:'All payment options',instruments}},sequence:['block.payments'],preferences:{show_default_blocks:false}}}};
       const checkout=new window.Razorpay({...config.checkout,...preferredMethods,
         handler:async result=>{
           checking=true;
@@ -196,7 +197,7 @@
   }
   window.BOserver={request,catalog,quote,submit,myOrders,paySavedOrder:completePayment,openAdmin,cartItems,checkIdentity,paymentConfig,resumePayment,isAdmin:()=>!!adminIdentity};
   window.BOordersCloud={ready:true,submit,user:()=>adminIdentity,flush:async()=>{},
-    load:async()=>{try{const items=[];let page;do{page=await request('/admin/orders?limit=100&offset='+items.length);items.push(...page.items)}while(items.length<page.total&&page.items.length);window.BOsharedOrderRows=items;window.boAdmin?.refreshOrders?.();return items;}catch(error){showToast('Shared orders could not load: '+error.message);return window.BOsharedOrderRows||[];}},
+    load:async()=>{try{const items=[];let page;do{page=await request('/admin/orders?limit=100&offset='+items.length);items.push(...page.items)}while(items.length<page.total&&page.items.length);window.BOsharedOrderRows=items;window.boAdmin?.refreshOrders?.();window.dispatchEvent(new CustomEvent('babyone-orders-loaded',{detail:items}));return items;}catch(error){showToast('Shared orders could not load: '+error.message);return window.BOsharedOrderRows||[];}},
     updateStatus:async(id,status)=>request('/admin/orders/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({status})})};
   document.addEventListener('DOMContentLoaded',()=>{
     document.body.classList.add('bo-mysql-store');

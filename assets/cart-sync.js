@@ -2,6 +2,7 @@
 (function(){
 'use strict';
 let uid=null,version=0,epoch=0,applying=false,loading=false,dirty=false,timer=null,saving=false,consentBusy=false;
+const choicesHosts=new WeakMap();
 const api=(path,options={})=>BOserver.request(path,options),read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')??d}catch(_){return d}},write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
 const ownerKey='babyone-cart-owner-v1',cacheKey=id=>'babyone-saved-bag-'+id,previousOwner=read(ownerKey,null)||(read('babyone-profile-v1',{})?.accountUid||read('babyone-profile-v1',{})?.firebaseUid);
 if(previousOwner&&typeof cart!=='undefined'&&cart.length){if(!read(cacheKey(previousOwner),null))write(cacheKey(previousOwner),{cart,version:0,dirty:true});applying=true;cart=[];updateCart();applying=false;}
@@ -50,13 +51,16 @@ async function connect(me){
  finally{if(stamp===epoch){loading=false;if(dirty)timer=setTimeout(save,100);mountChoices()}}
 }
 async function mountChoices(){
- const checkout=document.getElementById('bo-checkout-form'),account=document.getElementById('bo-my-orders-list');const host=checkout||account?.parentElement;if(!uid||!host||host.querySelector('.bo-whatsapp-choices')||consentBusy)return;consentBusy=true;
+ const checkout=document.getElementById('bo-checkout-form'),account=document.getElementById('bo-my-orders-list');const host=checkout||account?.parentElement;if(!uid||!host||choicesHosts.get(host)===epoch||host.querySelector('.bo-whatsapp-choices')||consentBusy)return;consentBusy=true;
  const stamp=epoch;try{const [prefs,contact]=await Promise.all([api('/me/whatsapp'),BOserver.request('/store/contact',{},false)]);if(stamp!==epoch||!host.isConnected||host.querySelector('.bo-whatsapp-choices'))return;
+ choicesHosts.set(host,stamp);
+ // A saved yes or no is final for checkout. Account keeps the editable preferences.
+ if(checkout&&prefs.consent_at)return;
  const box=document.createElement('fieldset');box.className='bo-whatsapp-choices';
  const orderLabel='<label><input type="checkbox" name="bo_wa_orders"> Send my order confirmations and delivery updates to '+prefs.phone+' on WhatsApp</label>';
  const cartLabel='<label><input type="checkbox" name="bo_wa_cart"> Send one reminder after my bag is unchanged for 20 minutes</label>';
  const choices=orderLabel+(checkout?'<details><summary>Optional shopping reminder</summary>'+cartLabel+'</details>':cartLabel);
- box.innerHTML='<legend>WhatsApp updates (optional)</legend>'+(checkout&&prefs.consent_at?'<details><summary>Order updates: '+(prefs.order_updates?'On':'Off')+' · Change saved choice</summary>'+choices+'</details>':choices)+'<p>Your choice is saved for future orders. Change it in Account or reply STOP.</p>'+(checkout?'':'<button type="button" class="btn btn-outline">Save WhatsApp choices</button>')+'<p class="bo-wa-choice-status" role="status"></p>';
+ box.innerHTML='<legend>WhatsApp updates (optional)</legend>'+choices+'<p>Your choice is saved for future orders. Change it in Account or reply STOP.</p>'+(checkout?'':'<button type="button" class="btn btn-outline">Save WhatsApp choices</button>')+'<p class="bo-wa-choice-status" role="status"></p>';
  box.querySelector('[name=bo_wa_orders]').checked=prefs.order_updates;box.querySelector('[name=bo_wa_cart]').checked=prefs.cart_reminders;box.querySelector('.bo-wa-choice-status').textContent=contact.whatsapp_automation_active?'':'Automatic messaging is awaiting the store’s WhatsApp connection.';
  let saved=prefs;
  box._save=async()=>{if(stamp!==epoch)throw Error('Your account changed. Reopen checkout before saving WhatsApp choices.');const next={order_updates:box.querySelector('[name=bo_wa_orders]').checked,cart_reminders:box.querySelector('[name=bo_wa_cart]').checked};if(saved.consent_at&&next.order_updates===saved.order_updates&&next.cart_reminders===saved.cart_reminders)return;saved=await api('/me/whatsapp',{method:'PUT',body:JSON.stringify(next)});if(stamp!==epoch)throw Error('Your account changed. Reopen checkout.');box.querySelector('.bo-wa-choice-status').textContent=contact.whatsapp_automation_active?'Your WhatsApp choices are saved.':'Your choices are saved. Messages will start when the store connects WhatsApp.';};

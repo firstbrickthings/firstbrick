@@ -108,7 +108,7 @@ def test_order_status_updates_customer_tracking_and_outbox(client):
     assert client.get('/api/me/orders/'+order['id'],headers=headers('other')).status_code==404
     assert client.get('/api/me/orders/'+order['id'],headers=headers()).json()['allowed_next_statuses']==[]
     with sessions()() as db:
-        assert db.scalar(select(func.count()).select_from(ReportingEvent))==5
+        assert db.scalar(select(func.count()).select_from(ReportingEvent).where(ReportingEvent.kind!='owner_order_email'))==5
         assert db.get(Order,order['id']).total==1058
 
 
@@ -131,10 +131,10 @@ def test_sheet_failure_retries_and_requires_exact_ack(client,monkeypatch):
         def read(self,*args):return json.dumps(self.result).encode()
     monkeypatch.setattr(reporting,'urlopen',lambda *a,**k:Reply({'ok':True,'event_id':'wrong'}))
     with sessions()() as db:
-        db.scalar(select(ReportingEvent)).next_attempt=now()-timedelta(seconds=1);db.commit()
+        db.scalar(select(ReportingEvent).where(ReportingEvent.kind!='owner_order_email')).next_attempt=now()-timedelta(seconds=1);db.commit()
     reporting.drain()
     with sessions()() as db:
-        row=db.scalar(select(ReportingEvent));assert row.status=='pending' and row.attempts==1
+        row=db.scalar(select(ReportingEvent).where(ReportingEvent.kind!='owner_order_email'));assert row.status=='pending' and row.attempts==1
         row.next_attempt=now()-timedelta(seconds=1);eid=row.id;db.commit()
     monkeypatch.setattr(reporting,'urlopen',lambda *a,**k:Reply({'ok':True,'event_id':eid}))
     reporting.drain()
