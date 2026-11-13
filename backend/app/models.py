@@ -72,6 +72,7 @@ class Order(Base):
     delivery_breakdown: Mapped[list] = mapped_column(JSON)
     total: Mapped[Decimal] = mapped_column(Numeric(12, 2))
     payment: Mapped[str] = mapped_column(String(30), default='COD')
+    kind: Mapped[str] = mapped_column(String(30), default='purchase', server_default='purchase')
     status: Mapped[str] = mapped_column(String(40), default='Order Confirmed', index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)

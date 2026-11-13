@@ -208,6 +208,7 @@ function start(){
  defaults.categories=categoriesData.map(c=>({...c,published:true}));defaults.videos=reelsData.filter(r=>r.videoUrl||/^[A-Za-z0-9_-]{11}$/.test(r.id)).map(r=>({id:r.cloudId||'youtube-'+r.id,title:r.title,author:r.author||'@babyone',productId:r.productId||'',videoUrl:r.videoUrl||'',...(r.videoUrl?{}:{youtubeId:r.id}),cover:r.cover||'',published:true}));
  const nav=document.querySelector('.bo-admin-nav'),main=document.querySelector('.bo-admin-grid>main');
  for(const [key,title] of [['reviews','Website Reviews'],['delivery','Delivery charges'],['whatsapp','WhatsApp messages']])if(!$('bo-admin-panel-'+key)){const button=document.createElement('button');button.type='button';button.dataset.panel=key;button.textContent=title;button.onclick=()=>boAdmin.tab(key,button);nav.appendChild(button);const panel=document.createElement('section');panel.id='bo-admin-panel-'+key;panel.className='bo-admin-panel';main.appendChild(panel)}
+ if(!document.getElementById('bo-admin-upi-check')){const check=document.createElement('button');check.type='button';check.id='bo-admin-upi-check';check.textContent='₹10 UPI check';check.onclick=()=>BOpaymentCheck.open();nav.appendChild(check);}
  const originalTab=boAdmin.tab;
  boAdmin.tab=function(name,btn){
   if(name!=='video-manager')window.BOvideoManager?.pause();

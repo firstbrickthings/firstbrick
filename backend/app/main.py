@@ -178,7 +178,7 @@ def create_order(data: OrderInput, user: Identity = Depends(identity), db: Sessi
 def my_orders(offset: int = Query(0, ge=0), limit: int = Query(25, ge=1, le=100),
               user: Identity = Depends(identity), db: Session = Depends(database)):
     from .legacy import list_orders
-    query = select(Order).where(Order.customer_uid == user.uid)
+    query = select(Order).where(Order.customer_uid == user.uid,Order.kind=='purchase')
     regular=[order_view(o) for o in db.scalars(query.order_by(Order.created_at.desc()).limit(offset+limit))]
     legacy=list_orders(db,user.phone)
     total=db.scalar(select(func.count()).select_from(query.subquery()))+len(legacy)
@@ -200,8 +200,8 @@ def admin_orders(offset: int = Query(0, ge=0), limit: int = Query(25, ge=1, le=1
                  user: Identity = Depends(admin), db: Session = Depends(database)):
     from .legacy import list_orders
     legacy=list_orders(db)
-    total=db.scalar(select(func.count()).select_from(Order))+len(legacy)
-    regular=[order_view(o) for o in db.scalars(select(Order).order_by(Order.created_at.desc()).limit(offset+limit))]
+    total=db.scalar(select(func.count()).select_from(Order).where(Order.kind=='purchase'))+len(legacy)
+    regular=[order_view(o) for o in db.scalars(select(Order).where(Order.kind=='purchase').order_by(Order.created_at.desc()).limit(offset+limit))]
     return {'items':sorted(regular+legacy,key=lambda o:o['dateISO'],reverse=True)[offset:offset+limit],'total':total}
 
 
@@ -358,3 +358,6 @@ app.include_router(messaging_router)
 
 from .catalogue_admin import router as catalogue_admin_router
 app.include_router(catalogue_admin_router)
+
+from .payment_checks import router as payment_check_router
+app.include_router(payment_check_router)

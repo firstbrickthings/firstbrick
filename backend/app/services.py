@@ -34,6 +34,7 @@ def product_view(product: Product):
 def order_view(order: Order):
     date = order.created_at.replace(tzinfo=timezone.utc).isoformat()
     next_statuses = sorted(TRANSITIONS.get(order.status, set()))
+    if order.kind=='gateway_check':next_statuses=[]
     if order.payment == 'RAZORPAY':
         next_statuses = [s for s in next_statuses if s != 'Cancelled'] if order.payment_record and order.payment_record.status == 'paid' else []
     return {'id': order.id, 'dateISO': date, 'date': date, **order.shipping,
@@ -41,6 +42,7 @@ def order_view(order: Order):
             'subtotal': money(order.subtotal), 'delivery': money(order.delivery),
             'deliveryBreakdown': order.delivery_breakdown, 'total': money(order.total),
             'currency': 'INR', 'payment': order.payment, 'status': order.status,
+            'kind': order.kind,
             'payment_status': order.payment_record.status if order.payment_record else 'due_on_delivery',
             'payment_mode': order.payment_record.mode if order.payment_record else None,
             'allowed_next_statuses': next_statuses, 'updatedAtISO': order.updated_at.replace(tzinfo=timezone.utc).isoformat()}
@@ -197,6 +199,7 @@ def change_status(db: Session, order_id: str, status: str, user: Identity):
     order = db.scalar(select(Order).where(Order.id == order_id).with_for_update())
     if not order:
         raise HTTPException(404, 'Order not found.')
+    if order.kind=='gateway_check':raise HTTPException(409,'A payment connection check has no product or delivery to fulfil.')
     if order.payment=='RAZORPAY':
         payment=db.scalar(select(Payment).where(Payment.order_id==order.id))
         if not payment or payment.status!='paid':

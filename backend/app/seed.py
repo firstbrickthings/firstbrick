@@ -1,4 +1,4 @@
-"""Import the existing catalog as unapproved inventory. Never overwrites live records."""
+"""Import catalogue drafts, then apply explicitly requested one-time owner setup."""
 import json
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
@@ -59,7 +59,9 @@ def run():
         db.flush()
         configure_test_product(db)
         db.commit()
-    print(f'Imported {added} products. Sales remain disabled until prices and stock are confirmed.')
+        from .catalog_setup import apply_requested_setup
+        apply_requested_setup(db)
+    print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 
 
 if __name__ == '__main__':

@@ -188,7 +188,7 @@
     document.getElementById('bo-server-fees').onclick=run(fees);
     document.getElementById('bo-server-products').onclick=run(()=>products());document.getElementById('bo-server-orders').onclick=run(()=>orders());await run(()=>products())();
   }
-  window.BOserver={request,catalog,quote,submit,myOrders,openAdmin,cartItems,checkIdentity,paymentConfig,resumePayment,isAdmin:()=>!!adminIdentity};
+  window.BOserver={request,catalog,quote,submit,myOrders,paySavedOrder:completePayment,openAdmin,cartItems,checkIdentity,paymentConfig,resumePayment,isAdmin:()=>!!adminIdentity};
   window.BOordersCloud={ready:true,submit,user:()=>adminIdentity,flush:async()=>{},
     load:async()=>{try{const items=[];let page;do{page=await request('/admin/orders?limit=100&offset='+items.length);items.push(...page.items)}while(items.length<page.total&&page.items.length);window.BOsharedOrderRows=items;window.boAdmin?.refreshOrders?.();return items;}catch(error){showToast('Shared orders could not load: '+error.message);return window.BOsharedOrderRows||[];}},
     updateStatus:async(id,status)=>request('/admin/orders/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({status})})};

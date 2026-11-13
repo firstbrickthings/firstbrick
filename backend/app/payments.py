@@ -177,7 +177,7 @@ def begin(db,order_id,user):
             db.commit()  # Persist intent before contacting an external system.
             try:
                 remote=gateway.call('POST','/orders',{'amount':payment.amount_paise,'currency':'INR',
-                    'receipt':order.id,'partial_payment':False,'notes':{'store_order_id':order.id,'mode':payment.mode}})
+                    'receipt':order.id,'partial_payment':False,'notes':{'store_order_id':order.id,'mode':payment.mode,'purpose':order.kind}})
             except GatewayError as error:
                 order=owned_order(db,order_id,user);payment=payment_for(db,order)
                 if not error.uncertain:payment.create_attempted=False
@@ -187,7 +187,7 @@ def begin(db,order_id,user):
         validate_provider_order(remote,order,payment)
         payment.provider_order_id=remote['id'];db.commit()
     return {**payment_view(order,payment),'checkout':{'key':gateway.key_id,'order_id':payment.provider_order_id,
-        'amount':payment.amount_paise,'currency':'INR','name':'BabyOne','description':'BabyOne TEST payment' if payment.mode=='test' else 'BabyOne order '+order.id,
+        'amount':payment.amount_paise,'currency':'INR','name':'BabyOne','description':'BabyOne one-time ₹10 payment check' if order.kind=='gateway_check' else 'BabyOne TEST payment' if payment.mode=='test' else 'BabyOne order '+order.id,
         'prefill':{'name':order.shipping['name'],'contact':order.phone,'email':order.shipping.get('email','')}}}
 
 
@@ -206,6 +206,10 @@ def apply_payment(db,order,payment,remote,gateway,capture=True):
     if remote.get('status')=='captured' and remote.get('captured') is True:
         payment.status='paid';payment.provider_payment_id=remote['id']
         if order.status=='Awaiting Payment':
+            if order.kind=='gateway_check':
+                order.status='Payment Verified'
+                db.add(OrderEvent(order_id=order.id,actor_uid='razorpay',status='Payment Verified'))
+                return
             order.status='Order Confirmed'
             db.add(OrderEvent(order_id=order.id,actor_uid='razorpay',status='Order Confirmed'))
             from .reporting import enqueue_order

@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     razorpay_prepare_live: bool = False
     razorpay_live_webhook_confirmed: bool = False
     enable_test_checkout: bool = False
+    catalog_stock_five_once: bool = False
+    catalog_price_ten_once: bool = False
+    catalog_publish_prices_once: bool = False
     media_endpoint: str = ''
     media_bucket: str = ''
     media_region: str = 'auto'
