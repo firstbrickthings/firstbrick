@@ -3524,7 +3524,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
    if(!product)return;
    const now=performance.now();
    const selection=JSON.stringify([product.selectedVariant,product.selectedPatternId,product.price,product.sale_enabled,product.version]);
-   if(now-lastOpen<240 && lastId===String(id)&&lastSelection===selection)return;
+   if(now-lastOpen<240 && lastId===String(id)&&lastSelection===selection&&!modal.classList.contains('hidden'))return;
    lastOpen=now;lastId=String(id);lastSelection=selection;
    if(!document.body.classList.contains('bo-product-open'))previousFocus=document.activeElement;
    oldOpen(String(product.id));
