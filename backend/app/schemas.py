@@ -81,7 +81,16 @@ class ProductInput(Input):
     sku: str | None = Field(default=None,max_length=100)
     subcategory: str | None = Field(default=None,max_length=100)
     badge: str | None = Field(default=None,max_length=100)
+    product_details: dict[str,str] | None = None
     gallery_images: list[str] | None = Field(default=None,max_length=50)
+
+    @field_validator('product_details')
+    @classmethod
+    def details(cls,value):
+        allowed={'age_range','material','care_instructions','country_of_origin','barcode','manufacturer','safety_information','highlights'}
+        if value is not None and (set(value)-allowed or any(len(v)>2000 for v in value.values())):
+            raise ValueError('Use the listed product detail fields, up to 2,000 characters each.')
+        return value
 
     @field_validator('gallery_images')
     @classmethod

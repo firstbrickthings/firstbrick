@@ -1,4 +1,4 @@
-/* Python/MySQL store connection. Firebase supplies identity, never prices or order data. */
+/* Python/MySQL store connection. Verified email cookie sessions supply identity; Firebase is a migration fallback. */
 (function () {
   const base = (window.BABYONE_API_BASE || '/api').replace(/\/$/, '');
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -11,9 +11,10 @@
     const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 20000);
     try {
       const headers = {'Content-Type': 'application/json', ...(options.headers || {})};
-      if (authenticated) headers.Authorization = 'Bearer ' + await token();
-      const response = await fetch(base + path, {...options, headers, signal: controller.signal, cache: 'no-store'});
+      if (authenticated) Object.assign(headers,window.BOauth?await BOauth.headers(options.method||'GET'):{Authorization:'Bearer '+await token()});
+      const response = await fetch(base + path, {...options, headers, signal: controller.signal, credentials:'same-origin', cache: 'no-store'});
       const data = await response.json().catch(() => ({}));
+      if(response.status===401&&authenticated)window.BOauth?.invalidate();
       if (!response.ok) throw Error(typeof data.detail === 'string' ? data.detail : 'The store could not process this request. Check the form and try again.');
       return data;
     } catch (error) {
@@ -81,6 +82,7 @@
   }
   async function submit(order) {
     if (!order.serverQuote) throw Error('Reopen checkout to review a server-verified total.');
+    if(window.BOauth?.isEmailSession())await BOauth.updateContact(String(order.phone||''));
     const shipping = Object.fromEntries(['name','address','city','state','pin','email'].map(k=>[k,String(order[k] || '')]));
     const stored=await request('/orders', {method:'POST',body:JSON.stringify({idempotency_key:order.id,
       quote_hash:order.serverQuote.quote_hash,items:order.serverItems,shipping,payment:order.payment==='RAZORPAY'?'RAZORPAY':'COD'})});

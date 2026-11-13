@@ -11,9 +11,9 @@ from starlette.concurrency import run_in_threadpool
 from sqlalchemy import func, or_, select, text
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm import Session
-from .auth import Identity, admin, identity
+from .auth import Identity, admin, identity, resolve_identity
 from .config import settings
-from .db import database
+from .db import database, sessions
 from .models import Category, Customer, Order, Product, Variant
 from .schemas import CategoryInput, OrderInput, ProductInput, QuoteInput, Shipping, StatusInput
 from .services import calculate, change_status, order_view, place_order, product_view
@@ -40,8 +40,8 @@ async def lifespan(app):
 
 
 app = FastAPI(lifespan=lifespan, title='BabyOne store API', version='1.0.0', docs_url='/api/docs', openapi_url='/api/openapi.json')
-app.add_middleware(CORSMiddleware, allow_origins=settings().origins, allow_credentials=False,
-                   allow_methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], allow_headers=['Authorization', 'Content-Type'])
+app.add_middleware(CORSMiddleware, allow_origins=settings().origins, allow_credentials=True,
+                   allow_methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], allow_headers=['Authorization', 'Content-Type', 'X-BabyOne-CSRF'])
 
 
 @app.middleware('http')
@@ -57,7 +57,10 @@ async def headers(request: Request, call_next):
             from fastapi.security import HTTPAuthorizationCredentials
             try:
                 scheme, _, credential = request.headers.get('authorization','').partition(' ')
-                user = await run_in_threadpool(identity, HTTPAuthorizationCredentials(scheme=scheme,credentials=credential) if credential else None)
+                def check_upload_identity():
+                    with sessions()() as db:
+                        return resolve_identity(request,HTTPAuthorizationCredentials(scheme=scheme,credentials=credential) if credential else None,db)
+                user = await run_in_threadpool(check_upload_identity)
                 admin(user)
             except HTTPException as exc:
                 return JSONResponse({'detail': exc.detail},status_code=exc.status_code)
@@ -100,7 +103,7 @@ def ready(db: Session = Depends(database)):
 
 @app.get('/api/me')
 def me(user: Identity = Depends(identity)):
-    return {'uid': user.uid, 'phone': user.phone, 'is_admin': user.admin}
+    return {'uid': user.uid, 'phone': user.phone, 'email':user.email, 'phone_verified':user.phone_verified, 'is_admin': user.admin}
 
 
 @app.get('/api/me/profile')
@@ -180,7 +183,7 @@ def my_orders(offset: int = Query(0, ge=0), limit: int = Query(25, ge=1, le=100)
     from .legacy import list_orders
     query = select(Order).where(Order.customer_uid == user.uid,Order.kind=='purchase')
     regular=[order_view(o) for o in db.scalars(query.order_by(Order.created_at.desc()).limit(offset+limit))]
-    legacy=list_orders(db,user.phone)
+    legacy=list_orders(db,user.legacy_phone) if user.legacy_phone else []
     total=db.scalar(select(func.count()).select_from(query.subquery()))+len(legacy)
     items=sorted(regular+legacy,key=lambda o:o['dateISO'],reverse=True)[offset:offset+limit]
     return {'items':items,'total':total}
@@ -191,7 +194,9 @@ def my_order(order_id: str, user: Identity = Depends(identity), db: Session = De
     record = db.scalar(select(Order).where(Order.id == order_id, Order.customer_uid == user.uid))
     if not record:
         from .legacy import find,view
-        return view(find(db,order_id,user.phone))
+
+        if not user.legacy_phone:raise HTTPException(404,'Order not found.')
+        return view(find(db,order_id,user.legacy_phone))
     return order_view(record)
 
 
@@ -240,6 +245,7 @@ def write_product(db, data, record):
     if len({p.id for p in data.patterns})!=len(data.patterns):raise HTTPException(422,'Pattern IDs must be unique.')
     for key in ['brand','sku','subcategory','badge']:
         if key in data.model_fields_set:record.metadata_json={**record.metadata_json,key:getattr(data,key) or ''}
+    if 'product_details' in data.model_fields_set:record.metadata_json={**record.metadata_json,'product_details':data.product_details or {}}
     if 'gallery_images' in data.model_fields_set:record.metadata_json={**record.metadata_json,'galleryImages':data.gallery_images or []}
     if 'shipping' in data.model_fields_set:
         record.metadata_json = {**record.metadata_json, 'shipping': data.shipping}
@@ -361,3 +367,6 @@ app.include_router(catalogue_admin_router)
 
 from .payment_checks import router as payment_check_router
 app.include_router(payment_check_router)
+
+from .email_auth import router as email_auth_router
+app.include_router(email_auth_router)

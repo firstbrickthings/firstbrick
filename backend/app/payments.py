@@ -88,7 +88,7 @@ def prepare_live_connection():
                 if len(rows)<100:break
             else:raise ValueError('Webhook list too large')
             if len(found)>1:raise ValueError('Duplicate store callbacks need review')
-            body={'url':callback,'secret':cfg.razorpay_live_webhook_secret,'events':sorted(LIVE_EVENTS),'active':True,'alert_email':'babyonestore@gmail.com'}
+            body={'url':callback,'secret':cfg.razorpay_live_webhook_secret,'events':sorted(LIVE_EVENTS),'active':True,'alert_email':'babyonestores@gmail.com'}
             if found:
                 identifier=found[0].get('id','')
                 if not re.fullmatch(r'(?:hook_)?[A-Za-z0-9]+',identifier):raise ValueError('Invalid webhook ID')

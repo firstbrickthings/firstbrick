@@ -7,3 +7,6 @@ firebase-admin==6.8.0
 alembic==1.15.2
 boto3==1.44.1
 python-multipart==0.0.33
+requests==2.34.2
+cryptography==50.0.2
+google-auth==2.62.2

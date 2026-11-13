@@ -141,7 +141,10 @@ def customer_details(uid:str=Query(...,min_length=1,max_length=128),user:Identit
     from .services import order_view
     from .legacy import list_orders
     orders=[order_view(o) for o in db.scalars(select(Order).where(Order.customer_uid==uid).order_by(Order.created_at.desc()).limit(100))]
-    orders.extend(list_orders(db,row.phone))
+    from .models import EmailIdentity
+    linked=db.scalar(select(EmailIdentity).where(EmailIdentity.customer_uid==row.uid))
+    verified_phone=linked.verified_phone if linked else row.phone
+    if verified_phone:orders.extend(list_orders(db,verified_phone))
     return {'uid':row.uid,'phone':row.phone,'details':row.details,'cart':cart_view(db,db.get(CustomerCart,uid)),
             'orders':sorted(orders,key=lambda o:o['dateISO'],reverse=True)[:100],
             'whatsapp':preference_view(db.get(WhatsAppPreference,uid),Identity(uid,row.phone))}

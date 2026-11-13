@@ -9,6 +9,13 @@ class Settings(BaseSettings):
     database_url: str = 'mysql+pymysql://babyone:configure-password@localhost:3306/babyone?charset=utf8mb4'
     firebase_service_account_json: str = ''
     firebase_project_id: str = 'baby-one-a5cd4'
+    auth_secret: str = ''
+    auth_cookie_secure: bool = True
+    email_otp_enabled: bool = True
+    auth_email_sender: str = 'babyonestores@gmail.com'
+    admin_verified_emails: str = ''
+    gmail_oauth_client_id: str = ''
+    gmail_oauth_client_secret: str = ''
     admin_firebase_uids: str = ''
     admin_verified_phones: str = ''
     allowed_origins: str = 'http://localhost:8000,http://127.0.0.1:8000'
@@ -51,6 +58,10 @@ class Settings(BaseSettings):
     @property
     def admins(self) -> set[str]:
         return {value.strip() for value in self.admin_firebase_uids.split(',') if value.strip()}
+
+    @property
+    def admin_emails(self) -> set[str]:
+        return {value.strip().lower() for value in self.admin_verified_emails.split(',') if value.strip()}
 
     @property
     def admin_phones(self) -> set[str]:

@@ -222,7 +222,7 @@ def admin_status(user:Identity=Depends(admin),db:Session=Depends(database)):
 
 @router.get('/store/contact')
 def public_contact():
-    return {'phone':'+917034476592','email':'babyonestore@gmail.com','whatsapp_automation_active':settings().whatsapp_enabled and not missing_configuration() and _connection['ready']}
+    return {'phone':'+917034476592','email':'babyonestores@gmail.com','whatsapp_automation_active':settings().whatsapp_enabled and not missing_configuration() and _connection['ready']}
 
 
 @router.get('/admin/whatsapp/check')

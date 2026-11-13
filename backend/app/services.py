@@ -142,6 +142,8 @@ def place_order(db: Session, user: Identity, data: OrderInput):
         if existing:
             db.rollback()
             return same(existing)
+        if not user.phone or len(user.phone)!=13:
+            raise HTTPException(422,'Enter your delivery contact mobile number before placing the order.')
         quote, quantities, variants, products = calculate(db, data.items, lock=True, pin=data.shipping.pin, payment=data.payment)
         if quote['delivery_pending']:
             raise HTTPException(409, 'Review your delivery quote before placing the order.')

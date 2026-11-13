@@ -1,7 +1,7 @@
 /* Public store contact links. Owner authentication uses its separate verified allowlist. */
 (function(){
 'use strict';
-const phone='+917034476592',whatsapp='https://wa.me/917034476592',email='babyonestore@gmail.com';
+const phone='+917034476592',whatsapp='https://wa.me/917034476592',email='babyonestores@gmail.com';
 function start(){
  document.querySelectorAll('a[href^="tel:"]').forEach(a=>{a.href='tel:'+phone;a.textContent='+91 70344 76592'});
  document.querySelectorAll('a[href^="https://wa.me/"]').forEach(a=>{const url=new URL(a.href);url.pathname='/917034476592';a.href=url.href});

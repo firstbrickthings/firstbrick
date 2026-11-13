@@ -57,9 +57,9 @@ async function overview(root,quiet=false){
 
 async function upload(file){
  if(!file)throw Error('Choose a file first.');
- const data=new FormData();data.append('file',file);const token=await BOphoneOTP.getIdToken();
+ const data=new FormData();data.append('file',file);const authHeaders=window.BOauth?await BOauth.headers('POST'):{Authorization:'Bearer '+await BOphoneOTP.getIdToken()};
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),180000);
- try{const response=await fetch((window.BABYONE_API_BASE||'/api')+'/admin/media',{method:'POST',headers:{Authorization:'Bearer '+token},body:data,signal:controller.signal});const result=await response.json();if(!response.ok)throw Error(typeof result.detail==='string'?result.detail:'The file could not be uploaded.');return result.url}
+ try{const response=await fetch((window.BABYONE_API_BASE||'/api')+'/admin/media',{method:'POST',headers:authHeaders,credentials:'same-origin',body:data,signal:controller.signal});const result=await response.json();if(!response.ok)throw Error(typeof result.detail==='string'?result.detail:'The file could not be uploaded.');return result.url}
  finally{clearTimeout(timer)}
 }
 async function productList(root,add=false){
@@ -147,7 +147,7 @@ async function shippingEditor(root){
 }
 
 async function customersPanel(root,offset=0){const data=await api('/admin/customers?limit=50&offset='+offset);root.innerHTML=card('Customers',`${data.total} verified customer records. Historical signup dates are kept unknown.`,table(['Name','Phone','City / PIN','Signup'],data.items.map(c=>`<tr><td>${esc(c.details.name||'Customer')}</td><td>${esc(c.phone)}</td><td>${esc(c.details.city||'')} ${esc(c.details.pin||'')}</td><td>${c.signup_at?esc(new Date(c.signup_at).toLocaleDateString('en-IN')):'Historical date unknown'}</td></tr>`).join(''))+`<div class="bo-work-toolbar"><button type="button" class="bo-admin-btn secondary" data-prev ${offset===0?'disabled':''}>Previous</button><button type="button" class="bo-admin-btn secondary" data-next ${offset+50>=data.total?'disabled':''}>Next</button></div>`);root.querySelector('[data-prev]').onclick=()=>customersPanel(root,offset-50).catch(e=>message(root,e.message,true));root.querySelector('[data-next]').onclick=()=>customersPanel(root,offset+50).catch(e=>message(root,e.message,true))}
-async function download(path,name){const token=await BOphoneOTP.getIdToken(),response=await fetch((window.BABYONE_API_BASE||'/api')+path,{headers:{Authorization:'Bearer '+token},cache:'no-store'});if(!response.ok)throw Error('The backup could not be downloaded. Try again.');const url=URL.createObjectURL(await response.blob()),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+async function download(path,name){const authHeaders=window.BOauth?await BOauth.headers('GET'):{Authorization:'Bearer '+await BOphoneOTP.getIdToken()},response=await fetch((window.BABYONE_API_BASE||'/api')+path,{headers:authHeaders,credentials:'same-origin',cache:'no-store'});if(!response.ok)throw Error('The backup could not be downloaded. Try again.');const url=URL.createObjectURL(await response.blob()),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 async function backupPanel(root){
  const report=await api('/admin/reporting');root.innerHTML=card('Data backup & Sheets reporting','MySQL is the main database. Google Sheets is a reporting copy.',`<p class="bo-work-status" role="status"></p><div class="bo-work-toolbar"><button type="button" class="bo-admin-btn" id="bo-mysql-export">Download database backup</button><button type="button" class="bo-admin-btn secondary" id="bo-device-export">Download this device’s previous data</button></div><p class="bo-muted">Database backups include customer details. Store them privately. Your pre-update records are preserved in a private database snapshot. Device-only edits are kept in your browser until you explicitly review and republish them.</p><h4>Review older device orders</h4><p class="bo-muted">Import selected historical orders into the shared store after checking their customer, amounts and original status. Imports do not assert a verified payment or adjust stock.</p><div id="bo-legacy-orders"></div><h4>Google Sheets</h4><p>${report.enabled?'Signed reporting enabled.':'Awaiting signed Apps Script receiver setup.'}</p><p>Queued: ${Number(report.counts.pending||0)} · Acknowledged: ${Number(report.counts.sent||0)}</p><p class="bo-muted">Orders save to MySQL first. Reporting retries independently and marks a record sent only when Sheets returns its matching event ID.</p><a class="bo-admin-btn secondary" href="assets/BabyOne_Reporting_Receiver.gs" download>Download receiver code</a><p class="bo-muted">The deployed Apps Script link is reachable. Its current code cannot be inspected from the web-app URL. Install the receiver code, set its private shared secret, then configure the matching server variables to enable verified syncing.</p>`);
  let oldOrders=[];try{oldOrders=JSON.parse(localStorage.getItem('babyone-orders-v1')||'[]')}catch(_){}
@@ -182,6 +182,7 @@ async function renderPanel(name){
   else if(name==='reviews')await reviewsEditor(target);
   else if(name==='delivery')await shippingEditor(target);
   else if(name==='customers')await BOadminSections.customers(target);
+  else if(name==='email-login')await BOauth.setup(target);
   else if(name==='whatsapp')await BOadminSections.whatsapp(target);
   else if(name==='backup')await backupPanel(target);
  }catch(e){message(target,e.message,true)}
@@ -210,12 +211,12 @@ function start(){
  defaults.fashion=[{id:'fashion-default',image:'assets/photo-0b02ae5543c03240.webp',published:true}];
  defaults.categories=categoriesData.map(c=>({...c,published:true}));defaults.videos=reelsData.filter(r=>r.videoUrl||/^[A-Za-z0-9_-]{11}$/.test(r.id)).map(r=>({id:r.cloudId||'youtube-'+r.id,title:r.title,author:r.author||'@babyone',productId:r.productId||'',videoUrl:r.videoUrl||'',...(r.videoUrl?{}:{youtubeId:r.id}),cover:r.cover||'',published:true}));
  const nav=document.querySelector('.bo-admin-nav'),main=document.querySelector('.bo-admin-grid>main');
- for(const [key,title] of [['reviews','Website Reviews'],['delivery','Delivery charges'],['whatsapp','WhatsApp messages']])if(!$('bo-admin-panel-'+key)){const button=document.createElement('button');button.type='button';button.dataset.panel=key;button.textContent=title;button.onclick=()=>boAdmin.tab(key,button);nav.appendChild(button);const panel=document.createElement('section');panel.id='bo-admin-panel-'+key;panel.className='bo-admin-panel';main.appendChild(panel)}
+ for(const [key,title] of [['email-login','Login & email'],['reviews','Website Reviews'],['delivery','Delivery charges'],['whatsapp','WhatsApp messages']])if(!$('bo-admin-panel-'+key)){const button=document.createElement('button');button.type='button';button.dataset.panel=key;button.textContent=title;button.onclick=()=>boAdmin.tab(key,button);nav.appendChild(button);const panel=document.createElement('section');panel.id='bo-admin-panel-'+key;panel.className='bo-admin-panel';main.appendChild(panel)}
  if(!document.getElementById('bo-admin-upi-check')){const check=document.createElement('button');check.type='button';check.id='bo-admin-upi-check';check.textContent='₹10 UPI check';check.onclick=()=>BOpaymentCheck.open();nav.appendChild(check);}
  const originalTab=boAdmin.tab;
  boAdmin.tab=function(name,btn){
   if(name!=='video-manager')window.BOvideoManager?.pause();
-  const custom=['overview','catalogue','inventory','products','hero','video-manager','category-manager','reviews','delivery','customers','backup','whatsapp'];
+  const custom=['email-login','overview','catalogue','inventory','products','hero','video-manager','category-manager','reviews','delivery','customers','backup','whatsapp'];
   if(!custom.includes(name)){currentPanel=name;return originalTab.call(this,name,btn)}
   if(!BOserver.isAdmin())return;
   document.querySelectorAll('.bo-admin-panel').forEach(p=>p.classList.toggle('active',p.id==='bo-admin-panel-'+name));nav.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.panel===name));renderPanel(name);

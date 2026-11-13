@@ -20,7 +20,7 @@ from fastapi.testclient import TestClient
 
 @pytest.fixture(autouse=True)
 def isolated_database(monkeypatch):
-    for key,value in {'razorpay_mode':'test','razorpay_key_id':'rzp_test_fixture','razorpay_key_secret':'unit-test-secret-not-a-credential','razorpay_prepare_live':False,'razorpay_live_webhook_confirmed':False,'catalog_stock_five_once':False,'catalog_price_ten_once':False,'catalog_publish_prices_once':False,'shipping_flat_99_once':False}.items():monkeypatch.setattr(settings(),key,value)
+    for key,value in {'razorpay_mode':'test','razorpay_key_id':'rzp_test_fixture','razorpay_key_secret':'unit-test-secret-not-a-credential','razorpay_prepare_live':False,'razorpay_live_webhook_confirmed':False,'catalog_stock_five_once':False,'catalog_price_ten_once':False,'catalog_publish_prices_once':False,'shipping_flat_99_once':False,'auth_cookie_secure':False,'auth_secret':'','gmail_oauth_client_id':'','gmail_oauth_client_secret':'','admin_verified_emails':''}.items():monkeypatch.setattr(settings(),key,value)
     Base.metadata.drop_all(engine())
     Base.metadata.create_all(engine())
     with sessions()() as db:

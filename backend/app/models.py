@@ -205,3 +205,62 @@ class WhatsAppMessage(Base):
     due_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=now, onupdate=now)
+
+
+class EmailIdentity(Base):
+    __tablename__ = 'email_identities'
+    email: Mapped[str] = mapped_column(String(254, collation='utf8mb4_bin'), primary_key=True)
+    customer_uid: Mapped[str] = mapped_column(ForeignKey('customers.uid'), unique=True)
+    verified_phone: Mapped[str] = mapped_column(String(20), default='')
+    verified_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class EmailChallenge(Base):
+    __tablename__ = 'email_challenges'
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    email: Mapped[str] = mapped_column(String(254, collation='utf8mb4_bin'), index=True)
+    code_digest: Mapped[str] = mapped_column(String(64))
+    device_digest: Mapped[str] = mapped_column(String(64))
+    link_uid: Mapped[str | None] = mapped_column(ForeignKey('customers.uid'), nullable=True)
+    verified_phone: Mapped[str] = mapped_column(String(20), default='')
+    name: Mapped[str] = mapped_column(String(100), default='')
+    contact_phone: Mapped[str] = mapped_column(String(20), default='')
+    state: Mapped[str] = mapped_column(String(20), default='sending')
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    consumed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class LoginSession(Base):
+    __tablename__ = 'login_sessions'
+    token_digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    customer_uid: Mapped[str] = mapped_column(ForeignKey('customers.uid'), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class AuthRateLimit(Base):
+    __tablename__ = 'auth_rate_limits'
+    key: Mapped[str] = mapped_column(String(64), primary_key=True)
+    window_at: Mapped[datetime] = mapped_column(DateTime)
+    count: Mapped[int] = mapped_column(Integer, default=0)
+    next_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+class GmailCredential(Base):
+    __tablename__ = 'gmail_credentials'
+    email: Mapped[str] = mapped_column(String(254, collation='utf8mb4_bin'), primary_key=True)
+    encrypted_refresh_token: Mapped[str] = mapped_column(Text)
+    google_subject: Mapped[str] = mapped_column(String(128))
+    connected_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+
+
+class GmailConnectState(Base):
+    __tablename__ = 'gmail_connect_states'
+    state_digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    device_digest: Mapped[str] = mapped_column(String(64))
+    owner_uid: Mapped[str] = mapped_column(ForeignKey('customers.uid'))
+    expires_at: Mapped[datetime] = mapped_column(DateTime)
+    consumed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)

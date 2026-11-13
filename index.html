@@ -1131,6 +1131,7 @@ body{overflow-x:hidden}
 <link rel="stylesheet" href="assets/store-dashboard.css">
 <script src="assets/frontend.js" defer></script>
 <script src="assets/payment-methods.js" defer></script>
+<script src="assets/auth-client.js" defer></script>
 <script src="assets/backend.js" defer></script>
 </head>
 
@@ -1614,10 +1615,11 @@ body{overflow-x:hidden}
     if(phone.length===12&&phone.startsWith('91'))phone=phone.slice(2);
     return /^\d{10}$/.test(phone)?phone:'';
   };
-  // Never trust a saved local profile as proof of phone ownership. Only the current
-  // Firebase Auth user can satisfy this check, including after a browser reload.
-  const verifiedPhone=phone=>!!window.BOphoneOTP?.isVerified?.(phone);
-  function login(force=false){
+  // Account access requires a live server session or verified migration phone identity.
+  const verifiedPhone=phone=>window.BOauth?.isEmailSession() ? (!phone||!!normalizedPhone(phone)) : window.BOauth?.config().phone_available===false ? false : !!window.BOphoneOTP?.isVerified?.(phone);
+  function login(force=false,phoneOnly=false){
+    if(window.BOauth&&!BOauth.initialized()){BOauth.ready.then(()=>login(force,phoneOnly));return;}
+    if(!phoneOnly&&window.BOauth?.shouldUseEmail()){BOauth.login(false);return;}
     const existing=profile()||{};
     if(!force&&verifiedPhone(existing.phone)){home();return;}
     const x=force&&pendingLoginData?{...existing,...pendingLoginData}:existing;
@@ -1718,6 +1720,7 @@ body{overflow-x:hidden}
       updatedProfile.phone=normalizedPhone(updatedProfile.phone);
       if(!verifiedPhone(updatedProfile.phone)){showToast('Verify a different phone number through Account sign-in first.');return;}
       try {
+        if(window.BOauth?.isEmailSession())await BOauth.updateContact(updatedProfile.phone);
         const details=Object.fromEntries(['name','address','city','state','pin','email'].map(key=>[key,updatedProfile[key]||'']));
         await window.BOserver.request('/me/profile',{method:'PUT',body:JSON.stringify(details)});
       }catch(error){showToast(error.message);return;}
@@ -1752,7 +1755,8 @@ body{overflow-x:hidden}
         <p style="font-size:12px;color:var(--ink-soft);margin:0 0 14px;line-height:1.6;">${esc(x.address||'')} ${esc(x.city||'')} ${esc(x.pin||'')}</p>
         <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center;">
           <button class="btn btn-outline" style="font-size:10px;padding:10px 20px;" onclick="boU.edit()">Edit</button>
-          <button class="btn btn-outline" style="font-size:10px;padding:10px 20px;" onclick="boU.login(true)">Change number</button>
+          <button class="btn btn-outline" style="font-size:10px;padding:10px 20px;" onclick="boU.login(true)">${window.BOauth?.isEmailSession()?'Use another email':'Change number'}</button>
+          ${window.BOauth?.isEmailSession()?'<button class="btn btn-outline" onclick="BOauth.logout()">Sign out</button>':window.BOauth?.config().email_available?'<button class="btn btn-outline" onclick="BOauth.login(true)">Link email to this account</button>':''}
           ${sessionStorage.getItem('babyone-admin-session')==='yes' ? '<button class="btn btn-pink" style="font-size:10px;padding:10px 16px;" onclick="boU.close();boAdmin.openDashboard();"><i class="fa-solid fa-sliders" style="margin-right:6px;"></i>Admin Dashboard</button>' : ''}
         </div>
       </div>
@@ -1856,7 +1860,7 @@ body{overflow-x:hidden}
       const paymentPreference=f.payment==='RAZORPAY_UPI'?'upi':'all';
       if(f.payment==='RAZORPAY_UPI')f.payment='RAZORPAY';
       f.phone=normalizedPhone(f.phone);
-      if(!verifiedPhone(f.phone)){showToast('Your mobile number must be OTP verified to place an order.');return;}
+      if(!verifiedPhone(f.phone)){showToast('Sign in and enter a valid delivery contact mobile number before placing your order.');return;}
       try{submitting=true;button.disabled=true;await window.BOcartSync?.saveCheckoutChoices?.();}catch(error){status.textContent=error.message;return;}finally{submitting=false;button.disabled=false;}
       if(!pendingOrder){
         button.disabled=true;status.textContent='Checking delivery for '+f.pin+'…';
@@ -1924,7 +1928,7 @@ body{overflow-x:hidden}
   function support(){
     show('Customer Support','We can help with products, payments and deliveries.',`
       <a class="btn btn-pink" style="display:block;text-align:center;text-decoration:none;width:100%;" href="https://wa.me/917034476592?text=Hi%20BabyOne%2C%20I%20need%20support." target="_blank" rel="noopener">Chat on WhatsApp</a>
-      <p style="font-size:12px;color:var(--ink-soft);margin-top:16px;text-align:center;"><a href="tel:+917034476592">+91 70344 76592</a><br><a href="mailto:babyonestore@gmail.com">babyonestore@gmail.com</a></p>`);
+      <p style="font-size:12px;color:var(--ink-soft);margin-top:16px;text-align:center;"><a href="tel:+917034476592">+91 70344 76592</a><br><a href="mailto:babyonestores@gmail.com">babyonestores@gmail.com</a></p>`);
   }
 
   window.BOorderCard=orderCard;
@@ -4169,304 +4173,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
 })();
 
 </script>
-<script type="module" id="bo-firebase-cloud-video-v1">
-if(!window.BO_USE_MYSQL){
-
-/* Optional public video backend. Firebase Auth and restrictive Storage/Firestore rules must be enabled by owner.
-   Local-device mode works without internet; no unsafe anonymous cloud write permissions. */
-const options={apiKey:'AIzaSyCUjhZo0w2cT3qbAqFDmO4oamGI43PF2Zk',authDomain:'baby-one-a5cd4.firebaseapp.com',projectId:'baby-one-a5cd4',storageBucket:'baby-one-a5cd4.firebasestorage.app',messagingSenderId:'802416402185',appId:'1:802416402185:web:5a13749d67a28aeb38fdd8',measurementId:'G-945RWWZ57S'};
-try{
- const [{initializeApp,getApps,getApp},{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut},{getStorage,ref,uploadBytesResumable,getDownloadURL,deleteObject},{getFirestore,collection,doc,setDoc,getDocs,deleteDoc,updateDoc,serverTimestamp,addDoc,query,where,limit,onSnapshot}]=await Promise.all([
- import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js'),import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js'),import('https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js'),import('https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js')]);
- const app=getApps().length?getApp():initializeApp(options);const auth=getAuth(app),storage=getStorage(app),db=getFirestore(app);let signedIn=null;
- window.BOvideoCloud={ready:true,user:()=>signedIn,
-  login:async(email,password)=>{if(!email||!password)throw new Error('Enter Firebase owner email and password');const c=await signInWithEmailAndPassword(auth,email,password);signedIn=c.user;window.dispatchEvent(new Event('bo-video-cloud-change'));return c.user},
-  logout:async()=>signOut(auth),
-  upload:async(file,meta,onProgress)=>{
-   if(!signedIn)throw new Error('Sign in as Firebase owner first');
-   const id='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,10);
-   const path='babyoneVideos/'+signedIn.uid+'/'+id+'/'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const fref=ref(storage,path);
-   const task=uploadBytesResumable(fref,file,{contentType:file.type||'video/mp4',customMetadata:{ownerUid:signedIn.uid}});
-   await new Promise((resolve,reject)=>task.on('state_changed',s=>onProgress?.(s.bytesTransferred,s.totalBytes),reject,resolve));
-   const videoUrl=await getDownloadURL(task.snapshot.ref);const record={cloudId:id,title:meta.title,author:'@babyone',productId:meta.productId||'',videoUrl,storagePath:path,fileName:file.name,fileSize:file.size,cover:meta.cover||'',createdAt:Date.now()};
-   try{await setDoc(doc(db,'babyoneVideos',id),{...record,ownerUid:signedIn.uid,createdAtServer:serverTimestamp()})}
-   catch(error){try{await deleteObject(task.snapshot.ref)}catch(_){};throw error}
-   return {...record,id:''};
-  },
-  remove:async(r)=>{if(!signedIn)throw new Error('Sign in to delete published videos');if(r.cloudId){await deleteDoc(doc(db,'babyoneVideos',r.cloudId));if(r.storagePath)await deleteObject(ref(storage,r.storagePath))}},
-  updateCover:async(r,cover)=>{if(!signedIn)throw new Error('Sign in as owner to update a published cover');if(!r.cloudId)throw new Error('This video has no published cloud record');await updateDoc(doc(db,'babyoneVideos',r.cloudId),{cover})}
- };
- // Optional shared hero image publishing: same owner authentication as video uploads.
- window.BOheroCloud={ready:true,user:()=>signedIn,
-  uploadImage:async(file,section)=>{
-   if(!signedIn)throw new Error('Sign in as owner first');
-   const filename=section+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+(file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg');
-   const path='babyoneHeroImages/'+signedIn.uid+'/'+filename;
-   const target=ref(storage,path);const task=uploadBytesResumable(target,file,{contentType:file.type||'image/jpeg'});
-   await new Promise((resolve,reject)=>task.on('state_changed',null,reject,resolve));
-   return {url:await getDownloadURL(task.snapshot.ref),path};
-  },
-  uploadVideo:async(file,section)=>{
-   if(!signedIn)throw new Error('Sign in as owner first');
-   const path='babyoneHeroVideos/'+signedIn.uid+'/'+section+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'-'+file.name.replace(/[^a-z0-9._-]/gi,'_');
-   const task=uploadBytesResumable(ref(storage,path),file,{contentType:file.type||'video/mp4'});
-   await new Promise((resolve,reject)=>task.on('state_changed',null,reject,resolve));
-   return {url:await getDownloadURL(task.snapshot.ref),path};
-  },
-  saveCategoryCover:async(name,url)=>{
-   if(!signedIn)throw new Error('Sign in as owner first');
-   await setDoc(doc(db,'babyoneCategoryCovers',encodeURIComponent(name)),{name,url,ownerUid:signedIn.uid,updatedAt:serverTimestamp()});
-  },
-  saveGallery:async(section,slides)=>{
-   if(!signedIn)throw new Error('Sign in as owner first');
-   await setDoc(doc(db,'babyoneHeroBanners',section),{section,slides,ownerUid:signedIn.uid,updatedAt:serverTimestamp()});
-  }
- };
- const ORDER_QUEUE='babyone-cloud-orders-pending-v1',ORDER_LOCAL='babyone-orders-v1';
- // Shared public catalogue (only store-facing settings; no customer profiles, carts, or personal orders).
- // Owner-only edits are enforced by Firebase rules. Local changes are retained if publishing fails.
- const STORE_KEYS=Object.freeze([
-  'babyone-pro-dashboard-edits-v2','babyone-admin-products-v1',
-  'babyone-category-settings-v1','babyone-deleted-products-v1',
-  'babyone-deleted-categories-v1','babyone-deleted-subcategories-v1','babyone-bath-sample-edits-v1',
-  'babyone-pattern-edits-v1'
- ]);
- const settingCollection=collection(db,'babyoneStoreSettings');
- const inFlightKeys=new Set(),writeQueues=new Map(),assetUploads=new Map();
- const REMOTE_MARKER='babyone-shared-settings-synced-v1';
- const syncedKeys=()=>{try{return new Set(JSON.parse(localStorage.getItem(REMOTE_MARKER)||'[]'))}catch(e){return new Set()}};
- const markSynced=key=>{try{const seen=syncedKeys();seen.add(key);localStorage.setItem(REMOTE_MARKER,JSON.stringify([...seen]))}catch(e){}};
- let storeSubscription=null,orderSubscription=null,trafficSubscription=null,readableKeys=new Set();
- const storeStatus=msg=>{const el=document.getElementById('bo-store-cloud-status');if(el)el.textContent=msg};
- function broadcastShared(keys){if(keys.length)window.BOapplySharedCatalogue?.(keys);}
- function fromCloudSnapshot(snap,force=false){
-  const changed=[],conflicts=[];const previousSynced=syncedKeys();
-  snap.docs.forEach(d=>{
-   if(!STORE_KEYS.includes(d.id)||inFlightKeys.has(d.id))return;
-   const value=d.data()?.data;
-   if(value===undefined)return;
-   readableKeys.add(d.id);
-   const json=JSON.stringify(value),existing=localStorage.getItem(d.id);
-   if(existing===json){markSynced(d.id);return}
-   // An existing owner device may have unsynced pre-Firebase edits. Do not overwrite those silently.
-   if(!force&&existing!==null&&!previousSynced.has(d.id)){conflicts.push(d.id);return}
-   try{localStorage.setItem(d.id,json);markSynced(d.id);changed.push(d.id)}catch(err){console.warn('Local cache too full for cloud update',err)}
-  });
-  broadcastShared(changed);
-  storeStatus(conflicts.length?'Some local edits differ from cloud ('+conflicts.length+' setting(s)). Use Publish this device or Load cloud catalogue to choose which copy to keep.':'Cloud catalogue connected · '+readableKeys.size+' shared setting(s) · live updates enabled.');
- }
- function startStoreSubscription(){
-  if(window.BO_USE_MYSQL)return;
-  if(storeSubscription){storeSubscription();storeSubscription=null}
-  storeSubscription=onSnapshot(settingCollection,fromCloudSnapshot,err=>storeStatus('Cloud catalogue cannot be read: '+(err.message||err)+'. Check Firestore rules.'));
- }
- async function uploadDataImage(dataURL){
-  if(assetUploads.has(dataURL))return assetUploads.get(dataURL);
-  const job=(async()=>{
-   if(!signedIn)throw Error('Sign in as Firebase owner to upload catalogue photos');
-   const blob=await (await fetch(dataURL)).blob();
-   if(blob.size>20*1024*1024)throw Error('A photo is larger than 20 MB. Compress it before publishing.');
-   const ext=blob.type.includes('png')?'png':blob.type.includes('webp')?'webp':'jpg';
-   const path='babyoneSharedMedia/'+signedIn.uid+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,12)+'.'+ext;
-   const task=uploadBytesResumable(ref(storage,path),blob,{contentType:blob.type||'image/jpeg'});
-   await new Promise((resolve,reject)=>task.on('state_changed',null,reject,resolve));
-   return await getDownloadURL(task.snapshot.ref);
-  })();
-  assetUploads.set(dataURL,job);
-  try{return await job}catch(e){assetUploads.delete(dataURL);throw e}
- }
- async function prepareShared(value){
-  if(typeof value==='string')return /^data:image\/(?:png|jpe?g|webp|gif);base64,/i.test(value)?await uploadDataImage(value):value;
-  if(Array.isArray(value)){const results=[];for(const item of value)results.push(await prepareShared(item));return results}
-  if(value&&typeof value==='object'){
-   const result={};for(const [k,v] of Object.entries(value))result[k]=await prepareShared(v);
-   return result;
-  }
-  return value;
- }
- async function writeShared(key,data){
-  if(!signedIn)throw Error('Connect your Firebase owner account in Overview first');
-  const original=JSON.stringify(data);
-  const cleaned=await prepareShared(data);
-  const bytes=new TextEncoder().encode(JSON.stringify(cleaned)).byteLength;
-  if(bytes>850000)throw Error('The '+key+' data is too large for one Firestore record ('+Math.round(bytes/1024)+' KB). Reduce product records or split the catalogue. Nothing was overwritten.');
-  await setDoc(doc(db,'babyoneStoreSettings',key),{key,data:cleaned,ownerUid:signedIn.uid,updatedAt:serverTimestamp()});
-  if(localStorage.getItem(key)===original){
-   try{localStorage.setItem(key,JSON.stringify(cleaned));markSynced(key);broadcastShared([key])}catch(err){console.warn('Saved to Firestore but browser local cache is full',err)}
-  }
-  readableKeys.add(key);
-  storeStatus('Published '+key.replace(/^babyone-|-[vV]\d+$/g,'').replace(/-/g,' ')+' · other devices update automatically.');
-  return true;
- }
- const sharedStore={
-  ready:true,user:()=>signedIn,keys:STORE_KEYS,
-  saveKey:async(key,value)=>{
-   if(!STORE_KEYS.includes(key))return false;
-   if(!signedIn){storeStatus('Saved on this device only. Connect Firebase owner to publish changes.');return false}
-   // Preserve edit order for repeated writes to the same setting.
-   inFlightKeys.add(key);
-   const previous=writeQueues.get(key)||Promise.resolve();
-   const current=previous.catch(()=>{}).then(()=>writeShared(key,value));
-   writeQueues.set(key,current);
-   try{return await current}catch(e){storeStatus('Not published: '+(e.message||e));throw e}
-   finally{if(writeQueues.get(key)===current){writeQueues.delete(key);inFlightKeys.delete(key)}}
-  },
-  pull:async()=>{
-   try{const s=await getDocs(settingCollection);fromCloudSnapshot(s,true);storeStatus('Loaded '+s.docs.length+' shared catalogue setting(s).');return s.docs.length}
-   catch(e){storeStatus('Download failed: '+(e.message||e));throw e}
-  },
-  publishAll:async()=>{
-   if(!signedIn)throw Error('Connect your Firebase owner account first');
-   let n=0;for(const key of STORE_KEYS){const raw=localStorage.getItem(key);if(raw===null)continue;
-    let value;try{value=JSON.parse(raw)}catch(e){continue}
-    if(value==null)continue;
-    storeStatus('Publishing saved store data… '+key+' ('+(n+1)+')');
-    await sharedStore.saveKey(key,value);n++;
-   }
-   storeStatus('Published '+n+' saved catalogue setting(s). Other devices will receive them.');
-   return n;
-  }
- };
- window.BOstoreCloud=sharedStore;
- function setupStoreButtons(){
-  const pub=document.getElementById('bo-store-publish'),down=document.getElementById('bo-store-download');
-  if(pub&&!pub.dataset.ready){pub.dataset.ready='1';pub.onclick=async()=>{
-   if(!signedIn){storeStatus('Connect your Firebase owner account above first.');return}
-   if(!confirm('Publish the catalogue edits stored on THIS device to Firebase? Any matching shared settings will be replaced. Export a data backup first if you are unsure.'))return;
-   pub.disabled=true;try{await sharedStore.publishAll()}catch(e){storeStatus('Publishing stopped: '+(e.message||e))}finally{pub.disabled=false}
-  }}
-  if(down&&!down.dataset.ready){down.dataset.ready='1';down.onclick=async()=>{down.disabled=true;try{await sharedStore.pull()}catch(e){}finally{down.disabled=false}}}
- }
- document.addEventListener('DOMContentLoaded',setupStoreButtons);setupStoreButtons();
- // One server subscription per signed-in session; statuses are reflected on all admin devices.
- function applyRemoteOrders(snap){
-  try{
-   const remote=snap.docs.map(d=>({id:d.id,...d.data()}));
-   window.BOsharedOrderRows=remote;
-   orderStatus('Live Firebase · '+remote.length+' shared orders · updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'.');
-   refreshAdmin();
-  }catch(e){orderStatus('Received cloud order update, but local storage is full: '+e.message)}
- }
- function startOrderSubscriptions(){
-  if(window.BO_USE_MYSQL)return;
-  if(orderSubscription){orderSubscription();orderSubscription=null}
-  if(trafficSubscription){trafficSubscription();trafficSubscription=null}
-  if(!signedIn)return;
-  orderStatus('Connecting to live Firebase orders…');
-  orderSubscription=onSnapshot(collection(db,'babyoneOrders'),applyRemoteOrders,
-   e=>orderStatus('Live orders unavailable: '+(e.message||e)+'. Check Firebase owner rules.'));
-  const cutoff=new Date();cutoff.setUTCDate(cutoff.getUTCDate()-91);
-  trafficSubscription=onSnapshot(query(collection(db,'babyoneTraffic'),where('day','>=',cutoff.toISOString().slice(0,10)),limit(4500)),s=>{
-   window.boTrafficDates=s.docs.map(d=>d.data().day).filter(Boolean);
-   window.boDrawOrderChart?.();
-  },err=>console.info('Traffic subscription is unavailable:',err?.message||err));
- }
- onAuthStateChanged(auth,user=>{
-  signedIn=user||null;
-  if(window.BO_USE_MYSQL)return;
-  // Signed-out shoppers still receive public catalogue updates but never private orders.
-  if(user){startOrderSubscriptions();storeStatus('Signed in. Checking shared catalogue permissions…');}
-  else{window.BOsharedOrderRows=[];window.boTrafficDates=null;startOrderSubscriptions();refreshAdmin();storeStatus('Published catalogue can display to customers. Sign in to edit it.');}
- });
- startStoreSubscription();
-
- let orderLoading=false,orderFlushing=false,trafficRecords=null;
- const orderStatus=(message)=>{for(const id of ['bo-orders-cloud-status','bo-orders-panel-cloud']){const el=document.getElementById(id);if(el)el.textContent=message}};
- function refreshAdmin(){if(document.getElementById('bo-admin-layer')?.classList.contains('hidden'))return;window.boAdmin?.refreshOrders?.();window.boAdmin?.renderAnalytics?.();window.BOrefreshCustomers?.()}
- function cloudOrder(o){
-  const allowed=['id','date','dateISO','name','phone','gender','state','place','city','address','pin','payment','items','subtotal','delivery','deliveryBreakdown','currency','total','status','updatedAtISO'];
-  return Object.fromEntries(allowed.filter(k=>o[k]!==undefined).map(k=>[k,o[k]]));
- }
- const pendingOrderWrites=new Map();
- const cloudOrders={ready:true,user:()=>signedIn,
-  submit:async(order)=>{
-   if(!navigator.onLine)throw Error('You are offline. Reconnect before sending your order.');
-   let write=pendingOrderWrites.get(order.id);
-   if(!write){
-    write=setDoc(doc(db,'babyoneOrders',String(order.id)),{...cloudOrder(order),createdAtServer:serverTimestamp()});
-    pendingOrderWrites.set(order.id,write);
-    write.catch(()=>pendingOrderWrites.delete(order.id));
-   }
-   let timer;
-   try{
-    await Promise.race([write,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('The store has not acknowledged this request yet. Retry to check the same request.')),15000)})]);
-    return order.id;
-   }finally{clearTimeout(timer)}
-  },
-  flush:async()=>{
-   if(window.BO_USE_MYSQL)return;
-   if(orderFlushing||!navigator.onLine)return;orderFlushing=true;
-   try{let q=[];try{q=JSON.parse(localStorage.getItem(ORDER_QUEUE)||'[]')}catch(_){};
-    for(const order of q.slice(0,20)){
-     try{await setDoc(doc(db,'babyoneOrders',String(order.id)),{...cloudOrder(order),createdAtServer:serverTimestamp()});
-       const latest=JSON.parse(localStorage.getItem(ORDER_QUEUE)||'[]').filter(x=>String(x.id)!==String(order.id));localStorage.setItem(ORDER_QUEUE,JSON.stringify(latest));
-     }catch(err){console.info('Order cloud publishing unavailable:',err?.code||err?.message);break}
-    }
-   }finally{orderFlushing=false}
-  },
-  updateStatus:async(id,status)=>{
-   if(!signedIn)throw Error('Connect the Firebase owner account in Overview to sync statuses');
-   await updateDoc(doc(db,'babyoneOrders',id),{status,updatedAtISO:new Date().toISOString(),updatedAtServer:serverTimestamp()});
-  },
-  load:async()=>{
-   if(orderLoading)return;
-   if(!signedIn){orderStatus('Showing this browser’s orders. Connect Firebase owner account to load orders from all devices.');refreshAdmin();return}
-   orderLoading=true;orderStatus('Loading shared orders and traffic…');
-   try{
-    const results=await getDocs(collection(db,'babyoneOrders'));
-    const remote=results.docs.map(d=>({id:d.id,...d.data()}));
-    window.BOsharedOrderRows=remote;
-    const cutoff=new Date();cutoff.setUTCDate(cutoff.getUTCDate()-91);
-    try{const visits=await getDocs(query(collection(db,'babyoneTraffic'),where('day','>=',cutoff.toISOString().slice(0,10)),limit(4500)));trafficRecords=visits.docs.map(d=>d.data().day).filter(Boolean);window.boTrafficDates=trafficRecords}
-    catch(err){console.info('Traffic history unavailable',err?.code||err?.message);window.boTrafficDates=null}
-    orderStatus('Cloud connected · '+remote.length+' shared order(s) loaded. Last refreshed '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'.');
-    refreshAdmin();
-   }catch(err){orderStatus('Cloud order read unavailable: '+(err?.message||err)+'. Local orders are still available.');refreshAdmin()}
-   finally{orderLoading=false}
-  },
-  login:async(email,password)=>{await window.BOvideoCloud.login(email,password);await cloudOrders.load()}
- };
- window.BOlegacyOrdersCloud=cloudOrders;
- async function visit(){
-  if(window.BO_USE_MYSQL)return;
-  if(sessionStorage.getItem('babyone-traffic-sent-v1'))return;
-  try{await addDoc(collection(db,'babyoneTraffic'),{day:new Date().toISOString().slice(0,10),kind:'visit',page:'store',createdAt:serverTimestamp()});sessionStorage.setItem('babyone-traffic-sent-v1','1')}
-  catch(err){console.info('Visitor statistics not enabled:',err?.code||err?.message)}
- }
- window.addEventListener('online',()=>cloudOrders.flush());
- const connectUI=()=>{
-  const email=document.getElementById('bo-orders-owner-email'),pass=document.getElementById('bo-orders-owner-password'),button=document.getElementById('bo-orders-owner-connect'),sync=document.getElementById('bo-orders-refresh');
-  if(button&&!button.dataset.ready){button.dataset.ready='1';button.onclick=async()=>{button.disabled=true;orderStatus('Signing in to Firebase…');try{await cloudOrders.login(email.value.trim(),pass.value);pass.value='';email.value='';}catch(e){orderStatus('Could not connect: '+(e.message||e))}finally{button.disabled=false}}}
-  if(sync&&!sync.dataset.ready){sync.dataset.ready='1';sync.onclick=()=>cloudOrders.load()}
-  const logout=document.getElementById('bo-orders-signout');if(logout&&!logout.dataset.ready){logout.dataset.ready='1';logout.onclick=()=>window.BOvideoCloud.logout().catch(e=>orderStatus('Sign out failed: '+e.message))}
-  if(logout)logout.hidden=!signedIn;
-  if(signedIn)orderStatus('Connected as '+signedIn.email+' · shared orders update live.');
- };
- document.addEventListener('DOMContentLoaded',connectUI);connectUI();
- onAuthStateChanged(auth,user=>{signedIn=user||null;if(window.BO_USE_MYSQL)return;if(user){cloudOrders.load()}else{window.boTrafficDates=null;refreshAdmin()}connectUI()});
- window.addEventListener('visibilitychange',()=>{if(!document.hidden&&signedIn&&document.getElementById('bo-admin-layer')&&!document.getElementById('bo-admin-layer').classList.contains('hidden'))cloudOrders.load()});
- // Live Firestore listeners now replace periodic order polling.
- cloudOrders.flush();visit();
- onAuthStateChanged(auth,user=>{signedIn=user||null;window.dispatchEvent(new Event('bo-video-cloud-change'))});
- onSnapshot(collection(db,'babyoneHeroBanners'),snap=>{
-  window.boHeroApplyCloud?.(snap.docs.map(d=>({section:d.id,...d.data()})));
- },e=>console.info('Public hero banners unavailable; built-in/local images remain.',e?.code||e?.message));
-
-
- // Load public category cover overrides without touching other category data.
- onSnapshot(collection(db,'babyoneCategoryCovers'),covers=>{
-  for(const rec of covers.docs){const {name,url}=rec.data();if(typeof name!=='string'||typeof url!=='string'||!url.startsWith('https://'))continue;const cat=categoriesData.find(c=>c.name===name);if(cat)cat.img=url;}
-  if(typeof renderCategories==='function')renderCategories();
- },e=>console.info('Shared category covers are not enabled yet:',e?.code||e?.message));
- // Public read only; the HTML does not need customer login to display published videos.
- onSnapshot(collection(db,'babyoneVideos'),snap=>{
-  window.boCloudMergeReels?.(snap.docs.map(d=>({...d.data(),cloudId:d.id})));
- },e=>console.info('BabyOne cloud video list unavailable. Enable public read access in Firestore rules if intended.',e?.code||e?.message));
- window.dispatchEvent(new Event('bo-video-cloud-change'));
-}catch(err){console.info('Cloud video SDK unavailable. Device storage mode remains available.',err?.message);}
-
-}
-</script>
+<!-- Shared catalogue, media and order APIs replace the legacy Firebase content adapter. -->
 <style id="bo-mobile-desktop-design-parity-2026">
 /* The same BabyOne visual language on laptop and phone. Compact, consistent rhythm. */
 :root{--bo-section-rhythm:24px;--bo-page-gutter:clamp(14px,3.4vw,52px)}
@@ -4607,6 +4314,7 @@ const api=window.BOphoneOTP={ready:false,error:'Loading secure verification…',
   verify(){throw Error('Firebase authentication is still loading')}
 };
 try{
+ if(window.BOauth){const mode=await BOauth.ready;if(!mode.phone_available)throw Error('Email sign-in is active.');}
  const [{initializeApp,getApps},{getAuth,onAuthStateChanged,signInWithPhoneNumber,RecaptchaVerifier,signOut}]=await Promise.all([
   import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js'),
   import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js')
@@ -4615,6 +4323,7 @@ try{
  const auth=getAuth(app);auth.useDeviceLanguage();
  let confirmationResult=null,recaptchaVerifier=null,pendingNumber='';
  const asE164=x=>'+91'+String(x||'').replace(/\D/g,'').replace(/^91(?=\d{10}$)/,'');
+ api.signOut=async()=>signOut(auth);
  api.getIdToken=async()=>{if(!auth.currentUser)throw Error('Sign in with your phone number first.');return auth.currentUser.getIdToken();};
  const cleanCaptcha=()=>{if(recaptchaVerifier){try{recaptchaVerifier.clear()}catch(_){}recaptchaVerifier=null}};
  api.isVerified=phone=>{
@@ -4667,6 +4376,7 @@ try{
 <script src="assets/cart-sync.js"></script>
 <script src="assets/store-support.js"></script>
 <script src="assets/purchase-actions.js"></script>
+<script src="assets/product-details.js"></script>
 </body>
 </html>
 

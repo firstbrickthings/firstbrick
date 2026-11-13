@@ -3,7 +3,7 @@
 'use strict';
 let uid=null,version=0,epoch=0,applying=false,loading=false,dirty=false,timer=null,saving=false,consentBusy=false;
 const api=(path,options={})=>BOserver.request(path,options),read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||'null')??d}catch(_){return d}},write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
-const ownerKey='babyone-cart-owner-v1',cacheKey=id=>'babyone-saved-bag-'+id,previousOwner=read(ownerKey,null)||read('babyone-profile-v1',{})?.firebaseUid;
+const ownerKey='babyone-cart-owner-v1',cacheKey=id=>'babyone-saved-bag-'+id,previousOwner=read(ownerKey,null)||(read('babyone-profile-v1',{})?.accountUid||read('babyone-profile-v1',{})?.firebaseUid);
 if(previousOwner&&typeof cart!=='undefined'&&cart.length){if(!read(cacheKey(previousOwner),null))write(cacheKey(previousOwner),{cart,version:0,dirty:true});applying=true;cart=[];updateCart();applying=false;}
 function cache(){if(uid)write(cacheKey(uid),{cart,version,dirty})}
 const oldUpdate=window.updateCart;
