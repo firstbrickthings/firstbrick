@@ -169,3 +169,13 @@
  #home-page #cat-container .category-grid>.cat-tile>img{border-radius:13px!important}
  #home-page #cat-container .category-grid>.cat-tile>span{font-size:11px!important;line-height:1.35!important}
 }
+
+/* Home and product-detail videos share one portrait frame and soft rail edges. */
+:root{--bo-video-frame-width:clamp(180px,19vw,235px);--bo-video-frame-radius:20px;--bo-video-rail-gap:var(--bo-space-card,20px)}
+#home-page #reels-track>.reel-card,#product-modal-shell #bo-product-video-rail>.pv-card{flex:0 0 var(--bo-video-frame-width)!important;width:var(--bo-video-frame-width)!important;min-width:0!important;max-width:none!important}
+#home-page #reels-track .reel-video,#product-modal-shell #bo-product-video-rail .pv-video{width:100%!important;height:auto!important;aspect-ratio:9/16!important;border-radius:var(--bo-video-frame-radius)!important;overflow:hidden!important;box-shadow:none!important;transform:none!important}
+#product-modal-shell #bo-product-video-rail .pv-video::after{display:none!important}
+body.bo-product-open #reel-viewer{z-index:1200!important}
+#home-page #reels-track,#product-modal-shell #bo-product-video-rail{gap:var(--bo-video-rail-gap)!important;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+@media(max-width:760px){:root{--bo-video-frame-width:clamp(162px,46vw,191px);--bo-video-frame-radius:15px;--bo-video-rail-gap:12px}}
+@media(max-width:360px){:root{--bo-video-frame-width:158px}}
