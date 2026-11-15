@@ -78,3 +78,11 @@
 #home-page #hero .bo-hero-playback[hidden]{display:none!important}.bo-hero-playback svg{width:20px;height:20px}.bo-hero-playback:focus-visible{outline:3px solid #437eae;outline-offset:4px}
 .bo-hero-upload-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.bo-hero-upload-grid[hidden]{display:none!important}#bo-media-form .bo-work-field small{display:block;font-size:11px;line-height:1.6;font-weight:400;color:#60758b;margin-top:7px}
 @media(max-width:760px){.bo-hero-upload-grid{grid-template-columns:minmax(0,1fr);gap:0}#home-page #hero .bo-hero-playback{right:15px;bottom:15px}}
+
+/* Desktop landing banners meet both edges; product grids keep their reading gutters. */
+@media(min-width:1024px){
+ #home-page>.section:has(>.promo),#home-page>#babyone-fashion{padding-inline:0!important;width:100%!important;max-width:none!important}
+ #home-page #hero,#home-page .promo,#home-page .bo-fashion-hero{width:100%!important;max-width:none!important;margin-inline:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+ #home-page .promo-slide,#home-page .bo-fashion-hero-slide,#home-page .bo-fashion-hero-slide>img{border-radius:0!important}
+ #home-page>#babyone-fashion>.section-head,#home-page>#babyone-fashion>.bo-fashion-grid{padding-inline:clamp(22px,4vw,60px)!important}
+}
