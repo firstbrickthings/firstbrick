@@ -98,3 +98,11 @@
 }
 
 #explorer-page:has(#subcat-landing:not(.hidden)) #explorer-grid-more{display:none!important}
+
+/* Desktop covers stay readable, with more choices visible on wider displays. */
+@media(min-width:1024px){
+ #explorer-page #subcat-tile-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ #home-page .promo{height:clamp(320px,31.25vw,560px)!important;min-height:0!important}
+ #home-page .promo-slide img{object-position:center 36%}
+}
+@media(min-width:1440px){#explorer-page #subcat-tile-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}

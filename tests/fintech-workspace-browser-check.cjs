@@ -34,6 +34,7 @@ const base='http://127.0.0.1:8081';
   await page.goto(base,{waitUntil:'networkidle'});await page.evaluate(async()=>{window.BOphoneOTP={isVerified:()=>true,getIdToken:async()=>'fixture'};await BOserver.checkIdentity();await boAdmin.openDashboard()});await page.waitForSelector('.bo-overview-metrics');
   assert.deepEqual(await page.locator('.bo-overview-metrics strong').allTextContents(),['42','3','157','2'],'Original overview values are preserved');
   assert.equal(await page.locator('.bo-admin-top').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(11, 16, 27)');assert(await page.locator('.bo-admin-top').evaluate(e=>e.scrollWidth<=e.clientWidth+1),'Header fits at '+width);
+  const back=await page.locator('#bo-dashboard-back').boundingBox(),brand=await page.locator('.bo-admin-brand').boundingBox();assert(back.x<brand.x&&Math.abs(back.y+back.height/2-brand.y-brand.height/2)<3,'Return to store is at the top left');
   await page.locator('.bo-fintech-top-tabs [data-area=payments]').click();await page.waitForSelector('.bo-fintech-metric-row');
   assert((await page.locator('.bo-fintech-metric-row button').first().textContent()).includes('₹1.00'));assert.equal(await page.locator('.bo-fintech-method-state.ready').count(),2);assert.equal(await page.locator('.bo-fintech-top-tabs [data-area=payments]').getAttribute('aria-current'),'page');
   assert(await page.locator('#bo-admin-layer').evaluate(e=>e.scrollWidth<=e.clientWidth+1),'Workspace fits at '+width);await page.screenshot({path:'/workspace/work/review/fintech-payments-'+width+'.png'});
@@ -48,6 +49,7 @@ const base='http://127.0.0.1:8081';
   await page.locator('.bo-fintech-support').click();assert(await page.locator('#bo-fintech-dialog').isVisible());assert((await page.locator('#bo-fintech-dialog').textContent()).includes('WhatsApp connection guide'));await page.keyboard.press('Escape');
   if(width>900){await page.locator('#bo-fintech-health').click();await page.waitForFunction(()=>document.querySelector('#bo-fintech-dialog [role=status]')?.textContent==='Website service is ready.');await page.keyboard.press('Escape')}
   assert.equal(await page.locator('#bo-admin-notifications .bo-order-count').textContent(),'2');assert.deepEqual(financialWrites,[]);assert.deepEqual(errors,[]);
+  await page.locator('#bo-dashboard-back').click();assert(await page.locator('#bo-admin-layer').isHidden(),'Left Back button returns to the store');
   owner=false;await page.evaluate(()=>BOserver.checkIdentity());assert.equal(await page.locator('#bo-admin-panel-payments').textContent(),'','Payment records are cleared when owner access ends');await context.close();
  }
  await browser.close();console.log('PASS: dark fintech header, responsive navigation/search, original store metrics, genuine live/test report filtering without checkout changes or financial writes, method readiness, carousel, trend selection, date ranges, More menu, support, system health and owner-data cleanup at 320/390/768/1024/1440.');

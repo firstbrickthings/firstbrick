@@ -24,6 +24,7 @@
   new MutationObserver(()=>{window.boHeroOffscreen=home.offsetParent===null;startHeroTimer();schedule()}).observe(home,{attributes:true,attributeFilter:['class','hidden','style']});
   new IntersectionObserver(entries=>{window.boHeroOffscreen=!entries[0].isIntersecting;startHeroTimer();playback()},{threshold:.05}).observe(hero);
   document.addEventListener('visibilitychange',()=>{startHeroTimer();playback()});reduced.addEventListener('change',()=>{startHeroTimer();playback()});window.addEventListener('resize',schedule);
+  window.addEventListener('babyone-hero-playback',playback);
   document.fonts?.ready.then(schedule);schedule();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();

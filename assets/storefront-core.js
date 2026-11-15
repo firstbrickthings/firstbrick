@@ -289,10 +289,12 @@ function goHero(i){
   activeHero=(i+slides.length)%slides.length;
   slides.forEach((s,index)=>{s.classList.toggle('active',index===activeHero);s.inert=index!==activeHero;});
   dots.forEach((d,index)=>d.classList.toggle('active',index===activeHero));
+  const nextVideo=slides[activeHero].querySelector('video');
+  if(nextVideo){try{nextVideo.currentTime=0}catch(_){}}
   startHeroTimer();
 }
 function startHeroTimer(){
-  clearTimeout(heroTimer);
+  clearTimeout(heroTimer);heroTimer=null;
   if(window.boHeroPaused || window.boHeroOffscreen || document.hidden || matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('#hero-slides video').forEach(v=>v.pause());return;}
   const active=document.querySelectorAll('#hero-slides .hero-slide')[activeHero];
   if(!active)return;
@@ -300,13 +302,20 @@ function startHeroTimer(){
   const count=document.querySelectorAll('#hero-slides .hero-slide').length;
   if(!v){if(count>1)heroTimer=setTimeout(()=>goHero(activeHero+1),5000);return;}
   v.muted=true;v.loop=count===1;
-  const advance=()=>{if(active.classList.contains('active'))goHero(activeHero+1)};
+  const advance=()=>{if(active.classList.contains('active')&&!window.boHeroPaused&&!window.boHeroOffscreen&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)goHero(activeHero+1)};
   v.onended=advance;
-  try{v.currentTime=0}catch(_){}
-  const schedule=()=>{clearTimeout(heroTimer);if(v.loop)return;const ms=(Number.isFinite(v.duration)&&v.duration>0)?Math.min(60000,Math.max(4000,Math.ceil(v.duration*1000)+650)):14000;heroTimer=setTimeout(advance,ms)};
-  v.onloadedmetadata=schedule;schedule();
-  v.onerror=()=>{v.hidden=true;clearTimeout(heroTimer);if(count>1)heroTimer=setTimeout(advance,5000)};
-  const maybe=v.play();if(maybe&&typeof maybe.catch==='function')maybe.catch(()=>{clearTimeout(heroTimer);if(count>1)heroTimer=setTimeout(advance,9000)});
+  // A playing video owns its slide until its real ended event, including buffering time.
+  // Resuming visibility or playback keeps its position; only a new slide starts at zero.
+  v.onloadedmetadata=null;
+  const unavailable=()=>{if(!active.classList.contains('active'))return;v.hidden=true;clearTimeout(heroTimer);if(count>1)heroTimer=setTimeout(advance,5000)};
+  v.onerror=unavailable;
+  if(v.error){unavailable();return}
+  if(v.ended&&count>1){advance();return}
+  const maybe=v.play();if(maybe&&typeof maybe.catch==='function')maybe.catch(error=>{
+   if(!active.classList.contains('active')||error.name==='AbortError')return;
+   if(error.name==='NotAllowedError'){window.boHeroPaused=true;window.dispatchEvent(new Event('babyone-hero-playback'));return}
+   unavailable();
+  });
 }
 window.addEventListener('resize',()=>{
  const mobile=window.matchMedia('(max-width:760px)').matches;
@@ -323,6 +332,8 @@ function renderCategories(){
 
 /* ================= PROMOS ================= */
 function renderPromos(){
+  activeAd1=adBannerData1.length?activeAd1%adBannerData1.length:0;
+  activeAd2=adBannerData2.length?activeAd2%adBannerData2.length:0;
   document.getElementById('promo-slides-1').innerHTML = adBannerData1.map((b,i)=>`
     <div class="promo-slide ${i===activeAd1?'active':''}">
       <img src="${b.bg}" alt="${b.title}" loading="lazy" />
@@ -336,11 +347,17 @@ function renderPromos(){
   document.getElementById('promo-dots-2').replaceChildren();
 
   clearInterval(ad1Timer); clearInterval(ad2Timer);
-  ad1Timer = setInterval(()=>nextAdSlide(1), 5500);
-  ad2Timer = setInterval(()=>nextAdSlide(2), 6500);
+  if(adBannerData1.length>1)ad1Timer = setInterval(()=>nextAdSlide(1), 5500);
+  if(adBannerData2.length>1)ad2Timer = setInterval(()=>nextAdSlide(2), 6500);
 }
-function nextAdSlide(n){ if(n===1){ activeAd1=(activeAd1+1)%adBannerData1.length; } else { activeAd2=(activeAd2+1)%adBannerData2.length; } renderPromos(); }
-function prevAdSlide(n){ if(n===1){ activeAd1=(activeAd1-1+adBannerData1.length)%adBannerData1.length; } else { activeAd2=(activeAd2-1+adBannerData2.length)%adBannerData2.length; } renderPromos(); }
+function changeAdSlide(n,delta){
+  const slides=[...document.querySelectorAll('#promo-slides-'+n+' .promo-slide')];if(!slides.length)return;
+  const index=((n===1?activeAd1:activeAd2)+delta+slides.length)%slides.length;
+  if(n===1)activeAd1=index;else activeAd2=index;
+  slides.forEach((slide,i)=>slide.classList.toggle('active',i===index));
+}
+function nextAdSlide(n){changeAdSlide(n,1)}
+function prevAdSlide(n){changeAdSlide(n,-1)}
 function goAd(n,i){ if(n===1) activeAd1=i; else activeAd2=i; renderPromos(); }
 
 /* ================= PRODUCT CARD ================= */
