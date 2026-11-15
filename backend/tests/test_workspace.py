@@ -31,6 +31,17 @@ def test_content_rejects_unsafe_urls_and_fields(client):
         assert r.status_code==422,r.text
 
 
+def test_banner_reference_details_can_be_saved_and_reject_invalid_fields(client):
+    item={'id':'promo1-0','image':'https://example.com/toy.jpg','title':'Little discoveries',
+          'category':'Toys & Learning','reference':True,'source':'https://example.com/products/toy','published':True}
+    response=client.put('/api/admin/content/banners',json={'expected_version':0,'value':{'items':[item]}},headers=headers('owner'))
+    assert response.status_code==200,response.text
+    assert client.get('/api/store/content').json()['banners']['value']['items']==[item]
+    for change in [{'reference':'yes'},{'source':'javascript:alert(1)'},{'category':{}},{'private_phone':'123'}]:
+        response=client.put('/api/admin/content/banners',json={'expected_version':1,'value':{'items':[{**item,**change}]}},headers=headers('owner'))
+        assert response.status_code==422,response.text
+
+
 def test_hero_video_and_portrait_media_publish_to_every_device(client):
     item={'id':'hero-video','mediaType':'video','image':'assets/poster.webp',
           'imageMobile':'assets/mobile-poster.webp','videoUrl':'https://example.com/desktop.mp4',

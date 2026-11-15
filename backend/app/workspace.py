@@ -54,8 +54,8 @@ def validate_document(key, value):
         raise HTTPException(422, 'Use a list of up to 100 published items.')
     allowed = {
         'hero': {'id','image','imageMobile','mediaType','videoUrl','videoMobileUrl','published'},
-        'banners': {'id','image','published'},
-        'fashion': {'id','image','published'},
+        'banners': {'id','image','published','title','category','reference','source'},
+        'fashion': {'id','image','published','title','category','reference','source'},
         'videos': {'id','title','author','productId','videoUrl','youtubeId','cover','published'},
         'categories': {'id','name','img','subcategories','published'},
     }[key]
@@ -66,10 +66,12 @@ def validate_document(key, value):
             raise HTTPException(422, 'Each item needs an ID.')
         if not isinstance(item.get('published', True), bool):
             raise HTTPException(422, 'Choose published or hidden.')
-        for field in ('image','imageMobile','img','videoUrl','videoMobileUrl','cover'):
+        if 'reference' in item and not isinstance(item['reference'], bool):
+            raise HTTPException(422, 'Choose a reference photo or uploaded artwork.')
+        for field in ('image','imageMobile','img','videoUrl','videoMobileUrl','cover','source'):
             if item.get(field) and not safe_url(item[field]):
                 raise HTTPException(422, 'Use an HTTPS URL, an assets/ path or an uploaded website file.')
-        for field in ('title','author','productId','name'):
+        for field in ('title','author','productId','name','category'):
             if field in item and (not isinstance(item[field],str) or len(item[field]) > 200):
                 raise HTTPException(422, 'Text must be under 200 characters.')
         if key == 'categories':

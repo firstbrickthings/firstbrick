@@ -1,0 +1,771 @@
+{
+  "products": [
+    {
+      "id": "auto-bath-1",
+      "name": "Baby Lotions — BabyOne Essential",
+      "expected_image": "assets/photo-f56907c274013c09.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19986_Baby_Lotion_-_100ml_E-Comm_2.jpg?v=1786538902&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19986_Baby_Lotion_-_100ml_E-Comm_7.jpg?v=1786538918&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19986_Baby_Lotion_-_100ml_E-Comm_5.jpg?v=1786538936&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-baby-lotion-with-milk-protein-200ml-suitable-for-baby-s-delicate-skin-24-hour-protection-for-sensitive-skin-shea-butter-and-vit-e-paraben-free-sweet-almond-oil-dermatologically-tested",
+      "source_title": "LuvLap Baby Lotion with Milk Protein - 200ml, Suitable for Baby’s Delicate Skin, 24 Hour Protection for Sensitive Skin, Shea Butter and VIT E, Paraben Free, Sweet Almond Oil, Dermatologically Tested"
+    },
+    {
+      "id": "auto-clothing-diaper-changing-mats-1",
+      "name": "Diaper Changing Mats Everyday Essential",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/masilo-changing-mat-1046048.png?v=1788849334&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/masilo-changing-mat-1046048.png?v=1788849334&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/masilo-changing-mat",
+      "source_title": "Masilo Changing Mat"
+    },
+    {
+      "id": "auto-clothing-diaper-changing-mats-2",
+      "name": "Diaper Changing Mats Comfort Set",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/bambo-nature-disposable-changing-mat-60x60-pack-of-10-the-mom-store-1311962.jpg?v=1777563503&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/bambo-nature-disposable-changing-mat-60x60-pack-of-10-the-mom-store-1311962.jpg?v=1777563503&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/bambo-nature-disposable-changing-mat-60x60-pack-of-10-the-mom-store",
+      "source_title": "Bambo Nature Disposable Changing Mat 60x60 Pack of 10"
+    },
+    {
+      "id": "auto-clothing-diaper-changing-mats-3",
+      "name": "Diaper Changing Mats Starter Kit",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/oranges-lemons-reusable-diaper-mat-set-of-3-light-blue-8257627.jpg?v=1790058784&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/oranges-lemons-reusable-diaper-mat-set-of-3-light-blue-8257627.jpg?v=1790058784&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/oranges-lemons-reusable-diaper-mat-set-of-3-off-white",
+      "source_title": "Oranges & Lemons | Reusable Diaper Mat | Set of 3 | Light blue"
+    },
+    {
+      "id": "auto-clothing-diaper-changing-mats-4",
+      "name": "Diaper Changing Mats Travel Edition",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/safe-o-kid-waterproof-baby-diaper-changing-mat-pack-of-1-6787164.jpg?v=1785406988&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/safe-o-kid-waterproof-baby-diaper-changing-mat-pack-of-1-6787164.jpg?v=1785406988&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/safe-o-kid-waterproof-baby-diaper-changing-mat-pack-of-1",
+      "source_title": "Safe-O-Kid Waterproof Baby Diaper Changing Mat Pack of 1"
+    },
+    {
+      "id": "auto-clothing-diaper-changing-mats-5",
+      "name": "Diaper Changing Mats Premium Pack",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/safe-o-kid-waterproof-baby-diaper-changing-mat-70-x-49-cm-1202241.jpg?v=1785407003&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/safe-o-kid-waterproof-baby-diaper-changing-mat-70-x-49-cm-1202241.jpg?v=1785407003&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/safe-o-kid-waterproof-baby-diaper-changing-mat-70-x-49-cm",
+      "source_title": "Safe-O-Kid Waterproof Baby Diaper Changing Mat 70 x 49 cm"
+    },
+    {
+      "id": "auto-clothing-diaper-changing-mats-6",
+      "name": "Diaper Changing Mats Daily Care",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/safe-o-kid-waterproof-baby-diaper-changing-mat-70-x-49-cm-5294135.jpg?v=1788849187&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/safe-o-kid-waterproof-baby-diaper-changing-mat-70-x-49-cm-5294135.jpg?v=1788849187&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/safe-o-kid-waterproof-baby-diaper-changing-mat-70-x-49-cm-1",
+      "source_title": "Safe-O-Kid Waterproof Baby Diaper Changing Mat 70 x 49 cm"
+    },
+    {
+      "id": "auto-newborn-2",
+      "name": "Diapers & Wipes — BabyOne Essential",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "auto-newborn-diapering-1",
+      "name": "Diapering Everyday Essential",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "auto-newborn-diapering-2",
+      "name": "Diapering Comfort Set",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "sub-travel-travel-bags-1",
+      "name": "Travel Diaper Backpack",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19707_DiaperBag_B_W_E-Comm_1.jpg?v=1765866283&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19707_DiaperBag_B_W_E-Comm_1.jpg?v=1765866283&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/multifunctional-waterproof-diaper-bag-black-and-white",
+      "source_title": "Multifunctional Waterproof Diaper Bag - Black and White"
+    },
+    {
+      "id": "sub-nursery-storage-3",
+      "name": "Diaper Caddy",
+      "expected_image": "assets/photo-2ae1a01f61b30362.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/skip-hop-light-up-diaper-caddy-diaper-changing-kits-grey-4922703.jpg?v=1758537422&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/skip-hop-light-up-diaper-caddy-diaper-changing-kits-grey-4922703.jpg?v=1758537422&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/skip-hop-light-up-diaper-caddy-diaper-changing-kits-heather",
+      "source_title": "Skip Hop Light Up Diaper Caddy Diaper Changing Kits - Grey"
+    },
+    {
+      "id": "sub-newborn-diapers-wipes-1",
+      "name": "Newborn Diaper Pack",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "sub-newborn-diapers-wipes-2",
+      "name": "Sensitive Baby Wipes",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_d1495ca1-9d35-4125-8111-f84c84569a0f.jpg?v=1763136189&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_d1495ca1-9d35-4125-8111-f84c84569a0f.jpg?v=1763136189&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/sensitive-baby-wipes-72-pcs",
+      "source_title": "Sensitive Baby Wipes, 72 Pcs"
+    },
+    {
+      "id": "sub-newborn-diapers-wipes-3",
+      "name": "Travel Wipes Pack",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_b7db34f7-ffa1-46d8-a452-4a23b3777d6d.jpg?v=1763136316&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_b7db34f7-ffa1-46d8-a452-4a23b3777d6d.jpg?v=1763136316&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/aloe-vera-baby-wipes-72-pcs",
+      "source_title": "Aloe Vera Baby Wipes, 72 Pcs"
+    },
+    {
+      "id": "sub-newborn-diapers-wipes-4",
+      "name": "Overnight Diapers",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "sub-newborn-diapers-wipes-5",
+      "name": "Reusable Changing Pads",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/oranges-lemons-reusable-diaper-mat-set-of-3-light-blue-8257627.jpg?v=1790058784&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/oranges-lemons-reusable-diaper-mat-set-of-3-light-blue-8257627.jpg?v=1790058784&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/oranges-lemons-reusable-diaper-mat-set-of-3-off-white",
+      "source_title": "Oranges & Lemons | Reusable Diaper Mat | Set of 3 | Light blue"
+    },
+    {
+      "id": "sub-newborn-diapers-wipes-6",
+      "name": "Diaper Starter Bundle",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "p10",
+      "name": "Mini Electric Speedster Ride-On Car",
+      "expected_image": "assets/photo-b00701b131d8c0a4.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900",
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/9_4c796619-f675-4aad-aaa4-c373f9113a4e.jpg?v=1793860804&width=900",
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/6_3593c445-88df-45ae-88ab-4bf76e4ce40b.jpg?v=1793860801&width=900",
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/7_17785286-96ac-42cc-a916-6f47cc83c786.jpg?v=1793860802&width=900"
+      ],
+      "reference": true,
+      "source": "https://baybee.co.in/products/baybee-kids-battery-operated-electric-ride-on-jeep-with-remote-control",
+      "source_title": "Baybee Kids Electric Ride On Jeep with 2.4G Remote Control"
+    },
+    {
+      "id": "bo-category-fill-6-1",
+      "name": "Cuddly Bunny Soft Toy",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%22210%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22205%22%20r%3D%2270%22%2F%3E%3Cellipse%20cx%3D%22260%22%20cy%3D%22305%22%20rx%3D%2270%22%20ry%3D%2255%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%22280%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Cpath%20d%3D%22M248%20225q12%2012%2024%200%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3ESoft%20Toys%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-ginnie-white-bunny-soft-toy-5139245.jpg?v=1780289321&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-ginnie-white-bunny-soft-toy-5139245.jpg?v=1780289321&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/little-ginnie-white-bunny-soft-toy",
+      "source_title": "Little Ginnie White Bunny Soft Toy"
+    },
+    {
+      "id": "bo-category-fill-6-2",
+      "name": "Plush Elephant Soft Toy",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%22210%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22205%22%20r%3D%2270%22%2F%3E%3Cellipse%20cx%3D%22260%22%20cy%3D%22305%22%20rx%3D%2270%22%20ry%3D%2255%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%22280%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Cpath%20d%3D%22M248%20225q12%2012%2024%200%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3ESoft%20Toys%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/nuluv-activity-elephant-hanging-soft-toy-the-mom-store-7199592.jpg?v=1778308038&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/nuluv-activity-elephant-hanging-soft-toy-the-mom-store-7199592.jpg?v=1778308038&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/nuluv-activity-elephant-hanging-soft-toys",
+      "source_title": "Nuluv Activity Elephant Hanging Soft Toy"
+    },
+    {
+      "id": "bo-category-fill-6-3",
+      "name": "Classic Teddy Bear",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%22210%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22205%22%20r%3D%2270%22%2F%3E%3Cellipse%20cx%3D%22260%22%20cy%3D%22305%22%20rx%3D%2270%22%20ry%3D%2255%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%22280%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Cpath%20d%3D%22M248%20225q12%2012%2024%200%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3ESoft%20Toys%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/cuddlenest-teddy-bear-plush-toy-25cm-the-mom-store-9150075.jpg?v=1783395612&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/cuddlenest-teddy-bear-plush-toy-25cm-the-mom-store-9150075.jpg?v=1783395612&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/cuddlenest-teddy-bear-plush-toy-25cm-the-mom-store",
+      "source_title": "CuddleNest Teddy Bear Plush Toy 25cm"
+    },
+    {
+      "id": "bo-category-fill-7-1",
+      "name": "Rattle and Teether Toy Gift Set",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%22210%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22205%22%20r%3D%2270%22%2F%3E%3Cellipse%20cx%3D%22260%22%20cy%3D%22305%22%20rx%3D%2270%22%20ry%3D%2255%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%22280%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Cpath%20d%3D%22M248%20225q12%2012%2024%200%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3EGift%20Sets%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/image_cqv.png?v=1769066420&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/image_cqv.png?v=1769066420&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/kidocoo-rattle-set-curved-ring-rattle-shaker",
+      "source_title": "Kidocoo Rattle Set (Curved Ring - Rattle - Shaker)"
+    },
+    {
+      "id": "bo-category-fill-7-2",
+      "name": "Soft Toy and Rattle Gift Set",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%22210%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22205%22%20r%3D%2270%22%2F%3E%3Cellipse%20cx%3D%22260%22%20cy%3D%22305%22%20rx%3D%2270%22%20ry%3D%2255%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%22280%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Cpath%20d%3D%22M248%20225q12%2012%2024%200%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3EGift%20Sets%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-ginnie-plush-rattle-set-of-3-for-kids-7250739.jpg?v=1776143843&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-ginnie-plush-rattle-set-of-3-for-kids-7250739.jpg?v=1776143843&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/little-ginnie-plush-rattle-set-of-3-for-kids",
+      "source_title": "Little Ginnie Plush Rattle set of 3 For Kids"
+    },
+    {
+      "id": "bo-category-fill-7-3",
+      "name": "Baby Sensory Toy Gift Set",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%22210%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22150%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%22260%22%20cy%3D%22205%22%20r%3D%2270%22%2F%3E%3Cellipse%20cx%3D%22260%22%20cy%3D%22305%22%20rx%3D%2270%22%20ry%3D%2255%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Ccircle%20cx%3D%22280%22%20cy%3D%22195%22%20r%3D%224%22%2F%3E%3Cpath%20d%3D%22M248%20225q12%2012%2024%200%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3EGift%20Sets%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/sf.jpg?v=1770633649&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/sf.jpg?v=1770633649&width=900"
+      ],
+      "reference": true,
+      "source": "https://themomstore.in/products/scoobies-sensory-fun",
+      "source_title": "Scoobies Sensory Fun"
+    },
+    {
+      "id": "bo-category-fill-8-1",
+      "name": "Remote Control Toy Car",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M140%20265v-55h45l40-60h100l40%2060h35v55zM185%20210h180m-95-60v60%22%2F%3E%3Ccircle%20cx%3D%22195%22%20cy%3D%22275%22%20r%3D%2228%22%2F%3E%3Ccircle%20cx%3D%22345%22%20cy%3D%22275%22%20r%3D%2228%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3ERC%20Toys%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/61CebgXgOFL.jpg?v=1779729804&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/61CebgXgOFL.jpg?v=1779729804&width=900",
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/61XAjxR4lVL.jpg?v=1779729809&width=900",
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/61-reaCYT2L.jpg?v=1779729809&width=900",
+        "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/71FkkNNRqUL.jpg?v=1779729809&width=900"
+      ],
+      "reference": true,
+      "source": "https://baybee.co.in/products/baybee-spectre-1-24-scale-rechargeable-remote-control-car-for-kids-stunt-rc-cars",
+      "source_title": "Baybee Spectre 1:24 Scale Rechargeable Remote Control Car for Kids, Stunt RC Cars"
+    },
+    {
+      "id": "bo-category-fill-8-2",
+      "name": "Remote Control Toy Train",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M140%20265v-55h45l40-60h100l40%2060h35v55zM185%20210h180m-95-60v60%22%2F%3E%3Ccircle%20cx%3D%22195%22%20cy%3D%22275%22%20r%3D%2228%22%2F%3E%3Ccircle%20cx%3D%22345%22%20cy%3D%22275%22%20r%3D%2228%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3ERC%20Toys%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0011/8367/8476/files/GirlPlayingwithHigh-SpeedToyTrain.png?v=1793290585&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0011/8367/8476/files/GirlPlayingwithHigh-SpeedToyTrain.png?v=1793290585&width=900"
+      ],
+      "reference": true,
+      "source": "https://snooplay.in/products/remote-control-express-train",
+      "source_title": "61-Piece Remote Control Express Train Set | High-Speed Electric Toy Train with Tracks | Lights & Music | 3+ Years"
+    },
+    {
+      "id": "bo-category-fill-8-3",
+      "name": "Remote Control Toy Bus",
+      "expected_image": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22540%22%20height%3D%22500%22%20viewBox%3D%220%200%20540%20500%22%3E%3Crect%20width%3D%22540%22%20height%3D%22500%22%20fill%3D%22%23faf4ee%22%2F%3E%3Ccircle%20cx%3D%22270%22%20cy%3D%22235%22%20r%3D%22175%22%20fill%3D%22%23e5f1ff%22%2F%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%23609bd0%22%20stroke-width%3D%227%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M140%20265v-55h45l40-60h100l40%2060h35v55zM185%20210h180m-95-60v60%22%2F%3E%3Ccircle%20cx%3D%22195%22%20cy%3D%22275%22%20r%3D%2228%22%2F%3E%3Ccircle%20cx%3D%22345%22%20cy%3D%22275%22%20r%3D%2228%22%2F%3E%3C%2Fg%3E%3Ctext%20x%3D%22270%22%20y%3D%22430%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2220%22%20fill%3D%22%235a6570%22%3ERC%20Toys%3C%2Ftext%3E%3Ctext%20x%3D%22270%22%20y%3D%22460%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2213%22%20fill%3D%22%238e9aa3%22%3ESample%20illustration%3C%2Ftext%3E%3C%2Fsvg%3E",
+      "image": "https://cdn.shopify.com/s/files/1/0088/7986/5907/files/L_O_T-Cars-Vera-Remote-Control-City-Bus-with-Lights-Vehicles-L_O_T-Toys-Toycra.webp?v=1773418791&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0088/7986/5907/files/L_O_T-Cars-Vera-Remote-Control-City-Bus-with-Lights-Vehicles-L_O_T-Toys-Toycra.webp?v=1773418791&width=900"
+      ],
+      "reference": true,
+      "source": "https://toycra.com/products/l-o-t-cars-vera-remote-control-city-bus-with-lights",
+      "source_title": "L.O.T Cars Vera - Remote Control City Bus with Lights"
+    },
+    {
+      "id": "auto-newborn-diapering-3",
+      "name": "Diapering Starter Kit",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "auto-newborn-diapering-4",
+      "name": "Diapering Travel Edition",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "auto-newborn-diapering-5",
+      "name": "Diapering Premium Pack",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    },
+    {
+      "id": "auto-newborn-diapering-6",
+      "name": "Diapering Daily Care",
+      "expected_image": "https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=800&q=80",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "gallery": [
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_05_6955e2fb-beb3-4c05-a444-d31464bb11a5.jpg?v=1786343914&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_06_6f316f81-ed4e-4d25-ba67-588f1e3ada29.jpg?v=1786343928&width=900",
+        "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Supreme_Diaper_Ecom_07_3089c0f8-1a6d-4ee3-8acb-8ae050d7ac38.jpg?v=1786343941&width=900"
+      ],
+      "reference": true,
+      "source": "https://www.luvlap.com/products/luvlap-supreme-diaper-pants-new-born-nb-0-to-5kg-30pcs",
+      "source_title": "Supreme Diaper Pants New Born (NB) 0 to 5kg, 30pcs"
+    }
+  ],
+  "categories": [
+    {
+      "id": "newborn",
+      "name": "New Born",
+      "img": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900",
+      "subcategories": [
+        "Swaddles & Sleepsuits",
+        "Hospital Bags",
+        "Mits & Caps",
+        "Baby Care Sets",
+        "Newborn Clothing",
+        "Caps, Mittens & Booties",
+        "Feeding",
+        "Diapering",
+        "Bath & Skincare",
+        "Bedding",
+        "Gifts & Hampers",
+        "Mother’s Essentials"
+      ]
+    },
+    {
+      "id": "feeding",
+      "name": "Feeding",
+      "img": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_981fccdf-9651-48b1-80e5-4fcaf1e90bdf.webp?v=1783937848&width=900",
+      "subcategories": [
+        "Feeding Bottles",
+        "Breast Pumps",
+        "Sterilizers",
+        "High Chairs",
+        "Bibs & Burp Cloths",
+        "Cutlery",
+        "Sipper Cups",
+        "Feeding Bottle Cleaning",
+        "Teethers & Pacifiers",
+        "Food Feeders & Nipples"
+      ]
+    },
+    {
+      "id": "diapering",
+      "name": "Diapering",
+      "img": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+      "subcategories": [
+        "Organic Diapers",
+        "Wipes & Care",
+        "Diaper Rash Cream",
+        "Diaper Bags",
+        "Changing Mats"
+      ]
+    },
+    {
+      "id": "clothing",
+      "name": "Clothing",
+      "img": "https://cdn.shopify.com/s/files/1/0557/7683/7717/files/lemon_romper_baby_2.jpg?v=1790948165&width=900",
+      "subcategories": [
+        "Onesies & Rompers",
+        "Party Wear",
+        "Organic Cotton Suits",
+        "Booties & Shoes",
+        "Jabla",
+        "Infants",
+        "Dry Sheets",
+        "Swaddles",
+        "Diaper Changing Mats"
+      ]
+    },
+    {
+      "id": "toys",
+      "name": "Toys & Learning",
+      "img": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81koB9IjmsL._SL1500.jpg?v=1791193588&width=900",
+      "subcategories": [
+        "Rattles & Teethers",
+        "Montessori Toys",
+        "Play Gyms",
+        "Battery Toys",
+        "Activity Toys",
+        "Soft Toys",
+        "Gift Sets",
+        "RC Toys",
+        "Play Gym & Play Mat"
+      ]
+    },
+    {
+      "id": "nursery",
+      "name": "Hospital Kit",
+      "img": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-surprise-box-22pcs-pink-twinkle-star-newborn-baby-girlbaby-boy-gift-hamper-with-storage-basket-0-6m-1224064.jpg?v=1788584562&width=900",
+      "subcategories": [
+        "Cribs & Cots",
+        "Mattresses & Bedding",
+        "Wardrobes",
+        "Night Lights",
+        "Combo",
+        "Mattress & Bed",
+        "Swaddles",
+        "Mittens & Caps",
+        "Rompers & Bodysuits",
+        "Jablas",
+        "Nappy",
+        "Dry Sheets",
+        "Basket",
+        "Bath Towels",
+        "Skincare & Diapers",
+        "Breast Pumps",
+        "Maternity Pads",
+        "Nipple Shields",
+        "Cradles",
+        "Combo ₹1,999",
+        "Combo ₹3,999",
+        "Combo ₹4,999",
+        "Combo ₹5,999"
+      ]
+    },
+    {
+      "id": "cradles",
+      "name": "Cradles & Rockers",
+      "img": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/01_6f0749e0-be15-4299-bcf4-41119ac6240f.png?v=1791611090&width=900",
+      "subcategories": [
+        "Electric Swings",
+        "Manual Cradles",
+        "Bouncers",
+        "Rocking Chairs",
+        "Hanging Cradle",
+        "Cradle Accessories"
+      ]
+    },
+    {
+      "id": "bath",
+      "name": "Bath & Skincare",
+      "img": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900",
+      "subcategories": [
+        "Cetaphil",
+        "Sebamed",
+        "Wipes",
+        "Diapers",
+        "Accessories",
+        "Bath Tubs",
+        "Massaging Mats"
+      ]
+    },
+    {
+      "id": "travel",
+      "name": "Travel & Gear",
+      "img": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900",
+      "subcategories": [
+        "Strollers & Prams",
+        "Car Seats",
+        "Baby Carriers",
+        "Walkers",
+        "Wardrobes",
+        "Cabinets",
+        "Swings",
+        "Skating Rides",
+        "Play Mats",
+        "Play Gym"
+      ]
+    },
+    {
+      "id": "momcare",
+      "name": "Mom Care",
+      "img": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Artboard1_7518a215-fc11-466f-a1df-71249fffd111.jpg?v=1763124296&width=900",
+      "subcategories": [
+        "Maternity Wear",
+        "Nursing Bras",
+        "Postpartum Care",
+        "Stretch Mark Oils",
+        "Feeding Pillow",
+        "Breast Pumps",
+        "Mom Accessories (Bags)",
+        "Maternity Pillow",
+        "Maternity Pads",
+        "Carrier",
+        "Feeding Covers"
+      ]
+    },
+    {
+      "id": "travel-essentials",
+      "name": "Travel",
+      "img": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19707_DiaperBag_B_W_E-Comm_1.jpg?v=1765866283&width=900",
+      "subcategories": [
+        "Swatter & Rompers",
+        "Diaper Changing Mat",
+        "Baby Car Seat",
+        "Stroller",
+        "Caps",
+        "Mother Bag",
+        "Feeding Cover",
+        "Ear Muff",
+        "Warm Bottle",
+        "Food Container",
+        "Disposable Diaper Bags",
+        "Bib",
+        "Baby Holder",
+        "Suction Toys",
+        "Bottle Warmer"
+      ]
+    },
+    {
+      "id": "rideon",
+      "name": "Ride-On",
+      "img": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900",
+      "subcategories": [
+        "Cycle",
+        "Swing Car",
+        "Ride-On",
+        "Play Gym",
+        "Electric Ride-On"
+      ]
+    }
+  ],
+  "category_updates": [
+    {
+      "id": "newborn",
+      "expected_image": "assets/photo-b3ba3fb637d4fb1f.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900"
+    },
+    {
+      "id": "feeding",
+      "expected_image": "assets/photo-0a9732be3078be31.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_981fccdf-9651-48b1-80e5-4fcaf1e90bdf.webp?v=1783937848&width=900"
+    },
+    {
+      "id": "diapering",
+      "expected_image": "assets/photo-7c6436cb7c7c1668.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900"
+    },
+    {
+      "id": "clothing",
+      "expected_image": "assets/photo-2441543eec86ee1d.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0557/7683/7717/files/lemon_romper_baby_2.jpg?v=1790948165&width=900"
+    },
+    {
+      "id": "toys",
+      "expected_image": "assets/photo-f6599321d4bd42c5.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81koB9IjmsL._SL1500.jpg?v=1791193588&width=900"
+    },
+    {
+      "id": "nursery",
+      "expected_image": "assets/photo-984aa8a4f6f21e5c.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-surprise-box-22pcs-pink-twinkle-star-newborn-baby-girlbaby-boy-gift-hamper-with-storage-basket-0-6m-1224064.jpg?v=1788584562&width=900"
+    },
+    {
+      "id": "cradles",
+      "expected_image": "assets/photo-c1763c2d5d1568c3.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/01_6f0749e0-be15-4299-bcf4-41119ac6240f.png?v=1791611090&width=900"
+    },
+    {
+      "id": "bath",
+      "expected_image": "assets/photo-f27553fc206c5297.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900"
+    },
+    {
+      "id": "travel",
+      "expected_image": "assets/photo-b00701b131d8c0a4.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900"
+    },
+    {
+      "id": "momcare",
+      "expected_image": "assets/photo-bec649ce96bf53f3.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Artboard1_7518a215-fc11-466f-a1df-71249fffd111.jpg?v=1763124296&width=900"
+    },
+    {
+      "id": "travel-essentials",
+      "expected_image": "assets/photo-fb82a54b6bf76f36.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19707_DiaperBag_B_W_E-Comm_1.jpg?v=1765866283&width=900"
+    },
+    {
+      "id": "rideon",
+      "expected_image": "assets/photo-b00701b131d8c0a4.webp",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900"
+    }
+  ],
+  "banners": [
+    {
+      "id": "promo1-0",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81koB9IjmsL._SL1500.jpg?v=1791193588&width=900",
+      "title": "Little discoveries. Endless play.",
+      "category": "Toys & Learning",
+      "reference": true,
+      "published": true,
+      "source": "https://baybee.co.in/products/baybee-baby-play-gym-activity-mat-with-music-lights-for-infants"
+    },
+    {
+      "id": "promo1-1",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900",
+      "title": "Their next little adventure.",
+      "category": "Ride-On",
+      "reference": true,
+      "published": true,
+      "source": "https://baybee.co.in/products/baybee-kids-battery-operated-electric-ride-on-jeep-with-remote-control"
+    },
+    {
+      "id": "promo1-2",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900",
+      "title": "Soft starts. Sweet dreams.",
+      "category": "New Born",
+      "reference": true,
+      "published": true,
+      "source": "https://www.luvlap.com/products/luvlap-100-cotton-muslin-baby-swaddles-dots-stars-white-print-0-18m-pack-of-5"
+    },
+    {
+      "id": "promo2-0",
+      "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_981fccdf-9651-48b1-80e5-4fcaf1e90bdf.webp?v=1783937848&width=900",
+      "title": "Made for every little feed.",
+      "category": "Feeding",
+      "reference": true,
+      "published": true,
+      "source": ""
+    },
+    {
+      "id": "promo2-1",
+      "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900",
+      "title": "Together, wherever you go.",
+      "category": "Travel & Gear",
+      "reference": true,
+      "published": true,
+      "source": ""
+    },
+    {
+      "id": "promo2-2",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900",
+      "title": "A little care, every day.",
+      "category": "Bath & Skincare",
+      "reference": true,
+      "published": true,
+      "source": "https://www.luvlap.com/products/luvlap-baby-lotion-with-milk-protein-200ml-suitable-for-baby-s-delicate-skin-24-hour-protection-for-sensitive-skin-shea-butter-and-vit-e-paraben-free-sweet-almond-oil-dermatologically-tested"
+    },
+    {
+      "id": "fashion-0",
+      "image": "https://cdn.shopify.com/s/files/1/0557/7683/7717/files/lemon_romper_baby_2.jpg?v=1790948165&width=900",
+      "title": "Little outfits. Big adventures.",
+      "category": "Clothing",
+      "reference": true,
+      "published": true,
+      "source": ""
+    },
+    {
+      "id": "fashion-1",
+      "image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900",
+      "title": "Softness for their earliest days.",
+      "category": "New Born",
+      "reference": true,
+      "published": true,
+      "source": "https://www.luvlap.com/products/luvlap-100-cotton-muslin-baby-swaddles-dots-stars-white-print-0-18m-pack-of-5"
+    }
+  ]
+}

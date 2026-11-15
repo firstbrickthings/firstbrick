@@ -1,18 +1,18 @@
 
 /* ================= CATEGORIES — matching avatar imagery ================= */
 const categoriesData = [
-  { id:'newborn', name:'New Born', img:'assets/photo-b3ba3fb637d4fb1f.webp', subcategories:["Swaddles & Sleepsuits","Hospital Bags","Mits & Caps","Baby Care Sets","Newborn Clothing","Caps, Mittens & Booties","Feeding","Diapering","Bath & Skincare","Bedding","Gifts & Hampers","Mother’s Essentials"] },
-  { id:'feeding', name:'Feeding', img:'assets/photo-0a9732be3078be31.webp', subcategories:["Feeding Bottles","Breast Pumps","Sterilizers","High Chairs","Bibs & Burp Cloths","Cutlery","Sipper Cups","Feeding Bottle Cleaning","Teethers & Pacifiers","Food Feeders & Nipples"] },
-  { id:'diapering', name:'Diapering', img:'assets/photo-7c6436cb7c7c1668.webp', subcategories:['Organic Diapers','Wipes & Care','Diaper Rash Cream','Diaper Bags','Changing Mats'] },
-  { id:'clothing', name:'Clothing', img:'assets/photo-2441543eec86ee1d.webp', subcategories:["Onesies & Rompers","Party Wear","Organic Cotton Suits","Booties & Shoes","Jabla","Infants","Dry Sheets","Swaddles","Diaper Changing Mats"] },
-  { id:'toys', name:'Toys & Learning', img:'assets/photo-f6599321d4bd42c5.webp', subcategories:["Rattles & Teethers","Montessori Toys","Play Gyms","Battery Toys","Activity Toys","Soft Toys","Gift Sets","RC Toys","Play Gym & Play Mat"] },
-  { id:'nursery', name:'Hospital Kit', img:'assets/photo-984aa8a4f6f21e5c.webp', subcategories:["Cribs & Cots","Mattresses & Bedding","Wardrobes","Night Lights","Combo","Mattress & Bed","Swaddles","Mittens & Caps","Rompers & Bodysuits","Jablas","Nappy","Dry Sheets","Basket","Bath Towels","Skincare & Diapers","Breast Pumps","Maternity Pads","Nipple Shields","Cradles","Combo ₹1,999","Combo ₹3,999","Combo ₹4,999","Combo ₹5,999"] },
-  { id:'cradles', name:'Cradles & Rockers', img:'assets/photo-c1763c2d5d1568c3.webp', subcategories:["Electric Swings","Manual Cradles","Bouncers","Rocking Chairs","Hanging Cradle","Cradle Accessories"] },
-  { id:'bath', name:'Bath & Skincare', img:'assets/photo-f27553fc206c5297.webp', subcategories:['Cetaphil','Sebamed','Wipes','Diapers','Accessories','Bath Tubs','Massaging Mats'] },
-  { id:'travel', name:'Travel & Gear', img:'assets/photo-b00701b131d8c0a4.webp', subcategories:["Strollers & Prams","Car Seats","Baby Carriers","Walkers","Wardrobes","Cabinets","Swings","Skating Rides","Play Mats","Play Gym"] },
-  { id:'momcare', name:'Mom Care', img:'assets/photo-bec649ce96bf53f3.webp', subcategories:["Maternity Wear","Nursing Bras","Postpartum Care","Stretch Mark Oils","Feeding Pillow","Breast Pumps","Mom Accessories (Bags)","Maternity Pillow","Maternity Pads","Carrier","Feeding Covers"] },
-  { id:'travel-essentials', name:'Travel', img:'assets/photo-fb82a54b6bf76f36.webp', subcategories:['Swatter & Rompers','Diaper Changing Mat','Baby Car Seat','Stroller','Caps','Mother Bag','Feeding Cover','Ear Muff','Warm Bottle','Food Container','Disposable Diaper Bags','Bib','Baby Holder','Suction Toys','Bottle Warmer'] },
-  { id:'rideon', name:'Ride-On', img:'assets/photo-b00701b131d8c0a4.webp', subcategories:['Cycle','Swing Car','Ride-On','Play Gym','Electric Ride-On'] }
+  { id:'newborn', name:'New Born', img:"https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900", subcategories:["Swaddles & Sleepsuits","Hospital Bags","Mits & Caps","Baby Care Sets","Newborn Clothing","Caps, Mittens & Booties","Feeding","Diapering","Bath & Skincare","Bedding","Gifts & Hampers","Mother’s Essentials"] },
+  { id:'feeding', name:'Feeding', img:"https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_981fccdf-9651-48b1-80e5-4fcaf1e90bdf.webp?v=1783937848&width=900", subcategories:["Feeding Bottles","Breast Pumps","Sterilizers","High Chairs","Bibs & Burp Cloths","Cutlery","Sipper Cups","Feeding Bottle Cleaning","Teethers & Pacifiers","Food Feeders & Nipples"] },
+  { id:'diapering', name:'Diapering', img:"https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900", subcategories:['Organic Diapers','Wipes & Care','Diaper Rash Cream','Diaper Bags','Changing Mats'] },
+  { id:'clothing', name:'Clothing', img:"https://cdn.shopify.com/s/files/1/0557/7683/7717/files/lemon_romper_baby_2.jpg?v=1790948165&width=900", subcategories:["Onesies & Rompers","Party Wear","Organic Cotton Suits","Booties & Shoes","Jabla","Infants","Dry Sheets","Swaddles","Diaper Changing Mats"] },
+  { id:'toys', name:'Toys & Learning', img:"https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81koB9IjmsL._SL1500.jpg?v=1791193588&width=900", subcategories:["Rattles & Teethers","Montessori Toys","Play Gyms","Battery Toys","Activity Toys","Soft Toys","Gift Sets","RC Toys","Play Gym & Play Mat"] },
+  { id:'nursery', name:'Hospital Kit', img:"https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-surprise-box-22pcs-pink-twinkle-star-newborn-baby-girlbaby-boy-gift-hamper-with-storage-basket-0-6m-1224064.jpg?v=1788584562&width=900", subcategories:["Cribs & Cots","Mattresses & Bedding","Wardrobes","Night Lights","Combo","Mattress & Bed","Swaddles","Mittens & Caps","Rompers & Bodysuits","Jablas","Nappy","Dry Sheets","Basket","Bath Towels","Skincare & Diapers","Breast Pumps","Maternity Pads","Nipple Shields","Cradles","Combo ₹1,999","Combo ₹3,999","Combo ₹4,999","Combo ₹5,999"] },
+  { id:'cradles', name:'Cradles & Rockers', img:"https://cdn.shopify.com/s/files/1/0717/4622/4450/files/01_6f0749e0-be15-4299-bcf4-41119ac6240f.png?v=1791611090&width=900", subcategories:["Electric Swings","Manual Cradles","Bouncers","Rocking Chairs","Hanging Cradle","Cradle Accessories"] },
+  { id:'bath', name:'Bath & Skincare', img:"https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900", subcategories:['Cetaphil','Sebamed','Wipes','Diapers','Accessories','Bath Tubs','Massaging Mats'] },
+  { id:'travel', name:'Travel & Gear', img:"https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900", subcategories:["Strollers & Prams","Car Seats","Baby Carriers","Walkers","Wardrobes","Cabinets","Swings","Skating Rides","Play Mats","Play Gym"] },
+  { id:'momcare', name:'Mom Care', img:"https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Artboard1_7518a215-fc11-466f-a1df-71249fffd111.jpg?v=1763124296&width=900", subcategories:["Maternity Wear","Nursing Bras","Postpartum Care","Stretch Mark Oils","Feeding Pillow","Breast Pumps","Mom Accessories (Bags)","Maternity Pillow","Maternity Pads","Carrier","Feeding Covers"] },
+  { id:'travel-essentials', name:'Travel', img:"https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19707_DiaperBag_B_W_E-Comm_1.jpg?v=1765866283&width=900", subcategories:['Swatter & Rompers','Diaper Changing Mat','Baby Car Seat','Stroller','Caps','Mother Bag','Feeding Cover','Ear Muff','Warm Bottle','Food Container','Disposable Diaper Bags','Bib','Baby Holder','Suction Toys','Bottle Warmer'] },
+  { id:'rideon', name:'Ride-On', img:"https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900", subcategories:['Cycle','Swing Car','Ride-On','Play Gym','Electric Ride-On'] }
 ];
 
 /* ================= PRODUCTS — premium international imagery ================= */
@@ -104,14 +104,44 @@ const babyoneSebamedCatalog = [{"id":"babyone-sebamed-001","name":"Sebamed Baby 
 babyoneSebamedCatalog.forEach(p => { if (!productsData.some(x => x.id === p.id)) productsData.push(p); });
 
 const adBannerData1 = [
-  { title:'Turbo Fun Ride-Ons', subtitle:'Safe, electric & remote-controlled', cta:'Explore Ride-Ons', category:'Travel & Gear', bg:'assets/photo-b00701b131d8c0a4.webp' },
-  { title:'Mom Care Essentials', subtitle:'Luxury postpartum & comfort gear', cta:'Shop Mom Care', category:'Mom Care', bg:'assets/photo-efad07a3afa7298b.webp' },
-  { title:'Newborn Nest Collection', subtitle:'100% organic cotton swaddles', cta:'Shop Newborn', category:'New Born', bg:'assets/photo-9fdd69d0f677103a.webp' }
+  {
+    "title": "Little discoveries. Endless play.",
+    "category": "Toys & Learning",
+    "bg": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81koB9IjmsL._SL1500.jpg?v=1791193588&width=900",
+    "reference": true
+  },
+  {
+    "title": "Their next little adventure.",
+    "category": "Ride-On",
+    "bg": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900",
+    "reference": true
+  },
+  {
+    "title": "Soft starts. Sweet dreams.",
+    "category": "New Born",
+    "bg": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900",
+    "reference": true
+  }
 ];
 const adBannerData2 = [
-  { title:'Summer Baby Fashion', subtitle:'Softest organic cotton playsuits', cta:'Explore Clothing', category:'Clothing', bg:'assets/photo-38f49c4a6bc032ea.webp' },
-  { title:'Smart Anti-Colic Feeding', subtitle:'BPA-free glass & silicone bottles', cta:'Explore Feeding', category:'Feeding', bg:'assets/photo-183b0e455b8e4fe0.webp' },
-  { title:'Compact Travel Strollers', subtitle:'One-hand folding cabin strollers', cta:'Explore Travel', category:'Travel & Gear', bg:'assets/photo-9c86c21d92a501fd.webp' }
+  {
+    "title": "Made for every little feed.",
+    "category": "Feeding",
+    "bg": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_981fccdf-9651-48b1-80e5-4fcaf1e90bdf.webp?v=1783937848&width=900",
+    "reference": true
+  },
+  {
+    "title": "Together, wherever you go.",
+    "category": "Travel & Gear",
+    "bg": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900",
+    "reference": true
+  },
+  {
+    "title": "A little care, every day.",
+    "category": "Bath & Skincare",
+    "bg": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900",
+    "reference": true
+  }
 ];
 
 /* ================= HERO — parent & baby love moments ================= */
@@ -305,14 +335,14 @@ function startHeroTimer(){
   if(!active)return;
   const v=active.querySelector('video');
   const count=document.querySelectorAll('#hero-slides .hero-slide').length;
-  if(!v){if(count>1)heroTimer=setTimeout(()=>goHero(activeHero+1),5000);return;}
+  if(!v){if(count>1)heroTimer=setTimeout(()=>goHero(activeHero+1),3000);return;}
   v.muted=true;v.loop=count===1;
   const advance=()=>{if(active.classList.contains('active')&&!window.boHeroPaused&&!window.boHeroOffscreen&&!window.boHeroGesture&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)goHero(activeHero+1)};
   v.onended=advance;
   // A playing video owns its slide until its real ended event, including buffering time.
   // Resuming visibility or playback keeps its position; only a new slide starts at zero.
   v.onloadedmetadata=null;
-  const unavailable=()=>{if(!active.classList.contains('active'))return;v.hidden=true;clearTimeout(heroTimer);if(count>1)heroTimer=setTimeout(advance,5000)};
+  const unavailable=()=>{if(!active.classList.contains('active'))return;v.hidden=true;clearTimeout(heroTimer);if(count>1)heroTimer=setTimeout(advance,3000)};
   v.onerror=unavailable;
   if(v.error){unavailable();return}
   if(v.ended&&count>1){advance();return}
@@ -337,33 +367,16 @@ function renderCategories(){
 
 /* ================= PROMOS ================= */
 function renderPromos(){
-  activeAd1=adBannerData1.length?activeAd1%adBannerData1.length:0;
-  activeAd2=adBannerData2.length?activeAd2%adBannerData2.length:0;
-  document.getElementById('promo-slides-1').innerHTML = adBannerData1.map((b,i)=>`
-    <div class="promo-slide ${i===activeAd1?'active':''}">
-      <img src="${b.bg}" alt="${b.title}" loading="lazy" />
-    </div>`).join('');
-  document.getElementById('promo-dots-1').replaceChildren();
-
-  document.getElementById('promo-slides-2').innerHTML = adBannerData2.map((b,i)=>`
-    <div class="promo-slide ${i===activeAd2?'active':''}">
-      <img src="${b.bg}" alt="${b.title}" loading="lazy" />
-    </div>`).join('');
-  document.getElementById('promo-dots-2').replaceChildren();
-
-  clearInterval(ad1Timer); clearInterval(ad2Timer);
-  if(adBannerData1.length>1)ad1Timer = setInterval(()=>nextAdSlide(1), 5500);
-  if(adBannerData2.length>1)ad2Timer = setInterval(()=>nextAdSlide(2), 6500);
+  clearInterval(ad1Timer);clearInterval(ad2Timer);
+  for(const n of [1,2]){
+    const data=n===1?adBannerData1:adBannerData2;
+    BObanners.render(document.getElementById('promo-'+n),data.map(b=>({image:b.bg,title:b.title,category:b.category,reference:b.reference})),{trackId:'promo-slides-'+n,dotsId:'promo-dots-'+n,label:'BabyOne collection banner '+n,onChange:index=>{if(n===1)activeAd1=index;else activeAd2=index}});
+  }
 }
-function changeAdSlide(n,delta){
-  const slides=[...document.querySelectorAll('#promo-slides-'+n+' .promo-slide')];if(!slides.length)return;
-  const index=((n===1?activeAd1:activeAd2)+delta+slides.length)%slides.length;
-  if(n===1)activeAd1=index;else activeAd2=index;
-  slides.forEach((slide,i)=>slide.classList.toggle('active',i===index));
-}
+function changeAdSlide(n,delta){BObanners.get(document.getElementById('promo-'+n))?.step(delta)}
 function nextAdSlide(n){changeAdSlide(n,1)}
 function prevAdSlide(n){changeAdSlide(n,-1)}
-function goAd(n,i){ if(n===1) activeAd1=i; else activeAd2=i; renderPromos(); }
+function goAd(n,i){BObanners.get(document.getElementById('promo-'+n))?.go(i,true)}
 
 /* ================= PRODUCT CARD ================= */
 function babyonePriceLabel(p){
@@ -479,6 +492,7 @@ function productCard(p){
           <i class="${inWish?'fa-solid':'fa-regular'} fa-heart"></i>
         </button>
         <img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.closest('.product')?.classList.add('image-fallback')" />
+        ${p.image_reference?'<span class="bo-photo-reference">Product reference</span>':''}
         <span class="babyone-card-view">View product <i class="fa-solid fa-arrow-right"></i></span>
       </div>
       <div class="product-info">
@@ -507,8 +521,9 @@ function babyoneTopSellers(){
 function renderProductRails(){
   document.getElementById('best-sellers').innerHTML = babyoneTopSellers().map(productCard).join('');
   document.getElementById('trending').innerHTML = productsData.filter(p=>!p.catalogHidden).slice().reverse().slice(0,10).map(productCard).join('');
-  const travel = productsData.filter(p=>p.category==='Travel & Gear');
+  const travel = productsData.filter(p=>['Travel & Gear','Ride-On'].includes(p.category)&&/ride.on|stroller|tricycle|swing car/i.test(p.name+' '+p.subcategory));
   document.getElementById('ride-mode').innerHTML = travel.filter(p=>!p.catalogHidden).slice(0,10).map(productCard).join('');
+  const toys=document.getElementById('playtime-products');if(toys)toys.innerHTML=productsData.filter(p=>!p.catalogHidden&&p.category==='Toys & Learning').slice(0,10).map(productCard).join('');
 }
 
 /* ================= LITTLE JOYS — playable ================= */

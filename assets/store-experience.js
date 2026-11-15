@@ -7,20 +7,22 @@
   const listing=document.getElementById('plp-view');if(!listing)return;
   const specific=typeof navState!=='undefined'&&navState.subcategory&&navState.subcategory!=='All';listing.classList.toggle('bo-subcategory-view',!!specific);
   let banner=document.getElementById('bo-plp-banner');
-  if(!banner){banner=document.createElement('figure');banner.id='bo-plp-banner';banner.className='bo-plp-banner';banner.innerHTML='<img alt="" loading="eager" decoding="async">';listing.querySelector('.bo-plp-heading').after(banner)}
+  if(!banner){banner=document.createElement('figure');banner.id='bo-plp-banner';banner.className='bo-plp-banner';listing.querySelector('.bo-plp-heading').after(banner)}
   // Reach the screen edges while the catalogue keeps its normal reading gutters.
   banner.style.width=document.documentElement.clientWidth+'px';banner.style.marginLeft=-listing.getBoundingClientRect().left+'px';
   const published=window.BOpublicContent?.banners?.value.items||[];
-  const custom=published.find(b=>b.id.startsWith('catalogue-')&&b.published!==false);
   const category=typeof navState!=='undefined'?navState.category:'';
-  const categoryImage=categoriesData.find(c=>c.name===category)?.img;
-  const origin=custom?.image||published.find(b=>b.published!==false&&b.image)?.image||categoryImage||heroSlidesData.find(s=>s.img)?.img||'';
-  const image=banner.querySelector('img');banner.hidden=!origin;
-  if(origin&&image.getAttribute('src')!==origin){
-   image.onload=()=>{banner.hidden=false;banner.classList.toggle('bo-banner-contained',image.naturalWidth/image.naturalHeight<1.6)};
-   image.onerror=()=>{banner.hidden=true};image.src=origin;
-   if(image.complete&&image.naturalWidth)image.onload();
+  const subcategory=typeof navState!=='undefined'?navState.subcategory:'';
+  const custom=published.filter(b=>b.id.startsWith('catalogue-')&&b.published!==false&&b.image&&(!b.category||b.category===category));
+  let items=custom.map(b=>({image:b.image,title:b.title||category,category,reference:b.reference===true}));
+  if(!items.length){
+   const pool=productsData.filter(p=>!p.catalogHidden&&p.image&&!p.image.startsWith('data:')&&(!category||category==='All'||p.category===category));
+   const matches=pool.filter(p=>!subcategory||subcategory==='All'||p.subcategory===subcategory);
+   const seen=new Set();
+   for(const p of [...matches,...pool]){if(seen.has(p.image))continue;seen.add(p.image);items.push({image:p.image,title:category&&category!=='All'?category:'For every little moment',category:category==='All'?'':category,reference:true});if(items.length===3)break}
   }
+  if(!items.length){const image=categoriesData.find(c=>c.name===category)?.img||heroSlidesData.find(s=>s.img)?.img;if(image)items=[{image,title:category}]}
+  BObanners.render(banner,items,{trackId:'bo-plp-banner-slides',dotsId:'bo-plp-banner-dots',label:(category||'BabyOne')+' collection banners'});
   const check=productsData.find(p=>p.id==='babyone-hospital-bag-payment-check');
   const newborn=categoriesData.find(c=>c.name==='New Born');
   if(check&&!check.catalogHidden&&check.category==='New Born'&&!window.BOsharedCategories&&newborn&&!(newborn.subcategories||[]).includes('Hospital Bags')){newborn.subcategories=[...(newborn.subcategories||[]),'Hospital Bags'];renderCategories()}

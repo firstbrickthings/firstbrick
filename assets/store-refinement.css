@@ -79,3 +79,37 @@ body{background:radial-gradient(ellipse at 0 8%,#eaf3fa 0,transparent 46%),radia
 @media(max-width:360px){
  #home-page #hero .bo-hero-controls:has(.hero-dot:nth-child(n+6)){left:12px;transform:none;max-width:calc(100% - 92px)}
 }
+
+/* The same transparent dots and image timing across every collection banner. */
+.bo-banner-carousel{position:relative;isolation:isolate;outline:none;overflow:hidden;touch-action:auto}
+.bo-banner-carousel:focus-visible{outline:2px solid var(--blue-500);outline-offset:-3px}
+.bo-banner-carousel .bo-banner-track{position:absolute;inset:0;touch-action:pan-y pinch-zoom;cursor:grab}
+.bo-banner-carousel .bo-banner-track:active{cursor:grabbing}
+.bo-banner-carousel .bo-banner-slide{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .65s ease,visibility .65s;user-select:none;-webkit-user-select:none}
+.bo-banner-carousel .bo-banner-slide.is-active{opacity:1;visibility:visible;pointer-events:auto;z-index:1}
+.bo-banner-carousel .bo-banner-slide>img{display:block;width:100%;height:100%!important;object-fit:cover;object-position:center;padding:0!important;pointer-events:none}
+.bo-banner-carousel .bo-banner-slide.bo-banner-reference{background:linear-gradient(110deg,#edf4fb,#fff6f9);display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:clamp(22px,4vw,60px) max(24px,calc((100vw - 1280px)/2))}
+.bo-banner-carousel .bo-banner-reference>img{grid-column:2;grid-row:1;object-fit:contain!important;mix-blend-mode:multiply;min-height:0;max-height:100%}
+.bo-banner-caption{grid-column:1;grid-row:1;padding:0 7%;color:var(--bo-refined-ink)}
+.bo-banner-caption>span{font-size:10px;letter-spacing:.18em;font-weight:700;color:var(--pink-600)}
+.bo-banner-caption h3{font-family:'Nunito',sans-serif;font-size:clamp(22px,3vw,44px);font-weight:750;line-height:1.15;letter-spacing:-.035em;margin:12px 0 20px;max-width:440px}
+.bo-banner-caption>button{background:#ffffffb3;border:1px solid #ccd9e3;border-radius:999px;padding:12px 18px;font:600 12px 'Nunito',sans-serif;color:var(--bo-refined-ink);cursor:pointer}
+.bo-banner-caption>button>span{padding-left:10px}
+.bo-banner-carousel :is(#promo-dots-1,#promo-dots-2,#bo-fashion-hero-dots,#bo-plp-banner-dots).bo-banner-dots{position:absolute!important;z-index:5;bottom:8px!important;left:50%!important;right:auto!important;transform:translateX(-50%);display:flex!important;align-items:center;gap:0!important;width:max-content;max-width:calc(100% - 24px);padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;overflow-x:auto;scrollbar-width:none;touch-action:pan-x}
+.bo-banner-carousel :is(#promo-dots-1,#promo-dots-2,#bo-fashion-hero-dots,#bo-plp-banner-dots).bo-banner-dots[hidden]{display:none!important}
+.bo-banner-carousel .bo-banner-dot{display:grid;place-items:center;flex:0 0 32px;width:32px!important;min-width:32px;height:44px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;cursor:pointer}
+.bo-banner-carousel .bo-banner-dot::before{content:'';width:6px;height:6px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px #526e8a66,0 1px 5px #18354c33;transition:width .25s}
+.bo-banner-carousel .bo-banner-dot.active::before{width:22px;background:var(--pink-600);box-shadow:0 0 0 1px #fff,0 1px 5px #18354c44}
+.bo-banner-carousel .bo-banner-dot:focus-visible{outline:2px solid var(--blue-500);outline-offset:-4px}
+.bo-photo-reference{position:absolute;left:10px;bottom:8px;z-index:2;padding:3px 6px;border-radius:5px;background:#ffffffd9;color:#526b7e;font-size:9px;line-height:1.3;pointer-events:none}
+@media(max-width:760px){
+ .bo-banner-carousel .bo-banner-slide.bo-banner-reference{padding:20px 14px 40px;grid-template-columns:1fr 1fr}
+ .bo-banner-caption{padding:0 4%}
+ .bo-banner-caption>span{font-size:7px;letter-spacing:.12em}
+ .bo-banner-caption h3{font-size:clamp(18px,4.8vw,28px);margin:8px 0 12px}
+ .bo-banner-caption>button{font-size:10px;padding:9px 11px}
+ .bo-banner-carousel :is(#promo-dots-1,#promo-dots-2,#bo-fashion-hero-dots,#bo-plp-banner-dots).bo-banner-dots{bottom:0!important}
+}
+@media(prefers-reduced-motion:reduce){.bo-banner-carousel .bo-banner-slide,.bo-banner-carousel .bo-banner-dot::before{transition:none!important}}
+
+.bo-banner-carousel[hidden]{display:none!important}

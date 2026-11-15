@@ -67,7 +67,7 @@ async function media(root,key,options){
     const next={...item,published:form.elements.published.checked};
     if(categoryMode){next.name=form.elements.name.value;next.subcategories=form.elements.subcategories.value.split(',').map(s=>s.trim()).filter(Boolean);next.img=next.img||''}
     if(key==='banners')next.id=form.elements.position.value+'-'+next.id.replace(/^(?:promo[12]|catalogue)-/,'');
-    if(form.elements.file.files[0]){const url=await uploadOnce(form.elements.file.files[0]);if(categoryMode)next.img=url;else next.image=url}
+    if(form.elements.file.files[0]){const url=await uploadOnce(form.elements.file.files[0]);if(categoryMode)next.img=url;else{next.image=url;if(!heroMode){next.reference=false;delete next.source}}}
     if(heroMode){
      next.mediaType=form.elements.media_type.value;
      if(form.elements.image_mobile.files[0])next.imageMobile=await uploadOnce(form.elements.image_mobile.files[0]);

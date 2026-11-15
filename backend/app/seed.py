@@ -67,6 +67,9 @@ def run():
         apply_flat_delivery(db)
         from .shipping_setup import apply_shipping_policy
         apply_shipping_policy(db)
+        from .storefront_media import apply_storefront_media
+        apply_storefront_media(db)
+        db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 
 
