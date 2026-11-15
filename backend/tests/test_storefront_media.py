@@ -3,7 +3,7 @@ import json
 from sqlalchemy import select
 from app.db import sessions
 from app.models import Product, StoreDocument, StoreSnapshot, Variant
-from app.storefront_media import MARKER, apply_storefront_media
+from app.storefront_media import MARKER, PROFILE_MARKER, apply_storefront_media, apply_category_profiles
 
 
 def manifest():
@@ -63,3 +63,26 @@ def test_default_cover_replacement_preserves_navigation():
         doc = db.get(StoreDocument, 'categories')
         assert doc.value['items'][0] == {'id': 'feeding', 'name': 'Feeding', 'img': 'new-cover.webp', 'subcategories': ['Bottles', 'Cups']}
         assert doc.version == 4
+
+
+def test_category_profiles_keep_owner_uploads_navigation_and_later_edits():
+    with sessions()() as db:
+        original = {'items': [
+            {'id': 'feeding', 'name': 'Custom feeding name', 'img': 'old-cover.webp', 'subcategories': ['Bottles', 'Cups'], 'published': False},
+            {'id': 'toys', 'name': 'Toys', 'img': '/api/media/owner-cover', 'subcategories': ['Soft toys']},
+            {'id': 'owner-category', 'name': 'Owner category', 'img': 'assets/owner.webp', 'subcategories': []}], 'owner_note': 'Keep'}
+        db.add(StoreDocument(key='categories', value=original, version=4)); db.commit()
+        inventory = [(v.id, str(v.price), v.stock) for v in db.scalars(select(Variant))]
+        profiles = [{'id': 'feeding', 'expected_image': 'old-cover.webp', 'image': 'new-cover.webp'},
+                    {'id': 'toys', 'expected_image': 'old-toy.webp', 'image': 'new-toy.webp'}]
+        apply_category_profiles(db, profiles); db.commit()
+        doc = db.get(StoreDocument, 'categories')
+        assert doc.version == 5 and doc.value['owner_note'] == 'Keep'
+        assert doc.value['items'][0] == {**original['items'][0], 'img': 'new-cover.webp'}
+        assert doc.value['items'][1:] == original['items'][1:]
+        assert json.loads(gzip.decompress(db.get(StoreSnapshot, PROFILE_MARKER).payload)) == {'value': original, 'version': 4}
+        assert inventory == [(v.id, str(v.price), v.stock) for v in db.scalars(select(Variant))]
+        doc.value = {**doc.value, 'items': [{**doc.value['items'][0], 'img': '/api/media/later-upload'}, *doc.value['items'][1:]]}
+        doc.version += 1; db.commit()
+        apply_category_profiles(db, profiles); db.commit()
+        assert doc.version == 6 and doc.value['items'][0]['img'] == '/api/media/later-upload'

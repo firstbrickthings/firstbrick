@@ -113,3 +113,12 @@ body{background:radial-gradient(ellipse at 0 8%,#eaf3fa 0,transparent 46%),radia
 @media(prefers-reduced-motion:reduce){.bo-banner-carousel .bo-banner-slide,.bo-banner-carousel .bo-banner-dot::before{transition:none!important}}
 
 .bo-banner-carousel[hidden]{display:none!important}
+
+/* Supporting artwork uses 16:8.5 on every screen; the landing hero stays screen-filling. */
+#home-page .promo,#home-page .bo-fashion-hero,#explorer-page .bo-plp-banner{aspect-ratio:32/17!important;height:auto!important;min-height:0!important;max-height:none!important}
+/* A more distinct wordmark, using the local rounded brand typeface. */
+.site-header .brand-word{font-family:'Quicksand','Nunito',sans-serif!important;font-size:27px!important;font-weight:700!important;letter-spacing:-.055em!important;line-height:1.15!important;color:var(--blue-600);white-space:nowrap}
+.site-header .brand-word>span{color:var(--pink-600)}
+@media(max-width:760px){.site-header .brand-word{font-size:25px!important}}
+@media(max-width:360px){.site-header .brand-word{font-size:22px!important}.site-header .brand{gap:7px}}
+#home-page #cat-container .cat-tile>img[alt="New Born"]{object-position:center top!important}

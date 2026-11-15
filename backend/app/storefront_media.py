@@ -7,6 +7,7 @@ from .models import Product, StoreDocument, StoreSnapshot
 from .services import touch_catalog
 
 MARKER = 'storefront:product-and-banner-photos-v1'
+PROFILE_MARKER = 'storefront:category-profile-photos-v1'
 
 
 def apply_storefront_media(db, manifest=None):
@@ -52,4 +53,26 @@ def apply_storefront_media(db, manifest=None):
         # Existing uploaded banners, videos, order/payment data and inventory remain untouched.
     db.add(StoreSnapshot(id=MARKER, payload=gzip.compress(json.dumps(before).encode())))
     if changed:
+        touch_catalog(db)
+
+
+def apply_category_profiles(db, profiles=None):
+    """Replace the previous default covers once, preserving later owner uploads and navigation."""
+    if db.get(StoreSnapshot, PROFILE_MARKER):
+        return
+    document = db.scalar(select(StoreDocument).where(StoreDocument.key == 'categories').with_for_update())
+    if not document or db.get(StoreSnapshot, PROFILE_MARKER):
+        return
+    if profiles is None:
+        profiles = json.loads((Path(__file__).resolve().parents[1] / 'data' / 'category_profiles.json').read_text())
+    covers = {p['id']: p for p in profiles}
+    before = {'value': document.value, 'version': document.version}
+    items = []
+    for item in document.value.get('items', []):
+        cover = covers.get(item.get('id'))
+        items.append({**item, 'img': cover['image']} if cover and item.get('img') == cover['expected_image'] else item)
+    db.add(StoreSnapshot(id=PROFILE_MARKER, payload=gzip.compress(json.dumps(before).encode())))
+    if items != document.value.get('items'):
+        document.value = {**document.value, 'items': items}
+        document.version += 1
         touch_catalog(db)

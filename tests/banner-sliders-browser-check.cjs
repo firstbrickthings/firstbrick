@@ -20,7 +20,7 @@ const banners=['promo1','promo2','fashion'].flatMap(section=>images.map((image,i
    await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(end,y+2,{steps:7});await page.mouse.up();assert((await selected().getAttribute('aria-label')).startsWith('2 of'));
    if(width<761){const cdp=await context.newCDPSession(page);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y,id:1}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:end,y:y+3,id:1}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert((await selected().getAttribute('aria-label')).startsWith('3 of'));}
    await root.press('Home');await page.clock.fastForward(6000);assert((await selected().getAttribute('aria-label')).startsWith('1 of'),'Reduced motion disables auto sliding');
-   await page.emulateMedia({reducedMotion:'no-preference'});await page.clock.runFor(50);await page.clock.fastForward(2900);assert((await selected().getAttribute('aria-label')).startsWith('1 of'));await page.clock.fastForward(200);assert((await selected().getAttribute('aria-label')).startsWith('2 of'),'Image advances after three seconds: '+selector+' at '+width);
+   await page.emulateMedia({reducedMotion:'no-preference'});await page.clock.runFor(50);await page.clock.runFor(2900);assert((await selected().getAttribute('aria-label')).startsWith('1 of'));await page.clock.runFor(200);assert((await selected().getAttribute('aria-label')).startsWith('2 of'),'Image advances after three seconds: '+selector+' at '+width);
    await page.emulateMedia({reducedMotion:'reduce'});
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
   }

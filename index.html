@@ -1162,9 +1162,6 @@ body{overflow-x:hidden}
     </div>
 
     <div class="header-actions">
-      <button class="icon-btn" onclick="openAllProducts()" aria-label="All products">
-        <i class="fa-solid fa-grip"></i>
-      </button>
       <button class="icon-btn" onclick="toggleWishlistModal()" aria-label="Wishlist">
         <i class="fa-regular fa-heart"></i>
         <span id="wishlist-badge" class="badge hidden">0</span>
@@ -1477,7 +1474,7 @@ body{overflow-x:hidden}
      JAVASCRIPT — all data preserved, imagery upgraded
      ============================================================ -->
 <script src="assets/banner-sliders.js?v=shared-slides-1"></script>
-<script src="assets/storefront-core.js?v=three-second-images-1"></script>
+<script src="assets/storefront-core.js?v=category-profiles-1"></script>
 <script src="assets/category-covers.js?v=subcategory-covers-1"></script>
 
 <!-- BABYONE GOOGLE SHEETS CUSTOMER ACTIVITY BRIDGE (no existing catalog data changed) -->
@@ -2179,7 +2176,7 @@ window.boAdmin={
   },
   print(i){const o=allOrders()[i];if(!o)return;const w=window.open('','_blank','width=800,height=900');if(!w){alert('Allow pop-ups to print the delivery sheet.');return}w.document.write(`<!doctype html><html><head><title>BabyOne delivery sheet</title><style>body{font:14px Arial;padding:28px;color:#222}h1{margin-bottom:4px}small{color:#555}.line{border-bottom:1px solid #ddd;padding:10px 0}.row{display:flex;justify-content:space-between;gap:15px}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border-bottom:1px solid #ddd;padding:10px;text-align:left} @media print{button{display:none}}</style></head><body>
 <h1>BabyOne</h1><small>Delivery & packing slip</small><hr><div class="line"><b>Order:</b> ${esc(o.id||'')} &nbsp; <b>Date:</b> ${esc(o.date||'')}<br><b>Status:</b> ${esc(o.status||'Order Confirmed')}</div><div class="line"><b>Deliver to</b><br>${esc(o.name||'')}<br>${esc(o.phone||'')}<br>${esc(o.address||'')}<br>${esc(o.city||'')} ${esc(o.pin||'')}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Unit price</th></tr></thead><tbody>${(o.items||[]).map(it=>`<tr><td>${esc(it.name)}</td><td>${Number(it.qty||1)}</td><td>${money(it.price)}</td></tr>`).join('')}</tbody></table><h3>Total: ${money(o.total)}</h3><p>Pack carefully. Thank you for choosing BabyOne.</p><script>window.onload=()=>window.print()<\/script>
-<link rel="stylesheet" href="assets/store-refinement.css?v=banner-navigation-1">
+<link rel="stylesheet" href="assets/store-refinement.css?v=banner-proportions-brand-1">
 </body></html>`);w.document.close();},
  };
  $('bo-admin-login-form').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target);const name=String(f.get('name')||'').trim().toLowerCase(),phone=String(f.get('phone')||'').replace(/\D/g,'');if((name==='hadhi'||name==='haadhi')&&phone==='9645762324'){sessionStorage.setItem('babyone-admin-session','yes');$('bo-admin-login').classList.add('hidden');$('bo-admin-dashboard').classList.remove('hidden');$('bo-admin-quick').style.display='none';refreshAdminQuickCount();refresh();initHeroSelect();renderAnalytics();}else{$('bo-admin-login-error').textContent='Admin details did not match. Please try again.'}});
@@ -2244,8 +2241,8 @@ function getNavConfig(catName){
 
 /* ---------- CATEGORY GRID PROMOTIONAL CARDS ---------- */
 const babyoneExtraCategoryCards = [
-  { id:'special-offers', name:'Special Offers', image:'https://m.media-amazon.com/images/I/81vrkpONYPL.jpg', action:'special' },
-  { id:'potty', name:'Potty', image:"https://cdn.shopify.com/s/files/1/0717/4622/4450/files/71-JjnMCtML._SL1500.jpg?v=1777135549", action:'potty' }
+  { id:'special-offers', name:'Special Offers', image:"https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-surprise-box-22pcs-pink-twinkle-star-newborn-baby-girlbaby-boy-gift-hamper-with-storage-basket-0-6m-1224064.jpg?v=1788584562&width=900", action:'special' },
+  { id:'potty', name:'Potty', image:"https://cdn.shopify.com/s/files/1/0717/4622/4450/files/01_9c616070-5eda-4b45-8bb5-e79ceb745e6b.webp?v=1782372738&width=900", action:'potty' }
 ];
 function openBabyonePromoListing(type){
   if(type==='potty'){showSubcatLanding('Potty');return;}
@@ -4354,13 +4351,13 @@ try{
 <script src="assets/logistics-admin.js"></script>
 <script src="assets/store-experience.js?v=category-slider-1"></script>
 <link rel="stylesheet" href="assets/premium-workspace.css">
-<link rel="stylesheet" href="assets/product-experience.css?v=matching-video-frames-fade-1">
+<link rel="stylesheet" href="assets/product-experience.css?v=clear-video-edges-1">
 <script src="assets/order-confirmation.js"></script>
 <script src="assets/premium-workspace.js"></script>
 <script src="assets/hero-experience.js?v=swipe-navigation-1"></script>
 <link rel="stylesheet" href="assets/fintech-workspace.css?v=back-left-1">
 <script src="assets/fintech-workspace.js?v=back-left-1"></script>
-<link rel="stylesheet" href="assets/store-refinement.css?v=banner-navigation-1">
+<link rel="stylesheet" href="assets/store-refinement.css?v=banner-proportions-brand-1">
 </body>
 </html>
 

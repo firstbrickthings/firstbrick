@@ -1,0 +1,86 @@
+[
+  {
+    "id": "newborn",
+    "name": "New Born",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/muslin-swaddle-wrap-icy-sorbet-3993217.jpg?v=1792994418&width=900",
+    "source": ""
+  },
+  {
+    "id": "feeding",
+    "name": "Feeding",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_981fccdf-9651-48b1-80e5-4fcaf1e90bdf.webp?v=1783937848&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81uW7CQf-5L.jpg?v=1785733857&width=900",
+    "source": "https://baybee.co.in/products/baybee-feeding-pillow-for-new-born-baby-with-foldable-breastfeeding-cover"
+  },
+  {
+    "id": "diapering",
+    "name": "Diapering",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/1_6f30ea92-0223-4d11-b903-64fa82494bdc.jpg?v=1763128526&width=900",
+    "image": "assets/image-2882d7af13cb6d4c.webp",
+    "source": ""
+  },
+  {
+    "id": "clothing",
+    "name": "Clothing",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0557/7683/7717/files/lemon_romper_baby_2.jpg?v=1790948165&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0557/7683/7717/files/lemon_romper_baby_2.jpg?v=1790948165&width=900",
+    "source": ""
+  },
+  {
+    "id": "toys",
+    "name": "Toys & Learning",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81koB9IjmsL._SL1500.jpg?v=1791193588&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/51zqAED3crL.jpg?v=1777134043&width=900",
+    "source": ""
+  },
+  {
+    "id": "nursery",
+    "name": "Hospital Kit",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-surprise-box-22pcs-pink-twinkle-star-newborn-baby-girlbaby-boy-gift-hamper-with-storage-basket-0-6m-1224064.jpg?v=1788584562&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/26pcs-cream-maroon-teddy-love-new-born-baby-girlboy-gift-hamper-all-season-wear-clothes-gift-hamper-box-8271927.webp?v=1778299912&width=900",
+    "source": "https://themomstore.in/products/26pcs-cream-maroon-teddy-love-new-born-baby-girl-boy-gift-hamper-all-season-wear-clothes-gift-hamper-box-0-6months"
+  },
+  {
+    "id": "cradles",
+    "name": "Cradles & Rockers",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/01_6f0749e0-be15-4299-bcf4-41119ac6240f.png?v=1791611090&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/71CeSALUUxL._SL1500_4aa062ee-b70e-4861-8977-b1daf4c382d8.jpg?v=1791610313&width=900",
+    "source": "https://baybee.co.in/products/baybee-rocker-for-baby-bouncer-with-music-infant-adjustable-baby-rocker-chair"
+  },
+  {
+    "id": "bath",
+    "name": "Bath & Skincare",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/61emCf6U9cL.jpg?v=1777135878&width=900",
+    "source": "https://baybee.co.in/products/baybee-euro-baby-bath-tub-for-kids-portable-bathtub-for-new-born-baby-with-temperature-display-foldable-baby-bathing-tub-mini-swimming-pool-bather-baby-bath-tub-for-kids-0-3-years"
+  },
+  {
+    "id": "travel",
+    "name": "Travel & Gear",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_2af79a9e-1f58-4fa2-8abd-d66866c6697b.jpg?v=1793785452&width=900",
+    "source": "https://baybee.co.in/products/baybee-2-in-1-foldable-baby-stroller-lightweight-pram-for-0-3-years"
+  },
+  {
+    "id": "momcare",
+    "name": "Mom Care",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/Artboard1_7518a215-fc11-466f-a1df-71249fffd111.jpg?v=1763124296&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81slH2m3R_L.jpg?v=1785733855&width=900",
+    "source": "https://baybee.co.in/products/baybee-feeding-pillow-for-new-born-baby-with-foldable-breastfeeding-cover"
+  },
+  {
+    "id": "travel-essentials",
+    "name": "Travel",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19707_DiaperBag_B_W_E-Comm_1.jpg?v=1765866283&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/01_fded5599-8d05-4b96-8569-731901748e02.jpg?v=1784102160&width=900",
+    "source": "https://baybee.co.in/products/baybee-tidy-stylish-modern-diaper-bag-for-mothers-for-travel"
+  },
+  {
+    "id": "rideon",
+    "name": "Ride-On",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900",
+    "image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/9_4c796619-f675-4aad-aaa4-c373f9113a4e.jpg?v=1793860804&width=900",
+    "source": "https://baybee.co.in/products/baybee-kids-battery-operated-electric-ride-on-jeep-with-remote-control"
+  }
+]
