@@ -185,6 +185,7 @@ async function renderPanel(name){
  }
  try{
   if(name==='overview')await overview(target);
+  else if(name==='payments')await BOFintech.mount(target);
   else if(['catalogue','inventory','products'].includes(name))await BOcatalogue.mount(target,{inventory:name==='inventory',add:name==='products',upload});
   else if(name==='hero')await openMedia('hero');
   else if(name==='video-manager')await BOvideoManager.mount(target,{defaults:defaults.videos,upload,refresh:()=>refreshPublic(true)});
@@ -221,12 +222,12 @@ function start(){
  defaults.fashion=[{id:'fashion-default',image:'assets/photo-0b02ae5543c03240.webp',published:true}];
  defaults.categories=categoriesData.map(c=>({...c,published:true}));defaults.videos=reelsData.filter(r=>r.videoUrl||/^[A-Za-z0-9_-]{11}$/.test(r.id)).map(r=>({id:r.cloudId||'youtube-'+r.id,title:r.title,author:r.author||'@babyone',productId:r.productId||'',videoUrl:r.videoUrl||'',...(r.videoUrl?{}:{youtubeId:r.id}),cover:r.cover||'',published:true}));
  const nav=document.querySelector('.bo-admin-nav'),main=document.querySelector('.bo-admin-grid>main');
- for(const [key,title] of [['email-login','Login & email'],['reviews','Website Reviews'],['delivery','Delivery charges'],['whatsapp','Notifications']])if(!$('bo-admin-panel-'+key)){const button=document.createElement('button');button.type='button';button.dataset.panel=key;button.textContent=title;button.onclick=()=>boAdmin.tab(key,button);nav.appendChild(button);const panel=document.createElement('section');panel.id='bo-admin-panel-'+key;panel.className='bo-admin-panel';main.appendChild(panel)}
+ for(const [key,title] of [['payments','Payments'],['email-login','Login & email'],['reviews','Website Reviews'],['delivery','Delivery charges'],['whatsapp','Notifications']])if(!$('bo-admin-panel-'+key)){const button=document.createElement('button');button.type='button';button.dataset.panel=key;button.textContent=title;button.onclick=()=>boAdmin.tab(key,button);nav.appendChild(button);const panel=document.createElement('section');panel.id='bo-admin-panel-'+key;panel.className='bo-admin-panel';main.appendChild(panel)}
  if(!document.getElementById('bo-admin-upi-check')){const check=document.createElement('button');check.type='button';check.id='bo-admin-upi-check';check.textContent='₹10 UPI check';check.onclick=()=>BOpaymentCheck.open();nav.appendChild(check);}
  const originalTab=boAdmin.tab;
  boAdmin.tab=function(name,btn){
   if(name!=='video-manager')window.BOvideoManager?.pause();
-  const custom=['email-login','overview','catalogue','inventory','products','hero','video-manager','category-manager','reviews','delivery','customers','backup','whatsapp'];
+  const custom=['payments','email-login','overview','catalogue','inventory','products','hero','video-manager','category-manager','reviews','delivery','customers','backup','whatsapp'];
   if(!custom.includes(name)){currentPanel=name;return originalTab.call(this,name,btn)}
   if(!BOserver.isAdmin())return;
   document.querySelectorAll('.bo-admin-panel').forEach(p=>p.classList.toggle('active',p.id==='bo-admin-panel-'+name));nav.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.panel===name));renderPanel(name);

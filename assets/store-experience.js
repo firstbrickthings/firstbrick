@@ -26,11 +26,11 @@
  function schedule(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;categoryBanner()})}
  function drawBadge(){
   const count=Math.max(0,Number(activity?.new_count)||0),text=count>99?'99+':String(count);
-  for(const button of document.querySelectorAll('#bo-server-manage,.bo-admin-nav [data-panel=orders]')){
+  for(const button of document.querySelectorAll('#bo-server-manage,#bo-admin-notifications,.bo-admin-nav [data-panel=orders]')){
    let badge=button.querySelector('.bo-order-count');
-   if(!owner?.is_admin||!count){badge?.remove();button.removeAttribute('aria-label');continue}
+   if(!owner?.is_admin||!count){badge?.remove();if(button.id==='bo-admin-notifications')button.setAttribute('aria-label','New order notifications');else button.removeAttribute('aria-label');continue}
    if(!badge){badge=document.createElement('span');badge.className='bo-order-count';badge.setAttribute('aria-hidden','true');button.appendChild(badge)}
-   badge.textContent=text;button.setAttribute('aria-label',(button.id==='bo-server-manage'?'Dashboard':'Orders & dispatch')+', '+count+' new order'+(count===1?'':'s'));
+   badge.textContent=text;button.setAttribute('aria-label',(button.id==='bo-server-manage'?'Dashboard':button.id==='bo-admin-notifications'?'Order notifications':'Orders & dispatch')+', '+count+' new order'+(count===1?'':'s'));
   }
  }
  async function refresh(){

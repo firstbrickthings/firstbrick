@@ -50,5 +50,10 @@ if(!base.startsWith('http://127.0.0.1:'))throw Error('This test refuses a hosted
  await page.evaluate(()=>{boAdmin.close();boU.home()});await page.waitForSelector('#bo-my-orders-list');assert((await page.locator('#bo-my-orders-list').textContent()).includes('Packed'));
  await page.evaluate(()=>boU.close());await page.locator('#bo-track-id').fill(id);await page.locator('#bo-track-form button').click();await page.waitForSelector('#bo-track-result .bo-track-pill');assert.equal(await page.locator('#bo-track-result .bo-track-pill').textContent(),'Packed');assert.equal(await page.locator('#bo-track-result img').count(),1);
  await page.locator('#bo-track-result').screenshot({path:'/workspace/work/review/shared-tracking.png'});
+ const beforeReports=await page.evaluate(async()=>JSON.stringify(await Promise.all([BOserver.request('/admin/orders'),BOserver.request('/admin/products')])));
+ await page.evaluate(async()=>{await boAdmin.openDashboard();boAdmin.tab('payments')});await page.waitForSelector('.bo-fintech-metric-row');
+ assert.equal(await page.locator('.bo-fintech-metric-row button').first().locator('strong').textContent(),'₹0.00','COD orders are not reported as Razorpay collections');
+ await page.locator('#bo-fintech-test-mode').click();await page.waitForSelector('.bo-fintech-metric-row');await page.waitForTimeout(150);
+ const afterReports=await page.evaluate(async()=>JSON.stringify(await Promise.all([BOserver.request('/admin/orders'),BOserver.request('/admin/products')])));assert.equal(afterReports,beforeReports,'Payment report filtering preserves real saved orders and catalogue data');
  assert.deepEqual(errors,[]);await browser.close();console.log('PASS: real isolated MySQL saves, overview filters, responsive dashboard, product/review/video visible in a second browser, delivery editor, order status and customer tracking.');
 })().catch(e=>{console.error(e);process.exit(1)});

@@ -402,3 +402,5 @@ from .store_activity import router as activity_router
 app.include_router(activity_router)
 from .owner_notifications import router as owner_email_router
 app.include_router(owner_email_router)
+from .payment_reports import router as payment_reports_router
+app.include_router(payment_reports_router)
