@@ -277,32 +277,37 @@ function renderHero(){
     const poster=(mobile?s.imgMobile||s.img:s.img)||'';
     const media=isVideo?`<video class="bo-hero-video" data-hero-video="${i}" muted playsinline preload="metadata" poster="${esc(poster)}" src="${esc(videoUrl)}" aria-label="${esc(s.title||'BabyOne promotional video')}"></video>`:'';
     const style=poster?` style="background-image:url(&quot;${esc(poster)}&quot;)"`:'';
-    return `<div ${i?'inert':''} class="hero-slide ${i===0?'active':''} ${isVideo?'bo-hero-is-video':''}"${style}>${media}</div>`;
+    return `<div ${i?'inert':''} role="group" aria-roledescription="slide" aria-label="${i+1} of ${heroSlidesData.length}" aria-hidden="${i!==0}" class="hero-slide ${i===0?'active':''} ${isVideo?'bo-hero-is-video':''}"${style}>${media}</div>`;
   }).join('');
-  dotsEl.replaceChildren();
+  dotsEl.innerHTML=heroSlidesData.map((s,i)=>`<button type="button" class="hero-dot ${i===0?'active':''}" data-hero-slide="${i}" aria-label="Show slide ${i+1} of ${heroSlidesData.length}"${i===0?' aria-current="true"':''}></button>`).join('');
+  dotsEl.hidden=heroSlidesData.length<2;dotsEl.setAttribute('role','group');dotsEl.setAttribute('aria-label','Choose a homepage slide');
+  dotsEl.querySelectorAll('button').forEach((button,i)=>button.onclick=()=>{if(i!==activeHero)goHero(i,{manual:true})});
   activeHero=0;startHeroTimer();
+  window.dispatchEvent(new CustomEvent('babyone-hero-change',{detail:{index:0,count:heroSlidesData.length,manual:false}}));
 }
-function goHero(i){
+function goHero(i,{manual=false}={}){
   const slides=[...document.querySelectorAll('#hero-slides .hero-slide')],dots=document.querySelectorAll('#hero-dots .hero-dot');
   if(!slides.length)return;
   slides.forEach(s=>{const v=s.querySelector('video');if(v){v.pause();v.onended=null;}});
   activeHero=(i+slides.length)%slides.length;
-  slides.forEach((s,index)=>{s.classList.toggle('active',index===activeHero);s.inert=index!==activeHero;});
-  dots.forEach((d,index)=>d.classList.toggle('active',index===activeHero));
+  slides.forEach((s,index)=>{s.classList.toggle('active',index===activeHero);s.inert=index!==activeHero;s.setAttribute('aria-hidden',String(index!==activeHero))});
+  dots.forEach((d,index)=>{d.classList.toggle('active',index===activeHero);if(index===activeHero)d.setAttribute('aria-current','true');else d.removeAttribute('aria-current')});
   const nextVideo=slides[activeHero].querySelector('video');
   if(nextVideo){try{nextVideo.currentTime=0}catch(_){}}
   startHeroTimer();
+  window.dispatchEvent(new CustomEvent('babyone-hero-change',{detail:{index:activeHero,count:slides.length,manual}}));
 }
 function startHeroTimer(){
   clearTimeout(heroTimer);heroTimer=null;
   if(window.boHeroPaused || window.boHeroOffscreen || document.hidden || matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('#hero-slides video').forEach(v=>v.pause());return;}
+  if(window.boHeroGesture)return;
   const active=document.querySelectorAll('#hero-slides .hero-slide')[activeHero];
   if(!active)return;
   const v=active.querySelector('video');
   const count=document.querySelectorAll('#hero-slides .hero-slide').length;
   if(!v){if(count>1)heroTimer=setTimeout(()=>goHero(activeHero+1),5000);return;}
   v.muted=true;v.loop=count===1;
-  const advance=()=>{if(active.classList.contains('active')&&!window.boHeroPaused&&!window.boHeroOffscreen&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)goHero(activeHero+1)};
+  const advance=()=>{if(active.classList.contains('active')&&!window.boHeroPaused&&!window.boHeroOffscreen&&!window.boHeroGesture&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)goHero(activeHero+1)};
   v.onended=advance;
   // A playing video owns its slide until its real ended event, including buffering time.
   // Resuming visibility or playback keeps its position; only a new slide starts at zero.

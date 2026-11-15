@@ -1,0 +1,81 @@
+/* BabyOne's pink and blue identity, with a quieter and more consistent finish. */
+:root{--bo-refined-edge:#dce5ed;--bo-refined-ink:#2b4257;--bo-refined-muted:#637b8e;--bo-refined-surface:#ffffffd9}
+body{background:radial-gradient(ellipse at 0 8%,#eaf3fa 0,transparent 46%),radial-gradient(ellipse at 100% 52%,#fbf0f5 0,transparent 42%),#fbfcfe}
+#home-page .section-head h2,#explorer-page .section-head h2,#reviews-section .section-head h2{font-family:'Nunito','Quicksand',sans-serif;font-size:clamp(28px,3.2vw,44px)!important;font-weight:750!important;line-height:1.18!important;letter-spacing:-.035em!important;color:var(--bo-refined-ink)}
+#home-page .section-head .eyebrow,#reviews-section .section-head .eyebrow{font-size:10px!important;font-weight:650;letter-spacing:.17em!important;color:var(--pink-600)}
+#home-page .section-head p,#explorer-page .section-head p,#reviews-section .section-head p{color:var(--bo-refined-muted);line-height:1.7!important;letter-spacing:.1em!important}
+#home-page>.section>.section-head,#reviews-section>.section-head{margin-bottom:28px!important}
+.site-header{background:#ffffffdf!important;border-bottom:1px solid #dce5edb3!important;box-shadow:0 3px 18px #29455c03!important;backdrop-filter:blur(22px)!important;-webkit-backdrop-filter:blur(22px)!important}
+.site-header .search-input,.mobile-search-inner input{border:1px solid #dce7f1!important;background:#edf4faad!important;border-radius:999px!important}
+:is(#home-page,#explorer-page,#product-modal-shell,#bo-u-modal) .btn{min-height:44px;letter-spacing:.09em;border-radius:14px;box-shadow:none}
+:is(#home-page,#explorer-page,#product-modal-shell,#bo-u-modal) .btn-pink{background:linear-gradient(135deg,var(--pink-500),var(--pink-600))!important;border-color:transparent!important;color:#fff!important;box-shadow:0 5px 16px #b94e7d13}
+:is(#home-page,#explorer-page,#product-modal-shell,#bo-u-modal) .btn-outline{border-color:#d5e0e9;background-color:#ffffffa6}
+:is(#home-page,#explorer-page,#product-modal-shell,#bo-u-modal) .btn:focus-visible,#bo-detail-sticky-bar button:focus-visible{outline:2px solid var(--blue-500);outline-offset:4px}
+@media(hover:hover){
+ :is(#home-page,#explorer-page,#product-modal-shell,#bo-u-modal) .btn-pink:hover{box-shadow:0 7px 22px #b94e7d22;transform:translateY(-1px)}
+ :is(#home-page,#explorer-page,#product-modal-shell,#bo-u-modal) .btn-outline:hover{border-color:var(--pink-300);background-color:#fff6fa}
+}
+#home-page .product.babyone-pro-card,#plp-grid .product.babyone-pro-card{border-color:var(--bo-refined-edge)!important;box-shadow:0 4px 20px #2b425708!important;background:#ffffffd9!important}
+#home-page .prod-scroll>.product.babyone-pro-card .product-info,#plp-grid>.product.babyone-pro-card .product-info{padding:16px!important}
+#home-page .prod-scroll>.product.babyone-pro-card .product-name,#plp-grid>.product.babyone-pro-card .product-name{font-size:14px!important;font-weight:700!important;line-height:1.45!important;letter-spacing:-.01em;color:var(--bo-refined-ink)}
+#home-page .prod-scroll>.product.babyone-pro-card .price,#plp-grid>.product.babyone-pro-card .price{font-size:18px!important;font-weight:750!important;color:var(--bo-refined-ink)}
+#home-page .product .wish-btn,#plp-grid .product .wish-btn{background:#fffffff0!important;border:1px solid #dce5edb3;box-shadow:0 2px 8px #2b425706}
+#home-page #cat-container .cat-tile:focus-visible,#explorer-page .subcat-tile:focus-visible{outline:2px solid var(--pink-400);outline-offset:5px}
+#home-page #reels-track .reel-title,#product-modal-shell .pv-caption h4{font-weight:600;line-height:1.55!important;color:var(--bo-refined-ink)}
+#bo-detail-sticky-bar{background:#fffffff0!important;border-top:1px solid #d5e0e9!important;box-shadow:0 -5px 24px #29455c08!important}
+#bo-u-modal:not(.bo-full-checkout)>div{background:linear-gradient(145deg,#fffffffa,#f9fbfef7 62%,#fff6faf5)!important;border:1px solid #ffffffd9!important;border-radius:26px!important;box-shadow:0 22px 80px #1f3c5724!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+#bo-u-modal .bo-email-title{font-family:'Nunito',sans-serif;font-weight:650;letter-spacing:-.035em;line-height:1.25}
+#bo-u-modal input:not([type=checkbox]):not([type=radio]):not([type=file]),#bo-u-modal select,#bo-u-modal textarea{border-color:#d7e2ec!important;background-color:#ffffffe0!important;border-radius:12px!important;min-height:48px;color:var(--bo-refined-ink)}
+#bo-u-modal input:not([type=checkbox]):not([type=radio]):focus,#bo-u-modal select:focus,#bo-u-modal textarea:focus{outline:none;border-color:var(--blue-400)!important;box-shadow:0 0 0 3px #c9e2fb66}
+#bo-checkout-form .bo-checkout-summary,#bo-checkout-form .bo-checkout-delivery,#bo-checkout-form .bo-payments,.bo-receipt-bill,.bo-track-card{border-color:var(--bo-refined-edge)!important;border-radius:18px;box-shadow:0 5px 24px #29455c05!important;background-color:#ffffffe0!important}
+#bo-checkout-form .bo-checkout-summary h3,#bo-checkout-form .bo-checkout-delivery h3{font-weight:700;letter-spacing:-.025em;color:var(--bo-refined-ink)}
+#bo-admin-layer .bo-admin-card{border-color:#e0e7ef!important;border-radius:14px!important;box-shadow:0 4px 24px #0b101b05!important}
+#bo-admin-layer .bo-admin-card h3{font-weight:650!important;letter-spacing:-.025em}
+#bo-admin-layer .bo-work-field>input:focus,#bo-admin-layer .bo-work-field>select:focus,#bo-admin-layer .bo-work-field>textarea:focus{box-shadow:0 0 0 3px #dbeafe80}
+#bo-admin-layer .bo-admin-table th{font-weight:600;letter-spacing:.02em}
+.site-footer.bo-compact-footer{border-color:#d7e2ecb3!important;box-shadow:0 -5px 28px #29455c04!important}
+
+/* Image-first hero with floating dots and a separate desktop playback control. */
+#home-page #hero{touch-action:auto;outline:none}
+#home-page #hero-slides{touch-action:pan-y pinch-zoom}
+#home-page #hero:focus-visible{outline:2px solid var(--blue-500);outline-offset:-3px}
+#home-page #hero .hero-slide{user-select:none;-webkit-user-select:none;transition:opacity .7s cubic-bezier(.22,.61,.36,1)}
+#home-page #hero .bo-hero-controls{position:absolute;z-index:8;left:50%;bottom:20px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;width:max-content;max-width:calc(100% - 32px);padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+#home-page #hero .bo-hero-controls[hidden]{display:none!important}
+#home-page #hero #hero-dots{position:static!important;left:auto;bottom:auto;display:flex!important;align-items:center;flex:0 1 auto;min-width:0;gap:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;max-width:100%;border-radius:999px;touch-action:pan-x}
+#home-page #hero #hero-dots::-webkit-scrollbar{display:none}
+#home-page #hero #hero-dots[hidden]{display:none!important}
+#home-page #hero .hero-dot{position:relative;display:grid;place-items:center;flex:0 0 32px!important;width:32px!important;min-width:32px!important;height:44px!important;min-height:44px!important;padding:0!important;border:0!important;border-radius:999px!important;background:transparent!important;cursor:pointer;opacity:1;transition:none}
+#home-page #hero .hero-dot:before{content:'';display:block;width:6px;height:6px;border-radius:999px;background:#ffffffb8;box-shadow:0 1px 5px #18354c66;transition:width .25s ease,background-color .25s ease}
+#home-page #hero .hero-dot.active:before{width:22px;background:var(--pink-600);box-shadow:0 0 0 1px #fffffff0,0 1px 5px #18354c66}
+#home-page #hero .hero-dot:focus-visible,#home-page #hero .bo-hero-playback:focus-visible{outline:2px solid var(--blue-500);outline-offset:-3px}
+#home-page #hero .bo-hero-playback{position:static;right:auto;bottom:auto;display:grid;place-items:center;flex:0 0 44px;width:44px;min-width:44px;height:44px;padding:12px;border:1px solid #ffffffb3;border-radius:50%;background:#ffffffe3;color:var(--bo-refined-ink);box-shadow:0 2px 10px #19344d14;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#home-page #hero .bo-hero-playback[hidden]{display:none!important}
+#home-page #hero .bo-hero-playback svg{width:18px;height:18px}
+.bo-hero-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:760px){
+ #home-page .section-head h2,#explorer-page .section-head h2,#reviews-section .section-head h2{font-size:28px!important}
+ #home-page .section-head p,#explorer-page .section-head p,#reviews-section .section-head p{font-size:11px!important;letter-spacing:.08em!important}
+ #home-page>.section>.section-head,#reviews-section>.section-head{margin-bottom:22px!important}
+ #home-page .prod-scroll>.product.babyone-pro-card .product-info,#plp-grid>.product.babyone-pro-card .product-info{padding:13px!important}
+ #home-page .prod-scroll>.product.babyone-pro-card .product-name,#plp-grid>.product.babyone-pro-card .product-name{font-size:12px!important;line-height:1.5!important}
+ #home-page .prod-scroll>.product.babyone-pro-card .price,#plp-grid>.product.babyone-pro-card .price{font-size:16px!important}
+ #home-page #hero .bo-hero-controls{bottom:16px;max-width:calc(100% - 24px)}
+ #bo-u-modal input:not([type=checkbox]):not([type=radio]):not([type=file]),#bo-u-modal select,#bo-u-modal textarea{font-size:16px!important}
+ #bo-admin-layer .bo-admin-card{border-radius:12px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #home-page #hero .hero-slide,#home-page #hero .hero-dot:before{transition:none!important}
+ :is(#home-page,#explorer-page,#product-modal-shell,#bo-u-modal) .btn{transition:none;transform:none!important}
+}
+@media(prefers-reduced-transparency:reduce){
+ .site-header,#bo-u-modal:not(.bo-full-checkout)>div{background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+/* Equal purchase actions remain inside the information column on tablet widths. */
+#product-modal-shell .bo-detail-inline-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important;min-width:0}
+#product-modal-shell .bo-detail-inline-actions>.btn{width:100%;min-width:0;padding:14px 12px!important;font-size:11px;letter-spacing:.05em}
+#home-page #hero{cursor:grab}
+#home-page #hero:active{cursor:grabbing}
+@media(max-width:360px){
+ #home-page #hero .bo-hero-controls:has(.hero-dot:nth-child(n+6)){left:12px;transform:none;max-width:calc(100% - 92px)}
+}
