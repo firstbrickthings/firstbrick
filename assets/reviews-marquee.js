@@ -5,7 +5,12 @@
  const samples=[
   {name:'Sample parent A',rating:5,message:'Thoughtful little essentials for our everyday routine.'},
   {name:'Sample parent B',rating:5,message:'A lovely selection for our growing family.'},
-  {name:'Sample parent C',rating:5,message:'Easy to browse and find what our baby needs.'}
+  {name:'Sample parent C',rating:5,message:'Easy to browse and find what our baby needs.'},
+  {name:'Sample parent D',rating:5,message:'Lovely little finds for a new chapter of family life.'},
+  {name:'Sample parent E',rating:5,message:'A thoughtful selection for feeding, changing and cuddle time.'},
+  {name:'Sample parent F',rating:4,message:'Simple browsing and useful details for choosing everyday essentials.'},
+  {name:'Sample parent G',rating:5,message:'From tiny outfits to nursery essentials, everything feels easy to explore.'},
+  {name:'Sample parent H',rating:5,message:'A welcoming place to discover something special for a little one.'}
  ];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');let paused=false,resizeFrame=0;
  function render(rows){

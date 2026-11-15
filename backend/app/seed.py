@@ -57,9 +57,9 @@ def run():
             added += 1
             existing.add(item['id'])
         db.flush()
+        from .catalog_retirement import retire_payment_listings
+        retire_payment_listings(db)
         configure_test_product(db)
-        from .live_check_catalog import configure as configure_live_check
-        configure_live_check(db)
         db.commit()
         from .catalog_setup import apply_requested_setup
         apply_requested_setup(db)

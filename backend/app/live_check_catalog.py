@@ -1,6 +1,6 @@
 """The owner's one-time ₹1 catalogue payment check. Never reset later edits."""
 from sqlalchemy import select
-from .models import Category, Product, StoreDocument, Variant
+from .models import Category, Product, StoreDocument, StoreSnapshot, Variant
 
 PRODUCT_ID = 'babyone-hospital-bag-payment-check'
 VARIANT_ID = '48de40b9-bd37-4e1a-8c5a-741ea934cff9'
@@ -12,7 +12,8 @@ def is_live_check(product):
 
 
 def configure(db):
-    if db.get(StoreDocument, MARKER):
+    from .catalog_retirement import MARKER as retirement_marker
+    if db.get(StoreDocument, MARKER) or db.get(StoreSnapshot, retirement_marker):
         return
     if db.get(Product, PRODUCT_ID):
         raise RuntimeError('The requested live-check product ID is already in use.')

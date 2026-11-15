@@ -133,7 +133,10 @@ def save_profile(data: Shipping, user: Identity = Depends(identity), db: Session
 
 @app.get('/api/catalog/categories')
 def categories(db: Session = Depends(database)):
-    return [{'id': c.id, 'name': c.name, 'delivery_fee': str(c.delivery_fee)} for c in db.scalars(select(Category).order_by(Category.name))]
+    from .catalog_retirement import PAYMENT_CATEGORY_ID
+    has_payment_listings = db.scalar(select(Product.id).where(Product.category_id == PAYMENT_CATEGORY_ID, Product.active.is_(True)).limit(1))
+    return [{'id': c.id, 'name': c.name, 'delivery_fee': str(c.delivery_fee)} for c in db.scalars(select(Category).order_by(Category.name))
+            if c.id != PAYMENT_CATEGORY_ID or has_payment_listings]
 
 
 def product_list(db, offset, limit, q='', category=None, include_hidden=False, subcategory='', stock=''):

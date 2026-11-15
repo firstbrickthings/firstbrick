@@ -1,6 +1,6 @@
 """One explicitly enabled payment-test item; imported inventory stays unapproved."""
 from .config import settings
-from .models import Category, Product, Variant
+from .models import Category, Product, Variant, StoreSnapshot
 
 PRODUCT_ID = 'babyone-payment-test'
 VARIANT_ID = '86ee10f8-2e45-4b61-b174-a26be7b207c4'
@@ -9,7 +9,8 @@ CATEGORY_ID = 'babyone-payment-testing'
 
 def configure_test_product(db):
     product = db.get(Product, PRODUCT_ID)
-    enabled = settings().test_checkout_enabled
+    from .catalog_retirement import MARKER
+    enabled = settings().test_checkout_enabled and not db.get(StoreSnapshot, MARKER)
     if product:
         if not product.metadata_json.get('payment_test'):
             raise RuntimeError('Payment-test product ID is already in use.')
