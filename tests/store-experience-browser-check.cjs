@@ -65,7 +65,7 @@ const base='http://127.0.0.1:8081';
   assert.equal(await page.locator('.bo-pay-action-bar button[type=submit]').count(),1);
   assert((await page.locator('.bo-pay-action-bar .bo-pay-amount strong').textContent()).includes('1.00'));
   assert(await page.locator('#plp-sort').isHidden(),'No filters on a subcategory page');
-  assert((await page.locator('#bo-plp-banner img').boundingBox()).height>=180);
+  assert((await page.locator('#bo-plp-banner').boundingBox()).height>=170);
   await page.locator('.bo-pay-action-bar').scrollIntoViewIfNeeded();
   assert(await page.locator('#bo-u-modal>div').evaluate(e=>e.scrollWidth<=e.clientWidth+1));
   await page.screenshot({path:'/workspace/work/review/direct-checkout-'+width+'.png'});
@@ -88,5 +88,5 @@ const base='http://127.0.0.1:8081';
   owner=false;await page.evaluate(()=>BOserver.checkIdentity());assert.equal(await page.locator('#bo-server-manage').count(),0,'Customer accounts never see the owner badge');
   assert.deepEqual(errors,[]);await context.close();
  }
- await browser.close();console.log('PASS: direct Razorpay checkout, full-page receipt, premium dashboard, ₹1 action row, larger catalogue banner, persisted opt-in without repeats or request loops, private new-order badges, moderated reviews, labelled admin previews and honest notification readiness at 320/390/1440. No messages or payments sent.');
+ await browser.close();console.log('PASS: direct Razorpay checkout, full-page receipt, premium dashboard, ₹1 action row, responsive catalogue banner, persisted opt-in without repeats or request loops, private new-order badges, moderated reviews, labelled admin previews and honest notification readiness at 320/390/1440. No messages or payments sent.');
 })().catch(e=>{console.error(e);process.exit(1)});

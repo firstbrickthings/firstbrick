@@ -1472,6 +1472,7 @@ body{overflow-x:hidden}
      JAVASCRIPT — all data preserved, imagery upgraded
      ============================================================ -->
 <script src="assets/storefront-core.js"></script>
+<script src="assets/category-covers.js?v=subcategory-covers-1"></script>
 
 <!-- BABYONE GOOGLE SHEETS CUSTOMER ACTIVITY BRIDGE (no existing catalog data changed) -->
 <script>
@@ -2295,23 +2296,12 @@ function showSubcatLanding(catName){
   }
   const cfg = getNavConfig(catName);
   if(!cfg){ grid.innerHTML = '<p style="color:var(--ink-mute)">No subcategories available.</p>'; return; }
-  const cat = categoriesData.find(c => c.name === catName);
-  const bathTileImages = {
-    'Cetaphil':'assets/photo-76b4b378c6adb71e.webp',
-    'Sebamed':'assets/photo-d1cf9924a727bdf6.webp',
-    'Wipes':'assets/photo-8547e56b6781f5d9.webp',
-    'Diapers':'assets/photo-859aa86800d22bf7.webp',
-    'Accessories':'assets/photo-5c3208902de8e461.webp'
-  };
   grid.innerHTML = cfg.subcategoryTiles.map(tile => {
     const isBrand = cfg.tileType[tile] === 'brand';
-    const ownerMatch = window.babyoneOwnerCategoryMatchers && window.babyoneOwnerCategoryMatchers[catName] && window.babyoneOwnerCategoryMatchers[catName][tile];
-    const matchingPhoto = ownerMatch && productsData.find(p => !p.catalogHidden && p.image && ownerMatch.test([p.name,p.subcategory].filter(Boolean).join(' ')));
-    const img = (catName === 'Bath & Skincare' ? (bathTileImages[tile] || (cat && cat.img)) : (matchingPhoto && matchingPhoto.image || cat && cat.img)) || '';
     const typeLabel = isBrand ? 'Brand' : (cfg.tileType[tile] === 'product' ? 'Product range' : 'Subcategory');
     const helper = isBrand ? `Shop all ${escapeHtml(tile)}` : 'Explore products';
     return `<button class="subcat-tile ${isBrand?'brand-tile':''}" type="button" onclick="selectSubcategoryTile('${escapeHtml(catName)}','${escapeHtml(tile)}')">
-      <img src="${img}" alt="${escapeHtml(tile)}" loading="lazy" onerror="this.style.display='none'" />
+      ${babyoneSubcategoryCover(catName,tile)}
       <span class="subcat-label"><small>${typeLabel}</small><b>${escapeHtml(tile)}</b><small class="tile-helper">${helper}</small></span>
     </button>`;
   }).join('');
@@ -2527,15 +2517,7 @@ else {renderCategories();if(typeof cart!=='undefined')updateCart();}
     if(catName==='All'){grid.innerHTML=renderAllBabyoneCategoryTiles();return;}
     const cfg=getNavConfig(catName);
     if(!cfg){grid.innerHTML='<p style="color:var(--ink-mute)">No subcategories available.</p>';return;}
-    const cat=categoriesData.find(c=>c.name===catName);
-    const bathTileImages={
-      'Cetaphil':'assets/photo-76b4b378c6adb71e.webp',
-      'Sebamed':'assets/photo-d1cf9924a727bdf6.webp',
-      'Wipes':'assets/photo-8547e56b6781f5d9.webp',
-      'Diapers':'assets/photo-859aa86800d22bf7.webp',
-      'Accessories':'assets/photo-5c3208902de8e461.webp'
-    };
-    grid.innerHTML=cfg.subcategoryTiles.map(tile=>{const isBrand=cfg.tileType[tile]==='brand';const img=babyoneCuratedTileImages[catName]?.[tile]|| (catName==='Potty'?(pottyTileImages[tile]||(cat&&cat.img)):catName==='Bath & Skincare'?(bathTileImages[tile]||(cat&&cat.img)):(cat&&cat.img)||'');return `<button class="subcat-tile ${isBrand?'brand-tile':''}" type="button" onclick="selectSubcategoryTile('${escapeHtml(catName)}','${escapeHtml(tile)}')"><img src="${img}" alt="${escapeHtml(tile)}" loading="lazy" onerror="this.style.display='none'"><span class="subcat-label"><b>${escapeHtml(tile)}</b></span></button>`;}).join('');
+    grid.innerHTML=cfg.subcategoryTiles.map(tile=>{const isBrand=cfg.tileType[tile]==='brand';return `<button class="subcat-tile ${isBrand?'brand-tile':''}" type="button" onclick="selectSubcategoryTile('${escapeHtml(catName)}','${escapeHtml(tile)}')">${babyoneSubcategoryCover(catName,tile)}<span class="subcat-label"><b>${escapeHtml(tile)}</b></span></button>`;}).join('');
   }
   function renderProductPage(catName,tile,push){
     selectedCategory=catName;selectedSub=tile;navState={view:'plp',category:catName,subcategory:tile,subfilter:'All'};
@@ -3041,7 +3023,7 @@ window.babyoneOwnerCategoryMatchers = {
 })();
 </script>
 
-<script id="babyone-filled-category-catalogue" src="assets/babyone-filled-category-catalogue.js"></script>
+<script id="babyone-filled-category-catalogue" src="assets/babyone-filled-category-catalogue.js?v=category-covers-1"></script>
 <script id="bo-upload-helper">
 window.boReadImage=async function(file){if(!file)return null;if(!file.type.startsWith('image/'))throw Error('Select an image file.');if(file.size>1800000)throw Error('Image must be smaller than 1.8 MB.');return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error('Image could not be read.'));r.readAsDataURL(file)});};
 </script>
@@ -4361,7 +4343,7 @@ try{
 <script src="assets/product-sharing.js"></script>
 <script src="assets/payment-check.js"></script>
 <script src="assets/admin-catalogue.js"></script>
-<script src="assets/admin-sections.js"></script>
+<script src="assets/admin-sections.js?v=hero-video-action-1"></script>
 <script src="assets/store-workspace.js"></script>
 <script src="assets/cart-sync.js"></script>
 <script src="assets/store-support.js"></script>
@@ -4370,7 +4352,7 @@ try{
 <script src="assets/logistics-admin.js"></script>
 <script src="assets/store-experience.js"></script>
 <link rel="stylesheet" href="assets/premium-workspace.css">
-<link rel="stylesheet" href="assets/product-experience.css?v=desktop-flat-banners-1">
+<link rel="stylesheet" href="assets/product-experience.css?v=category-frames-1">
 <script src="assets/order-confirmation.js"></script>
 <script src="assets/premium-workspace.js"></script>
 <script src="assets/hero-experience.js"></script>

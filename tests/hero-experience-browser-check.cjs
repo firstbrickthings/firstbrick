@@ -62,7 +62,7 @@ async function fit(page,width,height){
  page.on('pageerror',e=>errors.push(e.message));await routes(context);await page.goto(base,{waitUntil:'networkidle'});
  for(const size of [[320,800],[390,844],[768,950],[1440,950],[1920,1080],[390,700]])await fit(page,...size);
  await page.setViewportSize({width:1440,height:950});await page.evaluate(async()=>{window.BOphoneOTP={isVerified:()=>true,getIdToken:async()=>'fixture'};await BOserver.checkIdentity();await boAdmin.openDashboard();boAdmin.tab('hero')});
- await page.waitForSelector('#bo-media-new');await page.locator('#bo-media-new').click();await page.locator('[name=media_type]').selectOption('video');
+ await page.waitForSelector('#bo-hero-add-video');await page.locator('#bo-hero-add-video').click();assert.equal(await page.locator('[name=media_type]').inputValue(),'video');
  await page.locator('#bo-media-form [name=file]').setInputFiles({name:'cover.png',mimeType:'image/png',buffer:Buffer.from('cover fixture')});
  await page.locator('#bo-media-form [name=image_mobile]').setInputFiles({name:'mobile.png',mimeType:'image/png',buffer:Buffer.from('mobile cover fixture')});
  // Assign stable upload names to keep this fixture independent of workstation paths.

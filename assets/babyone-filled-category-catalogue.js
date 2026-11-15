@@ -37,6 +37,7 @@
   const cfg=getNavConfig(category),saved=navState;
   try{
    document.querySelectorAll('#subcat-tile-grid .subcat-tile').forEach((tile,i)=>{
+    if(tile.querySelector('img[data-cover-category]'))return;
     navState={view:'landing',category,subcategory:cfg.subcategoryTiles[i],subfilter:'All'};
     const product=getPLPProducts().find(p=>p.image),img=tile.querySelector('img');
     if(product&&img){img.src=product.image;img.style.display='';}
