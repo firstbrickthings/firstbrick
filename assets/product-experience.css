@@ -90,7 +90,7 @@
 
 /* Three subcategory covers per row, including phones. Product grids keep their own layout. */
 #explorer-page #subcat-tile-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:24px 20px!important}
-#explorer-page #subcat-tile-grid .subcat-tile img{object-fit:contain!important;background:#ffffffb8!important;border:1px solid #dce5ed;border-radius:16px!important}
+#explorer-page #subcat-tile-grid .subcat-tile img{object-fit:cover!important;background:#ffffffb8!important;border:1px solid #dce5ed;border-radius:16px!important}
 #explorer-page #subcat-tile-grid .subcat-label b{overflow-wrap:anywhere}
 @media(max-width:760px){
  #explorer-page #subcat-tile-grid{gap:20px 10px!important}
@@ -106,7 +106,6 @@
  #home-page .promo{height:clamp(320px,31.25vw,560px)!important;min-height:0!important}
  #home-page .promo-slide img{object-position:center 36%}
 }
-@media(min-width:1440px){#explorer-page #subcat-tile-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
 
 /* All supporting banners reach both edges; the full-screen landing hero keeps its frame. */
 #home-page>.section:has(>.promo),#home-page>#babyone-fashion{width:100%!important;max-width:none!important;padding-inline:0!important}
@@ -136,10 +135,37 @@
 #reviews-section .bo-review-paused #reviews-track,#reviews-section .reviews-rail:focus-within #reviews-track{animation-play-state:paused!important}
 @media(hover:hover){#reviews-section .reviews-rail:hover #reviews-track{animation-play-state:paused!important}}
 @keyframes bo-review-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(max-width:760px){#reviews-section .bo-review-tools{gap:12px;align-items:flex-start}#reviews-section .bo-review-sample-notice{max-width:215px;font-size:10px}#reviews-section #reviews-track .review-card{padding:23px;min-height:198px;border-radius:22px}}
+@media(max-width:760px){
+ #reviews-section{padding-block:28px!important}
+ #reviews-section>.section-head{margin-bottom:20px!important}
+ #reviews-section .section-head h2{font-size:clamp(24px,7vw,29px)!important}
+ #reviews-section .section-head p{font-size:11px}
+ #reviews-section .bo-review-tools{gap:12px;align-items:flex-start}
+ #reviews-section .bo-review-sample-notice{max-width:215px;font-size:10px}
+ #reviews-section #reviews-track .review-card{flex-basis:clamp(220px,68vw,270px);width:clamp(220px,68vw,270px);padding:18px;min-height:166px;border-radius:18px}
+ #reviews-section .review-stars{font-size:12px;letter-spacing:2px}
+ #reviews-section .review-text{font-size:12px;line-height:1.65;margin:11px 0 13px}
+ #reviews-section .review-name{font-size:12px;line-height:1.4}
+ #reviews-section .bo-review-preview-label{font-size:8px;margin-bottom:8px}
+ #reviews-section .bo-review-example{font-size:9px;margin-top:5px}
+}
 @media(prefers-reduced-motion:reduce){
  #reviews-section .reviews-rail{overflow-x:auto;scroll-snap-type:x proximity}
  #reviews-section #reviews-track{animation:none!important;transform:none;will-change:auto}
  #reviews-section .bo-review-copy,#reviews-section .bo-review-group>.review-card[aria-hidden=true]{display:none}
  #reviews-section .review-card{scroll-snap-align:center}
+}
+
+/* The image is the category frame; its label sits on the page underneath. */
+#home-page #cat-container .category-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;max-width:1360px!important;gap:28px 20px!important;align-items:start!important}
+#home-page #cat-container .category-grid>.cat-tile{display:flex!important;flex-direction:column!important;align-items:stretch!important;width:100%!important;min-height:0!important;padding:0!important;gap:10px!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#home-page #cat-container .category-grid>.cat-tile>img{display:block!important;width:100%!important;max-width:none!important;height:auto!important;aspect-ratio:1;object-fit:cover!important;object-position:center 42%;margin:0!important;padding:0!important;border:1px solid #dce5ed!important;border-radius:16px!important;box-shadow:none!important;transform:none!important}
+#home-page #cat-container .category-grid>.cat-tile>span{position:static!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;width:100%;max-width:none!important;min-height:2.6em!important;padding:0!important;font-size:clamp(12px,1.1vw,15px)!important;font-weight:700!important;line-height:1.3!important;letter-spacing:0!important;text-align:center!important;color:#2b4257!important;background:transparent!important}
+#home-page #cat-container .category-grid>.cat-tile:focus-visible{outline:2px solid #b95687;outline-offset:5px;border-radius:16px!important}
+@media(min-width:1024px){#home-page #cat-container .category-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:760px){
+ #home-page #cat-container .category-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px 10px!important}
+ #home-page #cat-container .category-grid>.cat-tile{gap:8px!important}
+ #home-page #cat-container .category-grid>.cat-tile>img{border-radius:13px!important}
+ #home-page #cat-container .category-grid>.cat-tile>span{font-size:11px!important;line-height:1.35!important}
 }

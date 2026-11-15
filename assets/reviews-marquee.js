@@ -24,7 +24,7 @@
   const control=tools.querySelector('button');control.hidden=reduced.matches;
   control.onclick=()=>{paused=!paused;rail.classList.toggle('bo-review-paused',paused);control.setAttribute('aria-pressed',String(paused));control.textContent=paused?'Resume reviews':'Pause reviews'};
   rail.classList.toggle('bo-review-paused',paused);rail.classList.add('bo-review-marquee');rail.setAttribute('aria-label',preview?'Sample review design preview':'Customer reviews');rail.tabIndex=0;
-  const width=rail.clientWidth||innerWidth,cardWidth=Math.min(340,Math.max(260,innerWidth*.78)),copies=Math.max(1,Math.ceil(width/((cardWidth+20)*items.length)));
+  const width=rail.clientWidth||innerWidth,cardWidth=innerWidth<=760?Math.min(270,Math.max(220,innerWidth*.68)):Math.min(340,Math.max(260,innerWidth*.78)),copies=Math.max(1,Math.ceil(width/((cardWidth+20)*items.length)));
   function card(review,duplicate){
    const rating=Math.max(1,Math.min(5,Math.round(Number(review.rating)||5)));
    return '<article class="review-card '+(preview?'bo-review-sample':'bo-review-genuine')+'" role="listitem"'+(duplicate?' aria-hidden="true"':'')+'>'+(preview?'<span class="bo-review-preview-label">Sample review</span>':'')+'<div class="review-stars" aria-label="'+(preview?'Sample rating: ':'')+rating+' out of 5 stars">'+'★'.repeat(rating)+'☆'.repeat(5-rating)+'</div><p class="review-text">“'+esc(review.message)+'”</p><div class="review-name">— '+esc(review.name)+'</div>'+(preview?'<small class="bo-review-example">Example only</small>':review.verified_purchase?'<span class="bo-review-verified">Verified purchase</span>':'')+'</article>';
