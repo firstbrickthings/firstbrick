@@ -584,6 +584,7 @@ function stopInlineReel(index, event){
 /* ================= REVIEWS ================= */
 function renderReviews(){
   const all=window.BOpublishedReviews||[];
+  if(window.BOreviewsMarquee){window.BOreviewsMarquee.render(all);return;}
   const track=document.getElementById('reviews-track');if(!track)return;
   track.innerHTML=all.map(r=>`<article class="review-card"><div class="review-stars" aria-label="${r.rating} out of 5 stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><p class="review-text">“${escapeHtml(r.message)}”</p><div class="review-name">— ${escapeHtml(r.name)}</div>${r.verified_purchase?'<span class="bo-review-verified">Verified purchase</span>':''}</article>`).join('')||'<article class="bo-review-invitation"><span class="bo-review-heart" aria-hidden="true">♡</span><div><h3>Your experience, another parent’s guide</h3><p>Shopped with BabyOne? Tell us what you loved and what we can improve. Every story is reviewed before it appears here.</p><button type="button" class="btn btn-outline" onclick="toggleSiteReviewForm()">Write the first review</button></div></article>';
 }

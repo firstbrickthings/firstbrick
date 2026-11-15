@@ -22,7 +22,8 @@
 #product-modal-shell #modal-product-content .bo-product-layout{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important;gap:clamp(32px,4.3vw,64px)!important;align-items:start}
 #product-modal-shell #modal-product-content .bo-product-layout>.bo-product-media-column>.bo-product-photo-frame{width:100%;height:clamp(390px,43vw,610px)!important;aspect-ratio:auto!important;border:1px solid #dce5ed;border-radius:26px!important;background:linear-gradient(140deg,#f2f6fa,#fff)!important;box-shadow:0 10px 30px #27476006}
 #product-modal-shell #modal-product-content .bo-product-layout>.bo-product-media-column>.bo-product-photo-frame>img{width:100%!important;height:100%!important;object-fit:contain!important;padding:20px!important}
-#product-modal-shell #modal-product-content .bo-product-layout>.bo-product-media-column>.bo-product-photo-frame>span{top:18px!important;left:18px!important;background:#ffffffeb!important;border:1px solid #e4dce4;backdrop-filter:blur(12px);font-size:9px!important}
+#product-modal-shell #modal-product-content .bo-product-layout>.bo-product-media-column>.bo-product-photo-frame>span:not(.bo-gallery-count){top:18px!important;left:18px!important;background:#ffffffeb!important;border:1px solid #e4dce4;backdrop-filter:blur(12px);font-size:9px!important;pointer-events:none}
+#product-modal-shell #modal-product-content .bo-product-photo-frame>.bo-gallery-count{inset:18px 18px auto auto!important;width:max-content;height:auto;max-width:calc(100% - 36px);padding:5px 10px;backdrop-filter:none;-webkit-backdrop-filter:none;pointer-events:none}
 #product-modal-shell #modal-product-content .product-gallery-label{font-size:11px!important;margin:20px 0 12px!important;font-weight:650;color:#4c647a}
 #product-modal-shell #modal-product-content .product-gallery-label>span{font-size:10px!important;color:#60778a!important}
 #product-modal-shell #modal-product-content .product-detail-thumbs{gap:10px!important;padding:2px 0 6px!important}
@@ -106,3 +107,39 @@
  #home-page .promo-slide img{object-position:center 36%}
 }
 @media(min-width:1440px){#explorer-page #subcat-tile-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+
+/* All supporting banners reach both edges; the full-screen landing hero keeps its frame. */
+#home-page>.section:has(>.promo),#home-page>#babyone-fashion{width:100%!important;max-width:none!important;padding-inline:0!important}
+#home-page .promo,#home-page .bo-fashion-hero{width:100%!important;max-width:none!important;margin-inline:0!important;height:clamp(200px,56.25vw,360px)!important;min-height:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+#home-page .promo-slide,#home-page .promo-slide img,#home-page .bo-fashion-hero-slide,#home-page .bo-fashion-hero-slide>img{border-radius:0!important}
+#home-page>#babyone-fashion>.section-head,#home-page>#babyone-fashion>.bo-fashion-grid{padding-inline:clamp(16px,4vw,60px)!important}
+#explorer-page .bo-plp-banner{max-width:none;height:clamp(160px,48vw,240px);border:0;border-radius:0!important;box-shadow:none}
+@media(min-width:768px){
+ #home-page .promo,#home-page .bo-fashion-hero{height:clamp(280px,31.25vw,560px)!important}
+ #explorer-page .bo-plp-banner{height:clamp(210px,22vw,320px)}
+}
+
+/* A continuous right-to-left review rail with soft edges and readable pauses. */
+#reviews-section .bo-review-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 18px}
+#reviews-section .bo-review-sample-notice{font-size:11px;line-height:1.7;color:#647b8e;margin:0}
+#reviews-section .bo-review-motion{flex:none;min-height:44px;padding:9px 15px;font:inherit;font-size:11px;font-weight:600;line-height:1.5;color:#8f3f67;background:#ffffffb8;border:1px solid #dfdce7;border-radius:999px;cursor:pointer}
+#reviews-section .bo-review-motion[hidden]{display:none}
+#reviews-section .reviews-rail{overflow:hidden;padding:4px 0 12px;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+#reviews-section #reviews-track{display:flex;flex-wrap:nowrap!important;justify-content:flex-start!important;width:max-content!important;gap:0;animation:bo-review-scroll var(--bo-review-duration,40s) linear infinite!important;will-change:transform}
+#reviews-section .bo-review-group{display:flex;flex:none;gap:20px;padding-right:20px}
+#reviews-section #reviews-track .review-card{flex:0 0 clamp(260px,78vw,340px);width:clamp(260px,78vw,340px);min-width:0;max-width:none;min-height:206px;padding:26px;border:1px solid #e4dfe8;border-radius:24px;white-space:normal;background:#ffffffc9;box-shadow:0 3px 15px #29425c03}
+#reviews-section .review-stars{font-size:14px;color:#ce7a9d;letter-spacing:3px}
+#reviews-section .review-text{font-size:14px;line-height:1.8;color:#637487;margin:16px 0 20px}
+#reviews-section .review-name{font-size:14px;color:#334c61}
+#reviews-section .bo-review-preview-label{display:block;margin-bottom:12px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8f6380}
+#reviews-section .bo-review-example{display:block;margin-top:7px;font-size:10px;color:#738597}
+#reviews-section .bo-review-paused #reviews-track,#reviews-section .reviews-rail:focus-within #reviews-track{animation-play-state:paused!important}
+@media(hover:hover){#reviews-section .reviews-rail:hover #reviews-track{animation-play-state:paused!important}}
+@keyframes bo-review-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:760px){#reviews-section .bo-review-tools{gap:12px;align-items:flex-start}#reviews-section .bo-review-sample-notice{max-width:215px;font-size:10px}#reviews-section #reviews-track .review-card{padding:23px;min-height:198px;border-radius:22px}}
+@media(prefers-reduced-motion:reduce){
+ #reviews-section .reviews-rail{overflow-x:auto;scroll-snap-type:x proximity}
+ #reviews-section #reviews-track{animation:none!important;transform:none;will-change:auto}
+ #reviews-section .bo-review-copy,#reviews-section .bo-review-group>.review-card[aria-hidden=true]{display:none}
+ #reviews-section .review-card{scroll-snap-align:center}
+}

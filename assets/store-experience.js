@@ -8,6 +8,8 @@
   const specific=typeof navState!=='undefined'&&navState.subcategory&&navState.subcategory!=='All';listing.classList.toggle('bo-subcategory-view',!!specific);
   let banner=document.getElementById('bo-plp-banner');
   if(!banner){banner=document.createElement('figure');banner.id='bo-plp-banner';banner.className='bo-plp-banner';banner.innerHTML='<img alt="" loading="eager" decoding="async">';listing.querySelector('.bo-plp-heading').after(banner)}
+  // Reach the screen edges while the catalogue keeps its normal reading gutters.
+  banner.style.width=document.documentElement.clientWidth+'px';banner.style.marginLeft=-listing.getBoundingClientRect().left+'px';
   const published=window.BOpublicContent?.banners?.value.items||[];
   const custom=published.find(b=>b.id.startsWith('catalogue-')&&b.published!==false);
   const category=typeof navState!=='undefined'?navState.category:'';
@@ -49,6 +51,7 @@
  window.addEventListener('babyone-server-identity',e=>{owner=e.detail;epoch++;activity=null;drawBadge();refresh()});
  window.addEventListener('babyone-orders-loaded',e=>seen(e.detail));
  window.addEventListener('babyone-catalog-ready',schedule);window.addEventListener('babyone-content-ready',schedule);
+ window.addEventListener('resize',schedule);
  window.addEventListener('focus',refresh);
  setInterval(()=>{refresh();drawBadge()},30000);
  function start(){
