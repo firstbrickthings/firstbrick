@@ -1,5 +1,5 @@
 /* Image-first frames and one measured spacing scale across the shop. */
-#home-page #hero{width:calc(100% - 64px)!important;max-width:1440px!important;margin:24px auto 16px!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:2.15!important;border:1px solid #d4dfe8;border-radius:28px!important;background:#eef4f9;box-shadow:0 14px 40px #2b415211;overflow:hidden}
+#home-page #hero{width:100%!important;max-width:none!important;margin:0!important;height:max(200px,calc(100vh - var(--bo-hero-top,150px) - var(--bo-hero-bottom,0px)))!important;height:max(200px,calc(100svh - var(--bo-hero-top,150px) - var(--bo-hero-bottom,0px)))!important;min-height:0!important;max-height:none!important;aspect-ratio:auto!important;border:0!important;border-radius:0!important;background:#edf3f8;box-shadow:none!important;overflow:hidden}
 #home-page #hero .hero-slide img,#home-page #hero .hero-slide>video{object-fit:cover!important;object-position:center 42%!important}
 #home-page .section-head h2{letter-spacing:-.04em!important}
 #home-page>.section,#home-page>#babyone-fashion,#home-page>#bo-joys-section,#home-page>#home-track-order,#reviews-section{padding-block:clamp(36px,4vw,58px)!important}
@@ -50,7 +50,7 @@
 .bo-checkout-payment{margin-top:24px}.bo-delivery-promise{font-size:11px;line-height:1.6;color:#496a84;margin-top:17px}
 .bo-checkout-payment-kind{display:flex;gap:20px;border:1px solid #d2deea;border-radius:14px;padding:16px;background:#ffffff85}.bo-checkout-payment-kind legend{font-size:12px;font-weight:700;color:#425e75;padding:0 6px}.bo-checkout-payment-kind label{display:flex;align-items:center;gap:8px;min-height:44px;font-size:12px;color:#36516a}.bo-checkout-payment-kind input{width:18px!important;height:18px!important;min-height:0!important;accent-color:#a44373}
 @media(max-width:760px){
- #home-page #hero{width:calc(100% - 32px)!important;margin:16px auto 14px!important;aspect-ratio:1.48!important;border-radius:23px!important}
+ #home-page #hero{width:100%!important;margin:0!important;border-radius:0!important}
  #home-page>.section,#home-page>#babyone-fashion,#home-page>#bo-joys-section,#home-page>#home-track-order,#reviews-section{padding-block:34px!important}
  #home-page>.section>.section-head,#home-page>#babyone-fashion>.section-head,#reviews-section>.section-head{margin-bottom:24px!important}
  #explorer-page>.section{padding:24px 16px 36px!important}#plp-view .bo-plp-heading{gap:12px;margin-bottom:20px;min-height:44px}#plp-view .bo-plp-title h2{font-size:23px;line-height:1.28}
@@ -70,3 +70,11 @@
 }
 @media(max-width:360px){#plp-view .bo-plp-title h2{font-size:21px}#product-modal-shell #modal-product-content .bo-product-layout>.bo-product-information>h2{font-size:25px!important}#product-modal-shell #modal-product-content .bo-product-specifications dl{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:12px}}
 @media(prefers-reduced-transparency:reduce){#product-modal-shell,#product-modal-shell #modal-product-content .babyone-size-options,#product-modal-shell #modal-product-content .bo-product-specifications,#bo-detail-sticky-bar{background:#fff!important;backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+/* Hero playback is a quiet media control; sales copy stays outside the frame. */
+#home-page #hero .bo-hero-video{width:100%;height:100%;object-fit:cover;object-position:center 42%}
+#home-page #hero .bo-hero-video[hidden]{display:none!important}
+#home-page #hero .bo-hero-playback{position:absolute;right:20px;bottom:20px;z-index:6;display:grid;place-items:center;width:44px;height:44px;padding:11px;border-radius:50%;border:1px solid #ffffffb0;background:#ffffffd4;color:#2d465b;box-shadow:0 3px 18px #1d334d14;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);cursor:pointer}
+#home-page #hero .bo-hero-playback[hidden]{display:none!important}.bo-hero-playback svg{width:20px;height:20px}.bo-hero-playback:focus-visible{outline:3px solid #437eae;outline-offset:4px}
+.bo-hero-upload-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.bo-hero-upload-grid[hidden]{display:none!important}#bo-media-form .bo-work-field small{display:block;font-size:11px;line-height:1.6;font-weight:400;color:#60758b;margin-top:7px}
+@media(max-width:760px){.bo-hero-upload-grid{grid-template-columns:minmax(0,1fr);gap:0}#home-page #hero .bo-hero-playback{right:15px;bottom:15px}}

@@ -31,6 +31,32 @@ def test_content_rejects_unsafe_urls_and_fields(client):
         assert r.status_code==422,r.text
 
 
+def test_hero_video_and_portrait_media_publish_to_every_device(client):
+    item={'id':'hero-video','mediaType':'video','image':'assets/poster.webp',
+          'imageMobile':'assets/mobile-poster.webp','videoUrl':'https://example.com/desktop.mp4',
+          'videoMobileUrl':'https://example.com/mobile.mp4','published':True}
+    body={'expected_version':0,'value':{'items':[item]}}
+    assert client.put('/api/admin/content/hero',json=body,headers=headers()).status_code==403
+    response=client.put('/api/admin/content/hero',json=body,headers=headers('owner'))
+    assert response.status_code==200,response.text
+    assert client.get('/api/store/content').json()['hero']['value']['items']==[item]
+    assert client.put('/api/admin/content/hero',json=body,headers=headers('owner')).status_code==409
+    body['expected_version']=1;item['published']=False
+    assert client.put('/api/admin/content/hero',json=body,headers=headers('owner')).status_code==200
+    assert client.get('/api/store/content').json()['hero']['value']['items']==[]
+
+
+def test_hero_video_requires_cover_and_video_and_rejects_unsafe_mobile_media(client):
+    base={'id':'video','mediaType':'video','image':'assets/poster.webp','videoUrl':'https://example.com/desktop.mp4'}
+    invalid=[{**base,'image':''},{**base,'videoUrl':''},{**base,'mediaType':[]},
+             {**base,'mediaType':'iframe'},{**base,'videoMobileUrl':'javascript:alert(1)'},
+             {**base,'imageMobile':'data:text/html,hello'}, {**base,'videoUrl':'assets/../secret'}]
+    for item in invalid:
+        response=client.put('/api/admin/content/hero',json={'expected_version':0,'value':{'items':[item]}},headers=headers('owner'))
+        assert response.status_code==422,response.text
+    assert client.get('/api/admin/content/hero',headers=headers('owner')).json()['version']==0
+
+
 def test_categories_publish_atomically_and_preserve_fees(client):
     data={'expected_version':0,'value':{'items':[{'id':'feeding','name':'Feeding updated','img':'assets/favicon.svg','subcategories':['Bottles'], 'published':True}]}}
     assert client.put('/api/admin/content/categories',json=data,headers=headers('owner')).status_code==200

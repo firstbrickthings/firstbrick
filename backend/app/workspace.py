@@ -53,7 +53,7 @@ def validate_document(key, value):
     if set(value) != {'items'} or not isinstance(value['items'], list) or len(value['items']) > 100:
         raise HTTPException(422, 'Use a list of up to 100 published items.')
     allowed = {
-        'hero': {'id','image','published'},
+        'hero': {'id','image','imageMobile','mediaType','videoUrl','videoMobileUrl','published'},
         'banners': {'id','image','published'},
         'fashion': {'id','image','published'},
         'videos': {'id','title','author','productId','videoUrl','youtubeId','cover','published'},
@@ -66,7 +66,7 @@ def validate_document(key, value):
             raise HTTPException(422, 'Each item needs an ID.')
         if not isinstance(item.get('published', True), bool):
             raise HTTPException(422, 'Choose published or hidden.')
-        for field in ('image','img','videoUrl','cover'):
+        for field in ('image','imageMobile','img','videoUrl','videoMobileUrl','cover'):
             if item.get(field) and not safe_url(item[field]):
                 raise HTTPException(422, 'Use an HTTPS URL, an assets/ path or an uploaded website file.')
         for field in ('title','author','productId','name'):
@@ -78,8 +78,13 @@ def validate_document(key, value):
                 raise HTTPException(422, 'Use a list of subcategory names.')
         if key == 'videos' and (not item.get('title') or not (item.get('videoUrl') or re.fullmatch(r'[A-Za-z0-9_-]{11}',str(item.get('youtubeId',''))))):
             raise HTTPException(422, 'A video needs a title and a saved video URL.')
+        if key == 'hero':
+            if item.get('mediaType', 'image') not in ('image', 'video'):
+                raise HTTPException(422, 'Choose an image or video for the hero.')
+            if item.get('mediaType') == 'video' and not item.get('videoUrl'):
+                raise HTTPException(422, 'Upload a desktop video for the hero.')
         if key in {'hero','banners','fashion'} and not item.get('image'):
-            raise HTTPException(422, 'Choose an image.')
+            raise HTTPException(422, 'Choose a cover image.' if key == 'hero' else 'Choose an image.')
     ids = [item['id'] for item in value['items']]
     if len(ids) != len(set(ids)):
         raise HTTPException(422, 'Item IDs must be unique.')

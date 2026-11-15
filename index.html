@@ -2175,7 +2175,7 @@ window.boAdmin={
 </body></html>`);w.document.close();},
  };
  $('bo-admin-login-form').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target);const name=String(f.get('name')||'').trim().toLowerCase(),phone=String(f.get('phone')||'').replace(/\D/g,'');if((name==='hadhi'||name==='haadhi')&&phone==='9645762324'){sessionStorage.setItem('babyone-admin-session','yes');$('bo-admin-login').classList.add('hidden');$('bo-admin-dashboard').classList.remove('hidden');$('bo-admin-quick').style.display='none';refreshAdminQuickCount();refresh();initHeroSelect();renderAnalytics();}else{$('bo-admin-login-error').textContent='Admin details did not match. Please try again.'}});
- function initHeroSelect(){const data=(typeof heroSlidesData!=='undefined'?heroSlidesData:[]);$('bo-admin-hero-index').innerHTML=data.map((x,i)=>`<option value="${i}">Slide ${i+1}${x.title?' — '+esc(x.title):''}</option>`).join('');}
+ function initHeroSelect(){const select=$('bo-admin-hero-index');if(!select)return;const data=(typeof heroSlidesData!=='undefined'?heroSlidesData:[]);select.innerHTML=data.map((x,i)=>`<option value="${i}">Slide ${i+1}${x.title?' — '+esc(x.title):''}</option>`).join('');}
  const BATH_EDITS='babyone-bath-sample-edits-v1';
  function applyBathSampleEdits(){const edits=read(BATH_EDITS,{});if(typeof productsData==='undefined')return;productsData.forEach(p=>{if(edits[p.id])Object.assign(p,edits[p.id]);});}
  function bathSampleProducts(){return (typeof productsData==='undefined'?[]:productsData).filter(p=>p.category==='Bath & Skincare'&&(String(p.id).startsWith('babyone-bath-sample-')||String(p.id).startsWith('babyone-cetaphil-')));}
@@ -3945,7 +3945,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
     }
   }
   function applyArrays(){
-    const home=state.home.map(s=>({img:s.displayUrl||s.imageUrl,kicker:s.kicker||'BabyOne',title:s.title||'BabyOne',sub:s.subtitle||'',sourceLink:s.sourceLink||'',category:s.category||'New Born',mediaType:s.mediaType||'image',videoUrl:s.videoDisplayUrl||s.videoUrl||'',videoMobileUrl:s.videoMobileDisplayUrl||s.videoMobileUrl||'',productId:s.productId||''}));
+    const home=state.home.map(s=>({img:s.displayUrl||s.imageUrl,imgMobile:s.imageMobileUrl||'',kicker:s.kicker||'BabyOne',title:s.title||'BabyOne',sub:s.subtitle||'',sourceLink:s.sourceLink||'',category:s.category||'New Born',mediaType:s.mediaType||'image',videoUrl:s.videoDisplayUrl||s.videoUrl||'',videoMobileUrl:s.videoMobileDisplayUrl||s.videoMobileUrl||'',productId:s.productId||''}));
     const fashion=state.fashion;
     const promos=key=>state[key].map(s=>({title:s.title||'BabyOne',subtitle:s.subtitle||'',cta:s.cta||'Explore',category:s.category||'New Born',bg:s.displayUrl||s.imageUrl}));
     const cat=state.category.map(s=>({category:s.category||'New Born',title:s.title||'BabyOne',subtitle:s.subtitle||'',img:s.displayUrl||s.imageUrl}));
@@ -4373,6 +4373,7 @@ try{
 <link rel="stylesheet" href="assets/product-experience.css">
 <script src="assets/order-confirmation.js"></script>
 <script src="assets/premium-workspace.js"></script>
+<script src="assets/hero-experience.js"></script>
 </body>
 </html>
 

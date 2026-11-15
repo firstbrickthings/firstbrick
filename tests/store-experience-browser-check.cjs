@@ -44,7 +44,7 @@ const base='http://127.0.0.1:8081';
    return r.fulfill({status:401,json:{detail:'Fixture sign-in required'}});
   });
   await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>productsData.some(p=>p.id==='babyone-hospital-bag-payment-check'&&p.serverProduct));
-  const hero=await page.locator('#hero').boundingBox();assert(Math.abs(hero.width/hero.height-(width<761?1.48:2.15))<.05,'Hero uses its responsive frame');await page.screenshot({path:'/workspace/work/review/refined-home-'+width+'.png'});
+  await page.waitForFunction(()=>!!document.getElementById('hero').style.getPropertyValue('--bo-hero-top'));const hero=await page.locator('#hero').boundingBox();assert(Math.abs(hero.width-width)<1&&Math.abs(hero.x)<1,'Hero fills the screen width');await page.screenshot({path:'/workspace/work/review/refined-home-'+width+'.png'});
   await page.evaluate(async()=>{window.BOphoneOTP={isVerified:()=>true,getIdToken:async()=>'fixture-only'};localStorage.setItem('babyone-profile-v1',JSON.stringify({name:'Parent',phone:'9999999999',address:'12 Test Street',city:'Mukkam',state:'Kerala',pin:'673661'}));await BOserver.checkIdentity()});
   await page.waitForSelector('#bo-server-manage .bo-order-count');assert.equal(await page.locator('#bo-server-manage .bo-order-count').textContent(),'1');
   await page.evaluate(()=>selectSubcategoryTile('New Born','Hospital Bags'));await page.waitForSelector('#bo-plp-banner img');assert((await page.locator('#bo-plp-banner img').getAttribute('src')).includes('hospital-bag-payment-check'));

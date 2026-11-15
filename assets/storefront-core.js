@@ -268,13 +268,15 @@ function boHeroOpenProduct(id){
 function renderHero(){
   const slidesEl=document.getElementById('hero-slides'),dotsEl=document.getElementById('hero-dots');
   if(!slidesEl||!dotsEl)return;
+  window._boHeroWasMobile=window.matchMedia('(max-width:760px)').matches;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   slidesEl.innerHTML=heroSlidesData.map((s,i)=>{
     const isVideo=s.mediaType==='video' && !!(s.videoUrl||s.videoMobileUrl);
-    const videoUrl=window.matchMedia('(max-width:640px)').matches?(s.videoMobileUrl||s.videoUrl):(s.videoUrl||s.videoMobileUrl);
-    const poster=s.img||'';
+    const mobile=window.matchMedia('(max-width:760px)').matches;
+    const videoUrl=mobile?(s.videoMobileUrl||s.videoUrl):(s.videoUrl||s.videoMobileUrl);
+    const poster=(mobile?s.imgMobile||s.img:s.img)||'';
     const media=isVideo?`<video class="bo-hero-video" data-hero-video="${i}" muted playsinline preload="metadata" poster="${esc(poster)}" src="${esc(videoUrl)}" aria-label="${esc(s.title||'BabyOne promotional video')}"></video>`:'';
-    const style=(!isVideo&&poster)?` style="background-image:url(&quot;${esc(poster)}&quot;)"`:'';
+    const style=poster?` style="background-image:url(&quot;${esc(poster)}&quot;)"`:'';
     return `<div ${i?'inert':''} class="hero-slide ${i===0?'active':''} ${isVideo?'bo-hero-is-video':''}"${style}>${media}</div>`;
   }).join('');
   dotsEl.replaceChildren();
@@ -291,20 +293,23 @@ function goHero(i){
 }
 function startHeroTimer(){
   clearTimeout(heroTimer);
-  if(window.boHeroPaused || document.hidden || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(window.boHeroPaused || window.boHeroOffscreen || document.hidden || matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('#hero-slides video').forEach(v=>v.pause());return;}
   const active=document.querySelectorAll('#hero-slides .hero-slide')[activeHero];
   if(!active)return;
   const v=active.querySelector('video');
-  if(!v){heroTimer=setTimeout(()=>goHero(activeHero+1),5000);return;}
+  const count=document.querySelectorAll('#hero-slides .hero-slide').length;
+  if(!v){if(count>1)heroTimer=setTimeout(()=>goHero(activeHero+1),5000);return;}
+  v.muted=true;v.loop=count===1;
   const advance=()=>{if(active.classList.contains('active'))goHero(activeHero+1)};
   v.onended=advance;
   try{v.currentTime=0}catch(_){}
-  const schedule=()=>{clearTimeout(heroTimer);const ms=(Number.isFinite(v.duration)&&v.duration>0)?Math.min(60000,Math.max(4000,Math.ceil(v.duration*1000)+650)):14000;heroTimer=setTimeout(advance,ms)};
+  const schedule=()=>{clearTimeout(heroTimer);if(v.loop)return;const ms=(Number.isFinite(v.duration)&&v.duration>0)?Math.min(60000,Math.max(4000,Math.ceil(v.duration*1000)+650)):14000;heroTimer=setTimeout(advance,ms)};
   v.onloadedmetadata=schedule;schedule();
-  const maybe=v.play();if(maybe&&typeof maybe.catch==='function')maybe.catch(()=>{clearTimeout(heroTimer);heroTimer=setTimeout(advance,9000)});
+  v.onerror=()=>{v.hidden=true;clearTimeout(heroTimer);if(count>1)heroTimer=setTimeout(advance,5000)};
+  const maybe=v.play();if(maybe&&typeof maybe.catch==='function')maybe.catch(()=>{clearTimeout(heroTimer);if(count>1)heroTimer=setTimeout(advance,9000)});
 }
 window.addEventListener('resize',()=>{
- const mobile=window.matchMedia('(max-width:640px)').matches;
+ const mobile=window.matchMedia('(max-width:760px)').matches;
  if(window._boHeroWasMobile===undefined){window._boHeroWasMobile=mobile;return;}
  if(window._boHeroWasMobile!==mobile){window._boHeroWasMobile=mobile;renderHero()}
 });

@@ -31,7 +31,7 @@ async function refreshPublic(force=false){
    const galleries=[];
    for(const key of ['hero','banners','fashion'])if(content[key]){
     const sections=key==='hero'?['home']:key==='fashion'?['fashion']:['promo1','promo2'];
-    for(const section of sections){const items=content[key].value.items.filter(i=>key!=='banners'||i.id.startsWith(section+'-'));galleries.push({section,slides:items.map(i=>({id:i.id,imageUrl:i.image,title:'',subtitle:''}))})}
+    for(const section of sections){const items=content[key].value.items.filter(i=>key!=='banners'||i.id.startsWith(section+'-'));galleries.push({section,slides:items.map(i=>({id:i.id,imageUrl:i.image,title:'',subtitle:'',...(key==='hero'?{mediaType:i.mediaType||'image',videoUrl:i.videoUrl||'',videoMobileUrl:i.videoMobileUrl||'',imageMobileUrl:i.imageMobile||''}:{})}))})}
    }
    if(galleries.length)await window.boHeroApplyCloud?.(galleries);
    if(content.categories){window.BOsharedCategories=true;const items=content.categories.value.items;categoriesData.splice(0,categoriesData.length,...items.map(c=>({id:c.id,name:c.name,img:c.img||'assets/favicon.svg',subcategories:c.subcategories||[]})));renderCategories();renderExplorerGrid()}
@@ -216,7 +216,7 @@ async function refreshOrders(){
  const box=$('bo-track-result');if(box?.dataset.orderId)try{const id=box.dataset.orderId,order=await api((BOserver.isAdmin()?'/admin/orders/':'/me/orders/')+encodeURIComponent(id));if(box.dataset.orderId===id)box.innerHTML=trackingCard(order)}catch(_){}
 }
 function start(){
- defaults.hero=heroSlidesData.filter(s=>s.img).map((s,i)=>({id:'home-'+i,image:s.img,published:true}));
+ defaults.hero=heroSlidesData.filter(s=>s.img).map((s,i)=>({id:'home-'+i,image:s.img,published:true,...(s.mediaType==='video'?{mediaType:'video',videoUrl:s.videoUrl||'',videoMobileUrl:s.videoMobileUrl||''}:{}),...(s.imgMobile?{imageMobile:s.imgMobile}:{})}));
  defaults.banners=[...adBannerData1.map((s,i)=>({id:'promo1-'+i,image:s.bg,published:true})),...adBannerData2.map((s,i)=>({id:'promo2-'+i,image:s.bg,published:true}))];
  defaults.fashion=[{id:'fashion-default',image:'assets/photo-0b02ae5543c03240.webp',published:true}];
  defaults.categories=categoriesData.map(c=>({...c,published:true}));defaults.videos=reelsData.filter(r=>r.videoUrl||/^[A-Za-z0-9_-]{11}$/.test(r.id)).map(r=>({id:r.cloudId||'youtube-'+r.id,title:r.title,author:r.author||'@babyone',productId:r.productId||'',videoUrl:r.videoUrl||'',...(r.videoUrl?{}:{youtubeId:r.id}),cover:r.cover||'',published:true}));
