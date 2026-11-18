@@ -161,6 +161,23 @@ const reelsData = [
   { id:'zHHnCC5p_dM', author:'@early_learning_fun', title:'Montessori sensory play in real life', productId:'p5' }
 ];
 const reelIds = reelsData.map(r => r.id);
+function reelSourceKey(reel){
+ if(reel.localKey)return 'local:'+reel.localKey;
+ if(reel.videoUrl){
+  try{const url=new URL(reel.videoUrl,document.baseURI);url.hash='';return 'video:'+url.href;}catch(_e){return 'video:'+reel.videoUrl;}
+ }
+ const id=reel.youtubeId||reel.id;
+ return id?'youtube:'+String(id).replace(/^youtube-/,''):'';
+}
+function uniqueReels(){
+ const seen=new Set();
+ return reelsData.filter(reel=>{
+  if(!reel)return false;
+  const key=reelSourceKey(reel);
+  if(!key||seen.has(key))return false;
+  seen.add(key);return true;
+ });
+}
 window.boCloudMergeReels = function(rows){
  if(!Array.isArray(rows))return;
  const published=new Map(rows.filter(r=>r?.cloudId&&r.videoUrl).map(r=>[String(r.cloudId),r]));
@@ -529,7 +546,8 @@ function renderProductRails(){
 /* ================= LITTLE JOYS — playable ================= */
 function renderReels(){
   const track = document.getElementById('reels-track');
-  track.innerHTML = reelsData.map((reel, i) => {
+  track.innerHTML = uniqueReels().map(reel => {
+    const i=reelsData.indexOf(reel);
     const product = productsData.find(p => String(p.id) === String(reel.productId));
     return `
       <article class="reel-card" data-reel-index="${i}">
@@ -908,7 +926,7 @@ function selectProductImage(id,index,url){
 /* ================= PRODUCT MODAL ================= */
 function productVideoSection(p){
   // Every product video is connected to its own catalogue record; never display an unrelated product's price.
-  const available=(Array.isArray(reelsData)?reelsData:[]).filter(r=>r && (r.id || r.localKey || r.videoUrl));
+  const available=uniqueReels();
   if(!available.length) return '';
   const related=available.filter(r=>String(r.productId)===String(p.id));
   const other=available.filter(r=>String(r.productId)!==String(p.id));
@@ -1142,7 +1160,12 @@ function renderMobileMenu(){
 /* ================= REEL VIEWER ================= */
 function openReel(startIdx){
  const list=document.getElementById('reel-list');list.replaceChildren();
- reelsData.forEach((reel,i)=>{
+ const available=uniqueReels();
+ const requested=reelsData[startIdx];
+ const selected=available.find(reel=>requested&&reelSourceKey(reel)===reelSourceKey(requested))||available[0];
+ startIdx=reelsData.indexOf(selected);
+ available.forEach(reel=>{
+  const i=reelsData.indexOf(reel);
   const section=document.createElement('section');section.className='reel-item';section.dataset.idx=i;
   if(reel.localKey){const box=document.createElement('div');box.style.cssText='width:min(100vw,460px);height:100dvh;background:#111;display:flex;align-items:center';section.appendChild(box);if(i===startIdx)boActivateVideo(box,reel.localKey);else box.textContent='Scroll here to play the video';}
   else if(reel.videoUrl){const v=document.createElement('video');v.controls=true;v.playsInline=true;v.preload='metadata';v.style.cssText='height:100%;max-width:100%;object-fit:contain';v.src=reel.videoUrl;section.appendChild(v);if(i===startIdx)v.play().catch(()=>{});}

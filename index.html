@@ -1474,7 +1474,7 @@ body{overflow-x:hidden}
      JAVASCRIPT — all data preserved, imagery upgraded
      ============================================================ -->
 <script src="assets/banner-sliders.js?v=shared-slides-1"></script>
-<script src="assets/storefront-core.js?v=category-profiles-1"></script>
+<script src="assets/storefront-core.js?v=unique-video-feed-1"></script>
 <script src="assets/category-covers.js?v=subcategory-covers-1"></script>
 
 <!-- BABYONE GOOGLE SHEETS CUSTOMER ACTIVITY BRIDGE (no existing catalog data changed) -->
@@ -2803,6 +2803,12 @@ window.babyoneDeliveryQuote=function(){return [];};
    state.cycle=0;
    if(!originals.length)return;
    row.classList.add('bo-auto-rail');
+   // Videos appear once. Scroll the finite feed without adding repeat cards.
+   if(row.id==='reels-track'){
+     state.cycle=Math.max(0,row.scrollWidth-row.clientWidth);
+     row.scrollLeft=Math.min(row.scrollLeft,state.cycle);
+     return;
+   }
    // Always duplicate once, even if there is no overflow on a wide desktop.
    const first=originals[0];
    const firstCopy=makeCopy(first);
@@ -2852,7 +2858,8 @@ window.babyoneDeliveryQuote=function(){return [];};
        !Array.from(row.querySelectorAll('video')).some(v=>!v.paused&&!v.ended) && !row.querySelector('iframe');
      if(playable){
        let next=row.scrollLeft+speed*dt/1000;
-       if(next>=state.cycle)next=next%state.cycle;
+       if(id==='reels-track')next=Math.min(next,Math.max(0,row.scrollWidth-row.clientWidth));
+       else if(next>=state.cycle)next=next%state.cycle;
        row.scrollLeft=next;
      }
      requestAnimationFrame(tick);
@@ -3679,27 +3686,14 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
 <script id="bo-product-videos-continuous-autoslide">
 (function(){
   'use strict';
-  // Home reels already use the unified four-rail requestAnimationFrame loop.
-  // Add the same continuous right-to-left behavior to the product-detail video strip.
+  // Scroll each product video once, without cloning cards at the end of the feed.
   let state=null,pausedUntil=0,lastTime=0,hovered=false,dragging=false;
   function prepare(){
     const rail=document.getElementById('bo-product-video-rail');
     if(!rail || rail===state?.rail)return;
     const originals=[...rail.children].filter(e=>e.classList.contains('pv-card'));
-    state={rail,cycle:0};hovered=false;dragging=false;pausedUntil=0;
+    state={rail};hovered=false;dragging=false;pausedUntil=0;
     if(originals.length<2)return;
-    const copies=originals.map(card=>{
-      const c=card.cloneNode(true);c.setAttribute('data-bo-detail-clone','');
-      c.setAttribute('aria-hidden','true');c.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
-      c.querySelectorAll('[tabindex]').forEach(n=>n.setAttribute('tabindex','-1'));
-      return c;
-    });
-    rail.append(...copies);
-    state.cycle=copies[0].getBoundingClientRect().left-originals[0].getBoundingClientRect().left;
-    let guard=0;
-    while(rail.scrollWidth-rail.clientWidth < state.cycle+4 && guard++<8){
-      const more=copies.map(c=>c.cloneNode(true));rail.append(...more);
-    }
     rail.scrollLeft=0;
     const pause=()=>{pausedUntil=performance.now()+2800};
     rail.addEventListener('pointerdown',()=>{dragging=true;pause()},{passive:true});
@@ -3713,11 +3707,12 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
   function tick(now){
     const dt=lastTime?Math.min(80,now-lastTime):0;lastTime=now;
     const s=state;
-    if(s && s.rail.isConnected && s.cycle>1 && !s.rail.closest('.hidden') && !document.hidden &&
+    if(s && s.rail.isConnected && !s.rail.closest('.hidden') && !document.hidden &&
+       !document.querySelector('#reel-viewer:not(.hidden)') &&
        !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !hovered && !dragging && now>pausedUntil){
       const rect=s.rail.getBoundingClientRect();
       if(rect.top<innerHeight && rect.bottom>0){
-        const x=s.rail.scrollLeft+37*dt/1000;s.rail.scrollLeft=x>=s.cycle ? x%s.cycle:x;
+        s.rail.scrollLeft=Math.min(s.rail.scrollLeft+37*dt/1000,Math.max(0,s.rail.scrollWidth-s.rail.clientWidth));
       }
     }
     requestAnimationFrame(tick);
