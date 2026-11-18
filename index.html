@@ -2767,6 +2767,10 @@ window.babyoneDeliveryQuote=function(){return [];};
   overscroll-behavior-x:contain;
   -webkit-overflow-scrolling:touch;
 }
+.bo-rail-motion{display:inline-flex;align-items:center;justify-content:center;margin-top:12px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:#ffffffb3;color:var(--ink-soft);font:inherit;font-size:11px;line-height:1.4;cursor:pointer}
+.bo-rail-motion:hover{background:#fff;color:var(--ink)}
+.bo-rail-motion:focus-visible{outline:2px solid var(--blue-500);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.bo-rail-motion{display:none!important}}
 </style>
 <script id="bo-rows-nav-swipe">
 (function(){
@@ -2781,6 +2785,7 @@ window.babyoneDeliveryQuote=function(){return [];};
    const clone=item.cloneNode(true);
    clone.dataset.boSlideCopy='true';
    clone.setAttribute('aria-hidden','true');
+   if(clone.hasAttribute('tabindex'))clone.setAttribute('tabindex','-1');
    clone.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
    clone.querySelectorAll('button,a,input,[tabindex]').forEach(node=>node.setAttribute('tabindex','-1'));
    return clone;
@@ -2821,8 +2826,18 @@ window.babyoneDeliveryQuote=function(){return [];};
  }
  function init(id){
    const row=document.getElementById(id);if(!row)return;
-   const state={row,visible:!observer,pressed:false,pausedUntil:0,last:0,cycle:0,position:0,originalCount:0};
+   const products=id!=='reels-track';
+   const state={row,visible:!observer,pressed:false,userPaused:false,keyboardFocused:false,pausedUntil:0,last:0,cycle:0,position:0,originalCount:0};
    railState.set(id,state);
+   if(products){
+     const heading=row.closest('.section')?.querySelector('.section-head'),title=heading?.querySelector('h2')?.textContent||'products';
+     if(heading){
+       const button=document.createElement('button');button.type='button';button.className='bo-rail-motion';button.setAttribute('aria-controls',id);
+       const update=()=>{button.textContent=state.userPaused?'Play':'Pause';button.setAttribute('aria-pressed',String(state.userPaused));button.setAttribute('aria-label',(state.userPaused?'Play ':'Pause ')+title+' slideshow');};
+       button.onclick=()=>{state.userPaused=!state.userPaused;state.pausedUntil=0;update();};
+       update();heading.appendChild(button);
+     }
+   }
    if(observer) observer.observe(row);
    let refreshHandle=0;
    const refresh=()=>{
@@ -2842,15 +2857,16 @@ window.babyoneDeliveryQuote=function(){return [];};
    window.addEventListener('pointercancel',()=>{state.pressed=false;pause();},{passive:true});
    row.addEventListener('wheel',()=>pause(),{passive:true});
    row.addEventListener('touchstart',()=>pause(id==='reels-track'?1400:3000),{passive:true});
-   row.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){state.hovered=true;pause(1000);}},{passive:true});
+   row.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){state.hovered=!products;pause(1000);}},{passive:true});
    row.addEventListener('pointerleave',()=>{state.hovered=false;pause(1000);},{passive:true});
    row.addEventListener('pointermove',event=>{if(event.pointerType==='mouse')pause(900);},{passive:true});
-   row.addEventListener('focusin',()=>pause(),{passive:true});
+   row.addEventListener('focusin',event=>{if(products&&event.target.matches(':focus-visible'))state.keyboardFocused=true;pause();},{passive:true});
+   row.addEventListener('focusout',event=>{if(!row.contains(event.relatedTarget))state.keyboardFocused=false;},{passive:true});
    const speed=id==='reels-track'?60:48;
    function tick(now){
      const dt=state.last?Math.min(75,now-state.last):0;state.last=now;
      const playable=state.cycle>1 && state.visible && !reduced.matches && !document.hidden &&
-       !row.closest('.hidden') && !state.pressed && !state.hovered && !document.body.classList.contains('bo-product-open') && now>=state.pausedUntil &&
+       !row.closest('.hidden') && !state.pressed && !state.hovered && !state.userPaused && !state.keyboardFocused && !document.body.classList.contains('bo-product-open') && now>=state.pausedUntil &&
        !Array.from(row.querySelectorAll('video')).some(v=>!v.paused&&!v.ended) && !row.querySelector('iframe');
      if(playable){
        // Keep subpixel progress between frames; scrollLeft may round each assignment on fast displays.
