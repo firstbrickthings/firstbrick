@@ -2794,12 +2794,14 @@ window.babyoneDeliveryQuote=function(){return [];};
    const originals=Array.from(row.children).filter(el=>el.nodeType===1 && !el.hasAttribute('data-bo-slide-copy'));
    state.originalCount=originals.length;
    state.cycle=0;
+   state.position=row.scrollLeft;
    if(!originals.length)return;
    row.classList.add('bo-auto-rail');
    // Videos appear once. Scroll the finite feed without adding repeat cards.
    if(row.id==='reels-track'){
      state.cycle=Math.max(0,row.scrollWidth-row.clientWidth);
      row.scrollLeft=Math.min(row.scrollLeft,state.cycle);
+     state.position=row.scrollLeft;
      return;
    }
    // Always duplicate once, even if there is no overflow on a wide desktop.
@@ -2815,10 +2817,11 @@ window.babyoneDeliveryQuote=function(){return [];};
      const copies=originals.map(makeCopy); row.append(...copies);
    }
    row.scrollLeft=0;
+   state.position=0;
  }
  function init(id){
    const row=document.getElementById(id);if(!row)return;
-   const state={row,visible:!observer,pressed:false,pausedUntil:0,last:0,cycle:0,originalCount:0};
+   const state={row,visible:!observer,pressed:false,pausedUntil:0,last:0,cycle:0,position:0,originalCount:0};
    railState.set(id,state);
    if(observer) observer.observe(row);
    let refreshHandle=0;
@@ -2850,9 +2853,12 @@ window.babyoneDeliveryQuote=function(){return [];};
        !row.closest('.hidden') && !state.pressed && !state.hovered && !document.body.classList.contains('bo-product-open') && now>=state.pausedUntil &&
        !Array.from(row.querySelectorAll('video')).some(v=>!v.paused&&!v.ended) && !row.querySelector('iframe');
      if(playable){
-       let next=row.scrollLeft+speed*dt/1000;
+       // Keep subpixel progress between frames; scrollLeft may round each assignment on fast displays.
+       if(Math.abs(row.scrollLeft-state.position)>1.1)state.position=row.scrollLeft;
+       let next=state.position+speed*dt/1000;
        if(id==='reels-track')next=Math.min(next,Math.max(0,row.scrollWidth-row.clientWidth));
        else if(next>=state.cycle)next=next%state.cycle;
+       state.position=next;
        row.scrollLeft=next;
      }
      requestAnimationFrame(tick);
@@ -3685,7 +3691,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
     const rail=document.getElementById('bo-product-video-rail');
     if(!rail || rail===state?.rail)return;
     const originals=[...rail.children].filter(e=>e.classList.contains('pv-card'));
-    state={rail};hovered=false;dragging=false;pausedUntil=0;
+    state={rail,position:0};hovered=false;dragging=false;pausedUntil=0;
     if(originals.length<2)return;
     rail.scrollLeft=0;
     const pause=()=>{pausedUntil=performance.now()+2800};
@@ -3705,7 +3711,9 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
        !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !hovered && !dragging && now>pausedUntil){
       const rect=s.rail.getBoundingClientRect();
       if(rect.top<innerHeight && rect.bottom>0){
-        s.rail.scrollLeft=Math.min(s.rail.scrollLeft+37*dt/1000,Math.max(0,s.rail.scrollWidth-s.rail.clientWidth));
+        if(Math.abs(s.rail.scrollLeft-s.position)>1.1)s.position=s.rail.scrollLeft;
+        s.position=Math.min(s.position+37*dt/1000,Math.max(0,s.rail.scrollWidth-s.rail.clientWidth));
+        s.rail.scrollLeft=s.position;
       }
     }
     requestAnimationFrame(tick);
@@ -4339,7 +4347,7 @@ try{
 <script src="assets/logistics-admin.js"></script>
 <script src="assets/store-experience.js?v=category-slider-1"></script>
 <link rel="stylesheet" href="assets/premium-workspace.css">
-<link rel="stylesheet" href="assets/product-experience.css?v=clear-video-edges-1">
+<link rel="stylesheet" href="assets/product-experience.css?v=centred-desktop-videos-1">
 <script src="assets/order-confirmation.js"></script>
 <script src="assets/premium-workspace.js"></script>
 <script src="assets/hero-experience.js?v=swipe-navigation-1"></script>

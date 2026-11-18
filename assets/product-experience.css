@@ -177,5 +177,10 @@
 #product-modal-shell #bo-product-video-rail .pv-video::after{display:none!important}
 body.bo-product-open #reel-viewer{z-index:1200!important}
 #home-page #reels-track,#product-modal-shell #bo-product-video-rail{gap:var(--bo-video-rail-gap)!important;mask-image:none!important;-webkit-mask-image:none!important}
+/* Auto margins centre any number of videos that fit, and collapse when the row needs to scroll. */
+@media(min-width:1024px){
+ #home-page #reels-track>.reel-card:first-child,#product-modal-shell #bo-product-video-rail>.pv-card:first-child{margin-inline-start:auto!important}
+ #home-page #reels-track>.reel-card:last-child,#product-modal-shell #bo-product-video-rail>.pv-card:last-child{margin-inline-end:auto!important}
+}
 @media(max-width:760px){:root{--bo-video-frame-width:clamp(162px,46vw,191px);--bo-video-frame-radius:15px;--bo-video-rail-gap:12px}}
 @media(max-width:360px){:root{--bo-video-frame-width:158px}}
