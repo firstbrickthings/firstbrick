@@ -540,7 +540,6 @@ function renderProductRails(){
   document.getElementById('trending').innerHTML = productsData.filter(p=>!p.catalogHidden).slice().reverse().slice(0,10).map(productCard).join('');
   const travel = productsData.filter(p=>['Travel & Gear','Ride-On'].includes(p.category)&&/ride.on|stroller|tricycle|swing car/i.test(p.name+' '+p.subcategory));
   document.getElementById('ride-mode').innerHTML = travel.filter(p=>!p.catalogHidden).slice(0,10).map(productCard).join('');
-  const toys=document.getElementById('playtime-products');if(toys)toys.innerHTML=productsData.filter(p=>!p.catalogHidden&&p.category==='Toys & Learning').slice(0,10).map(productCard).join('');
 }
 
 /* ================= LITTLE JOYS — playable ================= */
