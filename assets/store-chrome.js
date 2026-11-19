@@ -31,7 +31,7 @@
   keyword.textContent=words[0];
   function cancelFade(){clearTimeout(fade);fade=0;keyword.classList.remove('is-fading')}
   function rotate(){
-   if(document.hidden||input===document.activeElement||input.value||reduced.matches)return;
+   if(document.hidden||input===document.activeElement||input.value||reduced.matches||getComputedStyle(wrap).visibility==='hidden')return;
    keyword.classList.add('is-fading');
    fade=setTimeout(()=>{keyword.textContent=words[index=(index+1)%words.length];keyword.classList.remove('is-fading');fade=0},220);
   }
@@ -45,11 +45,13 @@
    if(height!==lastHeight){lastHeight=height;document.body.style.setProperty('--bo-store-header-height',height+'px')}
   }
   function schedule(){if(!frame)frame=requestAnimationFrame(sync)}
+  wrap.addEventListener('focusin',()=>{if(document.body.classList.contains('bo-home-hero')){document.body.classList.add('bo-search-open');schedule()}});
+  wrap.addEventListener('focusout',()=>setTimeout(()=>{if(!wrap.contains(document.activeElement)){document.body.classList.remove('bo-search-open');schedule()}},0));
   new ResizeObserver(schedule).observe(header);
   new MutationObserver(schedule).observe(home,{attributes:true,attributeFilter:['class','hidden']});
   window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);document.fonts?.ready.then(schedule);sync();
-  function close(){document.getElementById('search-results')?.classList.add('hidden');input.blur()}
-  function open(){input.focus({preventScroll:true});if(input.value.trim())handleSearch(input.value)}
+  function close(){document.getElementById('search-results')?.classList.add('hidden');input.blur();document.body.classList.remove('bo-search-open');schedule()}
+  function open(){if(document.body.classList.contains('bo-home-hero'))document.body.classList.add('bo-search-open');schedule();input.focus({preventScroll:true});if(input.value.trim())handleSearch(input.value)}
   input.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();close()}});
   const appTab=window.babyoneAppTab;
   if(appTab)window.babyoneAppTab=function(tab){if(tab==='search')open();else close();return appTab.apply(this,arguments)};
