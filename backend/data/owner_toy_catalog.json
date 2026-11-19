@@ -1,0 +1,2029 @@
+{
+  "batch_id": "toys-20261117",
+  "source_archives": [
+    {
+      "filename": "WhatsApp Unknown 2026-11-17 at 11.36.00 PM.zip",
+      "sha256": "6d334b559c52a0a1cf0ac786e6c20fb453558c6540346b0e98376b10f710da3d"
+    },
+    {
+      "filename": "WhatsApp Unknown 2026-11-17 at 11.35.39 PM.zip",
+      "sha256": "726e8aad9661a2eb5661824e2e5690739e5f3c7a78134afbf70b1a61e5a459eb"
+    },
+    {
+      "filename": "WhatsApp Unknown 2026-11-17 at 11.36.05 PM.zip",
+      "sha256": "1b693875291540d8d1affe8c9b746bcdb12300f6580be5c806a75251ab3e682e"
+    },
+    {
+      "filename": "WhatsApp Unknown 2026-11-17 at 11.36.15 PM.zip",
+      "sha256": "e9c9242f54aeb2ef10e8c15d56d60901c94f1a44d825d71689482993f6be2bf7"
+    },
+    {
+      "filename": "WhatsApp Unknown 2026-11-17 at 11.35.50 PM.zip",
+      "sha256": "cb7075c798fc226af3fd22bf5f4a3b774fe10930d95aeeb168897a6d1e1aa091"
+    },
+    {
+      "filename": "WhatsApp Unknown 2026-11-17 at 11.36.10 PM.zip",
+      "sha256": "956fe6c2a6d2fdfb19415d3554cd76180f42df6b2d2aa77ddb2ebdd0679957e9"
+    }
+  ],
+  "source_sha256": "f4d74382589f27434bb83d390a0b03c9c5b198c9a43e85e2be28745a33d66549",
+  "source_image_count": 306,
+  "unique_image_count": 306,
+  "products": [
+    {
+      "id": "bo-toys-261117-001",
+      "name": "Baybee Manhattan Teething Rattle",
+      "category": "Toys & Learning",
+      "subcategory": "Rattles & Teethers",
+      "description": "A colourful loop-shaped teething rattle with a central ball and textured sections.",
+      "image": "assets/owner-products/toys-20261117/a001-fed306e19d5a.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a001-fed306e19d5a.jpg",
+        "assets/owner-products/toys-20261117/a002-69e01552ea74.jpg",
+        "assets/owner-products/toys-20261117/a003-449ccac2c249.jpg",
+        "assets/owner-products/toys-20261117/a004-f0774fce15fe.jpg",
+        "assets/owner-products/toys-20261117/a005-af0702d3c737.jpg",
+        "assets/owner-products/toys-20261117/a006-476f920f02d3.jpg",
+        "assets/owner-products/toys-20261117/a007-3d8dea7160dd.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "A001",
+        "A002",
+        "A003",
+        "A004",
+        "A005",
+        "A006",
+        "A007"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-002",
+      "name": "Colourful Bath Bombs — Assorted Set",
+      "category": "Bath & Skincare",
+      "subcategory": "Accessories",
+      "description": "An assorted set of colourful bath bombs with sea-themed centres.",
+      "image": "assets/owner-products/toys-20261117/a010-b5909d392839.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a010-b5909d392839.jpg",
+        "assets/owner-products/toys-20261117/a008-d02a91e00050.jpg",
+        "assets/owner-products/toys-20261117/a009-514488cc537c.jpg",
+        "assets/owner-products/toys-20261117/a011-9d3368b9eee4.jpg",
+        "assets/owner-products/toys-20261117/a012-f436bb918999.jpg",
+        "assets/owner-products/toys-20261117/a013-b8396b325ebb.jpg",
+        "assets/owner-products/toys-20261117/a014-b027f2b1e76f.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 1,
+      "source_indices": [
+        "A010",
+        "A008",
+        "A009",
+        "A011",
+        "A012",
+        "A013",
+        "A014"
+      ],
+      "navigation_group": "Accessories"
+    },
+    {
+      "id": "bo-toys-261117-003",
+      "name": "Baby Suction Spinner Toys — 3 Pieces",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "Three colourful spinning toys with suction bases and animal designs.",
+      "image": "assets/owner-products/toys-20261117/a015-67df7c35217e.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a015-67df7c35217e.jpg",
+        "assets/owner-products/toys-20261117/a016-0e630aa9df8b.jpg",
+        "assets/owner-products/toys-20261117/a017-024a985434d9.jpg",
+        "assets/owner-products/toys-20261117/a018-0ea2933ac9cc.jpg",
+        "assets/owner-products/toys-20261117/a019-b7c2f2fc7e19.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "A015",
+        "A016",
+        "A017",
+        "A018",
+        "A019"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-004",
+      "name": "Junior Jigsaw Colours Matching Puzzle — 24 Pieces",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A colour-matching jigsaw puzzle with numbered ice-lolly shapes.",
+      "image": "assets/owner-products/toys-20261117/a021-327e07545ea2.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a021-327e07545ea2.jpg",
+        "assets/owner-products/toys-20261117/a020-3c07e73806cb.jpg",
+        "assets/owner-products/toys-20261117/a022-85dfbf3fc1af.jpg",
+        "assets/owner-products/toys-20261117/a023-221956bd8f08.jpg",
+        "assets/owner-products/toys-20261117/a024-d3a444c23e7b.jpg",
+        "assets/owner-products/toys-20261117/a025-59822a587866.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1199.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "A021",
+        "A020",
+        "A022",
+        "A023",
+        "A024",
+        "A025"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-005",
+      "name": "Frisky Dough Modelling Case",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "Colourful modelling dough in a carry case for rolling, shaping and creative play.",
+      "image": "assets/owner-products/toys-20261117/a026-c9a511072674.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a026-c9a511072674.jpg",
+        "assets/owner-products/toys-20261117/a027-3f86ebc332fb.jpg",
+        "assets/owner-products/toys-20261117/a028-2936f6d6bea1.jpg",
+        "assets/owner-products/toys-20261117/a029-7dc8a8768bb1.jpg"
+      ],
+      "brand": "Khyati",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "A026",
+        "A027",
+        "A028",
+        "A029"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-006",
+      "name": "Modelling Dough — 12 Colour Set",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "Twelve coloured dough sticks with a modelling tool and a small shaped cutter.",
+      "image": "assets/owner-products/toys-20261117/a031-a23a5b79c877.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a031-a23a5b79c877.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "A031"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-007",
+      "name": "Quilted Kids Crossbody Bag",
+      "category": "Clothing",
+      "subcategory": "Kids Bags",
+      "description": "A small quilted crossbody bag with a top handle, shoulder strap and decorative charms.",
+      "image": "assets/owner-products/toys-20261117/a033-b946fc374fcc.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a033-b946fc374fcc.jpg",
+        "assets/owner-products/toys-20261117/a030-de50692b319b.jpg",
+        "assets/owner-products/toys-20261117/a032-314939c095f2.jpg",
+        "assets/owner-products/toys-20261117/a034-533bcd0e0551.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Yellow",
+          "price": "1299.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/toys-20261117/a033-b946fc374fcc.jpg",
+            "assets/owner-products/toys-20261117/a030-de50692b319b.jpg",
+            "assets/owner-products/toys-20261117/a032-314939c095f2.jpg"
+          ]
+        },
+        {
+          "label": "Pink",
+          "price": "1299.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/toys-20261117/a034-533bcd0e0551.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 1,
+      "source_indices": [
+        "A033",
+        "A030",
+        "A032",
+        "A034"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-008",
+      "name": "Animal Button Toy Handbag — Pink",
+      "category": "Clothing",
+      "subcategory": "Kids Bags",
+      "description": "A pink handbag-shaped toy with a carry handle, shoulder strap and colourful animal buttons.",
+      "image": "assets/owner-products/toys-20261117/a036-684ee908f0b0.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a036-684ee908f0b0.jpg",
+        "assets/owner-products/toys-20261117/a035-773f18a75cee.jpg",
+        "assets/owner-products/toys-20261117/a037-92eab6da2fd5.jpg",
+        "assets/owner-products/toys-20261117/a038-ce609657adcd.jpg",
+        "assets/owner-products/toys-20261117/a039-00b82c96d001.jpg",
+        "assets/owner-products/toys-20261117/a040-6010b3a13087.jpg",
+        "assets/owner-products/toys-20261117/a042-ba82ece21c4c.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 1,
+      "source_indices": [
+        "A036",
+        "A035",
+        "A037",
+        "A038",
+        "A039",
+        "A040",
+        "A042"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-009",
+      "name": "Capybara Watercolour Painting Book",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A capybara-themed painting book with colouring pages, watercolour paint tabs and a brush.",
+      "image": "assets/owner-products/toys-20261117/a051-458e14019b0e.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/a051-458e14019b0e.jpg",
+        "assets/owner-products/toys-20261117/a041-bb265091d78b.jpg",
+        "assets/owner-products/toys-20261117/a043-db5455d2d7fd.jpg",
+        "assets/owner-products/toys-20261117/a044-2a7b7489237f.jpg",
+        "assets/owner-products/toys-20261117/a045-59ca7f4b9740.jpg",
+        "assets/owner-products/toys-20261117/a046-3b8e535e865c.jpg",
+        "assets/owner-products/toys-20261117/a047-384085ebcb6c.jpg",
+        "assets/owner-products/toys-20261117/a048-bde955bca81d.jpg",
+        "assets/owner-products/toys-20261117/a049-735a514bfa50.jpg",
+        "assets/owner-products/toys-20261117/a050-1b178490a041.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1199.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "A051",
+        "A041",
+        "A043",
+        "A044",
+        "A045",
+        "A046",
+        "A047",
+        "A048",
+        "A049",
+        "A050"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-010",
+      "name": "Bird Beauty 6-in-1 Jigsaw Puzzle Set",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A bird-themed jigsaw puzzle set with six puzzles and 144 pieces in total.",
+      "image": "assets/owner-products/toys-20261117/b001-e7b3466685f4.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b001-e7b3466685f4.jpg",
+        "assets/owner-products/toys-20261117/b002-7cd5189b5571.jpg",
+        "assets/owner-products/toys-20261117/b004-feff481fc532.jpg"
+      ],
+      "brand": "Blue Mount",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B001",
+        "B002",
+        "B004"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-011",
+      "name": "Vision Boom High Contrast Flash Cards & Flip Book",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "Black, white and red picture cards with a matching flip book for visual play.",
+      "image": "assets/owner-products/toys-20261117/b006-a72bd70c2034.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b006-a72bd70c2034.jpg",
+        "assets/owner-products/toys-20261117/b003-52647a803973.jpg",
+        "assets/owner-products/toys-20261117/b005-1157c029de8a.jpg",
+        "assets/owner-products/toys-20261117/b007-3e460e5a42f7.jpg",
+        "assets/owner-products/toys-20261117/b008-8819cbb9b578.jpg",
+        "assets/owner-products/toys-20261117/b009-9d92cd2d8453.jpg",
+        "assets/owner-products/toys-20261117/b010-f006a5a64b5a.jpg",
+        "assets/owner-products/toys-20261117/b011-1b46d7a3926e.jpg"
+      ],
+      "brand": "Shamak",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B006",
+        "B003",
+        "B005",
+        "B007",
+        "B008",
+        "B009",
+        "B010",
+        "B011"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-012",
+      "name": "Children’s English Graded Reading Audio Book",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "An illustrated English learning book with sound buttons, reading activities and a charging cable.",
+      "image": "assets/owner-products/toys-20261117/b017-d4d2e210ff51.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b017-d4d2e210ff51.jpg",
+        "assets/owner-products/toys-20261117/b012-30185454a482.jpg",
+        "assets/owner-products/toys-20261117/b013-e55e867c4c62.jpg",
+        "assets/owner-products/toys-20261117/b014-36c823750bd1.jpg",
+        "assets/owner-products/toys-20261117/b015-f1a2051477f5.jpg",
+        "assets/owner-products/toys-20261117/b016-8f82be4efe7a.jpg",
+        "assets/owner-products/toys-20261117/b018-d73aa6ee2e8c.jpg",
+        "assets/owner-products/toys-20261117/b019-c4823c923067.jpg",
+        "assets/owner-products/toys-20261117/b020-24ce23e4dce3.jpg",
+        "assets/owner-products/toys-20261117/b022-34a4491dc159.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B017",
+        "B012",
+        "B013",
+        "B014",
+        "B015",
+        "B016",
+        "B018",
+        "B019",
+        "B020",
+        "B022"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-013",
+      "name": "Mastermind Animal Friends Board Game",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "An animal-themed code-breaking board game with colourful animal pieces.",
+      "image": "assets/owner-products/toys-20261117/b024-1c246bb31abe.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b024-1c246bb31abe.jpg",
+        "assets/owner-products/toys-20261117/b021-2881e1b10f2a.jpg"
+      ],
+      "brand": "Funskool",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B024",
+        "B021"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-014",
+      "name": "Little Sparks Shape Coder",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A shape and colour matching board with challenge cards and sliding pieces.",
+      "image": "assets/owner-products/toys-20261117/b023-8cf8edd8705d.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b023-8cf8edd8705d.jpg",
+        "assets/owner-products/toys-20261117/b025-36330e3ace2a.jpg",
+        "assets/owner-products/toys-20261117/b026-1769279c11f2.jpg",
+        "assets/owner-products/toys-20261117/b027-9c11d4872d17.jpg",
+        "assets/owner-products/toys-20261117/b028-8b5294a88579.jpg",
+        "assets/owner-products/toys-20261117/b029-58698806251a.jpg",
+        "assets/owner-products/toys-20261117/b032-031982931709.jpg"
+      ],
+      "brand": "Little Sparks",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B023",
+        "B025",
+        "B026",
+        "B027",
+        "B028",
+        "B029",
+        "B032"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-015",
+      "name": "Junior Jigsaw Numbers 1–20 — 40 Pieces",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A number-matching puzzle with twenty pairs covering numbers one to twenty.",
+      "image": "assets/owner-products/toys-20261117/b030-86608bf49531.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b030-86608bf49531.jpg",
+        "assets/owner-products/toys-20261117/b031-875d160f0b4c.jpg",
+        "assets/owner-products/toys-20261117/b033-deadee929851.jpg",
+        "assets/owner-products/toys-20261117/b034-7184f6d074ff.jpg",
+        "assets/owner-products/toys-20261117/b035-54fc27a0c902.jpg",
+        "assets/owner-products/toys-20261117/b038-521933c4cf81.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1199.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B030",
+        "B031",
+        "B033",
+        "B034",
+        "B035",
+        "B038"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-016",
+      "name": "Level Up Space Jigsaw Puzzle Set",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A space-themed set of jigsaw puzzles with rockets, astronauts and planets.",
+      "image": "assets/owner-products/toys-20261117/b036-292e3141d871.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b036-292e3141d871.jpg",
+        "assets/owner-products/toys-20261117/b037-ae297c0034bb.jpg",
+        "assets/owner-products/toys-20261117/b039-a74a252a038b.jpg",
+        "assets/owner-products/toys-20261117/b041-6e87f6120e7a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B036",
+        "B037",
+        "B039",
+        "B041"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-017",
+      "name": "Wooden Tangram Puzzle Book",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A book-style tangram set with colourful geometric pieces and pattern ideas.",
+      "image": "assets/owner-products/toys-20261117/b040-46d5d0697a35.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b040-46d5d0697a35.jpg",
+        "assets/owner-products/toys-20261117/b042-314c7fa33fc7.jpg",
+        "assets/owner-products/toys-20261117/b043-58b4b6b5b23e.jpg",
+        "assets/owner-products/toys-20261117/b046-26966de44d21.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B040",
+        "B042",
+        "B043",
+        "B046"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-018",
+      "name": "Little Sparks Spelling Game",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A picture-and-letter spelling game with rotating letter dials and word cards.",
+      "image": "assets/owner-products/toys-20261117/b044-79a4c851323e.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/b044-79a4c851323e.jpg",
+        "assets/owner-products/toys-20261117/b045-adff1ce54818.jpg",
+        "assets/owner-products/toys-20261117/b047-e5243b8ced28.jpg",
+        "assets/owner-products/toys-20261117/b048-9d9499f4312b.jpg",
+        "assets/owner-products/toys-20261117/b049-d264e7d0641c.jpg",
+        "assets/owner-products/toys-20261117/b050-c9eb92674615.jpg",
+        "assets/owner-products/toys-20261117/b051-ae2443f7589b.jpg",
+        "assets/owner-products/toys-20261117/b052-1452d36b6253.jpg",
+        "assets/owner-products/toys-20261117/b053-a36e0b797b3a.jpg"
+      ],
+      "brand": "Little Sparks",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "B044",
+        "B045",
+        "B047",
+        "B048",
+        "B049",
+        "B050",
+        "B051",
+        "B052",
+        "B053"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-019",
+      "name": "Johny Johny Nursery Rhyme Jigsaw — 39 Pieces",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A nursery-rhyme jigsaw puzzle featuring the Johny Johny scene.",
+      "image": "assets/owner-products/toys-20261117/c001-afd7bafa62c6.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c001-afd7bafa62c6.jpg",
+        "assets/owner-products/toys-20261117/c002-823f3d7c531b.jpg",
+        "assets/owner-products/toys-20261117/c003-c9d11d573286.jpg",
+        "assets/owner-products/toys-20261117/c004-fd8c7a339296.jpg"
+      ],
+      "brand": "Aryans",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C001",
+        "C002",
+        "C003",
+        "C004"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-020",
+      "name": "Interactive Talking Study Book",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "An illustrated talking study book with topic pages, number activities and side sound buttons.",
+      "image": "assets/owner-products/toys-20261117/c005-d94fe2c01bf1.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c005-d94fe2c01bf1.jpg",
+        "assets/owner-products/toys-20261117/c006-a6089a33ecee.jpg",
+        "assets/owner-products/toys-20261117/c007-d8fea8fbebc6.jpg",
+        "assets/owner-products/toys-20261117/c008-52edd0d7f63e.jpg",
+        "assets/owner-products/toys-20261117/c009-d41eb8595c72.jpg",
+        "assets/owner-products/toys-20261117/c010-bbcc4af89dec.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C005",
+        "C006",
+        "C007",
+        "C008",
+        "C009",
+        "C010"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-021",
+      "name": "Spell Books Universe 3-in-1 Jigsaw — 75 Pieces",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "Three space-themed jigsaw puzzles with twenty, twenty-five and thirty pieces.",
+      "image": "assets/owner-products/toys-20261117/c012-fa27d6fdaba4.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c012-fa27d6fdaba4.jpg",
+        "assets/owner-products/toys-20261117/c011-e62b858a737c.jpg",
+        "assets/owner-products/toys-20261117/c013-1666822ad829.jpg",
+        "assets/owner-products/toys-20261117/c014-49ced178b28f.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C012",
+        "C011",
+        "C013",
+        "C014"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-022",
+      "name": "Animal Picture Jigsaw Puzzle Set",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "An animal-themed jigsaw puzzle set with colourful wildlife scenes.",
+      "image": "assets/owner-products/toys-20261117/c016-a36c5a49de8a.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c016-a36c5a49de8a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1199.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C016"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-023",
+      "name": "Little Sparks Shape Sorter Challenge Board",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A sliding shape-matching board with numbered shapes and challenge cards.",
+      "image": "assets/owner-products/toys-20261117/c015-5de4b1ffc9ea.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c015-5de4b1ffc9ea.jpg",
+        "assets/owner-products/toys-20261117/c017-c746b290812f.jpg",
+        "assets/owner-products/toys-20261117/c018-aecfaf525b17.jpg",
+        "assets/owner-products/toys-20261117/c019-68437d75becf.jpg",
+        "assets/owner-products/toys-20261117/c020-2b52705c8d17.jpg",
+        "assets/owner-products/toys-20261117/c021-bef49fce6ac0.jpg",
+        "assets/owner-products/toys-20261117/c022-31c3331c7c32.jpg"
+      ],
+      "brand": "Little Sparks",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1399.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C015",
+        "C017",
+        "C018",
+        "C019",
+        "C020",
+        "C021",
+        "C022"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-024",
+      "name": "Yellow Bubble Gun with Bubble Solution",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A yellow multi-hole bubble gun pictured with bubble solution and a charging cable.",
+      "image": "assets/owner-products/toys-20261117/c025-d1856a6ea1a0.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c025-d1856a6ea1a0.jpg",
+        "assets/owner-products/toys-20261117/c023-515765c48e8a.jpg",
+        "assets/owner-products/toys-20261117/c024-4fa75da9f3c1.jpg",
+        "assets/owner-products/toys-20261117/c027-74ad3ca388fa.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C025",
+        "C023",
+        "C024",
+        "C027"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-025",
+      "name": "Infinity Loop Fidget Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A handheld loop-shaped fidget toy with curved tracks and moving balls.",
+      "image": "assets/owner-products/toys-20261117/c026-d81f6e60e0f8.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c026-d81f6e60e0f8.jpg",
+        "assets/owner-products/toys-20261117/c028-84e9626e49be.jpg",
+        "assets/owner-products/toys-20261117/c029-55e61f3e8de9.jpg",
+        "assets/owner-products/toys-20261117/c030-1cfe4e0e90f2.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C026",
+        "C028",
+        "C029",
+        "C030"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-026",
+      "name": "Multi-Activity Learning Board with Easel",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A fold-out activity board with number pieces, a clock, a writing panel and a matching game.",
+      "image": "assets/owner-products/toys-20261117/c032-e827efd53913.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c032-e827efd53913.jpg",
+        "assets/owner-products/toys-20261117/c031-2041f38ac6ed.jpg",
+        "assets/owner-products/toys-20261117/c033-1348c58ccfc7.jpg",
+        "assets/owner-products/toys-20261117/c034-007b67c1dead.jpg",
+        "assets/owner-products/toys-20261117/c035-7f49c9bdadf7.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C032",
+        "C031",
+        "C033",
+        "C034",
+        "C035"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-027",
+      "name": "Little Sparks Memory on the Go",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A travel-style matching game with flip windows and illustrated theme cards.",
+      "image": "assets/owner-products/toys-20261117/c037-0f6e87707672.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c037-0f6e87707672.jpg",
+        "assets/owner-products/toys-20261117/c036-d6c0588eb19a.jpg",
+        "assets/owner-products/toys-20261117/c038-0a3301cfd466.jpg",
+        "assets/owner-products/toys-20261117/c039-2f5322eac65e.jpg",
+        "assets/owner-products/toys-20261117/c040-9efde8e4b335.jpg",
+        "assets/owner-products/toys-20261117/c041-1a54378d1abd.jpg",
+        "assets/owner-products/toys-20261117/c043-a545ba8c4258.jpg"
+      ],
+      "brand": "Little Sparks",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C037",
+        "C036",
+        "C038",
+        "C039",
+        "C040",
+        "C041",
+        "C043"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-028",
+      "name": "Little Sparks Math Genius",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A counting board with fold-down fingers, arithmetic cards and a wipe-clean answer area.",
+      "image": "assets/owner-products/toys-20261117/c042-8ec95c381dba.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/c042-8ec95c381dba.jpg",
+        "assets/owner-products/toys-20261117/c044-2e00414ac408.jpg",
+        "assets/owner-products/toys-20261117/c045-3b78e918d23d.jpg",
+        "assets/owner-products/toys-20261117/c046-6936471e17a2.jpg",
+        "assets/owner-products/toys-20261117/c047-8b727363cb00.jpg",
+        "assets/owner-products/toys-20261117/c048-c3804da82c9b.jpg",
+        "assets/owner-products/toys-20261117/c049-9042a1bfa376.jpg",
+        "assets/owner-products/toys-20261117/c050-369bc060d06e.jpg",
+        "assets/owner-products/toys-20261117/c051-63917e494124.jpg"
+      ],
+      "brand": "Little Sparks",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "C042",
+        "C044",
+        "C045",
+        "C046",
+        "C047",
+        "C048",
+        "C049",
+        "C050",
+        "C051"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-029",
+      "name": "Pink Pretend Kitchen Play Set",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A compact pretend kitchen with toy utensils, play food, a sink and storage compartments.",
+      "image": "assets/owner-products/toys-20261117/d001-fb0f79360352.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d001-fb0f79360352.jpg",
+        "assets/owner-products/toys-20261117/d002-3ec0ae8637ca.jpg",
+        "assets/owner-products/toys-20261117/d003-c80ff8d0bc34.jpg",
+        "assets/owner-products/toys-20261117/d004-9260f324f395.jpg",
+        "assets/owner-products/toys-20261117/d006-46b842fd0e3f.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D001",
+        "D002",
+        "D003",
+        "D004",
+        "D006"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-030",
+      "name": "Little Sparks Tetricks Magnetic Puzzle",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A portable puzzle board with colourful magnetic blocks and challenge cards.",
+      "image": "assets/owner-products/toys-20261117/d005-1ea4b448dddb.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d005-1ea4b448dddb.jpg",
+        "assets/owner-products/toys-20261117/d007-9632a188b384.jpg",
+        "assets/owner-products/toys-20261117/d008-6a4bb3493796.jpg",
+        "assets/owner-products/toys-20261117/d009-b9adaf60c172.jpg",
+        "assets/owner-products/toys-20261117/d010-e33ed4c8dc7f.jpg",
+        "assets/owner-products/toys-20261117/d011-1250747ae88c.jpg",
+        "assets/owner-products/toys-20261117/d012-ff5f85d69961.jpg",
+        "assets/owner-products/toys-20261117/d014-7b983c5bb58f.jpg"
+      ],
+      "brand": "Little Sparks",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1599.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D005",
+        "D007",
+        "D008",
+        "D009",
+        "D010",
+        "D011",
+        "D012",
+        "D014"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-031",
+      "name": "6-in-1 Magnetic Chess & Board Game Set",
+      "category": "Toys & Learning",
+      "subcategory": "Montessori Toys",
+      "description": "A folding magnetic board game set for chess, checkers, ludo and other classic games.",
+      "image": "assets/owner-products/toys-20261117/d013-be06bcc785f5.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d013-be06bcc785f5.jpg",
+        "assets/owner-products/toys-20261117/d015-1e60cb248848.jpg",
+        "assets/owner-products/toys-20261117/d016-36fe518b5d22.jpg",
+        "assets/owner-products/toys-20261117/d017-f96d82d386e0.jpg",
+        "assets/owner-products/toys-20261117/d018-ec63d24f2ab5.jpg",
+        "assets/owner-products/toys-20261117/d019-2f725929d0b8.jpg",
+        "assets/owner-products/toys-20261117/d021-619dfdcca93a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D013",
+        "D015",
+        "D016",
+        "D017",
+        "D018",
+        "D019",
+        "D021"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-032",
+      "name": "Lumo Electronic Piano — 37 Keys",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A thirty-seven-key electronic keyboard pictured with a microphone and power cable.",
+      "image": "assets/owner-products/toys-20261117/d020-76053e702bbb.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d020-76053e702bbb.jpg",
+        "assets/owner-products/toys-20261117/d022-1ac178722af8.jpg",
+        "assets/owner-products/toys-20261117/d023-b1d463d3c5fe.jpg"
+      ],
+      "brand": "Lumo",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D020",
+        "D022",
+        "D023"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-033",
+      "name": "Yellow Remote Control Motorcycle",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A yellow toy sports motorcycle with a handheld remote controller.",
+      "image": "assets/owner-products/toys-20261117/d025-2aef5731f95a.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d025-2aef5731f95a.jpg",
+        "assets/owner-products/toys-20261117/d024-33e76d5360d0.jpg",
+        "assets/owner-products/toys-20261117/d026-402bb6858edc.jpg",
+        "assets/owner-products/toys-20261117/d027-88a77fe2ad5a.jpg",
+        "assets/owner-products/toys-20261117/d028-21e924f7b534.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D025",
+        "D024",
+        "D026",
+        "D027",
+        "D028"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-034",
+      "name": "Remote Control Spray Excavator — Yellow",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A tracked toy excavator with a moving bucket, spray feature and remote controller.",
+      "image": "assets/owner-products/toys-20261117/d029-ad9f3d061055.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d029-ad9f3d061055.jpg",
+        "assets/owner-products/toys-20261117/d030-65e6bd6e0b3c.jpg",
+        "assets/owner-products/toys-20261117/d031-616823f6b860.jpg",
+        "assets/owner-products/toys-20261117/d032-2960fa8379d6.jpg",
+        "assets/owner-products/toys-20261117/d033-11168fb06e7a.jpg",
+        "assets/owner-products/toys-20261117/d034-8106bc933ed3.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D029",
+        "D030",
+        "D031",
+        "D032",
+        "D033",
+        "D034"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-035",
+      "name": "11-Channel Alloy Remote Control Excavator",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A grey-and-yellow tracked excavator with an articulated arm and remote controller.",
+      "image": "assets/owner-products/toys-20261117/d035-6d87af7446e9.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d035-6d87af7446e9.jpg",
+        "assets/owner-products/toys-20261117/d036-0e3a3e4a4d1f.jpg",
+        "assets/owner-products/toys-20261117/d037-eb37d126fbb3.jpg",
+        "assets/owner-products/toys-20261117/d039-d7a122dab8d7.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "3499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D035",
+        "D036",
+        "D037",
+        "D039"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-036",
+      "name": "Clamber 4WD Remote Control Off-Road Car",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A four-wheel-drive toy off-road car with large tyres and a handheld remote controller.",
+      "image": "assets/owner-products/toys-20261117/d043-7a60f2f26cf0.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d043-7a60f2f26cf0.jpg",
+        "assets/owner-products/toys-20261117/d038-09c5dc8eb8e8.jpg",
+        "assets/owner-products/toys-20261117/d040-d21af48e6d83.jpg",
+        "assets/owner-products/toys-20261117/d041-2c6af120e233.jpg",
+        "assets/owner-products/toys-20261117/d042-978ce8a2495f.jpg",
+        "assets/owner-products/toys-20261117/d044-227c7fd19a85.jpg",
+        "assets/owner-products/toys-20261117/d045-289a44bea474.jpg",
+        "assets/owner-products/toys-20261117/d047-c137d6636933.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "5999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D043",
+        "D038",
+        "D040",
+        "D041",
+        "D042",
+        "D044",
+        "D045",
+        "D047"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-037",
+      "name": "Remote Control Fire Engine with Ladder",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A red toy fire engine with a ladder, remote controller and charging cable.",
+      "image": "assets/owner-products/toys-20261117/d048-f32b8fee1771.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/d048-f32b8fee1771.jpg",
+        "assets/owner-products/toys-20261117/d046-c703a04247b5.jpg",
+        "assets/owner-products/toys-20261117/d049-0b31d281095a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "D048",
+        "D046",
+        "D049"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-038",
+      "name": "Rock Crawler Remote Control Spray Buggy",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A rugged toy buggy with large tyres, a spray feature and a handheld remote controller.",
+      "image": "assets/owner-products/toys-20261117/e002-e8442dd287bf.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e002-e8442dd287bf.jpg",
+        "assets/owner-products/toys-20261117/e001-02b335469b1c.jpg",
+        "assets/owner-products/toys-20261117/e003-55344c41cadf.jpg",
+        "assets/owner-products/toys-20261117/e004-6b35fdd7d77f.jpg",
+        "assets/owner-products/toys-20261117/e005-7d8719ac2871.jpg",
+        "assets/owner-products/toys-20261117/e006-2518e6e13cc8.jpg",
+        "assets/owner-products/toys-20261117/e008-84ec948a2aee.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "3999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E002",
+        "E001",
+        "E003",
+        "E004",
+        "E005",
+        "E006",
+        "E008"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-039",
+      "name": "Angular Remote Control Spray Truck — Grey",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A grey angular toy truck with large tyres, a spray feature and a remote controller.",
+      "image": "assets/owner-products/toys-20261117/e007-be1e98892dfc.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e007-be1e98892dfc.jpg",
+        "assets/owner-products/toys-20261117/e009-dfb7771ebd97.jpg",
+        "assets/owner-products/toys-20261117/e010-aa33299624cb.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E007",
+        "E009",
+        "E010"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-040",
+      "name": "Moika 6-Wheel Remote Control Rock Crawler",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A six-wheel toy rock crawler with an open frame and a handheld remote controller.",
+      "image": "assets/owner-products/toys-20261117/e012-5e9807a3d6ec.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e012-5e9807a3d6ec.jpg",
+        "assets/owner-products/toys-20261117/e011-ce0566cf6f55.jpg",
+        "assets/owner-products/toys-20261117/e013-d861f8ddbcbc.jpg"
+      ],
+      "brand": "Moika",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "4499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E012",
+        "E011",
+        "E013"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-041",
+      "name": "Millionaire Defend Remote Control SUV — Green",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A green toy SUV with roof rack styling, lights and a remote controller.",
+      "image": "assets/owner-products/toys-20261117/e015-3834a760800c.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e015-3834a760800c.jpg",
+        "assets/owner-products/toys-20261117/e014-a5ca320aa978.jpg",
+        "assets/owner-products/toys-20261117/e016-a3ce4e8f87b8.jpg",
+        "assets/owner-products/toys-20261117/e017-129294b3a26a.jpg",
+        "assets/owner-products/toys-20261117/e018-3027e5fa6d2e.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E015",
+        "E014",
+        "E016",
+        "E017",
+        "E018"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-042",
+      "name": "Remote Control Front Loader — Yellow",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A yellow toy construction loader with a front bucket and remote controller.",
+      "image": "assets/owner-products/toys-20261117/e022-1ae755915756.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e022-1ae755915756.jpg",
+        "assets/owner-products/toys-20261117/e019-e8b3a13ee215.jpg",
+        "assets/owner-products/toys-20261117/e020-90b39d2ee8a3.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E022",
+        "E019",
+        "E020"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-043",
+      "name": "AE86 Remote Control Drift Car",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A compact white-and-black toy drift car with a steering-wheel remote controller.",
+      "image": "assets/owner-products/toys-20261117/e021-c90b5f99dce7.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e021-c90b5f99dce7.jpg",
+        "assets/owner-products/toys-20261117/e023-9d204b9e124a.jpg",
+        "assets/owner-products/toys-20261117/e024-97e067fe025b.jpg",
+        "assets/owner-products/toys-20261117/e025-b576f1b341e2.jpg",
+        "assets/owner-products/toys-20261117/e026-932048ec10ea.jpg",
+        "assets/owner-products/toys-20261117/e027-429b595eb093.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "4999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E021",
+        "E023",
+        "E024",
+        "E025",
+        "E026",
+        "E027"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-044",
+      "name": "Red Alloy Remote Control Crawler Buggy",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A red-and-black open-frame toy buggy pictured with its remote and rechargeable battery.",
+      "image": "assets/owner-products/toys-20261117/e030-d0748db8bc03.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e030-d0748db8bc03.jpg",
+        "assets/owner-products/toys-20261117/e028-37814e77434e.jpg",
+        "assets/owner-products/toys-20261117/e029-397b34c23f72.jpg",
+        "assets/owner-products/toys-20261117/e031-25734cb54c39.jpg",
+        "assets/owner-products/toys-20261117/e032-e67e9711456a.jpg",
+        "assets/owner-products/toys-20261117/e033-83ad4573f575.jpg",
+        "assets/owner-products/toys-20261117/e034-da9f33cdf34e.jpg",
+        "assets/owner-products/toys-20261117/e035-ef4a718ce288.jpg",
+        "assets/owner-products/toys-20261117/e037-dffe5e4df623.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "3499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E030",
+        "E028",
+        "E029",
+        "E031",
+        "E032",
+        "E033",
+        "E034",
+        "E035",
+        "E037"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-045",
+      "name": "Paladin Remote Control Robot",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A black-and-gold toy robot with articulated arms and a handheld remote controller.",
+      "image": "assets/owner-products/toys-20261117/e040-6a41be0cf9fc.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e040-6a41be0cf9fc.jpg",
+        "assets/owner-products/toys-20261117/e036-f047bb34bd53.jpg",
+        "assets/owner-products/toys-20261117/e038-080c17983279.jpg",
+        "assets/owner-products/toys-20261117/e039-c9bd2df0d78d.jpg",
+        "assets/owner-products/toys-20261117/e041-a241995d14d5.jpg",
+        "assets/owner-products/toys-20261117/e042-7f8eee5b075c.jpg",
+        "assets/owner-products/toys-20261117/e045-883bccea1615.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "3999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E040",
+        "E036",
+        "E038",
+        "E039",
+        "E041",
+        "E042",
+        "E045"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-046",
+      "name": "Remote Control Helicopter with Twin Rotors",
+      "category": "Toys & Learning",
+      "subcategory": "RC Toys",
+      "description": "A small toy helicopter with stacked rotors, landing skids and a handheld remote controller.",
+      "image": "assets/owner-products/toys-20261117/e044-087248633f64.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e044-087248633f64.jpg",
+        "assets/owner-products/toys-20261117/e043-2681b8daec18.jpg",
+        "assets/owner-products/toys-20261117/e046-c3b509b1bc8f.jpg",
+        "assets/owner-products/toys-20261117/e047-caf137bc1f99.jpg",
+        "assets/owner-products/toys-20261117/e048-c813799db5d6.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Orange",
+          "price": "2499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/toys-20261117/e044-087248633f64.jpg",
+            "assets/owner-products/toys-20261117/e043-2681b8daec18.jpg",
+            "assets/owner-products/toys-20261117/e047-caf137bc1f99.jpg"
+          ]
+        },
+        {
+          "label": "Silver",
+          "price": "2499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/toys-20261117/e048-c813799db5d6.jpg",
+            "assets/owner-products/toys-20261117/e046-c3b509b1bc8f.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E044",
+        "E043",
+        "E046",
+        "E047",
+        "E048"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-047",
+      "name": "Rail King Classic Train Set",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A classic-style toy locomotive with carriages and track pieces.",
+      "image": "assets/owner-products/toys-20261117/e049-a2c030c35cd3.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e049-a2c030c35cd3.jpg",
+        "assets/owner-products/toys-20261117/e051-1882851fd289.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E049",
+        "E051"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-048",
+      "name": "Rail Track Loop Train Set",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A train-and-track play set with raised loop sections and a streamlined toy train.",
+      "image": "assets/owner-products/toys-20261117/e050-ffd1efdad422.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e050-ffd1efdad422.jpg",
+        "assets/owner-products/toys-20261117/e052-96cc0b52f0af.jpg",
+        "assets/owner-products/toys-20261117/e053-f1c69da342ba.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E050",
+        "E052",
+        "E053"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-049",
+      "name": "Pretend Fruit & Vegetable Cutting Set",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A colourful pretend food set with a toy cutting board, knife and kitchen accessories.",
+      "image": "assets/owner-products/toys-20261117/e054-745ca498a8bf.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e054-745ca498a8bf.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E054"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-050",
+      "name": "Modern Pretend Kitchen — 43 Pieces",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A standing pretend kitchen with forty-three play pieces, a sink, hob and storage shelves.",
+      "image": "assets/owner-products/toys-20261117/e055-79bae56f2348.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e055-79bae56f2348.jpg",
+        "assets/owner-products/toys-20261117/e056-fbf5e019f48d.jpg",
+        "assets/owner-products/toys-20261117/e059-68c831b8bea0.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "4999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E055",
+        "E056",
+        "E059"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-051",
+      "name": "Blue Musical Activity Table",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A blue activity table with piano keys, turning play pieces and a raised activity panel.",
+      "image": "assets/owner-products/toys-20261117/e057-4e8561e62e4e.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e057-4e8561e62e4e.jpg",
+        "assets/owner-products/toys-20261117/e058-540758bc4da1.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2299.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E057",
+        "E058"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-052",
+      "name": "Rabbit Piano Musical Activity Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A rabbit-shaped activity piano with colourful keys, animal buttons and a carry handle.",
+      "image": "assets/owner-products/toys-20261117/e060-c0bc0ebc56b5.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/e060-c0bc0ebc56b5.jpg",
+        "assets/owner-products/toys-20261117/e061-ea1104f0541d.jpg",
+        "assets/owner-products/toys-20261117/e062-7e322509a65c.jpg",
+        "assets/owner-products/toys-20261117/e063-eb950308575e.jpg",
+        "assets/owner-products/toys-20261117/e064-e9ecad7077c8.jpg",
+        "assets/owner-products/toys-20261117/e065-09f785209c28.jpg",
+        "assets/owner-products/toys-20261117/e066-000bbc46a085.jpg",
+        "assets/owner-products/toys-20261117/e067-35e56e148eff.jpg",
+        "assets/owner-products/toys-20261117/e068-f15fc72902cc.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1699.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "E060",
+        "E061",
+        "E062",
+        "E063",
+        "E064",
+        "E065",
+        "E066",
+        "E067",
+        "E068"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-053",
+      "name": "Blue Steam Engine Toy Train & Track Set",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A blue cartoon-style toy locomotive with wagons and a circular track.",
+      "image": "assets/owner-products/toys-20261117/f001-a2ae8e662e6b.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f001-a2ae8e662e6b.jpg",
+        "assets/owner-products/toys-20261117/f002-437ef1ac7cdd.jpg",
+        "assets/owner-products/toys-20261117/f003-9a5bb668255d.jpg",
+        "assets/owner-products/toys-20261117/f004-391e485e3f22.jpg",
+        "assets/owner-products/toys-20261117/f005-e64e77a53f7b.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1699.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-054",
+      "name": "Blue Baby Silicone Feeding Set with Mat",
+      "category": "Feeding",
+      "subcategory": "Cutlery",
+      "description": "A blue feeding set with a bib, placemat, bowls, cups and matching utensils.",
+      "image": "assets/owner-products/toys-20261117/f006-b6e76a23f242.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f006-b6e76a23f242.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F006"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-055",
+      "name": "Pink Baby Silicone Cutlery Set",
+      "category": "Feeding",
+      "subcategory": "Cutlery",
+      "description": "A pink feeding gift set with a bib, bowl, plate and small utensils.",
+      "image": "assets/owner-products/toys-20261117/f007-2ce208d8cf81.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f007-2ce208d8cf81.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1399.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F007"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-056",
+      "name": "Green Baby Silicone Feeding Set with Mat",
+      "category": "Feeding",
+      "subcategory": "Cutlery",
+      "description": "A green feeding set with a bib, placemat, bowl, plate, cup and utensils.",
+      "image": "assets/owner-products/toys-20261117/f009-2a4c4cca1bde.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f009-2a4c4cca1bde.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1699.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F009"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-057",
+      "name": "Electric Bottle Steriliser & Warmer — Mint",
+      "category": "Feeding",
+      "subcategory": "Sterilizers",
+      "description": "A mint-green electric bottle steriliser and warmer with a clear cover and control dial.",
+      "image": "assets/owner-products/toys-20261117/f008-f63f4b8f0065.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f008-f63f4b8f0065.jpg",
+        "assets/owner-products/toys-20261117/f010-b3114771235b.jpg",
+        "assets/owner-products/toys-20261117/f011-c9186a349696.jpg",
+        "assets/owner-products/toys-20261117/f012-664942c5abd1.jpg",
+        "assets/owner-products/toys-20261117/f013-2696bc385db4.jpg",
+        "assets/owner-products/toys-20261117/f014-8a4fbb2a9444.jpg",
+        "assets/owner-products/toys-20261117/f015-e8ca2fe72ad1.jpg",
+        "assets/owner-products/toys-20261117/f016-6d0b42fbe69e.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "3999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F008",
+        "F010",
+        "F011",
+        "F012",
+        "F013",
+        "F014",
+        "F015",
+        "F016"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-058",
+      "name": "Goldfish Magnetic Fishing Game",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A fish-shaped fishing game with small fish pieces, fishing rods and catch baskets.",
+      "image": "assets/owner-products/toys-20261117/f018-1cfa2a86267d.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f018-1cfa2a86267d.jpg",
+        "assets/owner-products/toys-20261117/f017-48274479089a.jpg",
+        "assets/owner-products/toys-20261117/f019-5b9fe7198ffd.jpg",
+        "assets/owner-products/toys-20261117/f021-c02c3717f185.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "Red",
+          "price": "1499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/toys-20261117/f018-1cfa2a86267d.jpg",
+            "assets/owner-products/toys-20261117/f017-48274479089a.jpg",
+            "assets/owner-products/toys-20261117/f021-c02c3717f185.jpg"
+          ]
+        },
+        {
+          "label": "Teal",
+          "price": "1499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/toys-20261117/f019-5b9fe7198ffd.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F018",
+        "F017",
+        "F019",
+        "F021"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-059",
+      "name": "Bear Kitchen Sink Toy with Circulating Tap",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A bear-shaped pretend sink with a rotating tap, toy dishes and a removable drying basket.",
+      "image": "assets/owner-products/toys-20261117/f023-82f0fdcae064.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f023-82f0fdcae064.jpg",
+        "assets/owner-products/toys-20261117/f020-544fef030d8e.jpg",
+        "assets/owner-products/toys-20261117/f022-817cc6673d8a.jpg",
+        "assets/owner-products/toys-20261117/f024-257d8c336f73.jpg",
+        "assets/owner-products/toys-20261117/f025-839ecc3c4a61.jpg",
+        "assets/owner-products/toys-20261117/f027-c4e06a78963a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F023",
+        "F020",
+        "F022",
+        "F024",
+        "F025",
+        "F027"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-060",
+      "name": "Dinosaur World Musical Piano Mat",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A dinosaur-themed play mat with colourful piano keys and a sound control unit.",
+      "image": "assets/owner-products/toys-20261117/f030-122bf7b9fdd4.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f030-122bf7b9fdd4.jpg",
+        "assets/owner-products/toys-20261117/f026-33cef4817674.jpg",
+        "assets/owner-products/toys-20261117/f028-7e526b8e0515.jpg",
+        "assets/owner-products/toys-20261117/f029-cbb124f580db.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F030",
+        "F026",
+        "F028",
+        "F029"
+      ]
+    },
+    {
+      "id": "bo-toys-261117-061",
+      "name": "Flash Drum with Drumsticks",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A colourful toy drum with a carry handle, light-up play areas and two drumsticks.",
+      "image": "assets/owner-products/toys-20261117/f032-0c6662f31761.jpg",
+      "gallery": [
+        "assets/owner-products/toys-20261117/f032-0c6662f31761.jpg",
+        "assets/owner-products/toys-20261117/f031-0ae48bc9ed55.jpg",
+        "assets/owner-products/toys-20261117/f033-72406661e03d.jpg",
+        "assets/owner-products/toys-20261117/f034-71b31219f07a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "1 Set",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        "F032",
+        "F031",
+        "F033",
+        "F034"
+      ]
+    }
+  ]
+}

@@ -6,23 +6,33 @@
  function categoryBanner(){
   const listing=document.getElementById('plp-view');if(!listing)return;
   const specific=typeof navState!=='undefined'&&navState.subcategory&&navState.subcategory!=='All';listing.classList.toggle('bo-subcategory-view',!!specific);
-  let banner=document.getElementById('bo-plp-banner');
-  if(!banner){banner=document.createElement('figure');banner.id='bo-plp-banner';banner.className='bo-plp-banner';listing.querySelector('.bo-plp-heading').after(banner)}
+  const isListing=typeof navState!=='undefined'&&navState.view==='plp';
+  const host=isListing?listing:document.getElementById('subcat-landing');
+  const id=isListing?'bo-plp-banner':'bo-subcat-banner';
+  let banner=document.getElementById(id);
+  if(!banner){
+   banner=document.createElement('figure');banner.id=id;banner.className='bo-plp-banner bo-collection-banner';host.prepend(banner);
+   const heading=document.createElement('figcaption');heading.className='bo-collection-heading';
+   if(isListing)heading.appendChild(listing.querySelector('.bo-plp-heading'));
+   else{heading.appendChild(host.querySelector('#subcat-breadcrumb'));heading.appendChild(host.querySelector('.section-head'))}
+   banner.appendChild(heading);
+  }
   // Reach the screen edges while the catalogue keeps its normal reading gutters.
-  banner.style.width=document.documentElement.clientWidth+'px';banner.style.marginLeft=-listing.getBoundingClientRect().left+'px';
+  banner.style.width=document.documentElement.clientWidth+'px';banner.style.marginLeft=-host.getBoundingClientRect().left+'px';
   const published=window.BOpublicContent?.banners?.value.items||[];
   const category=typeof navState!=='undefined'?navState.category:'';
   const subcategory=typeof navState!=='undefined'?navState.subcategory:'';
-  const custom=published.filter(b=>b.id.startsWith('catalogue-')&&b.published!==false&&b.image&&(!b.category||b.category===category));
+  const custom=published.filter(b=>b.id.startsWith('catalogue-')&&b.published!==false&&b.image&&(!b.category||b.category===category)&&(!specific||b.reference!==true));
   let items=custom.map(b=>({image:b.image,title:b.title||category,category,reference:b.reference===true}));
   if(!items.length){
    const pool=productsData.filter(p=>!p.catalogHidden&&p.image&&!p.image.startsWith('data:')&&(!category||category==='All'||p.category===category));
-   const matches=pool.filter(p=>!subcategory||subcategory==='All'||p.subcategory===subcategory);
+   const matches=pool.filter(p=>!subcategory||subcategory==='All'||p.subcategory===subcategory).sort((a,b)=>Number(!!b.owner_photo_import)-Number(!!a.owner_photo_import));
    const seen=new Set();
    for(const p of [...matches,...pool]){if(seen.has(p.image))continue;seen.add(p.image);items.push({image:p.image,title:category&&category!=='All'?category:'For every little moment',category:category==='All'?'':category,reference:true});if(items.length===3)break}
   }
   if(!items.length){const image=categoriesData.find(c=>c.name===category)?.img||heroSlidesData.find(s=>s.img)?.img;if(image)items=[{image,title:category}]}
-  BObanners.render(banner,items,{trackId:'bo-plp-banner-slides',dotsId:'bo-plp-banner-dots',label:(category||'BabyOne')+' collection banners'});
+  banner.classList.toggle('bo-collection-artwork',items.some(item=>item.reference));
+  BObanners.render(banner,items,{trackId:id+'-slides',dotsId:id+'-dots',label:(category||'BabyOne')+' collection banners'});
   const check=productsData.find(p=>p.id==='babyone-hospital-bag-payment-check');
   const newborn=categoriesData.find(c=>c.name==='New Born');
   if(check&&!check.catalogHidden&&check.category==='New Born'&&!window.BOsharedCategories&&newborn&&!(newborn.subcategories||[]).includes('Hospital Bags')){newborn.subcategories=[...(newborn.subcategories||[]),'Hospital Bags'];renderCategories()}
@@ -57,7 +67,7 @@
  window.addEventListener('focus',refresh);
  setInterval(()=>{refresh();drawBadge()},30000);
  function start(){
-  const title=document.getElementById('plp-title');if(title)new MutationObserver(schedule).observe(title,{childList:true,characterData:true,subtree:true});
+  for(const id of ['plp-title','subcat-title']){const title=document.getElementById(id);if(title)new MutationObserver(schedule).observe(title,{childList:true,characterData:true,subtree:true})}
   const tab=boAdmin.tab;boAdmin.tab=function(name){const result=tab.apply(this,arguments);if(name==='orders')refresh().then(()=>BOordersCloud.load());return result};
   schedule();owner=window.BOverifiedIdentity;refresh();
  }

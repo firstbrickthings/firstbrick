@@ -431,6 +431,7 @@ function babyoneSelectGallerySlot(id,index){
 }
 
 function babyoneCardSizeLabel(p){
+  if(p.owner_photo_import&&p.unit)return p.unit;
   const text=((p.name||'')+' '+(p.subcategory||'')+' '+(p.description||'')).toLowerCase();
   if(/wash|shampoo|lotion|oil|cream|gel|sun|cleanser|ointment|liquid|bottle/.test(text)){
     const match=(p.name||'').match(/\b(\d{2,4})\s?(ml|l)\b/i);

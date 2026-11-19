@@ -74,6 +74,9 @@ def run():
         apply_owner_photo_catalog(db)
         from .catalog_retirement import retire_rideon_templates
         retire_rideon_templates(db)
+        from .owner_toy_catalog import apply_owner_toy_catalog, complete_owner_catalog_menu
+        apply_owner_toy_catalog(db)
+        complete_owner_catalog_menu(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 

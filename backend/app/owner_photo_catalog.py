@@ -13,8 +13,8 @@ from .services import touch_catalog
 MARKER = 'catalogue:owner-photos-3bc48208-v1'
 
 
-def apply_owner_photo_catalog(db, manifest=None):
-    if db.get(StoreSnapshot, MARKER):
+def apply_owner_photo_catalog(db, manifest=None, *, marker=MARKER):
+    if db.get(StoreSnapshot, marker):
         return
     if manifest is None:
         manifest = json.loads((Path(__file__).resolve().parents[1] / 'data' / 'owner_photo_catalog.json').read_text())
@@ -23,7 +23,7 @@ def apply_owner_photo_catalog(db, manifest=None):
     # Existing category rows also serialize concurrent imports of this same batch.
     categories = db.scalars(select(Category).where(Category.name.in_(names)).order_by(Category.id).with_for_update()).all()
     category_ids = {category.name: category.id for category in categories}
-    if db.get(StoreSnapshot, MARKER):
+    if db.get(StoreSnapshot, marker):
         return
     missing = names - category_ids.keys()
     if missing:
@@ -52,19 +52,21 @@ def apply_owner_photo_catalog(db, manifest=None):
             'variant_images': variant_images, 'price_source': 'owner_requested_provisional',
             'logistics': {'tier': entry['logistics_tier']},
         }
+        if entry.get('navigation_group'):
+            metadata['catalogueNavigationGroup'] = entry['navigation_group']
         product = Product(id=entry['id'], name=entry['name'], category_id=category_ids[entry['category']],
                           description=entry['description'], image=entry['image'], active=True,
                           sale_enabled=True, metadata_json=metadata)
         db.add(product)
         db.flush()
         for position, option in enumerate(entry['options']):
-            variant_id = str(uuid5(NAMESPACE_URL, f"babyone:{MARKER}:{entry['id']}:{option['label']}"))
+            variant_id = str(uuid5(NAMESPACE_URL, f"babyone:{marker}:{entry['id']}:{option['label']}"))
             db.add(Variant(id=variant_id, product_id=product.id, label=option['label'], position=position,
                            price=Decimal(option['price']), stock=option['stock'], enabled=True))
         created.append(product.id)
     snapshot = {'format': 'babyone-owner-photo-import-v1', 'batch_id': manifest['batch_id'],
                 'source_sha256': manifest['source_sha256'], 'created_product_ids': created,
                 'existing_products_preserved': sorted(existing)}
-    db.add(StoreSnapshot(id=MARKER, payload=gzip.compress(json.dumps(snapshot).encode())))
+    db.add(StoreSnapshot(id=marker, payload=gzip.compress(json.dumps(snapshot).encode())))
     if created:
         touch_catalog(db)

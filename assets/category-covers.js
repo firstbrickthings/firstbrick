@@ -73,10 +73,11 @@
   'Ride-On':{'Cycle':'bo-photo-3bc4-013','Swing Car':'bo-photo-3bc4-024','Ride-On':'bo-photo-3bc4-037','Electric Ride-On':'bo-photo-3bc4-027'},
   'Potty':{'Potty Set':'bo-photo-3bc4-007'},
   'Travel & Gear':{'Walkers':'bo-photo-3bc4-002','Swings':'bo-photo-3bc4-016'},
-  'Toys & Learning':{'Activity Toys':'bo-photo-3bc4-033'},
+  'Toys & Learning':{'Activity Toys':'bo-toys-261117-003','Montessori Toys':'bo-toys-261117-026','Rattles & Teethers':'bo-toys-261117-001','RC Toys':'bo-toys-261117-043','Musical Toys':'bo-toys-261117-052'},
+  'Clothing':{'Kids Bags':'bo-toys-261117-007'},
   'Cradles & Rockers':{'Electric Swings':'bo-photo-3bc4-034','Bouncers':'bo-photo-3bc4-022'},
   'Bath & Skincare':{'Bath Tubs':'bo-photo-3bc4-008'},
-  'Feeding':{'High Chairs':'bo-photo-3bc4-035'}
+  'Feeding':{'High Chairs':'bo-photo-3bc4-035','Cutlery':'bo-toys-261117-054','Sterilizers':'bo-toys-261117-057'}
  };
  function candidates(category,tile){
   const target=normalize(tile),names=[target,...(aliases[tile]||[]).map(normalize)];
