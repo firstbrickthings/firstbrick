@@ -80,9 +80,8 @@ def run():
         from .owner_fashion_catalog import apply_owner_fashion_catalog, complete_fashion_menu
         apply_owner_fashion_catalog(db)
         complete_fashion_menu(db)
-        from .source_catalog_cleanup import retire_unapproved_catalog, repair_linked_source_photos
-        retire_unapproved_catalog(db)
-        repair_linked_source_photos(db)
+        from .undo_source_cleanup import restore_previous_catalog
+        restore_previous_catalog(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 

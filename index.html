@@ -1132,7 +1132,7 @@ body{overflow-x:hidden}
 <script src="assets/frontend.js" defer></script>
 <script src="assets/payment-methods.js" defer></script>
 <script src="assets/auth-client.js" defer></script>
-<script src="assets/backend.js?v=published-catalogue-only-1" defer></script>
+<script src="assets/backend.js" defer></script>
 </head>
 
 <body>
@@ -1467,9 +1467,8 @@ body{overflow-x:hidden}
      JAVASCRIPT — all data preserved, imagery upgraded
      ============================================================ -->
 <script src="assets/banner-sliders.js?v=shared-slides-1"></script>
-<script src="assets/storefront-core.js?v=approved-sources-1"></script>
-<script src="assets/catalogue-visibility.js?v=approved-sources-1"></script>
-<script src="assets/category-covers.js?v=source-only-covers-1"></script>
+<script src="assets/storefront-core.js?v=owner-fashion-sizes-1"></script>
+<script src="assets/category-covers.js?v=owner-fashion-covers-1"></script>
 
 <!-- BABYONE GOOGLE SHEETS CUSTOMER ACTIVITY BRIDGE (no existing catalog data changed) -->
 <script>
@@ -2170,7 +2169,7 @@ window.boAdmin={
   },
   print(i){const o=allOrders()[i];if(!o)return;const w=window.open('','_blank','width=800,height=900');if(!w){alert('Allow pop-ups to print the delivery sheet.');return}w.document.write(`<!doctype html><html><head><title>BabyOne delivery sheet</title><style>body{font:14px Arial;padding:28px;color:#222}h1{margin-bottom:4px}small{color:#555}.line{border-bottom:1px solid #ddd;padding:10px 0}.row{display:flex;justify-content:space-between;gap:15px}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border-bottom:1px solid #ddd;padding:10px;text-align:left} @media print{button{display:none}}</style></head><body>
 <h1>BabyOne</h1><small>Delivery & packing slip</small><hr><div class="line"><b>Order:</b> ${esc(o.id||'')} &nbsp; <b>Date:</b> ${esc(o.date||'')}<br><b>Status:</b> ${esc(o.status||'Order Confirmed')}</div><div class="line"><b>Deliver to</b><br>${esc(o.name||'')}<br>${esc(o.phone||'')}<br>${esc(o.address||'')}<br>${esc(o.city||'')} ${esc(o.pin||'')}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Unit price</th></tr></thead><tbody>${(o.items||[]).map(it=>`<tr><td>${esc(it.name)}</td><td>${Number(it.qty||1)}</td><td>${money(it.price)}</td></tr>`).join('')}</tbody></table><h3>Total: ${money(o.total)}</h3><p>Pack carefully. Thank you for choosing BabyOne.</p><script>window.onload=()=>window.print()<\/script>
-<link rel="stylesheet" href="assets/store-refinement.css?v=filled-rounded-frames-1">
+<link rel="stylesheet" href="assets/store-refinement.css?v=collection-headings-white-dots-1">
 </body></html>`);w.document.close();},
  };
  $('bo-admin-login-form').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target);const name=String(f.get('name')||'').trim().toLowerCase(),phone=String(f.get('phone')||'').replace(/\D/g,'');if((name==='hadhi'||name==='haadhi')&&phone==='9645762324'){sessionStorage.setItem('babyone-admin-session','yes');$('bo-admin-login').classList.add('hidden');$('bo-admin-dashboard').classList.remove('hidden');$('bo-admin-quick').style.display='none';refreshAdminQuickCount();refresh();initHeroSelect();renderAnalytics();}else{$('bo-admin-login-error').textContent='Admin details did not match. Please try again.'}});
@@ -2224,13 +2223,13 @@ const bathSkinCareNav = {
 };
 
 function getNavConfig(catName){
-  if(catName === 'Bath & Skincare') return BOcatalogView.bathConfig(bathSkinCareNav);
+  if(catName === 'Bath & Skincare') return bathSkinCareNav;
   const cat = categoriesData.find(c => c.name === catName);
   const observed=[...new Set(productsData.filter(p=>!p.catalogHidden&&p.category===catName).map(p=>p.subcategory).filter(Boolean))];
   if(!cat&&!observed.length&&catName!=='Potty') return null;
   let subcategories=Array.isArray(cat?.subcategories)?cat.subcategories:observed;
   if(catName==='Potty')subcategories=[...new Set([...productsData.filter(p=>!p.catalogHidden&&p.category===catName&&p.owner_photo_import).map(p=>p.subcategory),...subcategories,...observed])].filter(s=>!observed.length||observed.includes(s));
-  if(window.BO_USE_MYSQL)subcategories=[...new Set([...subcategories,...observed])].filter(s=>observed.includes(s));
+  if(catName==='Ride-On')subcategories=[...new Set([...subcategories,...observed])].filter(s=>observed.includes(s));
   const filters = { All: ['All', ...subcategories] };
   subcategories.forEach(s => filters[s] = ['All']);
   if(catName === 'Feeding') filters['Cutlery'] = ['All','Feeding Bowl','Feeding Plate','Feeding Set','Fruit Nipple','Spoon'];
@@ -2269,12 +2268,12 @@ function openBabyonePromoListing(type){
   if(typeof setBabyoneActiveTab === 'function') setBabyoneActiveTab('categories');
 }
 function renderAllBabyoneCategoryTiles(){
-  const mainTiles = BOcatalogView.categories().filter(c=>c.name!=='Potty').map(c => `
+  const mainTiles = categoriesData.filter(c=>c.name!=='Potty').map(c => `
     <button class="subcat-tile" type="button" onclick="showSubcatLanding('${escapeHtml(c.name)}')">
-      <img src="${BOcatalogView.image(c)}" alt="${escapeHtml(c.name)}" loading="lazy" />
+      <img src="${c.img}" alt="${escapeHtml(c.name)}" loading="lazy" />
       <span class="subcat-label"><small>Category</small><b>${escapeHtml(c.name)}</b></span>
     </button>`).join('');
-  const extraTiles = BOcatalogView.promos(babyoneExtraCategoryCards).map(c => `
+  const extraTiles = babyoneExtraCategoryCards.map(c => `
     <button class="subcat-tile category-promo-tile" type="button" onclick="openBabyonePromoListing('${c.action}')">
       <img src="${babyoneExtraCategoryImage(c)}" alt="${escapeHtml(c.name)}" loading="lazy" onerror="this.style.display='none'" />
       <span class="subcat-label"><small>${c.action==='potty'?'Category':'BabyOne Deals'}</small><b>${escapeHtml(c.name)}</b><small class="tile-helper">${c.action==='potty'?'Explore potty essentials':'Explore offers'}</small></span>
@@ -2366,7 +2365,6 @@ function getPLPProducts(){
   }
   if(category !== 'All') list = list.filter(p => p.category === category);
   if(category === 'Bath & Skincare'){
-    if(window.BO_USE_MYSQL&&subcategory!=='All')return BOcatalogView.bathProducts(subcategory,subfilter);
     if(subcategory==='Wipes'||subcategory==='Accessories')return list.filter(p=>p.catalogueNavigationGroup===subcategory&&(!subfilter||subfilter==='All'||p.subcategory===subfilter));
     const cfg = getNavConfig(category);
     const isBrand = cfg && cfg.tileType && cfg.tileType[subcategory] === 'brand';
@@ -2464,12 +2462,12 @@ function babyoneAppTab(tab){
 function renderCategories(){
   const host=document.getElementById('cat-container');
   if(!host) return;
-  const mainTiles=BOcatalogView.categories().filter(c=>c.name!=='Potty').map((c,i)=>`
+  const mainTiles=categoriesData.filter(c=>c.name!=='Potty').map((c,i)=>`
     <button class="cat-tile" type="button" data-category="${escapeHtml(c.name)}" onclick="filterByCategory(this.dataset.category)" aria-label="Shop ${escapeHtml(c.name)}">
-      <img src="${BOcatalogView.image(c)}" alt="${escapeHtml(c.name)}" loading="lazy" />
+      <img src="${c.img}" alt="${escapeHtml(c.name)}" loading="lazy" />
       <span>${escapeHtml(c.name)}</span>
     </button>`).join('');
-  const offerTiles=BOcatalogView.promos(babyoneExtraCategoryCards).map(c=>`
+  const offerTiles=babyoneExtraCategoryCards.map(c=>`
     <button class="cat-tile category-promo-card" type="button" onclick="openBabyonePromoListing('${c.action}')" aria-label="Shop ${escapeHtml(c.name)}">
       <img src="${babyoneExtraCategoryImage(c)}" alt="${escapeHtml(c.name)}" loading="lazy" />
       <span>${escapeHtml(c.name)}</span>
@@ -2537,7 +2535,7 @@ else {renderCategories();if(typeof cart!=='undefined')updateCart();}
     document.getElementById('plp-filter-nav').innerHTML=tabs.map(t=>`<button class="plp-filter-tab ${t==='All'?'active':''}" data-filter="${escapeHtml(t)}" onclick="applyPLPFilter('${escapeHtml(t)}')">${escapeHtml(t)}</button>`).join('');
     renderPLPGrid();showSection('explorer-page');if(typeof setBabyoneActiveTab==='function')setBabyoneActiveTab('categories');
   }
-  window.showSubcatLanding=function(catName,push=true){renderLanding(catName,push);showSection('explorer-page');if(typeof setBabyoneActiveTab==='function')setBabyoneActiveTab('categories');};
+  window.showSubcatLanding=function(catName){renderLanding(catName,true);showSection('explorer-page');if(typeof setBabyoneActiveTab==='function')setBabyoneActiveTab('categories');};
   window.selectSubcategoryTile=function(catName,tile){renderProductPage(catName,tile,true);};
   window.babyoneBack=function(){
     if(history.state&&history.state[routeKey]){history.back();return;}
@@ -2628,7 +2626,7 @@ const pottyTileImages={"Potty Training Set": "https://cdn.shopify.com/s/files/1/
  renderCategories();
 })();
 </script>
-<script id="bo-fashion-script" src="assets/bo-fashion-script.js?v=live-age-groups-1"></script>
+<script id="bo-fashion-script" src="assets/bo-fashion-script.js"></script>
 
 <script id="bo-complete-subcategory-catalogue" src="assets/bo-complete-subcategory-catalogue.js"></script>
 <script id="bo-bath-filter-catalogue" src="assets/bo-bath-filter-catalogue.js"></script>
@@ -4374,14 +4372,14 @@ try{
 <script src="assets/logistics-admin.js"></script>
 <script src="assets/store-experience.js?v=collection-headings-1"></script>
 <link rel="stylesheet" href="assets/premium-workspace.css">
-<link rel="stylesheet" href="assets/product-experience.css?v=filled-rounded-frames-1">
+<link rel="stylesheet" href="assets/product-experience.css?v=owner-subcategory-covers-1">
 <script src="assets/order-confirmation.js"></script>
 <script src="assets/premium-workspace.js"></script>
 <script src="assets/hero-experience.js?v=swipe-navigation-1"></script>
 <script src="assets/store-refinement.js?v=desktop-arrivals-1"></script>
 <link rel="stylesheet" href="assets/fintech-workspace.css?v=back-left-1">
 <script src="assets/fintech-workspace.js?v=back-left-1"></script>
-<link rel="stylesheet" href="assets/store-refinement.css?v=filled-rounded-frames-1">
+<link rel="stylesheet" href="assets/store-refinement.css?v=collection-headings-white-dots-1">
 </body>
 </html>
 

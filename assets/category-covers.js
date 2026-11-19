@@ -90,7 +90,6 @@
   const images=[
    local.find(p=>p.id===ownerProfiles[category]?.[tile]&&p.owner_photo_import)?.image,
    ...local.filter(p=>p.owner_photo_import&&matches(p)).map(p=>p.image),
-   window.BOcatalogView?.collectionImage(category,tile),
    ...local.filter(matches).map(p=>p.image),curated[category]?.[tile],
    ...local.filter(named).map(p=>p.image),referencePhotos[tile],
    ...products.filter(p=>names.includes(normalize(p.subcategory))||normalize(p.brand)===target).map(p=>p.image),

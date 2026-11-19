@@ -163,24 +163,3 @@ body{background:radial-gradient(ellipse at 0 8%,#eaf3fa 0,transparent 46%),radia
 #explorer-grid-more{display:none!important}
 #explorer-page .bo-collection-heading #plp-eyebrow{display:block!important}
 #explorer-page .bo-collection-heading .nav-back-button{width:auto!important;min-width:80px!important;padding:10px 16px!important;font-size:12px!important;gap:8px!important;border-radius:999px!important;background:#ffffffe8!important}
-
-/* Filled, softly clipped photo frames across the customer-facing shop. */
-:is(#home-page,#explorer-page) .product.babyone-pro-card{overflow:hidden!important;border-radius:20px!important}
-:is(#home-page,#explorer-page) .product.babyone-pro-card .product-media{padding:0!important;overflow:hidden!important;border-radius:18px!important}
-:is(#home-page,#explorer-page) .product.babyone-pro-card .product-media>img{display:block;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;border-radius:18px!important;padding:0!important;margin:0!important}
-#home-page #cat-container .cat-tile>img[src],#explorer-page #subcat-tile-grid .subcat-tile>img[src]{object-fit:cover!important;border-radius:16px!important;overflow:hidden;padding:0!important}
-#product-modal-shell #modal-product-content .modal-grid>div:first-child>div:first-child{height:auto!important;min-height:0!important;aspect-ratio:auto!important;border-radius:22px!important;overflow:hidden!important;background:#fff!important}
-#product-modal-shell #modal-product-content .modal-grid>div:first-child>div:first-child>img{display:block;width:100%!important;height:auto!important;max-height:none!important;object-fit:cover!important;padding:0!important;margin:0!important;border-radius:22px!important}
-#product-modal-shell .product-detail-thumbs button{overflow:hidden!important;border-radius:12px!important}
-#product-modal-shell .product-detail-thumbs img{border-radius:8px!important;object-fit:cover!important}
-.bo-banner-reference>img{border-radius:18px!important;overflow:hidden}
-#explorer-page .bo-collection-artwork .bo-banner-slide>img{top:16px;bottom:16px;left:49%;width:47%;height:calc(100% - 32px)!important;padding:0!important;object-fit:cover!important;border-radius:18px!important}
-#home-page .reel-video,#product-modal-shell .pv-video{overflow:hidden!important;border-radius:18px!important}
-#home-page .reel-video>img,#product-modal-shell .pv-video>img{border-radius:inherit!important}
-.bo-track-card>img,.bo-receipt-items img,.cart-item>img,.wishlist-item>img{border-radius:12px;overflow:hidden}
-@media(max-width:760px){
- #home-page #hero{height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:5/6!important}
- #home-page #hero .hero-slide img,#home-page #hero .hero-slide>video{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
- #explorer-page .bo-collection-artwork .bo-banner-slide>img{top:16px;bottom:16px;left:49%;width:47%;height:calc(100% - 32px)!important;padding:0!important;border-radius:14px!important}
- :is(#home-page,#explorer-page) .product.babyone-pro-card,:is(#home-page,#explorer-page) .product.babyone-pro-card .product-media,:is(#home-page,#explorer-page) .product.babyone-pro-card .product-media>img{border-radius:16px!important}
-}
