@@ -387,7 +387,7 @@ function renderPromos(){
   clearInterval(ad1Timer);clearInterval(ad2Timer);
   for(const n of [1,2]){
     const data=n===1?adBannerData1:adBannerData2;
-    BObanners.render(document.getElementById('promo-'+n),data.map(b=>({image:b.bg,title:b.title,category:b.category,reference:b.reference})),{trackId:'promo-slides-'+n,dotsId:'promo-dots-'+n,label:'BabyOne collection banner '+n,onChange:index=>{if(n===1)activeAd1=index;else activeAd2=index}});
+    BObanners.render(document.getElementById('promo-'+n),data.filter(b=>!window.BOcatalogView||BOcatalogView.banner(b.category)).map(b=>({image:b.bg,title:b.title,category:b.category,reference:b.reference})),{trackId:'promo-slides-'+n,dotsId:'promo-dots-'+n,label:'BabyOne collection banner '+n,onChange:index=>{if(n===1)activeAd1=index;else activeAd2=index}});
   }
 }
 function changeAdSlide(n,delta){BObanners.get(document.getElementById('promo-'+n))?.step(delta)}
@@ -555,7 +555,7 @@ function renderReels(){
   const track = document.getElementById('reels-track');
   track.innerHTML = uniqueReels().map(reel => {
     const i=reelsData.indexOf(reel);
-    const product = productsData.find(p => String(p.id) === String(reel.productId));
+    const product = productsData.find(p => !p.catalogHidden&&String(p.id) === String(reel.productId));
     return `
       <article class="reel-card" data-reel-index="${i}">
         <div class="reel-video" id="reel-video-${i}" onclick="playInlineReel(${i}, event)">
@@ -1157,10 +1157,10 @@ function renderMobileMenu(){
   const list = document.getElementById('mobile-menu-list');
   list.innerHTML = `
     <a href="#" onclick="showSection('home-page'); toggleMobileDrawer(); return false;" style="display:block;padding:16px 0;font-size:14px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line);text-decoration:none;">Home</a>
-    <a href="#" onclick="showSection('explorer-page'); toggleMobileDrawer(); return false;" style="display:block;padding:16px 0;font-size:14px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line);text-decoration:none;">All Categories</a>
+    <a href="#" onclick="filterByCategory('All'); toggleMobileDrawer(); return false;" style="display:block;padding:16px 0;font-size:14px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line);text-decoration:none;">All Categories</a>
     <a href="#" onclick="boU.home(); toggleMobileDrawer(); return false;" style="display:block;padding:16px 0;font-size:14px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line);text-decoration:none;">My Account</a>
     <a href="#" onclick="boU.orders(); toggleMobileDrawer(); return false;" style="display:block;padding:16px 0;font-size:14px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line);text-decoration:none;">My Orders</a>
-    ${categoriesData.map(c=>`<a href="#" onclick="filterByCategory('${c.name}'); toggleMobileDrawer(); return false;" style="display:block;padding:13px 0;font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--line);text-decoration:none;">${c.name}</a>`).join('')}
+    ${(window.BOcatalogView?BOcatalogView.categories():categoriesData).map(c=>`<a href="#" onclick="filterByCategory('${c.name}'); toggleMobileDrawer(); return false;" style="display:block;padding:13px 0;font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--line);text-decoration:none;">${c.name}</a>`).join('')}
   `;
 }
 

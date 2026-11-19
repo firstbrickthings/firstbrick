@@ -3,6 +3,8 @@
   const base = (window.BABYONE_API_BASE || '/api').replace(/\/$/, '');
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let records = new Map(), categories = [], adminIdentity = null, loading, testLinkOpened = false;
+  window.BOcatalogLoaded=false;
+  if(window.BO_USE_MYSQL)productsData.splice(0,productsData.length);
   async function token() {
     if (!window.BOphoneOTP?.getIdToken) throw Error('Sign in with your verified phone number first.');
     return window.BOphoneOTP.getIdToken();
@@ -27,13 +29,16 @@
     const variants = p.variants.filter(v => v.enabled);
     const selectedVariant=Math.max(0,variants.findIndex(v=>p.sale_enabled&&Number(v.stock)>0));
     const selected=variants[selectedVariant];
-    return {...metadata, id:p.id, name:p.name, category:p.category, description:p.description,
+    const linked=/^(babyone-(cetaphil|sebamed|diapers|bath)-|bo-(bath-filter|verified)-)/.test(p.id);
+    const description=linked&&/sample listing|manufacturer catalogue reference/i.test(p.description)?p.name:p.description;
+    const badge=linked&&/sample/i.test(metadata.badge||'')?(metadata.brand||'BabyOne'):metadata.badge;
+    return {...metadata, id:p.id, name:p.name, category:p.category, description,
       image:p.image, currency:'INR', catalogHidden:!p.active, serverProduct:true,
       sale_enabled:p.sale_enabled, price:selected ? Number(selected.price) : null,
       stock:p.sale_enabled ? variants.reduce((sum,v)=>sum+v.stock,0) : 0,
       variants:variants.map(v=>({size:v.label,price:Number(v.price),stock:p.sale_enabled?v.stock:0,serverVariantId:v.id,available:p.sale_enabled&&v.stock>0})),
       patterns:metadata.patterns || [], selectedVariant, diaperSizesExpanded:true,
-      badge:p.sale_enabled ? (metadata.badge || 'BabyOne') : 'Details awaiting confirmation', rating:0, reviews:0};
+      badge:p.sale_enabled ? (badge || 'BabyOne') : 'Details awaiting confirmation', rating:0, reviews:0};
   }
   async function catalog() {
     if (loading) return loading;
@@ -46,10 +51,14 @@
       categories = await request('/catalog/categories', {}, false);
       records = new Map(all.map(p => [p.id, p]));
       productsData.splice(0, productsData.length, ...all.map(storefrontProduct));
+      window.BOcatalogLoaded=true;
       for (const c of categories) window.babyoneDeliveryRates[c.name] = Number(c.delivery_fee);
       for (const c of categories) if (!window.BOsharedCategories && !categoriesData.some(old=>old.name===c.name)) categoriesData.push({id:c.id,name:c.name,img:'',subcategories:[]});
-      renderProductRails();renderExplorerGrid();
-      if (!document.getElementById('explorer-page')?.classList.contains('hidden')) renderPLPGrid();
+      renderCategories();renderProductRails();renderReels();renderPromos();renderExplorerGrid();
+      if (!document.getElementById('explorer-page')?.classList.contains('hidden')) {
+        if(navState.view==='landing')showSubcatLanding(BOcatalogView.categories().some(c=>c.name===navState.category)?navState.category:'All',false);
+        else renderPLPGrid();
+      }
       document.getElementById('bo-server-notice')?.remove();
       document.getElementById('bo-payment-test-notice')?.remove();
       if (all.some(p=>p.metadata?.payment_test && p.sale_enabled && p.variants.some(v=>v.enabled && v.stock>0))) {
@@ -201,7 +210,7 @@
     updateStatus:async(id,status)=>request('/admin/orders/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({status})})};
   document.addEventListener('DOMContentLoaded',()=>{
     document.body.classList.add('bo-mysql-store');
-    catalog().catch(()=>{const notice=document.createElement('p');notice.id='bo-server-notice';notice.className='bo-server-notice';notice.setAttribute('role','status');notice.textContent='The store connection is unavailable. You can browse, but checkout needs the store server.';document.getElementById('main').prepend(notice)});
+    catalog().catch(()=>{const notice=document.createElement('p');notice.id='bo-server-notice';notice.className='bo-server-notice';notice.setAttribute('role','status');notice.textContent='The shop could not load. Please refresh the page or try again shortly.';document.getElementById('main').prepend(notice)});
     if(window.boAdmin){
       const originalDashboard=window.boAdmin.openDashboard.bind(window.boAdmin);
       const openDashboard=async()=>{
