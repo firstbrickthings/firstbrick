@@ -1467,7 +1467,7 @@ body{overflow-x:hidden}
      JAVASCRIPT — all data preserved, imagery upgraded
      ============================================================ -->
 <script src="assets/banner-sliders.js?v=shared-slides-1"></script>
-<script src="assets/storefront-core.js?v=homepage-sections-1"></script>
+<script src="assets/storefront-core.js?v=owner-photo-galleries-1"></script>
 <script src="assets/category-covers.js?v=subcategory-covers-1"></script>
 
 <!-- BABYONE GOOGLE SHEETS CUSTOMER ACTIVITY BRIDGE (no existing catalog data changed) -->
@@ -2394,7 +2394,7 @@ function getPLPProducts(){
   } else if(subfilter && subfilter !== 'All'){
     list = list.filter(p => p.category === subfilter);
   }
-  return list;
+  return list.slice().sort((a,b)=>Number(Boolean(b.owner_photo_import))-Number(Boolean(a.owner_photo_import)));
 }
 
 function renderPLPGrid(){

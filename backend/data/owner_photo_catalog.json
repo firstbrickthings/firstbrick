@@ -1,0 +1,1138 @@
+{
+  "batch_id": "3bc48208",
+  "source_archive": "WhatsApp Unknown 2026-11-17 at 8.01.32 PM.zip",
+  "source_sha256": "3b24c07d905617d2190baaa6b27d18c9002124d626c5d978d58f7cdf12ae79b2",
+  "source_image_count": 100,
+  "unique_image_count": 99,
+  "duplicate_image_indices": {
+    "41": 40
+  },
+  "products": [
+    {
+      "id": "bo-photo-3bc4-001",
+      "name": "Unicorn Kids Pedal Cycle with Stabiliser Wheels",
+      "category": "Ride-On",
+      "subcategory": "Cycle",
+      "description": "A unicorn-style pedal cycle with stabiliser wheels and an adjustable saddle.",
+      "image": "assets/owner-products/3bc48208/004-e9ee51d4e836.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/004-e9ee51d4e836.jpg",
+        "assets/owner-products/3bc48208/002-90c01906b25a.jpg",
+        "assets/owner-products/3bc48208/001-2550680bdc24.jpg",
+        "assets/owner-products/3bc48208/003-82b2389c5689.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Brown",
+          "price": "2499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/004-e9ee51d4e836.jpg",
+            "assets/owner-products/3bc48208/001-2550680bdc24.jpg",
+            "assets/owner-products/3bc48208/003-82b2389c5689.jpg"
+          ]
+        },
+        {
+          "label": "Green",
+          "price": "2499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/002-90c01906b25a.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        4,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-002",
+      "name": "Baybee Oleo Activity Push Walker",
+      "category": "Travel & Gear",
+      "subcategory": "Walkers",
+      "description": "A push-along walker with a smiley activity panel, shapes and turning gears.",
+      "image": "assets/owner-products/3bc48208/006-a07e575c86ac.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/006-a07e575c86ac.jpg",
+        "assets/owner-products/3bc48208/008-a1dc785af7c5.jpg",
+        "assets/owner-products/3bc48208/005-6882a01a4686.jpg",
+        "assets/owner-products/3bc48208/024-cd108d114512.jpg",
+        "assets/owner-products/3bc48208/025-b61abfeb9410.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Blue",
+          "price": "2799.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/006-a07e575c86ac.jpg",
+            "assets/owner-products/3bc48208/008-a1dc785af7c5.jpg",
+            "assets/owner-products/3bc48208/005-6882a01a4686.jpg"
+          ]
+        },
+        {
+          "label": "Beige",
+          "price": "2799.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/024-cd108d114512.jpg",
+            "assets/owner-products/3bc48208/025-b61abfeb9410.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        6,
+        8,
+        5,
+        24,
+        25
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-003",
+      "name": "Activity Push Walker with Drawing Panel",
+      "category": "Travel & Gear",
+      "subcategory": "Walkers",
+      "description": "A push walker with a steering-wheel activity panel and a removable drawing board.",
+      "image": "assets/owner-products/3bc48208/007-6b4c71ffd546.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/007-6b4c71ffd546.jpg",
+        "assets/owner-products/3bc48208/009-ee9aeb6b54c3.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        7,
+        9
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-004",
+      "name": "Parent-Handle Push Ride-On Car",
+      "category": "Ride-On",
+      "subcategory": "Ride-On",
+      "description": "A car-style push ride-on with a backrest, steering wheel and parent handle.",
+      "image": "assets/owner-products/3bc48208/010-5798cd08b0e0.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/010-5798cd08b0e0.jpg",
+        "assets/owner-products/3bc48208/011-388593a73265.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Blue",
+          "price": "3299.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/010-5798cd08b0e0.jpg"
+          ]
+        },
+        {
+          "label": "Silver",
+          "price": "3299.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/011-388593a73265.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        10,
+        11
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-005",
+      "name": "Bunny Face Ride-On Car — White & Teal",
+      "category": "Ride-On",
+      "subcategory": "Ride-On",
+      "description": "A bunny-face ride-on car with a backrest and a raised steering wheel.",
+      "image": "assets/owner-products/3bc48208/012-526612c518c4.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/012-526612c518c4.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        12
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-006",
+      "name": "Rabbit Potty Chair — Red & Yellow",
+      "category": "Potty",
+      "subcategory": "Potty Set",
+      "description": "A rabbit-themed potty chair with a backrest and a removable potty insert.",
+      "image": "assets/owner-products/3bc48208/013-1743c5c0cb07.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/013-1743c5c0cb07.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        13
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-007",
+      "name": "Rabbit Potty Chair — Green",
+      "category": "Potty",
+      "subcategory": "Potty Set",
+      "description": "A green rabbit-themed potty chair with a removable inner bowl.",
+      "image": "assets/owner-products/3bc48208/014-70cc55670b52.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/014-70cc55670b52.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        14
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-008",
+      "name": "Foldable Baby Bath Tub — Blue & White",
+      "category": "Bath & Skincare",
+      "subcategory": "Bath Tubs",
+      "description": "A foldable baby bath tub with supporting legs. The gallery shows its open and folded positions.",
+      "image": "assets/owner-products/3bc48208/016-844398c22a00.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/016-844398c22a00.jpg",
+        "assets/owner-products/3bc48208/015-6b54ae4b9197.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        16,
+        15
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-009",
+      "name": "Kids Tricycle with Front Basket — Grey & Black",
+      "category": "Ride-On",
+      "subcategory": "Cycle",
+      "description": "A pedal tricycle with a supportive seat, front basket and rear storage tray.",
+      "image": "assets/owner-products/3bc48208/017-25c6d44db619.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/017-25c6d44db619.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        17
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-010",
+      "name": "Double-Sided Kids Drawing Easel",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A standing drawing easel with a whiteboard on one side and a chalkboard on the other.",
+      "image": "assets/owner-products/3bc48208/018-c8b3818bcca2.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/018-c8b3818bcca2.jpg",
+        "assets/owner-products/3bc48208/019-49b0c7e1cf7c.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        18,
+        19
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-011",
+      "name": "Spider-Man Print Kids Play Tent",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A house-shaped play tent with Spider-Man prints and a fabric doorway.",
+      "image": "assets/owner-products/3bc48208/021-bfbc79bba90c.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/021-bfbc79bba90c.jpg",
+        "assets/owner-products/3bc48208/020-82fc693b963f.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1699.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        21,
+        20
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-012",
+      "name": "Princess Print Kids Play Tent",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A pink house-shaped play tent with princess illustrations and a fabric doorway.",
+      "image": "assets/owner-products/3bc48208/023-72b724beb6b3.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/023-72b724beb6b3.jpg",
+        "assets/owner-products/3bc48208/022-d7303ffad9e7.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1699.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 2,
+      "source_indices": [
+        23,
+        22
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-013",
+      "name": "Nexa Kids Pedal Tricycle",
+      "category": "Ride-On",
+      "subcategory": "Cycle",
+      "description": "A pedal tricycle with a backrest and a bottle holder. The pink version is pictured with a parent push handle.",
+      "image": "assets/owner-products/3bc48208/076-a85236cb45c6.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/076-a85236cb45c6.jpg",
+        "assets/owner-products/3bc48208/077-730885b2251f.jpg",
+        "assets/owner-products/3bc48208/026-aa5db6b1bf1f.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Blue",
+          "price": "2999.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/076-a85236cb45c6.jpg",
+            "assets/owner-products/3bc48208/026-aa5db6b1bf1f.jpg"
+          ]
+        },
+        {
+          "label": "Pink",
+          "price": "2999.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/077-730885b2251f.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        76,
+        77,
+        26
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-014",
+      "name": "Wide-Wheel Kids Tricycle — Black",
+      "category": "Ride-On",
+      "subcategory": "Cycle",
+      "description": "A black pedal tricycle with wide wheels and a high-backed seat.",
+      "image": "assets/owner-products/3bc48208/061-2fdf89ec2708.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/061-2fdf89ec2708.jpg",
+        "assets/owner-products/3bc48208/062-48b687ff5bca.jpg",
+        "assets/owner-products/3bc48208/027-4d5cecb16889.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        61,
+        62,
+        27
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-015",
+      "name": "Kids Pedal Tricycle — Mint Green",
+      "category": "Ride-On",
+      "subcategory": "Cycle",
+      "description": "A mint-green pedal tricycle with a supportive seat and rear storage tray.",
+      "image": "assets/owner-products/3bc48208/028-1a9e79b93be3.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/028-1a9e79b93be3.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        28
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-016",
+      "name": "Wave 3-in-1 Hanging Baby Swing",
+      "category": "Travel & Gear",
+      "subcategory": "Swings",
+      "description": "A hanging swing seat with a backrest and a removable front safety bar.",
+      "image": "assets/owner-products/3bc48208/030-0c9492c62338.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/030-0c9492c62338.jpg",
+        "assets/owner-products/3bc48208/029-4675b2f8afc6.jpg",
+        "assets/owner-products/3bc48208/049-babc5c554310.jpg",
+        "assets/owner-products/3bc48208/084-9da5835e085a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Blue",
+          "price": "1799.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/030-0c9492c62338.jpg",
+            "assets/owner-products/3bc48208/029-4675b2f8afc6.jpg",
+            "assets/owner-products/3bc48208/049-babc5c554310.jpg"
+          ]
+        },
+        {
+          "label": "Green",
+          "price": "1799.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/084-9da5835e085a.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        30,
+        29,
+        49,
+        84
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-017",
+      "name": "Electric Baby Cradle with Cot Mobile — Blue & Grey",
+      "category": "Cradles & Rockers",
+      "subcategory": "Electric Swings",
+      "description": "An electric baby cradle with a cot mobile, mosquito net, storage basket and remote control.",
+      "image": "assets/owner-products/3bc48208/032-b1068432d57c.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/032-b1068432d57c.jpg",
+        "assets/owner-products/3bc48208/031-f91388293502.jpg",
+        "assets/owner-products/3bc48208/033-a05ae7ba647f.jpg",
+        "assets/owner-products/3bc48208/034-778fe68b24e0.jpg",
+        "assets/owner-products/3bc48208/035-f826f0830d48.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "12999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        32,
+        31,
+        33,
+        34,
+        35
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-018",
+      "name": "Reclining Electric Baby Swing with Canopy — Grey",
+      "category": "Cradles & Rockers",
+      "subcategory": "Electric Swings",
+      "description": "A grey electric baby swing with an adjustable backrest, canopy and remote control.",
+      "image": "assets/owner-products/3bc48208/037-6b3e8a2b84d4.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/037-6b3e8a2b84d4.jpg",
+        "assets/owner-products/3bc48208/039-7b084c498a43.jpg",
+        "assets/owner-products/3bc48208/038-e309f3032ded.jpg",
+        "assets/owner-products/3bc48208/036-99fd7de4a0d1.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "8999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        37,
+        39,
+        38,
+        36
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-019",
+      "name": "Retro Ride-On Car — Blue",
+      "category": "Ride-On",
+      "subcategory": "Ride-On",
+      "description": "A blue retro-style ride-on car with a curved seat and front handlebar.",
+      "image": "assets/owner-products/3bc48208/040-fb3d2610123c.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/040-fb3d2610123c.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        40,
+        41
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-020",
+      "name": "Retro Ride-On Car with Storage — Cream",
+      "category": "Ride-On",
+      "subcategory": "Ride-On",
+      "description": "A cream ride-on car with lights, music controls and storage beneath the seat.",
+      "image": "assets/owner-products/3bc48208/046-1c16d17e83eb.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/046-1c16d17e83eb.jpg",
+        "assets/owner-products/3bc48208/042-8c998da91d4b.jpg",
+        "assets/owner-products/3bc48208/043-efc596bc25aa.jpg",
+        "assets/owner-products/3bc48208/044-281fd8367255.jpg",
+        "assets/owner-products/3bc48208/045-b4f84082027b.jpg",
+        "assets/owner-products/3bc48208/047-652f96f30873.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        46,
+        42,
+        43,
+        44,
+        45,
+        47
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-021",
+      "name": "Steering-Wheel Hanging Baby Swing — Blue & Yellow",
+      "category": "Travel & Gear",
+      "subcategory": "Swings",
+      "description": "A blue hanging swing seat with a front steering wheel and supportive backrest.",
+      "image": "assets/owner-products/3bc48208/048-b28456432a5e.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/048-b28456432a5e.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1699.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        48
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-022",
+      "name": "Baby Bouncer with Canopy — Pink",
+      "category": "Cradles & Rockers",
+      "subcategory": "Bouncers",
+      "description": "A fabric baby bouncer with a canopy, toy bar and support frame.",
+      "image": "assets/owner-products/3bc48208/050-76d249ea9fc6.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/050-76d249ea9fc6.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        50
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-023",
+      "name": "Unicorn Rocking Ride-On — Pink",
+      "category": "Ride-On",
+      "subcategory": "Ride-On",
+      "description": "A pink unicorn-style rocking ride-on with a seat, handles and curved rocking base.",
+      "image": "assets/owner-products/3bc48208/051-a85e80c98379.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/051-a85e80c98379.jpg",
+        "assets/owner-products/3bc48208/052-3a0efdbc4b71.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        51,
+        52
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-024",
+      "name": "Baybee Gliddo Magic Swing Car",
+      "category": "Ride-On",
+      "subcategory": "Swing Car",
+      "description": "A steering-wheel swing car with lights, music and storage beneath the seat.",
+      "image": "assets/owner-products/3bc48208/058-e6e184bbb54c.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/058-e6e184bbb54c.jpg",
+        "assets/owner-products/3bc48208/053-0261f19c5242.jpg",
+        "assets/owner-products/3bc48208/054-64ef051e1e30.jpg",
+        "assets/owner-products/3bc48208/055-a420e1587426.jpg",
+        "assets/owner-products/3bc48208/056-61d5b3979a95.jpg",
+        "assets/owner-products/3bc48208/057-b3d9dfc882d0.jpg",
+        "assets/owner-products/3bc48208/059-ab101f5cb684.jpg",
+        "assets/owner-products/3bc48208/060-46fbd5667825.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Teal",
+          "price": "3499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/058-e6e184bbb54c.jpg",
+            "assets/owner-products/3bc48208/053-0261f19c5242.jpg",
+            "assets/owner-products/3bc48208/054-64ef051e1e30.jpg",
+            "assets/owner-products/3bc48208/055-a420e1587426.jpg",
+            "assets/owner-products/3bc48208/056-61d5b3979a95.jpg",
+            "assets/owner-products/3bc48208/057-b3d9dfc882d0.jpg"
+          ]
+        },
+        {
+          "label": "Cream",
+          "price": "3499.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/059-ab101f5cb684.jpg",
+            "assets/owner-products/3bc48208/060-46fbd5667825.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        58,
+        53,
+        54,
+        55,
+        56,
+        57,
+        59,
+        60
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-025",
+      "name": "Canopy Kids Tricycle",
+      "category": "Ride-On",
+      "subcategory": "Cycle",
+      "description": "A kids tricycle with a canopy, parent push handle and front safety bar.",
+      "image": "assets/owner-products/3bc48208/063-a1b29b9edc27.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/063-a1b29b9edc27.jpg",
+        "assets/owner-products/3bc48208/064-63be0e4dbd6f.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "Blue",
+          "price": "5999.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/063-a1b29b9edc27.jpg"
+          ]
+        },
+        {
+          "label": "Pink",
+          "price": "5999.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/3bc48208/064-63be0e4dbd6f.jpg"
+          ]
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        63,
+        64
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-026",
+      "name": "Baybee Battery Ride-On ATV — Black & Green",
+      "category": "Ride-On",
+      "subcategory": "Electric Ride-On",
+      "description": "A battery ride-on ATV with handlebars, a backrest and a foot accelerator.",
+      "image": "assets/owner-products/3bc48208/065-747da744c91b.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/065-747da744c91b.jpg",
+        "assets/owner-products/3bc48208/066-ab2d4182df74.jpg",
+        "assets/owner-products/3bc48208/067-73a6b5e20133.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "13999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        65,
+        66,
+        67
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-027",
+      "name": "Baybee Pobo Battery Ride-On Jeep — Blue",
+      "category": "Ride-On",
+      "subcategory": "Electric Ride-On",
+      "description": "A blue battery ride-on jeep with a steering wheel, chunky wheels and a light-up windscreen panel.",
+      "image": "assets/owner-products/3bc48208/068-fb08b8aa8bfa.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/068-fb08b8aa8bfa.jpg",
+        "assets/owner-products/3bc48208/070-c688adcf8e57.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "22999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        68,
+        70
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-028",
+      "name": "LED Battery Ride-On Jeep with Roof Lights — Blue",
+      "category": "Ride-On",
+      "subcategory": "Electric Ride-On",
+      "description": "A blue battery ride-on jeep with roof lights, a steering wheel and a light-up front panel.",
+      "image": "assets/owner-products/3bc48208/069-6bbbeaf2fee4.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/069-6bbbeaf2fee4.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "24999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        69
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-029",
+      "name": "Baby Walker with Parent Handle — Grey",
+      "category": "Travel & Gear",
+      "subcategory": "Walkers",
+      "description": "A grey baby walker with a padded seat, toy tray and parent push handle.",
+      "image": "assets/owner-products/3bc48208/073-6c7bc44aa924.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/073-6c7bc44aa924.jpg",
+        "assets/owner-products/3bc48208/071-8331cb70ec30.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2299.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        73,
+        71
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-030",
+      "name": "Baby Activity Walker — Orange & White",
+      "category": "Travel & Gear",
+      "subcategory": "Walkers",
+      "description": "An orange-and-white baby walker with a padded seat and activity tray.",
+      "image": "assets/owner-products/3bc48208/072-56528c639766.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/072-56528c639766.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1699.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        72
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-031",
+      "name": "Baybee Baby Activity Walker — Grey & Teal",
+      "category": "Travel & Gear",
+      "subcategory": "Walkers",
+      "description": "A grey-and-teal baby walker with a padded seat, activity tray and foot mat.",
+      "image": "assets/owner-products/3bc48208/074-4b44577bee76.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/074-4b44577bee76.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        74
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-032",
+      "name": "Baby Activity Walker — White",
+      "category": "Travel & Gear",
+      "subcategory": "Walkers",
+      "description": "A white baby walker with a padded seat and a front toy tray.",
+      "image": "assets/owner-products/3bc48208/075-b5a016e377a8.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/075-b5a016e377a8.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        75
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-033",
+      "name": "Baybee Kids Slide with Basketball Hoop — Red & Yellow",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A red-and-yellow kids slide with climbing steps, side handles and a basketball hoop.",
+      "image": "assets/owner-products/3bc48208/082-485aca4c399c.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/082-485aca4c399c.jpg",
+        "assets/owner-products/3bc48208/083-bc2106c7e799.jpg",
+        "assets/owner-products/3bc48208/078-2b2f9f7c1459.jpg",
+        "assets/owner-products/3bc48208/079-747501b5e7b4.jpg",
+        "assets/owner-products/3bc48208/080-5f2762a8382f.jpg",
+        "assets/owner-products/3bc48208/081-87e53f7040af.jpg",
+        "assets/owner-products/3bc48208/085-34dd50296b94.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "5499.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        82,
+        83,
+        78,
+        79,
+        80,
+        81,
+        85
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-034",
+      "name": "Baybee Automatic Baby Swing with Canopy — Grey",
+      "category": "Cradles & Rockers",
+      "subcategory": "Electric Swings",
+      "description": "A grey automatic baby swing with a canopy, toy bar, padded seat and remote control.",
+      "image": "assets/owner-products/3bc48208/090-1365d9b37870.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/090-1365d9b37870.jpg",
+        "assets/owner-products/3bc48208/086-c79f338a102f.jpg",
+        "assets/owner-products/3bc48208/087-2830d281665a.jpg",
+        "assets/owner-products/3bc48208/088-fa25bc7178bc.jpg",
+        "assets/owner-products/3bc48208/089-5caf4576a40a.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "9999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        90,
+        86,
+        87,
+        88,
+        89
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-035",
+      "name": "Baby Feeding High Chair — Turquoise",
+      "category": "Feeding",
+      "subcategory": "High Chairs",
+      "description": "A turquoise feeding high chair with a tray and footrest.",
+      "image": "assets/owner-products/3bc48208/091-50c06ecc072c.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/091-50c06ecc072c.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        91
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-036",
+      "name": "Magic Swing Car — Blue & Black",
+      "category": "Ride-On",
+      "subcategory": "Swing Car",
+      "description": "A blue-and-black swing car with a broad seat and a light-up steering wheel.",
+      "image": "assets/owner-products/3bc48208/092-22caf949f7a1.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/092-22caf949f7a1.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        92
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-037",
+      "name": "Bunny Ride-On Car with Storage — Pink & White",
+      "category": "Ride-On",
+      "subcategory": "Ride-On",
+      "description": "A pink-and-white bunny ride-on car with a backrest, light-up steering wheel and seat storage.",
+      "image": "assets/owner-products/3bc48208/096-5f41dcfa8531.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/096-5f41dcfa8531.jpg",
+        "assets/owner-products/3bc48208/093-7a837751abc2.jpg",
+        "assets/owner-products/3bc48208/094-19a0cf0ffe74.jpg",
+        "assets/owner-products/3bc48208/095-469238fb6c54.jpg",
+        "assets/owner-products/3bc48208/097-a15c92e782ec.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "2199.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        96,
+        93,
+        94,
+        95,
+        97
+      ]
+    },
+    {
+      "id": "bo-photo-3bc4-038",
+      "name": "Baybee Nord Swing Car — Beige",
+      "category": "Ride-On",
+      "subcategory": "Swing Car",
+      "description": "A beige swing car with a broad curved seat, steering wheel and light-up wheels.",
+      "image": "assets/owner-products/3bc48208/098-92747a3ab9d5.jpg",
+      "gallery": [
+        "assets/owner-products/3bc48208/098-92747a3ab9d5.jpg",
+        "assets/owner-products/3bc48208/099-68476a40b83b.jpg",
+        "assets/owner-products/3bc48208/100-b848686a612a.jpg"
+      ],
+      "brand": "Baybee",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "1 Piece",
+          "price": "3299.00",
+          "stock": 10
+        }
+      ],
+      "logistics_tier": 3,
+      "source_indices": [
+        98,
+        99,
+        100
+      ]
+    }
+  ]
+}

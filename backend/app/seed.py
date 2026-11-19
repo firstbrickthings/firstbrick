@@ -70,6 +70,8 @@ def run():
         from .storefront_media import apply_storefront_media, apply_category_profiles
         apply_storefront_media(db)
         apply_category_profiles(db)
+        from .owner_photo_catalog import apply_owner_photo_catalog
+        apply_owner_photo_catalog(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 

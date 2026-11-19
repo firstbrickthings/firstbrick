@@ -102,9 +102,12 @@ def calculate(db: Session, items: list[CartItem], lock=False, pin='', payment='R
         category = product.category
         categories[category.id] = {'category': category.name, 'rate': money(category.delivery_fee)}
         label = product.name + (f' — {variant.label}' if variant.label else '') + (f' — {pattern_name}' if pattern_name else '')
+        galleries = product.metadata_json.get('variant_images', {})
+        option_images = galleries.get(variant.label, []) if isinstance(galleries, dict) else []
+        line_image = option_images[0] if isinstance(option_images, list) and option_images and isinstance(option_images[0], str) else product.image
         lines.append({'id': product.id, 'variant_id': variant.id, 'size': variant.label,
                       'patternId': pattern_id, 'patternName': pattern_name,
-                      'name': label, 'image': product.image, 'price': money(variant.price), 'qty': quantity,
+                      'name': label, 'image': line_image, 'price': money(variant.price), 'qty': quantity,
                       'category': category.name, 'line_total': money(variant.price * quantity)})
     subtotal = sum((Decimal(line['line_total']) for line in lines), Decimal('0'))
     from .shipping import delivery_quote

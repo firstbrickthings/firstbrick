@@ -407,15 +407,18 @@ function babyoneModalPriceLabel(p){
 }
 function babyoneProductGallery(p){
   // Only show photographs belonging to this exact product.
+  const selected=p.variants?.[p.selectedVariant??0]?.size;
+  const optionPhotos=p.variant_images?.[selected];
+  if(Array.isArray(optionPhotos)&&optionPhotos.length)return [...new Set(optionPhotos.filter(Boolean))];
   return [...new Set([p.image,...(p.galleryImages||[]),...(p.images||[])].filter(Boolean))];
 }
 function babyoneGallerySlots(p){
   const images=babyoneProductGallery(p);
-  if(p.category==='Diapering')return images;
+  if(p.owner_photo_import||p.category==='Diapering')return images;
   // Temporary demo gallery images are clearly identified and can be replaced in admin.
   return Array.from({length:6},(_,i)=>images[i] || (p.brand==='Cetaphil' ? p.image : `https://picsum.photos/seed/babyone-${encodeURIComponent(p.id)}-${i}/800/1000`));
 }
-function babyoneIsDemoGallerySlot(p,index){return p.category!=='Diapering' && index>=babyoneProductGallery(p).length;}
+function babyoneIsDemoGallerySlot(p,index){return !p.owner_photo_import&&p.category!=='Diapering' && index>=babyoneProductGallery(p).length;}
 function babyoneSelectGallerySlot(id,index){
   const buttons=document.querySelectorAll('#product-detail-thumbs-'+CSS.escape(id)+' button');
   const button=buttons[index];
@@ -472,8 +475,9 @@ function babyoneDiaperSizeMarkup(p){
 }
 function babyoneSizeOptionsMarkup(p){
   if(p.category==='Diapering'&&p.subcategory==='Diapers') return babyoneDiaperSizeMarkup(p);
+  if(p.owner_photo_import&&p.variants?.length===1&&p.unit==='1 Piece')return '<div class="babyone-size-options"><strong>Pack size</strong><span>1 Piece</span></div>';
   if(Array.isArray(p.variants)&&p.variants.length){
-    return `<div class="babyone-size-options"><strong>${p.category==='Diapering'?'Choose size / pack':(p.variants.some(v=>/\bml\b|millilit/i.test(String(v.size||'')))?'Choose volume (ML)':(p.variants.some(v=>/^(red|blue|pink|green|black|white|yellow|purple|grey|gray|beige|brown|orange|navy|cream)$/i.test(String(v.size||'')))?'Choose colour':'Choose size / option'))}</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" ${p.serverProduct&&v.available===false?'disabled title="Out of stock"':''} onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div></div>`;
+    return `<div class="babyone-size-options"><strong>${p.category==='Diapering'?'Choose size / pack':(p.variants.some(v=>/\bml\b|millilit/i.test(String(v.size||'')))?'Choose volume (ML)':(p.option_type==='colour'||p.variants.some(v=>/^(red|blue|pink|green|black|white|yellow|purple|grey|gray|beige|brown|orange|navy|cream)$/i.test(String(v.size||'')))?'Choose colour':'Choose size / option'))}</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" ${p.serverProduct&&v.available===false?'disabled title="Out of stock"':''} onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div>${p.owner_photo_import?'<small>1 piece per purchase</small>':''}</div>`;
   }
   return ''; // No size, ml or colour variants configured for this item.
 }
@@ -495,6 +499,7 @@ function babyoneChooseVariant(id,index){
   p.selectedVariant=index;
   p.price=v.price==null?null:Number(v.price);
   p.originalPrice=v.originalPrice==null?null:Number(v.originalPrice);
+  const optionPhotos=p.variant_images?.[v.size];if(Array.isArray(optionPhotos)&&optionPhotos.length)p.image=optionPhotos[0];
   openProductModal(id);
 }
 
@@ -538,7 +543,7 @@ function babyoneTopSellers(){
 function renderProductRails(){
   document.getElementById('best-sellers').innerHTML = babyoneTopSellers().map(productCard).join('');
   document.getElementById('trending').innerHTML = productsData.filter(p=>!p.catalogHidden).slice().reverse().slice(0,10).map(productCard).join('');
-  const travel = productsData.filter(p=>['Travel & Gear','Ride-On'].includes(p.category)&&/ride.on|stroller|tricycle|swing car/i.test(p.name+' '+p.subcategory));
+  const travel = productsData.filter(p=>['Travel & Gear','Ride-On'].includes(p.category)&&/ride.on|stroller|tricycle|swing car|\bcycle\b/i.test(p.name+' '+p.subcategory)).sort((a,b)=>Number(Boolean(b.owner_photo_import))-Number(Boolean(a.owner_photo_import)));
   document.getElementById('ride-mode').innerHTML = travel.filter(p=>!p.catalogHidden).slice(0,10).map(productCard).join('');
 }
 
