@@ -77,6 +77,9 @@ def run():
         from .owner_toy_catalog import apply_owner_toy_catalog, complete_owner_catalog_menu
         apply_owner_toy_catalog(db)
         complete_owner_catalog_menu(db)
+        from .owner_fashion_catalog import apply_owner_fashion_catalog, complete_fashion_menu
+        apply_owner_fashion_catalog(db)
+        complete_fashion_menu(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 

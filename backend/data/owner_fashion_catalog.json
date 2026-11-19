@@ -1,0 +1,1489 @@
+{
+  "batch_id": "fashion-9d708208",
+  "source_archive": "WhatsApp Unknown 2026-11-18 at 12.24.53 AM.zip",
+  "source_sha256": "35e44210ab64b02fffe35c104317f5fb28d8519213e49f8b70930389e446c889",
+  "source_image_count": 34,
+  "unique_image_count": 33,
+  "duplicate_image_indices": {
+    "F014": "F013"
+  },
+  "size_stock_allocation": {
+    "S": 3,
+    "M": 3,
+    "L": 2,
+    "XL": 2
+  },
+  "products": [
+    {
+      "id": "bo-fashion-9d70-001",
+      "name": "Textured Long-Sleeve Romper & Bonnet Set — Taupe",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A button-neck romper with long sleeves, cuffed legs and a matching bonnet.",
+      "image": "assets/owner-products/fashion-9d708208/f001-d24421d51ddb.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f001-d24421d51ddb.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F001"
+      ],
+      "clothing": {
+        "colour": "Taupe",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-002",
+      "name": "Textured Long-Sleeve Romper & Bonnet Set — Blue",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A button-neck romper with long sleeves, cuffed legs and a matching bonnet.",
+      "image": "assets/owner-products/fashion-9d708208/f002-979a2891fee8.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f002-979a2891fee8.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F002"
+      ],
+      "clothing": {
+        "colour": "Blue",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-003",
+      "name": "Textured Long-Sleeve Romper & Bonnet Set — White",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A button-neck romper with long sleeves, cuffed legs and a matching bonnet.",
+      "image": "assets/owner-products/fashion-9d708208/f003-9d790129f79b.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f003-9d790129f79b.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F003"
+      ],
+      "clothing": {
+        "colour": "White",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-004",
+      "name": "Textured Long-Sleeve Romper & Bonnet Set — Cream",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A button-neck romper with long sleeves, cuffed legs and a matching bonnet.",
+      "image": "assets/owner-products/fashion-9d708208/f004-95c51713b2da.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f004-95c51713b2da.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F004"
+      ],
+      "clothing": {
+        "colour": "Cream",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-005",
+      "name": "Floral Long-Sleeve Romper & Bonnet Set",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A floral romper with a gathered body, long sleeves, lace-style trim and a matching bonnet.",
+      "image": "assets/owner-products/fashion-9d708208/f005-0aa4fb778b62.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f005-0aa4fb778b62.jpg",
+        "assets/owner-products/fashion-9d708208/f006-9e4b01f36ea0.jpg",
+        "assets/owner-products/fashion-9d708208/f010-7cd542ed4c43.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F005",
+        "F006",
+        "F010"
+      ],
+      "clothing": {
+        "colour": "Ivory Floral",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-006",
+      "name": "Babios Mateo Shirt & Shorts Set — Blue & White",
+      "category": "Clothing",
+      "subcategory": "Outfit Sets",
+      "description": "A blue short-sleeve button-front shirt with a contrast pocket, paired with white shorts.",
+      "image": "assets/owner-products/fashion-9d708208/f007-ef53a93f3bef.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f007-ef53a93f3bef.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F007"
+      ],
+      "clothing": {
+        "colour": "Blue & White",
+        "style_code": "579",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-007",
+      "name": "Navy Sailor-Collar Romper",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A navy romper with a contrast sailor collar, long sleeves and snap fastenings.",
+      "image": "assets/owner-products/fashion-9d708208/f009-60ca6cd4851c.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f009-60ca6cd4851c.jpg",
+        "assets/owner-products/fashion-9d708208/f008-4c5dc0a1b34e.jpg",
+        "assets/owner-products/fashion-9d708208/f012-c31eba87af6a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F009",
+        "F008",
+        "F012"
+      ],
+      "clothing": {
+        "colour": "Navy",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-008",
+      "name": "Cream Lace-Trim Long-Sleeve Dress",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A cream dress with a gathered shape, lace-style trim and long puff sleeves.",
+      "image": "assets/owner-products/fashion-9d708208/f011-04a3e55d45d3.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f011-04a3e55d45d3.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F011"
+      ],
+      "clothing": {
+        "colour": "Cream",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-009",
+      "name": "White Romper with Black Peter Pan Collar",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A white printed romper with a black Peter Pan collar and long puff sleeves.",
+      "image": "assets/owner-products/fashion-9d708208/f013-7a7181fde600.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f013-7a7181fde600.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F013",
+        "F014"
+      ],
+      "clothing": {
+        "colour": "White & Black",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-010",
+      "name": "Polka-Dot Bow Dress & Bloomers Set",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A light-grey polka-dot dress with a bow neckline and matching elasticated bloomers.",
+      "image": "assets/owner-products/fashion-9d708208/f025-1d14a4d08bd1.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f025-1d14a4d08bd1.jpg",
+        "assets/owner-products/fashion-9d708208/f015-a4a30b9f70b0.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F025",
+        "F015"
+      ],
+      "clothing": {
+        "colour": "Light Grey",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-011",
+      "name": "Ruffle-Collar Romper — Black",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A black romper with a wide ruffle collar, contrast ribbon trim and long sleeves.",
+      "image": "assets/owner-products/fashion-9d708208/f016-2c5544261ae2.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f016-2c5544261ae2.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F016"
+      ],
+      "clothing": {
+        "colour": "Black",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-012",
+      "name": "Ruffle-Collar Romper — Brown",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A brown romper with a wide ruffle collar, contrast ribbon trim and long sleeves.",
+      "image": "assets/owner-products/fashion-9d708208/f019-db9487018714.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f019-db9487018714.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F019"
+      ],
+      "clothing": {
+        "colour": "Brown",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-013",
+      "name": "Babios Finn Shirt & Shorts Set — White & Grey",
+      "category": "Clothing",
+      "subcategory": "Outfit Sets",
+      "description": "A white-and-grey button-front shirt with small ear-shaped details, paired with grey shorts.",
+      "image": "assets/owner-products/fashion-9d708208/f017-97349ce61b5d.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f017-97349ce61b5d.jpg",
+        "assets/owner-products/fashion-9d708208/f033-38d2f6a4c64e.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F017",
+        "F033"
+      ],
+      "clothing": {
+        "colour": "White & Grey",
+        "style_code": "599",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-014",
+      "name": "White Button-Front Shorts",
+      "category": "Clothing",
+      "subcategory": "Shorts & Bottoms",
+      "description": "White shorts with a button-front waistband and belt loops.",
+      "image": "assets/owner-products/fashion-9d708208/f018-c38d0d098d6a.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f018-c38d0d098d6a.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1099.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1099.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1099.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1099.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F018"
+      ],
+      "clothing": {
+        "colour": "White",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-015",
+      "name": "White Dot-Print Peter Pan Collar Dress",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A white dress with tiny red dots, a scalloped Peter Pan collar and long sleeves.",
+      "image": "assets/owner-products/fashion-9d708208/f020-d3d2a7ae66e9.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f020-d3d2a7ae66e9.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F020"
+      ],
+      "clothing": {
+        "colour": "White & Red",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-016",
+      "name": "Blue Gingham Embroidered Romper",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A blue gingham romper with embroidered floral details, a ruffled neckline and puff sleeves.",
+      "image": "assets/owner-products/fashion-9d708208/f021-683d62a066fc.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f021-683d62a066fc.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F021"
+      ],
+      "clothing": {
+        "colour": "Blue Gingham",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-017",
+      "name": "Beige Hooded Footed Sleepsuit",
+      "category": "Clothing",
+      "subcategory": "Onesies & Rompers",
+      "description": "A beige hooded sleepsuit with enclosed feet, a front zip and an animal patch.",
+      "image": "assets/owner-products/fashion-9d708208/f022-8edc39346a24.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f022-8edc39346a24.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F022"
+      ],
+      "clothing": {
+        "colour": "Beige",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-018",
+      "name": "Grey Stripe Long-Sleeve Dress",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A grey striped dress with a button-front bodice, long sleeves and a gathered skirt.",
+      "image": "assets/owner-products/fashion-9d708208/f023-32eeca4faae8.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f023-32eeca4faae8.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1399.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1399.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1399.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F023"
+      ],
+      "clothing": {
+        "colour": "Grey Stripe",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-019",
+      "name": "Red Ribbon-Bow Dress",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A red dress with a ribbon bow at the neckline and a flared skirt.",
+      "image": "assets/owner-products/fashion-9d708208/f024-cc2570d57ccc.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f024-cc2570d57ccc.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F024"
+      ],
+      "clothing": {
+        "colour": "Red",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-020",
+      "name": "Burgundy Bow-Detail Sleeveless Dress",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A textured burgundy dress with shoulder ruffles and contrasting bows.",
+      "image": "assets/owner-products/fashion-9d708208/f026-bfef1badaee3.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f026-bfef1badaee3.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F026"
+      ],
+      "clothing": {
+        "colour": "Burgundy",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-021",
+      "name": "Babios Thiago Shirt & Shorts Set — Brown & Mustard",
+      "category": "Clothing",
+      "subcategory": "Outfit Sets",
+      "description": "A brown short-sleeve button-front shirt paired with mustard shorts.",
+      "image": "assets/owner-products/fashion-9d708208/f027-a1765f9f48c4.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f027-a1765f9f48c4.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F027"
+      ],
+      "clothing": {
+        "colour": "Brown & Mustard",
+        "style_code": "549",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-022",
+      "name": "Babios Freya Lace-Trim Dress — Pink",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A pink sleeveless dress with a broad lace-style collar and a contrasting hem.",
+      "image": "assets/owner-products/fashion-9d708208/f028-440509b41fa6.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f028-440509b41fa6.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F028"
+      ],
+      "clothing": {
+        "colour": "Pink",
+        "style_code": "499",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-023",
+      "name": "Ivory Ruffle-Hem Long-Sleeve Dress",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "An ivory dress with a ruffled neckline, bow detail, long sleeves and a tiered hem.",
+      "image": "assets/owner-products/fashion-9d708208/f029-82d3c43b979b.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f029-82d3c43b979b.jpg"
+      ],
+      "brand": "",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F029"
+      ],
+      "clothing": {
+        "colour": "Ivory",
+        "style_code": "",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-024",
+      "name": "Babios Norah Bow Tulle Dress — Blush",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A blush sleeveless dress with a bow-front bodice and a layered tulle-style skirt.",
+      "image": "assets/owner-products/fashion-9d708208/f030-184b0c332261.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f030-184b0c332261.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1499.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1499.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1499.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F030"
+      ],
+      "clothing": {
+        "colour": "Blush",
+        "style_code": "521",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-025",
+      "name": "Babios Isabel Embroidered Dress — Yellow",
+      "category": "Clothing",
+      "subcategory": "Dresses & Frocks",
+      "description": "A yellow sleeveless dress with a waist bow and embroidered cutwork-style trim.",
+      "image": "assets/owner-products/fashion-9d708208/f031-038715699a8a.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f031-038715699a8a.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Piece",
+      "options": [
+        {
+          "label": "S",
+          "price": "1599.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1599.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1599.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1599.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F031"
+      ],
+      "clothing": {
+        "colour": "Yellow",
+        "style_code": "629",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-026",
+      "name": "Babios Oslo Shirt & Shorts Set — Green & White",
+      "category": "Clothing",
+      "subcategory": "Outfit Sets",
+      "description": "A green short-sleeve button-front shirt paired with white shorts.",
+      "image": "assets/owner-products/fashion-9d708208/f032-cd31484b5a97.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f032-cd31484b5a97.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1299.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1299.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1299.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F032"
+      ],
+      "clothing": {
+        "colour": "Green & White",
+        "style_code": "549",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    },
+    {
+      "id": "bo-fashion-9d70-027",
+      "name": "Babios Parker Shirt, Suspender Shorts & Bow Tie Set",
+      "category": "Clothing",
+      "subcategory": "Outfit Sets",
+      "description": "A white shirt paired with grey suspender shorts and a matching bow tie.",
+      "image": "assets/owner-products/fashion-9d708208/f034-31582ffb106b.jpg",
+      "gallery": [
+        "assets/owner-products/fashion-9d708208/f034-31582ffb106b.jpg"
+      ],
+      "brand": "Babios",
+      "unit": "1 Set",
+      "options": [
+        {
+          "label": "S",
+          "price": "1599.00",
+          "stock": 3
+        },
+        {
+          "label": "M",
+          "price": "1599.00",
+          "stock": 3
+        },
+        {
+          "label": "L",
+          "price": "1599.00",
+          "stock": 2
+        },
+        {
+          "label": "XL",
+          "price": "1599.00",
+          "stock": 2
+        }
+      ],
+      "option_type": "size",
+      "logistics_tier": 1,
+      "source_indices": [
+        "F034"
+      ],
+      "clothing": {
+        "colour": "White & Grey",
+        "style_code": "695",
+        "size_labels": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "size_source": "owner_confirmed_all_sizes",
+        "age_range": null,
+        "age_size_chart_provided": false,
+        "fit_note": "S, M, L and XL are garment size labels. Contact BabyOne for measurements if you are unsure of the fit."
+      }
+    }
+  ]
+}

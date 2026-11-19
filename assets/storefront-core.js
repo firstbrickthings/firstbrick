@@ -431,6 +431,7 @@ function babyoneSelectGallerySlot(id,index){
 }
 
 function babyoneCardSizeLabel(p){
+  if(p.clothing?.size_labels?.length)return p.clothing.size_labels.join(' · ');
   if(p.owner_photo_import&&p.unit)return p.unit;
   const text=((p.name||'')+' '+(p.subcategory||'')+' '+(p.description||'')).toLowerCase();
   if(/wash|shampoo|lotion|oil|cream|gel|sun|cleanser|ointment|liquid|bottle/.test(text)){
@@ -478,7 +479,8 @@ function babyoneSizeOptionsMarkup(p){
   if(p.category==='Diapering'&&p.subcategory==='Diapers') return babyoneDiaperSizeMarkup(p);
   if(p.owner_photo_import&&p.variants?.length===1&&p.unit==='1 Piece')return '<div class="babyone-size-options"><strong>Pack size</strong><span>1 Piece</span></div>';
   if(Array.isArray(p.variants)&&p.variants.length){
-    return `<div class="babyone-size-options"><strong>${p.category==='Diapering'?'Choose size / pack':(p.variants.some(v=>/\bml\b|millilit/i.test(String(v.size||'')))?'Choose volume (ML)':(p.option_type==='colour'||p.variants.some(v=>/^(red|blue|pink|green|black|white|yellow|purple|grey|gray|beige|brown|orange|navy|cream)$/i.test(String(v.size||'')))?'Choose colour':'Choose size / option'))}</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" ${p.serverProduct&&v.available===false?'disabled title="Out of stock"':''} onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div>${p.owner_photo_import?'<small>1 piece per purchase</small>':''}</div>`;
+    const label=p.option_type==='size'?'Choose size':p.category==='Diapering'?'Choose size / pack':p.variants.some(v=>/\bml\b|millilit/i.test(String(v.size||'')))?'Choose volume (ML)':p.option_type==='colour'||p.variants.some(v=>/^(red|blue|pink|green|black|white|yellow|purple|grey|gray|beige|brown|orange|navy|cream)$/i.test(String(v.size||'')))?'Choose colour':'Choose size / option';
+    return `<div class="babyone-size-options"><strong>${label}</strong><div>${p.variants.map((v,i)=>`<button type="button" class="bo-variant-choice ${(p.selectedVariant||0)===i?'selected':''}" ${p.serverProduct&&v.available===false?'disabled title="Out of stock"':''} onclick="babyoneChooseVariant('${p.id}',${i})">${escapeHtml(v.size)}</button>`).join('')}</div>${p.owner_photo_import?`<small>${escapeHtml(p.unit||'1 Piece')} per purchase</small>`:''}${p.clothing?.fit_note?`<small>${escapeHtml(p.clothing.fit_note)}</small>`:''}</div>`;
   }
   return ''; // No size, ml or colour variants configured for this item.
 }

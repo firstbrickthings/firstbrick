@@ -48,12 +48,14 @@ def apply_owner_photo_catalog(db, manifest=None, *, marker=MARKER):
             'subcategory': entry['subcategory'], 'brand': entry['brand'], 'badge': 'New Arrival',
             'galleryImages': entry['gallery'], 'images': entry['gallery'], 'image_reference': False,
             'owner_photo_import': manifest['batch_id'], 'photo_source_indices': entry['source_indices'],
-            'unit': entry['unit'], 'option_type': 'colour' if variant_images else 'pack',
+            'unit': entry['unit'], 'option_type': entry.get('option_type') or ('colour' if variant_images else 'pack'),
             'variant_images': variant_images, 'price_source': 'owner_requested_provisional',
             'logistics': {'tier': entry['logistics_tier']},
         }
         if entry.get('navigation_group'):
             metadata['catalogueNavigationGroup'] = entry['navigation_group']
+        if entry.get('clothing'):
+            metadata['clothing'] = entry['clothing']
         product = Product(id=entry['id'], name=entry['name'], category_id=category_ids[entry['category']],
                           description=entry['description'], image=entry['image'], active=True,
                           sale_enabled=True, metadata_json=metadata)
