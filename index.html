@@ -1144,7 +1144,7 @@ body{overflow-x:hidden}
 </div>
 
 <!-- HEADER -->
-<header class="site-header">
+<header class="site-header bo-store-header">
   <div class="header-inner">
     <button id="bo-header-menu-toggle" class="icon-btn bo-universal-menu" type="button" onclick="toggleMobileDrawer()" aria-label="Open navigation menu" aria-controls="mobile-drawer" aria-expanded="false">
       <span class="bo-two-line-icon" aria-hidden="true"><span></span><span></span></span>
@@ -1163,19 +1163,28 @@ body{overflow-x:hidden}
 
     <div class="header-actions">
       <button class="icon-btn" onclick="toggleWishlistModal()" aria-label="Wishlist">
-        <i class="fa-regular fa-heart"></i>
+        <i class="fa-regular fa-heart" aria-hidden="true"></i><span class="bo-header-label">Wishlist</span>
         <span id="wishlist-badge" class="badge hidden">0</span>
       </button>
       <button class="icon-btn" onclick="toggleCartModal()" aria-label="Cart">
-        <i class="fa-solid fa-bag-shopping"></i>
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span class="bo-header-label">Bag</span>
         <span id="cart-badge" class="badge">0</span>
       </button>
       <button id="bo-top-dashboard" type="button" class="bo-dashboard-entry hidden" aria-label="Open BabyOne admin dashboard" onclick="if(window.boManager&&typeof window.boManager.open==='function'){window.boManager.open()}else if(window.babyoneOwnerIdentity?.()&&window.boAdmin){sessionStorage.setItem('babyone-admin-session','yes');window.boU?.close();window.boAdmin.openDashboard()}"><i class="fa-solid fa-sliders" aria-hidden="true" style="margin-right:5px"></i>Dashboard</button>
       <button class="icon-btn" onclick="openAuthModal()" aria-label="Account">
-        <i class="fa-regular fa-user"></i>
+        <i class="fa-regular fa-user" aria-hidden="true"></i><span class="bo-header-label">Account</span>
       </button>
     </div>
   </div>
+  <nav class="bo-header-collections" aria-label="Shop collections">
+    <a href="#explorer-page" onclick="openAllProducts();return false">Shop all <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+    <a href="#explorer-page" onclick="filterByCategory('New Born');return false">Newborn</a>
+    <a href="#explorer-page" onclick="filterByCategory('Clothing');return false">Clothing</a>
+    <a href="#explorer-page" onclick="filterByCategory('Feeding');return false">Feeding</a>
+    <a href="#explorer-page" onclick="filterByCategory('Bath &amp; Skincare');return false">Bath &amp; skincare</a>
+    <a href="#explorer-page" onclick="filterByCategory('Toys &amp; Learning');return false">Toys &amp; learning</a>
+    <a href="#explorer-page" onclick="filterByCategory('Ride-On');return false">Ride-ons</a>
+  </nav>
 </header>
 
 <!-- Mobile search -->
@@ -1364,10 +1373,43 @@ body{overflow-x:hidden}
 </main>
 
 <!-- FOOTER -->
-<footer class="site-footer bo-compact-footer">
- <div class="bo-footer-top"><a class="bo-footer-logo" href="#" onclick="showSection('home-page');return false">BabyOne</a><a href="tel:+917034476592">+91 70344 76592</a><a href="https://wa.me/917034476592" target="_blank" rel="noopener">WhatsApp support</a></div>
- <nav class="bo-footer-links" aria-label="Footer"><a href="#" onclick="openAllProducts();return false">Shop</a><a href="#" onclick="boU.orders();return false">My orders</a><a href="#" onclick="boU.support();return false">Contact</a><a href="#" onclick="boU.support();return false">Shipping &amp; return enquiries</a></nav>
- <div class="bo-footer-copy">© 2026 BabyOne. All rights reserved.</div>
+<footer class="site-footer bo-premium-footer">
+ <div class="bo-footer-layout">
+  <div class="bo-footer-intro">
+   <a class="brand bo-footer-brand" href="#home-page" onclick="showSection('home-page');return false" aria-label="BabyOne home">
+    <img class="brand-logo-image" src="assets/photo-189406759232e71b.webp" alt="" loading="lazy" width="46" height="46" />
+    <span class="brand-word">Baby<span>One</span></span>
+   </a>
+   <h2>Little essentials.<br>Lots of love.</h2>
+   <p>Thoughtfully chosen for your little one, and every moment along the way.</p>
+   <span class="bo-footer-signature">With care, BabyOne <span aria-hidden="true">♡</span></span>
+  </div>
+  <nav class="bo-footer-column" aria-labelledby="bo-footer-shop-title">
+   <h3 id="bo-footer-shop-title">Explore</h3>
+   <a href="#explorer-page" onclick="openAllProducts();return false">Shop all essentials</a>
+   <a href="#explorer-page" onclick="filterByCategory('Clothing');return false">Little wardrobes</a>
+   <a href="#explorer-page" onclick="filterByCategory('Toys &amp; Learning');return false">Toys &amp; learning</a>
+   <a href="#explorer-page" onclick="filterByCategory('Ride-On');return false">Ride-ons &amp; adventures</a>
+  </nav>
+  <nav class="bo-footer-column" aria-labelledby="bo-footer-help-title">
+   <h3 id="bo-footer-help-title">Here to help</h3>
+   <a href="#" onclick="boU.orders();return false">My orders</a>
+   <a href="#" onclick="boU.support();return false">Contact us</a>
+   <a href="#" onclick="boU.support();return false">Shipping &amp; returns</a>
+   <a href="#reviews-section" onclick="showSection('reviews-section');return false">Community reviews</a>
+  </nav>
+  <div class="bo-footer-contact">
+   <span class="bo-footer-contact-eyebrow">A little help, a message away</span>
+   <h3>Let’s talk.</h3>
+   <div class="bo-footer-contact-row"><i class="fa-solid fa-phone" aria-hidden="true"></i><div><span>Call our team</span><a href="tel:+917034476592">+91 70344 76592</a></div></div>
+   <div class="bo-footer-contact-row"><i class="fa-regular fa-envelope" aria-hidden="true"></i><div><span>Write to us</span><a href="mailto:babyonestores@gmail.com">babyonestores@gmail.com</a></div></div>
+   <a class="bo-footer-chat" href="https://wa.me/917034476592" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>Chat on WhatsApp<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+  </div>
+ </div>
+ <div class="bo-footer-base">
+  <small>© 2026 BabyOne. All rights reserved.</small>
+  <span class="bo-footer-payment"><i class="fa-solid fa-lock" aria-hidden="true"></i>Secure checkout with <strong>Razorpay</strong></span>
+ </div>
 </footer>
 
 <!-- PRODUCT MODAL -->
@@ -4380,6 +4422,7 @@ try{
 <link rel="stylesheet" href="assets/fintech-workspace.css?v=back-left-1">
 <script src="assets/fintech-workspace.js?v=back-left-1"></script>
 <link rel="stylesheet" href="assets/store-refinement.css?v=collection-headings-white-dots-1">
+<link rel="stylesheet" href="assets/store-chrome.css?v=premium-header-footer-1">
 </body>
 </html>
 
