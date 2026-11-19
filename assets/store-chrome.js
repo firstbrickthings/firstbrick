@@ -27,7 +27,7 @@
   const hint=document.createElement('span');hint.className='bo-search-hint';hint.setAttribute('aria-hidden','true');
   hint.append('Search for ');const keyword=document.createElement('span');keyword.className='bo-search-keyword';hint.appendChild(keyword);
   input.after(hint);wrap.classList.add('bo-search-suggestions');
-  const words=['rompers','feeding bottles','baby skincare','toys','ride-ons','diapers'];let index=0,timer=0,fade=0,frame=0,lastHeight=0;
+  const words=['rompers','bottle','skincare','toys','ride-on','diapers'];let index=0,timer=0,fade=0,frame=0,lastHeight=0;
   keyword.textContent=words[0];
   function cancelFade(){clearTimeout(fade);fade=0;keyword.classList.remove('is-fading')}
   function rotate(){
