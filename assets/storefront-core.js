@@ -1234,7 +1234,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateCart();
 
   document.addEventListener('click', (e)=>{
-    if(!e.target.closest('.search-wrap') && !e.target.closest('.mobile-search-inner')){
+    if(!e.target.closest('.search-wrap,.mobile-search-inner,#bo-search-toggle,#babyone-bottom-nav [data-app-tab="search"]')){
       document.getElementById('search-results')?.classList.add('hidden');
       document.getElementById('search-results-mobile')?.classList.add('hidden');
     }
