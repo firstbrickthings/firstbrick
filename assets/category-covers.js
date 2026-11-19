@@ -69,6 +69,15 @@
   "Cradle Accessories": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81_a4FjH9_L._SL1500.jpg?v=1791617523"
 };
  const covers=new WeakMap();
+ const ownerProfiles={
+  'Ride-On':{'Cycle':'bo-photo-3bc4-013','Swing Car':'bo-photo-3bc4-024','Ride-On':'bo-photo-3bc4-037','Electric Ride-On':'bo-photo-3bc4-027'},
+  'Potty':{'Potty Set':'bo-photo-3bc4-007'},
+  'Travel & Gear':{'Walkers':'bo-photo-3bc4-002','Swings':'bo-photo-3bc4-016'},
+  'Toys & Learning':{'Activity Toys':'bo-photo-3bc4-033'},
+  'Cradles & Rockers':{'Electric Swings':'bo-photo-3bc4-034','Bouncers':'bo-photo-3bc4-022'},
+  'Bath & Skincare':{'Bath Tubs':'bo-photo-3bc4-008'},
+  'Feeding':{'High Chairs':'bo-photo-3bc4-035'}
+ };
  function candidates(category,tile){
   const target=normalize(tile),names=[target,...(aliases[tile]||[]).map(normalize)];
   const products=productsData.filter(p=>!p.catalogHidden&&!p.live_gateway_check&&p.id!=='babyone-hospital-bag-payment-check'&&p.image&&!/favicon|payment-check/i.test(p.image));
@@ -78,6 +87,8 @@
   const named=p=>names.some(n=>n&&normalize(p.name).includes(n));
   const matcher=window.babyoneOwnerCategoryMatchers?.[category]?.[tile];
   const images=[
+   local.find(p=>p.id===ownerProfiles[category]?.[tile]&&p.owner_photo_import)?.image,
+   ...local.filter(p=>p.owner_photo_import&&matches(p)).map(p=>p.image),
    ...local.filter(matches).map(p=>p.image),curated[category]?.[tile],
    ...local.filter(named).map(p=>p.image),referencePhotos[tile],
    ...products.filter(p=>names.includes(normalize(p.subcategory))||normalize(p.brand)===target).map(p=>p.image),

@@ -1,6 +1,7 @@
 """Archive the owner's completed storefront payment checks without deleting history."""
 import gzip
 import json
+from pathlib import Path
 from sqlalchemy import select
 from .models import Product, StoreDocument, StoreSnapshot
 
@@ -38,6 +39,39 @@ def retire_payment_listings(db):
             document.version += 1
             changed = True
     db.add(StoreSnapshot(id=MARKER, payload=gzip.compress(json.dumps(before).encode())))
+    if changed:
+        from .services import touch_catalog
+        touch_catalog(db)
+
+
+RIDEON_MARKER = 'catalogue:rideon-real-products-only-v1'
+
+
+def retire_rideon_templates(db, targets=None):
+    """Archive sample listings while preserving inventory, order history and later owner edits."""
+    if db.get(StoreSnapshot, RIDEON_MARKER):
+        return
+    if targets is None:
+        targets = json.loads((Path(__file__).resolve().parents[1] / 'data' / 'rideon_template_retirement.json').read_text())
+    expected = {item['id']: item for item in targets}
+    products = db.scalars(select(Product).where(Product.id.in_(expected)).order_by(Product.id).with_for_update()).unique().all()
+    if db.get(StoreSnapshot, RIDEON_MARKER):
+        return
+    before = {'format': 'babyone-rideon-template-archive-v1', 'products': [], 'preserved_intervening_edits': []}
+    changed = False
+    for product in products:
+        original = expected[product.id]
+        if (product.category.name != 'Ride-On' or product.metadata_json.get('owner_photo_import')
+                or product.name != original['name'] or product.image != original['expected_image']):
+            before['preserved_intervening_edits'].append(product.id)
+            continue
+        before['products'].append({'id': product.id, 'active': product.active,
+                                   'sale_enabled': product.sale_enabled, 'version': product.version})
+        if product.active or product.sale_enabled:
+            product.active = product.sale_enabled = False
+            product.version += 1
+            changed = True
+    db.add(StoreSnapshot(id=RIDEON_MARKER, payload=gzip.compress(json.dumps(before).encode())))
     if changed:
         from .services import touch_catalog
         touch_catalog(db)

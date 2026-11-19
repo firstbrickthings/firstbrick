@@ -184,3 +184,6 @@ body.bo-product-open #reel-viewer{z-index:1200!important}
 }
 @media(max-width:760px){:root{--bo-video-frame-width:clamp(162px,46vw,191px);--bo-video-frame-radius:15px;--bo-video-rail-gap:12px}}
 @media(max-width:360px){:root{--bo-video-frame-width:158px}}
+/* Product cut-outs keep the whole item visible inside the filled category frame. */
+#explorer-page #subcat-tile-grid .subcat-tile>img[src^="assets/owner-products/"],
+#home-page #cat-container .cat-tile>img[src^="assets/owner-products/"]{object-fit:contain!important;background:#fff}

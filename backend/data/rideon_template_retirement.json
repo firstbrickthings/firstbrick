@@ -1,0 +1,177 @@
+[
+  {
+    "id": "auto-rideon-1",
+    "name": "Everyday Care — BabyOne Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-2",
+    "name": "Comfort — BabyOne Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-3",
+    "name": "Accessories — BabyOne Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-4",
+    "name": "Premium Picks — BabyOne Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-5",
+    "name": "New Arrivals — BabyOne Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-cycle-1",
+    "name": "Cycle Everyday Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-cycle-2",
+    "name": "Cycle Comfort Set",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-cycle-3",
+    "name": "Cycle Starter Kit",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-cycle-4",
+    "name": "Cycle Travel Edition",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-cycle-5",
+    "name": "Cycle Premium Pack",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-cycle-6",
+    "name": "Cycle Daily Care",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-electric-ride-on-2",
+    "name": "Electric Ride-On Comfort Set",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-electric-ride-on-3",
+    "name": "Electric Ride-On Starter Kit",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-electric-ride-on-4",
+    "name": "Electric Ride-On Travel Edition",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-electric-ride-on-5",
+    "name": "Electric Ride-On Premium Pack",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-electric-ride-on-6",
+    "name": "Electric Ride-On Daily Care",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-play-gym-1",
+    "name": "Play Gym Everyday Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-play-gym-2",
+    "name": "Play Gym Comfort Set",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-play-gym-3",
+    "name": "Play Gym Starter Kit",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-play-gym-4",
+    "name": "Play Gym Travel Edition",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-play-gym-5",
+    "name": "Play Gym Premium Pack",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-play-gym-6",
+    "name": "Play Gym Daily Care",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-ride-on-1",
+    "name": "Ride-On Everyday Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-ride-on-2",
+    "name": "Ride-On Comfort Set",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-ride-on-3",
+    "name": "Ride-On Starter Kit",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-ride-on-4",
+    "name": "Ride-On Travel Edition",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-ride-on-5",
+    "name": "Ride-On Premium Pack",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-ride-on-6",
+    "name": "Ride-On Daily Care",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-swing-car-1",
+    "name": "Swing Car Everyday Essential",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-swing-car-2",
+    "name": "Swing Car Comfort Set",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-swing-car-3",
+    "name": "Swing Car Starter Kit",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-swing-car-4",
+    "name": "Swing Car Travel Edition",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-swing-car-5",
+    "name": "Swing Car Premium Pack",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "auto-rideon-swing-car-6",
+    "name": "Swing Car Daily Care",
+    "expected_image": "assets/photo-b00701b131d8c0a4.webp"
+  },
+  {
+    "id": "p10",
+    "name": "Mini Electric Speedster Ride-On Car",
+    "expected_image": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900"
+  }
+]

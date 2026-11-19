@@ -1468,7 +1468,7 @@ body{overflow-x:hidden}
      ============================================================ -->
 <script src="assets/banner-sliders.js?v=shared-slides-1"></script>
 <script src="assets/storefront-core.js?v=owner-photo-galleries-1"></script>
-<script src="assets/category-covers.js?v=subcategory-covers-1"></script>
+<script src="assets/category-covers.js?v=owner-subcategory-covers-1"></script>
 
 <!-- BABYONE GOOGLE SHEETS CUSTOMER ACTIVITY BRIDGE (no existing catalog data changed) -->
 <script>
@@ -2225,11 +2225,15 @@ const bathSkinCareNav = {
 function getNavConfig(catName){
   if(catName === 'Bath & Skincare') return bathSkinCareNav;
   const cat = categoriesData.find(c => c.name === catName);
-  if(!cat) return null;
-  const filters = { All: ['All', ...cat.subcategories] };
-  cat.subcategories.forEach(s => filters[s] = ['All']);
+  const observed=[...new Set(productsData.filter(p=>!p.catalogHidden&&p.category===catName).map(p=>p.subcategory).filter(Boolean))];
+  if(!cat&&!observed.length&&catName!=='Potty') return null;
+  let subcategories=Array.isArray(cat?.subcategories)?cat.subcategories:observed;
+  if(catName==='Potty')subcategories=[...new Set(['Potty Training Set','Ladder Potty','Potty Set',...subcategories,...observed])].filter(s=>!observed.length||observed.includes(s));
+  if(catName==='Ride-On')subcategories=[...new Set([...subcategories,...observed])].filter(s=>observed.includes(s));
+  const filters = { All: ['All', ...subcategories] };
+  subcategories.forEach(s => filters[s] = ['All']);
   if(catName === 'Feeding') filters['Cutlery'] = ['All','Feeding Bowl','Feeding Plate','Feeding Set','Fruit Nipple','Spoon'];
-  return { subcategoryTiles: cat.subcategories, tileType: {}, filters, filterMap: {} };
+  return { subcategoryTiles: subcategories, tileType: {}, filters, filterMap: {} };
 }
 
 /* ---------- CATEGORY GRID PROMOTIONAL CARDS ---------- */
@@ -2237,8 +2241,12 @@ const babyoneExtraCategoryCards = [
   { id:'special-offers', name:'Special Offers', image:"https://cdn.shopify.com/s/files/1/0068/6135/7171/files/little-surprise-box-22pcs-pink-twinkle-star-newborn-baby-girlbaby-boy-gift-hamper-with-storage-basket-0-6m-1224064.jpg?v=1788584562&width=900", action:'special' },
   { id:'potty', name:'Potty', image:"https://cdn.shopify.com/s/files/1/0717/4622/4450/files/01_9c616070-5eda-4b45-8bb5-e79ceb745e6b.webp?v=1782372738&width=900", action:'potty' }
 ];
+function babyoneExtraCategoryImage(card){
+  if(card.action==='potty')return productsData.find(p=>!p.catalogHidden&&p.id==='bo-photo-3bc4-007')?.image||productsData.find(p=>!p.catalogHidden&&p.category==='Potty'&&p.owner_photo_import)?.image||card.image;
+  return card.image;
+}
 function openBabyonePromoListing(type){
-  if(type==='potty'){showSubcatLanding('Potty');return;}
+  if(type==='potty'){filterByCategory('Potty');return;}
 
   const isSpecial = type === 'special';
   const title = isSpecial ? 'Special Offers' : 'Combo Set Offers';
@@ -2267,7 +2275,7 @@ function renderAllBabyoneCategoryTiles(){
     </button>`).join('');
   const extraTiles = babyoneExtraCategoryCards.map(c => `
     <button class="subcat-tile category-promo-tile" type="button" onclick="openBabyonePromoListing('${c.action}')">
-      <img src="${c.image}" alt="${escapeHtml(c.name)}" loading="lazy" onerror="this.style.display='none'" />
+      <img src="${babyoneExtraCategoryImage(c)}" alt="${escapeHtml(c.name)}" loading="lazy" onerror="this.style.display='none'" />
       <span class="subcat-label"><small>${c.action==='potty'?'Category':'BabyOne Deals'}</small><b>${escapeHtml(c.name)}</b><small class="tile-helper">${c.action==='potty'?'Explore potty essentials':'Explore offers'}</small></span>
     </button>`).join('');
   return mainTiles + extraTiles;
@@ -2455,13 +2463,13 @@ function renderCategories(){
   const host=document.getElementById('cat-container');
   if(!host) return;
   const mainTiles=categoriesData.filter(c=>c.name!=='Potty').map((c,i)=>`
-    <button class="cat-tile" type="button" onclick="filterByCategory(categoriesData[${i}].name)" aria-label="Shop ${escapeHtml(c.name)}">
+    <button class="cat-tile" type="button" data-category="${escapeHtml(c.name)}" onclick="filterByCategory(this.dataset.category)" aria-label="Shop ${escapeHtml(c.name)}">
       <img src="${c.img}" alt="${escapeHtml(c.name)}" loading="lazy" />
       <span>${escapeHtml(c.name)}</span>
     </button>`).join('');
   const offerTiles=babyoneExtraCategoryCards.map(c=>`
     <button class="cat-tile category-promo-card" type="button" onclick="openBabyonePromoListing('${c.action}')" aria-label="Shop ${escapeHtml(c.name)}">
-      <img src="${c.image}" alt="${escapeHtml(c.name)}" loading="lazy" />
+      <img src="${babyoneExtraCategoryImage(c)}" alt="${escapeHtml(c.name)}" loading="lazy" />
       <span>${escapeHtml(c.name)}</span>
     </button>`).join('');
   host.innerHTML=`<div class="category-grid">${mainTiles}${offerTiles}</div>`;
@@ -3075,7 +3083,7 @@ window.boReadImage=async function(file){if(!file)return null;if(!file.type.start
   window.addEventListener('storage',window.babyoneRefreshOwnerUI);
 })();
 </script>
-<script id="babyone-professional-admin" src="assets/babyone-professional-admin.js"></script>
+<script id="babyone-professional-admin" src="assets/babyone-professional-admin.js?v=server-category-navigation-1"></script>
 
 <style id="babyone-mobile-shopping-and-video-ux-v2">
 /* Mobile shopping: calm spacing, one clear product with a glimpse of the next. */
@@ -4363,7 +4371,7 @@ try{
 <script src="assets/logistics-admin.js"></script>
 <script src="assets/store-experience.js?v=category-slider-1"></script>
 <link rel="stylesheet" href="assets/premium-workspace.css">
-<link rel="stylesheet" href="assets/product-experience.css?v=centred-desktop-videos-1">
+<link rel="stylesheet" href="assets/product-experience.css?v=owner-subcategory-covers-1">
 <script src="assets/order-confirmation.js"></script>
 <script src="assets/premium-workspace.js"></script>
 <script src="assets/hero-experience.js?v=swipe-navigation-1"></script>
