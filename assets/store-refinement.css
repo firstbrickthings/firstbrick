@@ -132,23 +132,23 @@ body{background:radial-gradient(ellipse at 0 8%,#eaf3fa 0,transparent 46%),radia
 #explorer-page .bo-collection-artwork .bo-banner-slide>img{left:48%;width:48%;height:100%!important;padding:18px 12px 34px!important;object-fit:contain!important;object-position:center}
 #explorer-page .bo-collection-banner:after{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,#edf4fbf5 0%,#f3f7fce0 30%,#f5f7fb12 70%);pointer-events:none}
 #explorer-page .bo-collection-heading{position:absolute;inset:0;z-index:3;width:100%;max-width:1440px;margin:0 auto;padding:24px clamp(20px,5vw,72px) 52px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;pointer-events:none;text-align:left}
-#explorer-page .bo-collection-heading .bo-plp-heading{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;height:100%;width:100%;gap:18px;margin:0!important;padding:0!important}
+#explorer-page .bo-collection-heading .bo-plp-heading{position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;height:100%;width:100%;gap:18px;margin:0!important;padding:0!important}
 #explorer-page .bo-collection-heading .subcat-breadcrumb{margin:0!important;padding:0!important;min-height:44px;pointer-events:auto}
 #explorer-page .bo-collection-heading .subcat-breadcrumb>span{display:none}
 #explorer-page .bo-collection-heading .nav-back-button{min-width:80px;min-height:44px;padding:10px 16px;border:1px solid #fff;border-radius:999px;background:#ffffffe8;box-shadow:0 3px 14px #29455c08;font:650 12px 'Nunito',sans-serif;color:#2b4257;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);pointer-events:auto}
 #explorer-page .bo-collection-heading .nav-back-button:focus-visible{outline:2px solid var(--blue-500);outline-offset:3px}
-#explorer-page .bo-collection-heading .section-head{margin:0!important;padding:0!important;text-align:left!important;max-width:48%}
-#explorer-page .bo-collection-heading .bo-plp-title{max-width:48%}
+#explorer-page .bo-collection-heading :is(.section-head,.bo-plp-title){position:absolute;top:50%;left:clamp(20px,5vw,72px);width:calc(47% - clamp(20px,5vw,72px) - 20px);max-width:540px;transform:translateY(-50%);margin:0!important;padding:0!important;text-align:left!important}
 #explorer-page .bo-collection-heading :is(#subcat-title,#plp-title){margin:8px 0 0!important;font:800 clamp(26px,3vw,42px)/1.16 'Nunito','Quicksand',sans-serif!important;letter-spacing:-.035em!important;color:#2b4257;text-wrap:balance}
-#explorer-page .bo-collection-heading .eyebrow{font:700 10px 'Nunito',sans-serif;letter-spacing:.15em;color:#9d4470}
+#explorer-page .bo-collection-heading .eyebrow{display:block;font:700 10px/1.5 'Nunito',sans-serif;letter-spacing:.15em;color:#9d4470}
 #explorer-page .bo-collection-heading #subcat-desc{display:none}
 .bo-whatsapp-float{background:#d9f3e4!important;color:#196c45!important;border:1px solid #bddfcb!important;box-shadow:0 4px 18px #245d3814!important;min-height:50px;min-width:50px}
 .bo-whatsapp-float:hover{background:#c8ecd7!important}
 @media(max-width:760px){
  #explorer-page .bo-collection-banner{height:clamp(230px,57vw,280px)!important;margin-bottom:24px!important}
  #explorer-page .bo-collection-heading{padding:16px 16px 40px}
+ #explorer-page .bo-collection-heading :is(.section-head,.bo-plp-title){left:16px;width:calc(47% - 32px)}
  #explorer-page .bo-collection-heading .eyebrow{font-size:8px;letter-spacing:.12em}
- #explorer-page .bo-collection-heading :is(#subcat-title,#plp-title){font-size:clamp(23px,6vw,28px)!important;line-height:1.18!important}
+ #explorer-page .bo-collection-heading :is(#subcat-title,#plp-title){font-size:clamp(22px,5.6vw,28px)!important;line-height:1.16!important;margin-top:6px!important}
  #explorer-page .bo-collection-artwork .bo-banner-slide>img{left:47%;width:52%;padding:22px 8px 30px!important}
  .site-header .header-inner{padding-block:10px!important;min-height:68px}
  .mobile-search{padding-block:8px!important}.mobile-search-inner input{min-height:42px;height:42px}

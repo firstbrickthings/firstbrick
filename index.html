@@ -2211,7 +2211,7 @@ window.boAdmin={
   },
   print(i){const o=allOrders()[i];if(!o)return;const w=window.open('','_blank','width=800,height=900');if(!w){alert('Allow pop-ups to print the delivery sheet.');return}w.document.write(`<!doctype html><html><head><title>BabyOne delivery sheet</title><style>body{font:14px Arial;padding:28px;color:#222}h1{margin-bottom:4px}small{color:#555}.line{border-bottom:1px solid #ddd;padding:10px 0}.row{display:flex;justify-content:space-between;gap:15px}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border-bottom:1px solid #ddd;padding:10px;text-align:left} @media print{button{display:none}}</style></head><body>
 <h1>BabyOne</h1><small>Delivery & packing slip</small><hr><div class="line"><b>Order:</b> ${esc(o.id||'')} &nbsp; <b>Date:</b> ${esc(o.date||'')}<br><b>Status:</b> ${esc(o.status||'Order Confirmed')}</div><div class="line"><b>Deliver to</b><br>${esc(o.name||'')}<br>${esc(o.phone||'')}<br>${esc(o.address||'')}<br>${esc(o.city||'')} ${esc(o.pin||'')}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Unit price</th></tr></thead><tbody>${(o.items||[]).map(it=>`<tr><td>${esc(it.name)}</td><td>${Number(it.qty||1)}</td><td>${money(it.price)}</td></tr>`).join('')}</tbody></table><h3>Total: ${money(o.total)}</h3><p>Pack carefully. Thank you for choosing BabyOne.</p><script>window.onload=()=>window.print()<\/script>
-<link rel="stylesheet" href="assets/store-refinement.css?v=collection-headings-white-dots-1">
+<link rel="stylesheet" href="assets/store-refinement.css?v=centered-collection-headings-2">
 </body></html>`);w.document.close();},
  };
  $('bo-admin-login-form').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target);const name=String(f.get('name')||'').trim().toLowerCase(),phone=String(f.get('phone')||'').replace(/\D/g,'');if((name==='hadhi'||name==='haadhi')&&phone==='9645762324'){sessionStorage.setItem('babyone-admin-session','yes');$('bo-admin-login').classList.add('hidden');$('bo-admin-dashboard').classList.remove('hidden');$('bo-admin-quick').style.display='none';refreshAdminQuickCount();refresh();initHeroSelect();renderAnalytics();}else{$('bo-admin-login-error').textContent='Admin details did not match. Please try again.'}});
@@ -4421,7 +4421,7 @@ try{
 <script src="assets/store-refinement.js?v=desktop-arrivals-1"></script>
 <link rel="stylesheet" href="assets/fintech-workspace.css?v=back-left-1">
 <script src="assets/fintech-workspace.js?v=back-left-1"></script>
-<link rel="stylesheet" href="assets/store-refinement.css?v=collection-headings-white-dots-1">
+<link rel="stylesheet" href="assets/store-refinement.css?v=centered-collection-headings-2">
 <link rel="stylesheet" href="assets/store-chrome.css?v=premium-header-footer-1">
 </body>
 </html>
