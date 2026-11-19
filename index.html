@@ -1135,13 +1135,8 @@ body{overflow-x:hidden}
 <script src="assets/backend.js" defer></script>
 </head>
 
-<body>
+<body class="bo-home-hero">
 <a class="skip-link" href="#main">Skip to main content</a>
-
-<!-- TOP BAR -->
-<div class="topbar">
-  Thoughtfully chosen essentials for little ones
-</div>
 
 <!-- HEADER -->
 <header class="site-header bo-store-header">
@@ -1150,52 +1145,33 @@ body{overflow-x:hidden}
     <button id="bo-header-menu-toggle" class="icon-btn bo-universal-menu" type="button" onclick="toggleMobileDrawer()" aria-label="Open navigation menu" aria-controls="mobile-drawer" aria-expanded="false">
       <span class="bo-two-line-icon" aria-hidden="true"><span></span><span></span></span>
     </button>
-    <button id="bo-search-toggle" class="icon-btn bo-mobile-search-toggle" type="button" aria-label="Search products" aria-controls="bo-mobile-search" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+   </div>
+
+    <a href="#" class="brand" onclick="showSection('home-page'); return false;" aria-label="BabyOne home">
+      <span class="brand-word">Baby<span>One</span></span>
+    </a>
+
     <div class="search-wrap" role="search">
       <i class="fa-solid fa-magnifying-glass search-ico" aria-hidden="true"></i>
       <label class="sr-only" for="search-input">Search products</label><input type="text" id="search-input" class="search-input" placeholder="Search baby essentials…" oninput="handleSearch(this.value)" autocomplete="off" />
       <div id="search-results" class="hidden"></div>
     </div>
-   </div>
-
-    <a href="#" class="brand" onclick="showSection('home-page'); return false;" aria-label="BabyOne home">
-      <img class="brand-logo-image" src="assets/photo-189406759232e71b.webp" alt="" />
-      <span class="bo-brand-type"><span class="brand-word">Baby<span>One</span></span><span class="bo-brand-caption">For every little moment</span></span>
-    </a>
 
     <div class="header-actions">
-      <button class="icon-btn" onclick="toggleWishlistModal()" aria-label="Wishlist">
-        <i class="fa-regular fa-heart" aria-hidden="true"></i><span class="bo-header-label">Wishlist</span>
+      <button class="icon-btn bo-header-wishlist" onclick="toggleWishlistModal()" aria-label="Wishlist">
+        <i class="fa-regular fa-heart" aria-hidden="true"></i>
         <span id="wishlist-badge" class="badge hidden">0</span>
       </button>
       <button class="icon-btn" onclick="toggleCartModal()" aria-label="Cart">
-        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span class="bo-header-label">Bag</span>
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
         <span id="cart-badge" class="badge">0</span>
       </button>
       <button id="bo-top-dashboard" type="button" class="bo-dashboard-entry hidden" aria-label="Open BabyOne admin dashboard" onclick="if(window.boManager&&typeof window.boManager.open==='function'){window.boManager.open()}else if(window.babyoneOwnerIdentity?.()&&window.boAdmin){sessionStorage.setItem('babyone-admin-session','yes');window.boU?.close();window.boAdmin.openDashboard()}"><i class="fa-solid fa-sliders" aria-hidden="true" style="margin-right:5px"></i>Dashboard</button>
       <button class="icon-btn bo-header-account" onclick="openAuthModal()" aria-label="Account">
-        <i class="fa-regular fa-user" aria-hidden="true"></i><span class="bo-header-label">Account</span>
+        <i class="fa-regular fa-user" aria-hidden="true"></i>
       </button>
     </div>
   </div>
-  <nav class="bo-header-collections" aria-label="Shop collections">
-    <a href="#explorer-page" onclick="openAllProducts();return false">Shop all <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
-    <a href="#explorer-page" onclick="filterByCategory('New Born');return false">Newborn</a>
-    <a href="#explorer-page" onclick="filterByCategory('Clothing');return false">Clothing</a>
-    <a href="#explorer-page" onclick="filterByCategory('Feeding');return false">Feeding</a>
-    <a href="#explorer-page" onclick="filterByCategory('Bath &amp; Skincare');return false">Bath &amp; skincare</a>
-    <a href="#explorer-page" onclick="filterByCategory('Toys &amp; Learning');return false">Toys &amp; learning</a>
-    <a href="#explorer-page" onclick="filterByCategory('Ride-On');return false">Ride-ons</a>
-  </nav>
-<!-- Search opens on request, keeping the mobile first view clear. -->
-<div class="mobile-search" id="bo-mobile-search" role="search" hidden>
-  <div class="mobile-search-inner">
-    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-    <label class="sr-only" for="bo-static-field-2">Search products</label><input id="bo-static-field-2" type="text" placeholder="Search baby essentials…" oninput="handleSearch(this.value)" autocomplete="off" />
-    <button class="bo-search-close icon-btn" type="button" aria-label="Close product search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
-    <div id="search-results-mobile" class="hidden"></div>
-  </div>
-</div>
 </header>
 
 <!-- MAIN -->
@@ -4424,8 +4400,8 @@ try{
 <link rel="stylesheet" href="assets/fintech-workspace.css?v=back-left-1">
 <script src="assets/fintech-workspace.js?v=back-left-1"></script>
 <link rel="stylesheet" href="assets/store-refinement.css?v=centered-collection-headings-2">
-<link rel="stylesheet" href="assets/store-chrome.css?v=centred-storefront-2">
-<script src="assets/store-chrome.js?v=mobile-search-1"></script>
+<link rel="stylesheet" href="assets/store-chrome.css?v=minimal-overlay-search-3">
+<script src="assets/store-chrome.js?v=soft-search-suggestions-2"></script>
 </body>
 </html>
 

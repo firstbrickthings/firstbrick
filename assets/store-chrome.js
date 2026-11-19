@@ -21,25 +21,36 @@
    for(const image of categories?.querySelectorAll('.cat-tile>img')||[]){const local=cachedCovers[image.getAttribute('src')];if(local)image.src=local}
   }
   if(categories){new MutationObserver(cacheCovers).observe(categories,{childList:true,subtree:true,attributes:true,attributeFilter:['src']});cacheCovers()}
-  const toggle=document.getElementById('bo-search-toggle'),panel=document.getElementById('bo-mobile-search'),input=panel?.querySelector('input');
-  if(!toggle||!panel||!input)return;
-  const mobile=matchMedia('(max-width:899px)');
-  function close(restoreFocus=false){
-   panel.hidden=true;toggle.setAttribute('aria-expanded','false');
-   document.getElementById('search-results-mobile')?.classList.add('hidden');
-   if(restoreFocus&&mobile.matches)toggle.focus({preventScroll:true});
+  const header=document.querySelector('.bo-store-header'),home=document.getElementById('home-page'),input=document.getElementById('search-input'),wrap=input?.closest('.search-wrap');
+  if(!header||!home||!input||!wrap)return;
+  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+  const hint=document.createElement('span');hint.className='bo-search-hint';hint.setAttribute('aria-hidden','true');
+  hint.append('Search for ');const keyword=document.createElement('span');keyword.className='bo-search-keyword';hint.appendChild(keyword);
+  input.after(hint);wrap.classList.add('bo-search-suggestions');
+  const words=['rompers','feeding bottles','baby skincare','toys','ride-ons','diapers'];let index=0,timer=0,fade=0,frame=0,lastHeight=0;
+  keyword.textContent=words[0];
+  function cancelFade(){clearTimeout(fade);fade=0;keyword.classList.remove('is-fading')}
+  function rotate(){
+   if(document.hidden||input===document.activeElement||input.value||reduced.matches)return;
+   keyword.classList.add('is-fading');
+   fade=setTimeout(()=>{keyword.textContent=words[index=(index+1)%words.length];keyword.classList.remove('is-fading');fade=0},220);
   }
-  function open(){
-   if(!mobile.matches){document.getElementById('search-input')?.focus({preventScroll:true});return}
-   panel.hidden=false;toggle.setAttribute('aria-expanded','true');input.focus({preventScroll:true});
-   if(input.value.trim())handleSearch(input.value);
+  function motion(){clearInterval(timer);cancelFade();if(!reduced.matches&&!document.hidden)timer=setInterval(rotate,3200)}
+  input.addEventListener('focus',cancelFade);input.addEventListener('input',cancelFade);
+  reduced.addEventListener('change',motion);document.addEventListener('visibilitychange',motion);motion();
+  function sync(){
+   frame=0;document.body.classList.toggle('bo-home-hero',!home.classList.contains('hidden')&&!home.hidden);
+   document.body.classList.toggle('bo-header-scrolled',scrollY>24);
+   const height=header.getBoundingClientRect().height;
+   if(height!==lastHeight){lastHeight=height;document.body.style.setProperty('--bo-store-header-height',height+'px')}
   }
-  toggle.addEventListener('click',()=>panel.hidden?open():close(true));
-  panel.querySelector('.bo-search-close').addEventListener('click',()=>close(true));
-  panel.addEventListener('click',event=>{if(event.target.closest('.bo-search-result'))close()});
-  document.addEventListener('click',event=>{if(!panel.hidden&&!panel.contains(event.target)&&!toggle.contains(event.target)&&!event.target.closest('#babyone-bottom-nav [data-app-tab="search"]'))close()});
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden){event.preventDefault();close(true)}});
-  mobile.addEventListener('change',()=>close());
+  function schedule(){if(!frame)frame=requestAnimationFrame(sync)}
+  new ResizeObserver(schedule).observe(header);
+  new MutationObserver(schedule).observe(home,{attributes:true,attributeFilter:['class','hidden']});
+  window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);document.fonts?.ready.then(schedule);sync();
+  function close(){document.getElementById('search-results')?.classList.add('hidden');input.blur()}
+  function open(){input.focus({preventScroll:true});if(input.value.trim())handleSearch(input.value)}
+  input.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();close()}});
   const appTab=window.babyoneAppTab;
   if(appTab)window.babyoneAppTab=function(tab){if(tab==='search')open();else close();return appTab.apply(this,arguments)};
   window.BOstoreSearch={open,close};
