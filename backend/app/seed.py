@@ -82,8 +82,8 @@ def run():
         complete_fashion_menu(db)
         from .undo_source_cleanup import restore_previous_catalog
         restore_previous_catalog(db)
-        from .campaign_media import apply_campaign_media
-        apply_campaign_media(db)
+        from .undo_campaign_media import restore_previous_media
+        restore_previous_media(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 

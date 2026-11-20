@@ -22,8 +22,8 @@
   const published=window.BOpublicContent?.banners?.value.items||[];
   const category=typeof navState!=='undefined'?navState.category:'';
   const subcategory=typeof navState!=='undefined'?navState.subcategory:'';
-  const custom=published.filter(b=>b.id.startsWith('catalogue-')&&b.published!==false&&b.image&&(!b.category||b.category===category)&&(!specific||b.reference!==true&&b.editorial!==true));
-  let items=custom.map(b=>({image:b.image,imageMobile:b.imageMobile,editorial:b.editorial===true,title:b.title||category,category,reference:b.reference===true}));
+  const custom=published.filter(b=>b.id.startsWith('catalogue-')&&b.published!==false&&b.image&&(!b.category||b.category===category)&&(!specific||b.reference!==true));
+  let items=custom.map(b=>({image:b.image,title:b.title||category,category,reference:b.reference===true}));
   if(!items.length){
    const pool=productsData.filter(p=>!p.catalogHidden&&p.image&&!p.image.startsWith('data:')&&(!category||category==='All'||p.category===category));
    const matches=pool.filter(p=>!subcategory||subcategory==='All'||p.subcategory===subcategory).sort((a,b)=>Number(!!b.owner_photo_import)-Number(!!a.owner_photo_import));

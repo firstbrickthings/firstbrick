@@ -1,0 +1,18 @@
+{
+  "hero": {
+    "version": 7,
+    "sha256": "8d0e2cdb544bcd11a5e36401a1ba05b1b64d418bfbfe4ddf0632671cf240951b"
+  },
+  "banners": {
+    "version": 2,
+    "sha256": "87098373456847dd491a3d4432cf43acdbf4054ccb4fdd905cd331f850c6826e"
+  },
+  "fashion": {
+    "version": 2,
+    "sha256": "a45cbcc70a12529dc229f6e4d2a6df788d382bae306329b2797a15dcd5f92842"
+  },
+  "videos": {
+    "version": 2,
+    "sha256": "eef46741adfc3a9f76294d3b78f37a45f113092ac9d44ee77c7a038a88ff09a1"
+  }
+}

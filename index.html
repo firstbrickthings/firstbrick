@@ -1487,8 +1487,8 @@ body{overflow-x:hidden}
 <!-- ============================================================
      JAVASCRIPT — all data preserved, imagery upgraded
      ============================================================ -->
-<script src="assets/banner-sliders.js?v=product-campaign-1"></script>
-<script src="assets/storefront-core.js?v=product-campaign-1"></script>
+<script src="assets/banner-sliders.js?v=restore-media-with-logo-1"></script>
+<script src="assets/storefront-core.js?v=restore-media-with-logo-1"></script>
 <script src="assets/category-covers.js?v=owner-fashion-covers-1"></script>
 
 <!-- BABYONE GOOGLE SHEETS CUSTOMER ACTIVITY BRIDGE (no existing catalog data changed) -->
@@ -3919,7 +3919,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
   const newId=()=> 'h'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
   const copy=o=>({ ...o });
   const initial={
-    home:heroSlidesData.map(d=>({id:newId(),title:d.title,subtitle:d.sub,kicker:d.kicker,imageUrl:d.img,imageMobileUrl:d.imgMobile||'',editorial:d.editorial===true,category:d.category||'',sourceLink:d.sourceLink||''})),
+    home:heroSlidesData.map(d=>({id:newId(),title:d.title,subtitle:d.sub,kicker:d.kicker,imageUrl:d.img,sourceLink:d.sourceLink||''})),
     fashion:fashionDefaults.map(d=>({id:newId(),...d})),
     promo1:adBannerData1.map(d=>({id:newId(),title:d.title,subtitle:d.subtitle,cta:d.cta,category:d.category,reference:d.reference,imageUrl:d.bg})),
     promo2:adBannerData2.map(d=>({id:newId(),title:d.title,subtitle:d.subtitle,cta:d.cta,category:d.category,reference:d.reference,imageUrl:d.bg})),
@@ -3983,9 +3983,9 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
     }
   }
   function applyArrays(){
-    const home=state.home.map(s=>({img:s.displayUrl||s.imageUrl,imgMobile:s.imageMobileUrl||'',editorial:s.editorial===true,kicker:s.kicker||'BabyOne',title:s.title||'BabyOne',sub:s.subtitle||'',sourceLink:s.sourceLink||'',category:s.category||'New Born',mediaType:s.mediaType||'image',videoUrl:s.videoDisplayUrl||s.videoUrl||'',videoMobileUrl:s.videoMobileDisplayUrl||s.videoMobileUrl||'',productId:s.productId||''}));
+    const home=state.home.map(s=>({img:s.displayUrl||s.imageUrl,imgMobile:s.imageMobileUrl||'',kicker:s.kicker||'BabyOne',title:s.title||'BabyOne',sub:s.subtitle||'',sourceLink:s.sourceLink||'',category:s.category||'New Born',mediaType:s.mediaType||'image',videoUrl:s.videoDisplayUrl||s.videoUrl||'',videoMobileUrl:s.videoMobileDisplayUrl||s.videoMobileUrl||'',productId:s.productId||''}));
     const fashion=state.fashion;
-    const promos=key=>state[key].map(s=>({title:s.title||'BabyOne',subtitle:s.subtitle||'',cta:s.cta||'Explore',category:s.category||'New Born',reference:s.reference,editorial:s.editorial===true,bgMobile:s.imageMobileUrl||'',bg:s.displayUrl||s.imageUrl}));
+    const promos=key=>state[key].map(s=>({title:s.title||'BabyOne',subtitle:s.subtitle||'',cta:s.cta||'Explore',category:s.category||'New Born',reference:s.reference,bg:s.displayUrl||s.imageUrl}));
     const cat=state.category.map(s=>({category:s.category||'New Born',title:s.title||'BabyOne',subtitle:s.subtitle||'',img:s.displayUrl||s.imageUrl}));
     // Keep the original array objects / names that the existing store code uses.
     heroSlidesData.splice(0,heroSlidesData.length,...home);
@@ -4004,7 +4004,7 @@ body.bo-product-open #bo-detail-sticky-bar{z-index:995!important}
     try{await hydrate();applyArrays();drawList()}finally{applying=false}
   }
   function drawFashion(){
-    BObanners.render(document.getElementById('bo-fashion-hero'),state.fashion.map(s=>({image:s.displayUrl||s.imageUrl,imageMobile:s.imageMobileUrl||'',editorial:s.editorial===true,title:s.title||'Little wardrobes',category:s.category||'Clothing',reference:s.reference})),{trackId:'bo-fashion-hero-slides',dotsId:'bo-fashion-hero-dots',label:'BabyOne clothing collections',onChange:index=>fashionIndex=index});
+    BObanners.render(document.getElementById('bo-fashion-hero'),state.fashion.map(s=>({image:s.displayUrl||s.imageUrl,title:s.title||'Little wardrobes',category:s.category||'Clothing',reference:s.reference})),{trackId:'bo-fashion-hero-slides',dotsId:'bo-fashion-hero-dots',label:'BabyOne clothing collections',onChange:index=>fashionIndex=index});
   }
   function scheduleFashion(){clearInterval(fashionTimer);BObanners.get(document.getElementById('bo-fashion-hero'))?.resume()}
   const statusEl=()=>document.getElementById('bo-hero-manager-status');
@@ -4383,15 +4383,15 @@ try{
 <script src="assets/product-sharing.js"></script>
 <script src="assets/payment-check.js"></script>
 <script src="assets/admin-catalogue.js"></script>
-<script src="assets/admin-sections.js?v=product-campaign-1"></script>
+<script src="assets/admin-sections.js?v=restore-media-with-logo-1"></script>
 <script src="assets/reviews-marquee.js?v=compact-mobile-reviews-1"></script>
-<script src="assets/store-workspace.js?v=product-campaign-1"></script>
+<script src="assets/store-workspace.js?v=restore-media-with-logo-1"></script>
 <script src="assets/cart-sync.js"></script>
 <script src="assets/store-support.js"></script>
 <script src="assets/purchase-actions.js"></script>
 <script src="assets/product-details.js"></script>
 <script src="assets/logistics-admin.js"></script>
-<script src="assets/store-experience.js?v=product-campaign-1"></script>
+<script src="assets/store-experience.js?v=restore-media-with-logo-1"></script>
 <link rel="stylesheet" href="assets/premium-workspace.css">
 <link rel="stylesheet" href="assets/product-experience.css?v=owner-subcategory-covers-1">
 <script src="assets/order-confirmation.js"></script>
@@ -4402,7 +4402,7 @@ try{
 <script src="assets/fintech-workspace.js?v=back-left-1"></script>
 <link rel="stylesheet" href="assets/store-refinement.css?v=centered-collection-headings-2">
 <link rel="stylesheet" href="assets/store-chrome.css?v=glass-section-spacing-5">
-<link rel="stylesheet" href="assets/campaign.css?v=product-campaign-1">
+<link rel="stylesheet" href="assets/header-logo.css?v=restore-media-with-logo-1">
 <script src="assets/store-chrome.js?v=scroll-search-reveal-4"></script>
 </body>
 </html>
