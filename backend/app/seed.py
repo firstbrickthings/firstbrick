@@ -31,6 +31,7 @@ def run():
     source = json.loads(path.read_text())
     with sessions()() as db:
         existing = set(db.scalars(select(Product.id)))
+        first_install = not existing
         category_names = set(db.scalars(select(Category.name)))
         category_map = {c.name: c.id for c in db.scalars(select(Category))}
         for name in sorted({p.get('category') or 'Other' for p in source}):
@@ -41,7 +42,7 @@ def run():
         db.flush()
         added = 0
         for item in source:
-            if item['id'] in existing:
+            if item['id'] in existing or not first_install:
                 continue
             metadata = {key: item[key] for key in ['brand', 'subcategory', 'badge', 'galleryImages', 'images', 'patterns'] if key in item}
             metadata['imported_price_requires_confirmation'] = True
@@ -90,6 +91,8 @@ def run():
         archive_reviewed_legacy_products(db)
         from .owner_password import setup_owner_password
         setup_owner_password(db)
+        from .publish_retained_catalog import publish_retained_catalog
+        publish_retained_catalog(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 
