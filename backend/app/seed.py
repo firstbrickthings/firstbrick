@@ -86,6 +86,8 @@ def run():
         restore_previous_media(db)
         from .diaper_category_fix import apply_diaper_category_fix
         apply_diaper_category_fix(db)
+        from .file_catalog_cleanup import archive_reviewed_legacy_products
+        archive_reviewed_legacy_products(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 

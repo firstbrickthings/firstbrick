@@ -2,6 +2,8 @@
 (function () {
   const base = (window.BABYONE_API_BASE || '/api').replace(/\/$/, '');
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  // The shared catalogue is authoritative; never flash archived template listings while loading.
+  if (typeof productsData !== 'undefined') productsData.splice(0, productsData.length);
   let records = new Map(), categories = [], adminIdentity = null, loading, testLinkOpened = false;
   async function token() {
     if (!window.BOphoneOTP?.getIdToken) throw Error('Sign in with your verified phone number first.');
@@ -201,7 +203,7 @@
     updateStatus:async(id,status)=>request('/admin/orders/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({status})})};
   document.addEventListener('DOMContentLoaded',()=>{
     document.body.classList.add('bo-mysql-store');
-    catalog().catch(()=>{const notice=document.createElement('p');notice.id='bo-server-notice';notice.className='bo-server-notice';notice.setAttribute('role','status');notice.textContent='The store connection is unavailable. You can browse, but checkout needs the store server.';document.getElementById('main').prepend(notice)});
+    catalog().catch(()=>{const notice=document.createElement('p');notice.id='bo-server-notice';notice.className='bo-server-notice';notice.setAttribute('role','status');notice.textContent='Products are temporarily unavailable. Please refresh shortly.';document.getElementById('main').prepend(notice)});
     if(window.boAdmin){
       const originalDashboard=window.boAdmin.openDashboard.bind(window.boAdmin);
       const openDashboard=async()=>{
