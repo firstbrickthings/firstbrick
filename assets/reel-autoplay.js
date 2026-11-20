@@ -16,8 +16,14 @@
   if(!visible){mute(p);if(p.media.tagName==='VIDEO')p.media.pause();else command(p,'pauseVideo');return}
   if(reduced.matches&&!p.started)return;
   if(p.media.tagName==='VIDEO')p.media.play().catch(()=>{soundLabel(p,'Play video')});
-  else{if(!p.media.src)p.media.src=p.source;else command(p,'playVideo')}
+  else{if(!p.media.src)p.media.src=p.source;else{command(p,p.audible?'unMute':'mute');command(p,'playVideo')}}
  }
+ window.addEventListener('message',event=>{
+  if(!['https://www.youtube-nocookie.com','https://www.youtube.com'].includes(event.origin))return;
+  let data;try{data=typeof event.data==='string'?JSON.parse(event.data):event.data}catch{return}
+  if(data?.event!=='onReady')return;
+  for(const p of players.values())if(p.media.tagName==='IFRAME'&&p.media.contentWindow===event.source)sync(p);
+ });
  const observer=new IntersectionObserver(entries=>{for(const e of entries){const p=players.get(e.target);if(p){p.visible=e.isIntersecting&&e.intersectionRatio>=.2;sync(p)}}},{threshold:[0,.2]});
  function mount(){
   for(const [box,p] of players)if(!box.isConnected){observer.unobserve(box);p.media.tagName==='VIDEO'?p.media.pause():command(p,'pauseVideo');players.delete(box)}
@@ -34,7 +40,7 @@
    const button=document.createElement('button');button.type='button';button.className='bo-reel-sound';
    const p={box,media,button,title:reel.title||'video',visible:false,started:false,audible:false};
    if(reel.videoUrl){media.src=reel.videoUrl;media.muted=true;media.defaultMuted=true;media.playsInline=true;media.loop=true;media.preload='metadata';if(reel.cover)media.poster=reel.cover;media.addEventListener('error',()=>{media.hidden=true;soundLabel(p,'Video unavailable');button.disabled=true})}
-   else{media.title=p.title;media.allow='autoplay; encrypted-media; picture-in-picture';p.source='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(youtube)+'?autoplay=1&mute=1&controls=0&playsinline=1&enablejsapi=1&loop=1&playlist='+encodeURIComponent(youtube)+'&origin='+encodeURIComponent(location.origin);media.addEventListener('load',()=>sync(p))}
+   else{media.title=p.title;media.allow='autoplay; encrypted-media; picture-in-picture';p.source='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(youtube)+'?autoplay=1&mute=1&controls=0&playsinline=1&enablejsapi=1&loop=1&playlist='+encodeURIComponent(youtube)+'&origin='+encodeURIComponent(location.origin);media.addEventListener('load',()=>{media.contentWindow?.postMessage(JSON.stringify({event:'listening',id:reel.id,channel:'widget'}),'https://www.youtube-nocookie.com');sync(p)})}
    button.onclick=e=>{e.stopPropagation();const audible=!p.audible;for(const other of players.values())mute(other);p.started=true;p.audible=audible;if(media.tagName==='VIDEO')media.muted=!audible;else command(p,audible?'unMute':'mute');soundLabel(p,audible?'Mute':'Unmute');button.setAttribute('aria-label',(audible?'Mute ':'Unmute ')+p.title);button.setAttribute('aria-pressed',String(audible));sync(p)};
    box.append(media,button);players.set(box,p);mute(p);observer.observe(box);
   });

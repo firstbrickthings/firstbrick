@@ -407,3 +407,6 @@ from .owner_notifications import router as owner_email_router
 app.include_router(owner_email_router)
 from .payment_reports import router as payment_reports_router
 app.include_router(payment_reports_router)
+
+from .owner_password import router as owner_password_router
+app.include_router(owner_password_router)

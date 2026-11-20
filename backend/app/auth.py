@@ -8,7 +8,7 @@ from fastapi import Depends, HTTPException, Request
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from .db import database
-from .models import Customer, EmailIdentity, LoginSession, now
+from .models import Customer, EmailIdentity, LoginSession, StoreDocument, now
 from .email_security import SESSION_COOKIE, check_origin, csrf_for, fingerprint, read_cookie
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from .config import settings
@@ -23,6 +23,8 @@ class Identity:
     email: str = ''
     phone_verified: bool = True
     verified_phone: str = ''
+    owner_password: bool = False
+    owner_password_change: bool = False
 
     @property
     def legacy_phone(self):
@@ -30,6 +32,8 @@ class Identity:
 
     @property
     def admin(self):
+        if self.owner_password:
+            return not self.owner_password_change
         config = settings()
         # Claims come from verified authentication, never an entered name or contact phone.
         return self.uid in config.admins or bool(self.email and self.email in config.admin_emails) or bool(self.legacy_phone and self.legacy_phone in config.admin_phones)
@@ -57,11 +61,15 @@ def resolve_identity(request, credentials, db, check_csrf=True) -> Identity:
         if session and not session.revoked_at and session.expires_at>now():
             account=db.scalar(select(EmailIdentity).where(EmailIdentity.customer_uid==session.customer_uid))
             customer=db.get(Customer,session.customer_uid)
-            if account and customer:
+            owner = db.get(StoreDocument, 'owner_password_login')
+            owner_match = bool(customer and owner and owner.value.get('enabled') and owner.value.get('uid') == session.customer_uid)
+            if (account or owner_match) and customer:
                 if check_csrf and request.method in {'POST','PUT','PATCH','DELETE'}:
                     check_origin(request)
                     if not hmac.compare_digest(request.headers.get('x-babyone-csrf',''),csrf_for(token)):
                         raise HTTPException(403,'Refresh your sign-in before saving changes.')
+                if owner_match:
+                    return Identity(customer.uid, customer.phone, '', True, customer.phone, True, owner.value.get('must_change', True))
                 return Identity(customer.uid,customer.phone,account.email,bool(account.verified_phone and customer.phone==account.verified_phone),account.verified_phone)
     from .gmail_delivery import retired
     if retired(db):

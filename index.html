@@ -1644,6 +1644,7 @@ body{overflow-x:hidden}
       const button=document.getElementById('bo-send-otp');
       if(!phone){status.textContent='Enter a valid 10-digit Indian mobile number.';return;}
       if(!String(data.name||'').trim()){status.textContent='Enter your name.';return;}
+      if(phone==='9645762324'&&window.BOownerLogin){BOownerLogin.open();return;}
       if(!window.BOphoneOTP?.ready){status.textContent=window.BOphoneOTP?.error||'Firebase phone verification is still loading. Check your connection and try again.';return;}
       button.disabled=true;button.textContent='Sending SMS…';status.textContent='Checking reCAPTCHA and requesting your OTP…';
       try{
@@ -4406,7 +4407,8 @@ try{
 <link rel="stylesheet" href="assets/header-logo.css?v=restore-media-with-logo-1">
 <script src="assets/store-chrome.js?v=scroll-search-reveal-4"></script>
 <link rel="stylesheet" href="assets/media-fill.css?v=2">
-<script src="assets/reel-autoplay.js?v=2" defer></script>
+<script src="assets/reel-autoplay.js?v=3" defer></script>
+<script src="assets/owner-password.js?v=1" defer></script>
 </body>
 </html>
 

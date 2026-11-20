@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     firebase_service_account_json: str = ''
     firebase_project_id: str = 'baby-one-a5cd4'
     auth_secret: str = ''
+    owner_password_bootstrap_hash: str = ''
     auth_cookie_secure: bool = True
     email_otp_enabled: bool = True
     auth_email_sender: str = 'babyonestores@gmail.com'
