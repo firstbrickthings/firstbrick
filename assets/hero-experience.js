@@ -10,7 +10,7 @@
   const status=document.createElement('span');status.className='bo-hero-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.setAttribute('aria-atomic','true');hero.appendChild(status);
   function playback(){
    const video=slides.querySelector('.hero-slide.active video'),playing=video?!video.paused:!window.boHeroPaused;
-   control.hidden=mobile.matches||reduced.matches||(!video&&slides.children.length<2)||!!video?.error;
+   control.hidden=true;
    const label=playing?'Pause hero animation':'Play hero animation';control.setAttribute('aria-label',label);control.title=label;control.setAttribute('aria-pressed',String(!playing));
    control.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">'+(playing?'<path d="M8 5v14M16 5v14"/>':'<path d="m9 5 10 7-10 7V5Z"/>')+'</svg>';
    controls.hidden=control.hidden&&dots.hidden;

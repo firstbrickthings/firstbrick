@@ -301,8 +301,8 @@ def storage():
 @router.post('/admin/media',status_code=201)
 def upload(file: UploadFile=File(...),user: Identity=Depends(admin),db: Session=Depends(database)):
     size=file.size or 0
-    if size<=0 or size>100*1024*1024:
-        raise HTTPException(422,'Choose a file up to 100 MB.')
+    if size<=0:
+        raise HTTPException(422,'Choose a non-empty file.')
     head=file.file.read(32);file.file.seek(0)
     mime=None
     if head.startswith(b'\xff\xd8\xff'):mime='image/jpeg'

@@ -66,7 +66,7 @@ async function overview(root,quiet=false){
 async function upload(file){
  if(!file)throw Error('Choose a file first.');
  const data=new FormData();data.append('file',file);const authHeaders=window.BOauth?await BOauth.headers('POST'):{Authorization:'Bearer '+await BOphoneOTP.getIdToken()};
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),180000);
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),1800000);
  try{const response=await fetch((window.BABYONE_API_BASE||'/api')+'/admin/media',{method:'POST',headers:authHeaders,credentials:'same-origin',body:data,signal:controller.signal});const result=await response.json();if(!response.ok)throw Error(typeof result.detail==='string'?result.detail:'The file could not be uploaded.');return result.url}
  finally{clearTimeout(timer)}
 }

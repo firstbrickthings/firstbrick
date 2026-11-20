@@ -1,0 +1,20 @@
+/* Shared frame treatment applies equally to existing and newly uploaded photos. */
+#home-page #cat-container .cat-tile>img,
+#explorer-page #subcat-tile-grid .subcat-tile img,
+.product-media img,
+.bo-banner-carousel .bo-banner-reference>img,
+#explorer-page .bo-collection-artwork .bo-banner-slide>img,
+#product-modal-shell #modal-product-content .bo-product-layout>.bo-product-media-column>.bo-product-photo-frame>img,
+#product-modal-shell .bo-product-thumbs img,
+.bo-customer-cart img {
+ object-fit:cover!important;object-position:center!important;padding:0!important;
+}
+.product-media,.bo-product-photo-frame,.reel-video,.pv-video{overflow:hidden;isolation:isolate}
+#product-modal-shell #modal-product-content .bo-product-photo-frame:has(>img.bo-full-photo)>img.bo-full-photo{object-fit:contain!important}
+.bo-photo-fit{position:absolute;bottom:14px;right:14px;z-index:5;border:1px solid #ffffffb8;background:#ffffffdc;color:#29465f;border-radius:22px;padding:9px 14px;font:inherit;font-size:12px;cursor:pointer}
+.bo-reel-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;border-radius:inherit;z-index:3;background:#182838}
+iframe.bo-reel-media{pointer-events:none}
+.bo-reel-sound{position:absolute;bottom:12px;right:12px;z-index:6;border:1px solid #ffffffb8;border-radius:24px;padding:9px 13px;background:#ffffffde;color:#29465f;font:inherit;font-size:12px;cursor:pointer}
+.bo-hero-upload-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.bo-hero-upload-grid>.bo-work-field{padding:18px;border:1px solid #dce5ed;border-radius:16px;background:#ffffff7f}
+@media(max-width:600px){.bo-hero-upload-grid{grid-template-columns:1fr}}

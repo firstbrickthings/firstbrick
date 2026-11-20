@@ -84,6 +84,8 @@ def run():
         restore_previous_catalog(db)
         from .undo_campaign_media import restore_previous_media
         restore_previous_media(db)
+        from .diaper_category_fix import apply_diaper_category_fix
+        apply_diaper_category_fix(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 
