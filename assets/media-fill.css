@@ -1,5 +1,6 @@
 /* Shared frame treatment applies equally to existing and newly uploaded photos. */
 #home-page #cat-container .cat-tile>img,
+#home-page #cat-container .cat-tile>img[src],
 #explorer-page #subcat-tile-grid .subcat-tile img,
 .product-media img,
 .bo-banner-carousel .bo-banner-reference>img,
