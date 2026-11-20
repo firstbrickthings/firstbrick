@@ -1,7 +1,7 @@
 /* Minimal store header: quiet over the hero, readable glass while scrolling. */
 body{--bo-store-header-height:84px;padding-top:var(--bo-store-header-height)!important}
 body.bo-home-hero{padding-top:0!important}
-.bo-store-header{position:fixed!important;top:0!important;left:0;width:100%;isolation:isolate;background:#fffffff0!important;border-bottom:1px solid #dce6efb3!important;box-shadow:0 4px 24px #25496305!important;transition:background-color .22s,border-color .22s,box-shadow .22s}
+.bo-store-header{position:fixed!important;top:0!important;left:0;width:100%;isolation:isolate;background:#ffffff85!important;border-bottom:1px solid #ffffff75!important;box-shadow:0 4px 24px #25496305!important;backdrop-filter:blur(18px) saturate(1.05)!important;-webkit-backdrop-filter:blur(18px) saturate(1.05)!important;transition:background-color .22s,border-color .22s,box-shadow .22s}
 .bo-store-header:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#20384ca6,#20384c4d 72%,#20384c00);opacity:0;pointer-events:none;transition:opacity .22s}
 .bo-store-header .header-inner{max-width:1440px;min-height:84px;height:auto;display:grid;grid-template-columns:44px auto minmax(220px,1fr) auto;align-items:center;gap:28px;padding:14px clamp(24px,4vw,64px)}
 .bo-header-tools{display:flex;align-items:center;min-width:0}
@@ -12,17 +12,17 @@ body.bo-home-hero{padding-top:0!important}
 .bo-store-header .brand-word>span{color:var(--pink-600);transition:color .22s}
 .bo-store-header .search-wrap{display:block;position:relative;justify-self:center;width:100%;max-width:460px;margin:0;min-width:0}
 .bo-store-header .search-wrap{transition:opacity .18s ease}
-.bo-store-header .search-input{width:100%;min-height:44px;padding:12px 16px 12px 42px;font-size:14px;color:#304f66;background:#f4f8fbbd!important;border:1px solid #dce6ed!important;box-shadow:none}
-.bo-store-header .search-input:focus{outline:none;background:#fff!important;border-color:#8eb8d7!important;box-shadow:0 0 0 3px #cde4f74d}
+.bo-store-header .search-input{width:100%;min-height:44px;padding:12px 16px 12px 42px;font-size:14px;color:#243b4d;background:#ffffff80!important;border:1px solid #ffffffa6!important;box-shadow:none}
+.bo-store-header .search-input:focus{outline:none;background:#ffffffd9!important;border-color:#8eb8d7!important;box-shadow:0 0 0 3px #cde4f74d}
 .bo-store-header .search-ico{left:16px;color:#617e93}
 .bo-store-header .header-actions{display:flex;align-items:center;gap:8px;justify-self:end}
-.bo-store-header .header-actions>.icon-btn{display:grid;place-items:center;width:44px;height:44px;min-width:44px;padding:0;border:0;border-radius:12px;color:#304f66;transition:color .22s,background-color .22s}
+.bo-store-header .header-actions>.icon-btn{display:grid;place-items:center;width:44px;height:44px;min-width:44px;padding:0;border:0;border-radius:12px;color:#203a4f;transition:color .22s,background-color .22s}
 .bo-store-header .header-actions>.icon-btn i{font-size:19px}
 .bo-store-header .header-actions>.icon-btn:hover,.bo-store-header .bo-universal-menu:hover{background:#eaf2f9;color:var(--pink-600)}
 .bo-store-header .badge{top:0;right:0;min-width:16px;height:16px;font-size:9px;line-height:16px;background:#aa3e74;box-shadow:0 0 0 2px #fbfdff}
 .bo-store-header #search-results{max-height:min(360px,calc(100svh - 220px));text-align:left}
 .bo-store-header #search-results .bo-search-result{width:100%}
-.bo-search-hint{position:absolute;top:50%;left:42px;right:16px;transform:translateY(-50%);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;pointer-events:none;color:#8293a2;font-size:13px;font-weight:500;line-height:1.5;letter-spacing:0;transition:opacity .15s}
+.bo-search-hint{position:absolute;top:50%;left:42px;right:16px;transform:translateY(-50%);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;pointer-events:none;color:#40586c;font-size:13px;font-weight:500;line-height:1.5;letter-spacing:0;transition:opacity .15s}
 .bo-search-keyword{display:inline-block;opacity:1;transition:opacity .22s ease}
 .bo-search-keyword.is-fading{opacity:0}
 .bo-search-suggestions .search-input::placeholder{color:transparent}
@@ -39,6 +39,10 @@ body:is(.bo-header-scrolled,.bo-search-open) .bo-store-header .header-inner{min-
 :is(.bo-store-header,.bo-premium-footer) :is(a,button):focus-visible{outline:2px solid var(--blue-500);outline-offset:4px;border-radius:6px}
 .bo-premium-footer .brand-word{font-family:'Nunito','Quicksand',sans-serif!important;font-size:27px!important;font-weight:800!important;letter-spacing:-.045em!important;line-height:1.15;color:var(--blue-600)}
 .bo-premium-footer .brand-word>span{color:var(--pink-600)}
+#babyone-bottom-nav,#babyone-bottom-nav.is-scrolled{background:#ffffff94!important;border-color:#ffffffa6!important;backdrop-filter:blur(18px) saturate(1.05)!important;-webkit-backdrop-filter:blur(18px) saturate(1.05)!important;box-shadow:0 6px 22px #203b4d14!important}
+#babyone-bottom-nav .app-nav-item{color:#1c2e3c!important}
+#babyone-bottom-nav .app-nav-item span{opacity:1}
+#babyone-bottom-nav .app-nav-item.active{background:#c9e2fb70!important;color:#17496b!important;box-shadow:inset 0 0 0 1px #b5d4ed66}
 @media(max-width:1099px){
  .bo-store-header .header-inner{gap:20px;padding-inline:24px}
  .bo-store-header .brand-word{font-size:28px!important}
@@ -80,6 +84,10 @@ body:is(.bo-header-scrolled,.bo-search-open) .bo-store-header .header-inner{min-
 #home-page .section-head>.eyebrow,#reviews-section>.section-head>.eyebrow{display:block;margin:0 auto 10px!important;line-height:1.5;text-align:center!important}
 #home-page .section-head>:is(h1,h2,h3),#reviews-section>.section-head>:is(h1,h2,h3){margin:0!important;text-align:center!important;text-wrap:balance}
 #home-page>.section .section-head>p,#reviews-section>.section-head>p{width:100%;max-width:560px!important;margin:12px auto 0!important;font-size:13px!important;font-weight:500;line-height:1.65!important;letter-spacing:.015em!important;text-transform:none;text-align:center!important;text-wrap:balance}
+/* A little breathing room between sections and their heading groups. */
+:root{--bo-space-section:clamp(40px,4vw,64px)}
+#home-page>.section,#home-page>#babyone-fashion,#home-page>#bo-joys-section,#home-page>#home-track-order,#reviews-section{padding-block:var(--bo-space-section)!important}
+#home-page>.section>.section-head,#reviews-section>.section-head{margin-bottom:32px!important}
 .bo-premium-footer.site-footer{margin-top:32px!important;padding:56px clamp(24px,5vw,72px) 24px!important;border:1px solid #d7e3ee;border-bottom:0;border-radius:32px 32px 0 0;background:radial-gradient(ellipse at 0 0,#e6f1fc9c,transparent 52%),radial-gradient(ellipse at 100% 100%,#fbeaf28c,transparent 55%),#f7faff;color:#304e65;box-shadow:0 -8px 40px #2b425704}
 .bo-footer-layout{display:grid;grid-template-columns:1.2fr .75fr .8fr 1.2fr;gap:clamp(24px,3vw,48px);align-items:start;max-width:1312px;margin:0 auto}
 .bo-footer-intro{max-width:280px}
@@ -146,9 +154,17 @@ body:is(.bo-header-scrolled,.bo-search-open) .bo-store-header .header-inner{min-
 }
 /* Categories follow the full-screen mobile hero. */
 @media(max-width:760px){
- #home-page>.bo-home-categories{padding-top:22px!important}
- #home-page>.bo-home-categories>.section-head{margin-bottom:16px!important}
+ :root{--bo-space-section:36px}
+ #home-page>.bo-home-categories{padding-top:32px!important}
+ #home-page>.section>.section-head,#reviews-section>.section-head{margin-bottom:24px!important}
+ #home-page #cat-container .category-grid{row-gap:24px!important}
+ #explorer-page .bo-collection-banner{margin-bottom:28px!important}
  #home-page>.bo-home-categories>.section-head>.eyebrow,#home-page>.bo-home-categories>.section-head>p{display:none}
  #home-page>.bo-home-categories>.section-head>h2{font-size:25px!important;line-height:1.2!important}
  #home-page>.section .section-head>p,#reviews-section>.section-head>p{font-size:12px!important;line-height:1.65!important;letter-spacing:.01em!important;margin-top:10px!important}
+}
+@media(prefers-reduced-transparency:reduce){
+ .bo-store-header,#babyone-bottom-nav,#babyone-bottom-nav.is-scrolled{background:#fffffff5!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ body.bo-home-hero:not(.bo-header-scrolled):not(.bo-search-open) .bo-store-header{background:#243b4df2!important}
+ .bo-store-header .search-input{background:#fffffff0!important}
 }
