@@ -71,7 +71,7 @@
   function cartItems(lines) {
     return lines.map(line => {
       const product = records.get(line.id);
-      if (!product) throw Error('A product is no longer available. Refresh the catalog and update your bag.');
+      if (!product) throw Error((line.name||'This product')+' is no longer available. Remove it from your bag to check out.');
       const label = line.size || line.variants?.[line.selectedVariant ?? 0]?.size || '';
       const variant = product.variants.find(v=>(line.serverVariantId?v.id===line.serverVariantId:v.label===label)&&v.enabled);
       if (!variant) throw Error('A product option changed. Remove it and select it again.');

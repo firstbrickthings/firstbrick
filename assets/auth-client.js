@@ -15,7 +15,7 @@ async function headers(method='GET'){
  if(!window.BOphoneOTP?.getIdToken)throw Error('Sign in before continuing.');
  return {Authorization:'Bearer '+await BOphoneOTP.getIdToken()};
 }
-async function updateContact(phone){if(!session.user)return;await call('/auth/contact',{method:'POST',headers:await headers('POST'),body:JSON.stringify({phone})});await refresh();}
+async function updateContact(phone){if(!session.user)return;if(!session.user.email){const digits=value=>String(value||'').replace(/\D/g,'').replace(/^91(?=\d{10}$)/,'');if(digits(phone)!==digits(session.user.phone))throw Error('For owner checkout, use your signed-in mobile number.');return;}await call('/auth/contact',{method:'POST',headers:await headers('POST'),body:JSON.stringify({phone})});await refresh();}
 async function logout(){try{await call('/auth/logout',{method:'POST',headers:await headers('POST')});}catch(error){showToast(error.message);return;}session={user:null,csrf:null};localStorage.removeItem(profileKey);sessionStorage.removeItem('babyone-admin-session');localStorage.setItem('babyone-session-event',String(Date.now()));announce();boU.close();showToast('Signed out. Your saved orders and bag are kept in your account.');}
 function open(link=false,ownerEmail=false){
  const modal=document.getElementById('bo-u-modal'),body=document.getElementById('bo-u-content'),old=readProfile();modal.classList.remove('bo-full-checkout','hidden');document.body.style.overflow='hidden';
