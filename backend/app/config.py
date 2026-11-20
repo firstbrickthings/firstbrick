@@ -72,7 +72,11 @@ class Settings(BaseSettings):
 
     @property
     def origins(self) -> list[str]:
-        return [value.strip() for value in self.allowed_origins.split(',') if value.strip()]
+        origins = [value.strip() for value in self.allowed_origins.split(',') if value.strip()]
+        public_origin = self.public_store_url.strip().rstrip('/')
+        if public_origin and public_origin not in origins:
+            origins.append(public_origin)
+        return origins
 
     @property
     def test_checkout_enabled(self) -> bool:
