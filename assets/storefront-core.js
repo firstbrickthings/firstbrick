@@ -105,61 +105,59 @@ babyoneSebamedCatalog.forEach(p => { if (!productsData.some(x => x.id === p.id))
 
 const adBannerData1 = [
   {
-    "title": "Little discoveries. Endless play.",
-    "category": "Toys & Learning",
-    "bg": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/81koB9IjmsL._SL1500.jpg?v=1791193588&width=900",
-    "reference": true
-  },
-  {
-    "title": "Their next little adventure.",
+    "bg": "assets/campaign/ride-wide.webp",
+    "bgMobile": "assets/campaign/ride-compact.webp",
+    "title": "Little moments.\nBig adventures.",
     "category": "Ride-On",
-    "bg": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_d557aad1-ca2a-492f-9581-ae35e3ff31b5.jpg?v=1793860806&width=900",
-    "reference": true
+    "editorial": true
   },
   {
-    "title": "Soft starts. Sweet dreams.",
-    "category": "New Born",
-    "bg": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/E-COM01_f8dd353a-d8d0-4440-96ae-b7ad63450ec9.jpg?v=1763135719&width=900",
-    "reference": true
+    "bg": "assets/campaign/play-wide.webp",
+    "bgMobile": "assets/campaign/play-compact.webp",
+    "title": "Small toys.\nBig discoveries.",
+    "category": "Toys & Learning",
+    "editorial": true
   }
 ];
 const adBannerData2 = [
   {
-    "title": "Made for every little feed.",
-    "category": "Feeding",
-    "bg": "https://cdn.shopify.com/s/files/1/0717/4622/4450/files/1_981fccdf-9651-48b1-80e5-4fcaf1e90bdf.webp?v=1783937848&width=900",
-    "reference": true
-  },
-  {
-    "title": "Together, wherever you go.",
-    "category": "Travel & Gear",
-    "bg": "https://cdn.shopify.com/s/files/1/0068/6135/7171/files/joie-nutmeg-stroller-birth-to-22kg-the-mom-store-9256378.jpg?v=1779512541&width=900",
-    "reference": true
-  },
-  {
-    "title": "A little care, every day.",
+    "bg": "assets/campaign/care-wide.webp",
+    "bgMobile": "assets/campaign/care-compact.webp",
+    "title": "Care for their\nevery day.",
     "category": "Bath & Skincare",
-    "bg": "https://cdn.shopify.com/s/files/1/0673/9633/7876/files/19987_Baby_Lotion_-_200ml_E-Comm_1.jpg?v=1763124176&width=900",
-    "reference": true
+    "editorial": true
+  },
+  {
+    "bg": "assets/campaign/fashion-wide.webp",
+    "bgMobile": "assets/campaign/fashion-compact.webp",
+    "title": "Little outfits.\nEveryday wonder.",
+    "category": "Clothing",
+    "editorial": true
   }
 ];
 
 /* ================= HERO — parent & baby love moments ================= */
 const heroSlidesData = [
-  { kicker:'The BabyOne Collection', title:'Little journeys. Big love.', sub:'Thoughtfully chosen essentials for the little ones who hold your whole heart.', img:'assets/photo-b7ffbfeb5bd1a7a7.webp' },
-  { kicker:'Comfort, Close to You', title:'Carry them close. Go anywhere.', sub:'Everyday comfort for little passengers and the people who love them.', img:'assets/photo-fb82a54b6bf76f36.webp' },
-  { kicker:'Comfort for Feeding', title:'A little more comfort, every feed.', sub:'Thoughtful nursing support for quieter, closer moments together.', img:'assets/photo-0a9732be3078be31.webp', sourceLink:'https://www.flipkart.com/mom-son-breast-feeding-pillow-breastfeeding/p/itm2a4b6ce474772' },
-  { kicker:'Sleep & Snuggle', title:'A softer place for little dreams.', sub:'Foldable, cozy newborn essentials made for rest at home or away.', img:'https://images.unsplash.com/photo-1555252335-9f8e9a6b0c9f?auto=format&fit=crop&w=1000&q=85', sourceLink:'https://www.amazon.in/StarAndDaisy-Sleeping-Comfortable-Foldable-Washable/dp/B0FVSHMJHX' },
-  { kicker:'Everyday Baby Care', title:'Care in every little moment.', sub:'Gentle essentials to keep babies comfortable through busy little days.', img:'https://www.mamypoko.co.in/_next/image?q=75&url=%2Fimg%2Fnew-born.webp&w=1080', sourceLink:'https://www.facebook.com/mamypokopantsindia/posts/its-the-small-moments-that-show-what-care-really-means-and-were-here-to-keep-tho/1379744290863956/' }
+  {
+    "img": "assets/campaign/ride-wide.webp",
+    "imgMobile": "assets/campaign/ride-portrait.webp",
+    "title": "Little moments.\nBig adventures.",
+    "kicker": "Made for little journeys",
+    "category": "Ride-On",
+    "editorial": true
+  },
+  {
+    "img": "assets/campaign/play-wide.webp",
+    "imgMobile": "assets/campaign/play-portrait.webp",
+    "title": "Small toys.\nBig discoveries.",
+    "kicker": "Wonder starts with play",
+    "category": "Toys & Learning",
+    "editorial": true
+  }
 ];
 
 /* Reels — each linked to a real product */
-const reelsData = [
-  { id:'nl9W-C4bedo', author:'@mommy_jess', title:'A closer look at the CloudComfort Stroller', productId:'p1' },
-  { id:'HznyNa5KQd0', author:'@sarah_and_baby', title:'Our gentle morning bath routine', productId:'p7' },
-  { id:'4LI-KoJIIZQ', author:'@daddy_diapers', title:'Setting up the SnoozeGlide cradle at home', productId:'p6' },
-  { id:'zHHnCC5p_dM', author:'@early_learning_fun', title:'Montessori sensory play in real life', productId:'p5' }
-];
+const reelsData = [];
 const reelIds = reelsData.map(r => r.id);
 function reelSourceKey(reel){
  if(reel.localKey)return 'local:'+reel.localKey;
@@ -315,6 +313,7 @@ function boHeroOpenProduct(id){
 function renderHero(){
   const slidesEl=document.getElementById('hero-slides'),dotsEl=document.getElementById('hero-dots');
   if(!slidesEl||!dotsEl)return;
+  document.body.classList.toggle('bo-campaign-home',heroSlidesData[0]?.editorial===true&&heroSlidesData[0]?.mediaType!=='video');
   window._boHeroWasMobile=window.matchMedia('(max-width:760px)').matches;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   slidesEl.innerHTML=heroSlidesData.map((s,i)=>{
@@ -322,10 +321,13 @@ function renderHero(){
     const mobile=window.matchMedia('(max-width:760px)').matches;
     const videoUrl=mobile?(s.videoMobileUrl||s.videoUrl):(s.videoUrl||s.videoMobileUrl);
     const poster=(mobile?s.imgMobile||s.img:s.img)||'';
-    const media=isVideo?`<video class="bo-hero-video" data-hero-video="${i}" muted playsinline preload="metadata" poster="${esc(poster)}" src="${esc(videoUrl)}" aria-label="${esc(s.title||'BabyOne promotional video')}"></video>`:'';
-    const style=poster?` style="background-image:url(&quot;${esc(poster)}&quot;)"`:'';
-    return `<div ${i?'inert':''} role="group" aria-roledescription="slide" aria-label="${i+1} of ${heroSlidesData.length}" aria-hidden="${i!==0}" class="hero-slide ${i===0?'active':''} ${isVideo?'bo-hero-is-video':''}"${style}>${media}</div>`;
+    const campaign=s.editorial===true&&!isVideo;
+    const media=isVideo?`<video class="bo-hero-video" data-hero-video="${i}" muted playsinline preload="metadata" poster="${esc(poster)}" src="${esc(videoUrl)}" aria-label="${esc(s.title||'BabyOne promotional video')}"></video>`:campaign?`<picture class="bo-campaign-image">${s.imgMobile?`<source media="(max-width:899px)" srcset="${esc(s.imgMobile)}">`:''}<img src="${esc(s.img)}" alt="${esc(s.title||'BabyOne collection')}" fetchpriority="${i?'auto':'high'}" decoding="async"></picture>`:'';
+    const copy=campaign&&s.title?`<div class="bo-campaign-copy"><span>${esc(s.kicker||'The BabyOne Collection')}</span><h2>${esc(s.title)}</h2>${s.category?`<button type="button" class="bo-campaign-link" aria-label="Explore ${esc(s.category)} collection" data-campaign-category="${esc(s.category)}">Explore collection <span aria-hidden="true">→</span></button>`:''}</div>`:'';
+    const style=poster&&!campaign?` style="background-image:url(&quot;${esc(poster)}&quot;)"`:'';
+    return `<div ${i?'inert':''} role="group" aria-roledescription="slide" aria-label="${i+1} of ${heroSlidesData.length}" aria-hidden="${i!==0}" class="hero-slide ${i===0?'active':''} ${isVideo?'bo-hero-is-video':''} ${campaign?'bo-campaign-slide':''}"${style}>${media}${copy}</div>`;
   }).join('');
+  slidesEl.querySelectorAll('[data-campaign-category]').forEach(button=>button.onclick=()=>filterByCategory(button.dataset.campaignCategory));
   dotsEl.innerHTML=heroSlidesData.map((s,i)=>`<button type="button" class="hero-dot ${i===0?'active':''}" data-hero-slide="${i}" aria-label="Show slide ${i+1} of ${heroSlidesData.length}"${i===0?' aria-current="true"':''}></button>`).join('');
   dotsEl.hidden=heroSlidesData.length<2;dotsEl.setAttribute('role','group');dotsEl.setAttribute('aria-label','Choose a homepage slide');
   dotsEl.querySelectorAll('button').forEach((button,i)=>button.onclick=()=>{if(i!==activeHero)goHero(i,{manual:true})});
@@ -337,6 +339,7 @@ function goHero(i,{manual=false}={}){
   if(!slides.length)return;
   slides.forEach(s=>{const v=s.querySelector('video');if(v){v.pause();v.onended=null;}});
   activeHero=(i+slides.length)%slides.length;
+  document.body.classList.toggle('bo-campaign-home',slides[activeHero].classList.contains('bo-campaign-slide'));
   slides.forEach((s,index)=>{s.classList.toggle('active',index===activeHero);s.inert=index!==activeHero;s.setAttribute('aria-hidden',String(index!==activeHero))});
   dots.forEach((d,index)=>{d.classList.toggle('active',index===activeHero);if(index===activeHero)d.setAttribute('aria-current','true');else d.removeAttribute('aria-current')});
   const nextVideo=slides[activeHero].querySelector('video');
@@ -387,7 +390,7 @@ function renderPromos(){
   clearInterval(ad1Timer);clearInterval(ad2Timer);
   for(const n of [1,2]){
     const data=n===1?adBannerData1:adBannerData2;
-    BObanners.render(document.getElementById('promo-'+n),data.map(b=>({image:b.bg,title:b.title,category:b.category,reference:b.reference})),{trackId:'promo-slides-'+n,dotsId:'promo-dots-'+n,label:'BabyOne collection banner '+n,onChange:index=>{if(n===1)activeAd1=index;else activeAd2=index}});
+    BObanners.render(document.getElementById('promo-'+n),data.map(b=>({image:b.bg,imageMobile:b.bgMobile,editorial:b.editorial===true,title:b.title,category:b.category,reference:b.reference})),{trackId:'promo-slides-'+n,dotsId:'promo-dots-'+n,label:'BabyOne collection banner '+n,onChange:index=>{if(n===1)activeAd1=index;else activeAd2=index}});
   }
 }
 function changeAdSlide(n,delta){BObanners.get(document.getElementById('promo-'+n))?.step(delta)}
@@ -553,7 +556,9 @@ function renderProductRails(){
 /* ================= LITTLE JOYS — playable ================= */
 function renderReels(){
   const track = document.getElementById('reels-track');
-  track.innerHTML = uniqueReels().map(reel => {
+  const available = uniqueReels();
+  document.getElementById('bo-joys-section').hidden = !available.length;
+  track.innerHTML = available.map(reel => {
     const i=reelsData.indexOf(reel);
     const product = productsData.find(p => String(p.id) === String(reel.productId));
     return `

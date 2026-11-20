@@ -53,9 +53,9 @@ def validate_document(key, value):
     if set(value) != {'items'} or not isinstance(value['items'], list) or len(value['items']) > 100:
         raise HTTPException(422, 'Use a list of up to 100 published items.')
     allowed = {
-        'hero': {'id','image','imageMobile','mediaType','videoUrl','videoMobileUrl','published'},
-        'banners': {'id','image','published','title','category','reference','source'},
-        'fashion': {'id','image','published','title','category','reference','source'},
+        'hero': {'id','image','imageMobile','mediaType','videoUrl','videoMobileUrl','published','editorial','title','kicker','category'},
+        'banners': {'id','image','imageMobile','published','title','category','reference','source','editorial'},
+        'fashion': {'id','image','imageMobile','published','title','category','reference','source','editorial'},
         'videos': {'id','title','author','productId','videoUrl','youtubeId','cover','published'},
         'categories': {'id','name','img','subcategories','published'},
     }[key]
@@ -68,10 +68,12 @@ def validate_document(key, value):
             raise HTTPException(422, 'Choose published or hidden.')
         if 'reference' in item and not isinstance(item['reference'], bool):
             raise HTTPException(422, 'Choose a reference photo or uploaded artwork.')
+        if 'editorial' in item and not isinstance(item['editorial'], bool):
+            raise HTTPException(422, 'Choose whether to show the collection headline.')
         for field in ('image','imageMobile','img','videoUrl','videoMobileUrl','cover','source'):
             if item.get(field) and not safe_url(item[field]):
                 raise HTTPException(422, 'Use an HTTPS URL, an assets/ path or an uploaded website file.')
-        for field in ('title','author','productId','name','category'):
+        for field in ('title','kicker','author','productId','name','category'):
             if field in item and (not isinstance(item[field],str) or len(item[field]) > 200):
                 raise HTTPException(422, 'Text must be under 200 characters.')
         if key == 'categories':

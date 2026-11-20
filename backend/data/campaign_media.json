@@ -1,0 +1,134 @@
+{
+  "documents": {
+    "hero": {
+      "expected_version": 6,
+      "value": {
+        "items": [
+          {
+            "id": "campaign-hero-ride",
+            "image": "assets/campaign/ride-wide.webp",
+            "imageMobile": "assets/campaign/ride-portrait.webp",
+            "title": "Little moments.\nBig adventures.",
+            "category": "Ride-On",
+            "editorial": true,
+            "published": true,
+            "kicker": "Made for little journeys",
+            "mediaType": "image"
+          },
+          {
+            "id": "campaign-hero-play",
+            "image": "assets/campaign/play-wide.webp",
+            "imageMobile": "assets/campaign/play-portrait.webp",
+            "title": "Small toys.\nBig discoveries.",
+            "category": "Toys & Learning",
+            "editorial": true,
+            "published": true,
+            "kicker": "Wonder starts with play",
+            "mediaType": "image"
+          }
+        ]
+      }
+    },
+    "banners": {
+      "expected_version": 1,
+      "value": {
+        "items": [
+          {
+            "id": "promo1-ride",
+            "image": "assets/campaign/ride-wide.webp",
+            "imageMobile": "assets/campaign/ride-compact.webp",
+            "title": "Little moments.\nBig adventures.",
+            "category": "Ride-On",
+            "editorial": true,
+            "published": true
+          },
+          {
+            "id": "promo1-play",
+            "image": "assets/campaign/play-wide.webp",
+            "imageMobile": "assets/campaign/play-compact.webp",
+            "title": "Small toys.\nBig discoveries.",
+            "category": "Toys & Learning",
+            "editorial": true,
+            "published": true
+          },
+          {
+            "id": "promo2-care",
+            "image": "assets/campaign/care-wide.webp",
+            "imageMobile": "assets/campaign/care-compact.webp",
+            "title": "Care for their\nevery day.",
+            "category": "Bath & Skincare",
+            "editorial": true,
+            "published": true
+          },
+          {
+            "id": "promo2-fashion",
+            "image": "assets/campaign/fashion-wide.webp",
+            "imageMobile": "assets/campaign/fashion-compact.webp",
+            "title": "Little outfits.\nEveryday wonder.",
+            "category": "Clothing",
+            "editorial": true,
+            "published": true
+          },
+          {
+            "id": "catalogue-ride",
+            "image": "assets/campaign/ride-wide.webp",
+            "imageMobile": "assets/campaign/ride-compact.webp",
+            "title": "Little moments.\nBig adventures.",
+            "category": "Ride-On",
+            "editorial": true,
+            "published": true
+          },
+          {
+            "id": "catalogue-play",
+            "image": "assets/campaign/play-wide.webp",
+            "imageMobile": "assets/campaign/play-compact.webp",
+            "title": "Small toys.\nBig discoveries.",
+            "category": "Toys & Learning",
+            "editorial": true,
+            "published": true
+          },
+          {
+            "id": "catalogue-care",
+            "image": "assets/campaign/care-wide.webp",
+            "imageMobile": "assets/campaign/care-compact.webp",
+            "title": "Care for their\nevery day.",
+            "category": "Bath & Skincare",
+            "editorial": true,
+            "published": true
+          },
+          {
+            "id": "catalogue-fashion",
+            "image": "assets/campaign/fashion-wide.webp",
+            "imageMobile": "assets/campaign/fashion-compact.webp",
+            "title": "Little outfits.\nEveryday wonder.",
+            "category": "Clothing",
+            "editorial": true,
+            "published": true
+          }
+        ]
+      }
+    },
+    "fashion": {
+      "expected_version": 1,
+      "value": {
+        "items": [
+          {
+            "id": "campaign-fashion",
+            "image": "assets/campaign/fashion-wide.webp",
+            "imageMobile": "assets/campaign/fashion-compact.webp",
+            "title": "Little outfits.\nEveryday wonder.",
+            "category": "Clothing",
+            "editorial": true,
+            "published": true
+          }
+        ]
+      }
+    },
+    "videos": {
+      "expected_version": 1,
+      "value": {
+        "items": []
+      }
+    }
+  }
+}
