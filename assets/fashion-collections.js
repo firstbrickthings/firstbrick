@@ -10,7 +10,7 @@
   if(!p.owner_photo_import&&!String(p.id).startsWith('bo-owner-')&&!String(p.image).startsWith('/api/media/'))return false;
   if(collection==='Accessories')return accessories(p);
   if(collection==='New Arrivals')return !!p.owner_photo_import||String(p.id).startsWith('bo-owner-');
-  if(collection==='Newborn Essentials')return /newborn|new born|0\s*[-–]\s*3\s*months/i.test([p.name,p.clothing?.age_range,p.product_details?.age_range].filter(Boolean).join(' '));
+  if(collection==='Newborn Essentials')return /newborn|new born|0\s*[-–]\s*3\s*months/i.test([p.name,p.clothing?.age_range,p.product_details?.age_range,...(p.variants||[]).map(v=>v.size)].filter(Boolean).join(' '));
   if(accessories(p))return false;
   if(collection==='Baby Boy')return !/dress|frock|lace|ruffle|floral|tulle|peter pan/i.test(p.name);
   return ['Dresses & Outfits','Baby Girl','All'].includes(collection);

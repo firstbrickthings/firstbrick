@@ -41,3 +41,21 @@ def test_manifest_uses_real_assets_and_each_source_has_one_product():
     for p in manifest['products']:
         assert len(p['gallery'])==len(set(p['gallery']))
         for photo in p['gallery']:assert (root/photo).is_file()
+
+
+def test_dashboard_only_publishes_selected_age_sizes_and_preserves_variant_ids(client):
+    from conftest import headers
+    with sessions()() as db:
+        db.add(Category(id='clothes',name='Clothing'));db.commit()
+    body={'name':'Owner age-size outfit','category_id':'clothes','description':'Owner product','image':'assets/main.jpg','gallery_images':['assets/main.jpg','assets/back.jpg'],'active':True,'sale_enabled':True,'variants':[{'label':'0–3 months','price':'1099','stock':5,'enabled':True},{'label':'2–3 years','price':'1299','stock':3,'enabled':True}]}
+    response=client.post('/api/admin/products',json=body,headers=headers('owner'))
+    assert response.status_code==201,response.text
+    saved=response.json();public=client.get('/api/catalog/products/'+saved['id']).json()
+    assert [v['label'] for v in public['variants']]==['0–3 months','2–3 years']
+    assert public['metadata']['galleryImages']==body['gallery_images']
+    variant_ids=[v['id'] for v in saved['variants']]
+    body['variants']=saved['variants'];body['variants'][0]['label']='3–6 months';body['expected_version']=saved['version']
+    updated=client.put('/api/admin/products/'+saved['id'],json=body,headers=headers('owner'))
+    assert updated.status_code==200,updated.text
+    assert [v['id'] for v in updated.json()['variants']]==variant_ids
+    assert [v['stock'] for v in updated.json()['variants']]==[5,3]
