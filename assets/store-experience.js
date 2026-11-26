@@ -25,7 +25,7 @@
   const custom=published.filter(b=>b.id.startsWith('catalogue-')&&b.published!==false&&b.image&&(!b.category||b.category===category)&&(!specific||b.reference!==true));
   let items=custom.map(b=>({image:b.image,title:b.title||category,category,reference:b.reference===true}));
   if(!items.length){
-   const pool=productsData.filter(p=>!p.catalogHidden&&p.image&&!p.image.startsWith('data:')&&(!category||category==='All'||p.category===category));
+   const pool=productsData.filter(p=>!p.catalogHidden&&p.image&&!p.image.startsWith('data:')&&(!category||category==='All'||p.category===category)&&(category!=='Clothing'||!window.BOFashion||BOFashion.belongs(p,specific?subcategory:'Dresses & Outfits')));
    const matches=pool.filter(p=>!subcategory||subcategory==='All'||p.subcategory===subcategory).sort((a,b)=>Number(!!b.owner_photo_import)-Number(!!a.owner_photo_import));
    const seen=new Set();
    for(const p of [...matches,...pool]){if(seen.has(p.image))continue;seen.add(p.image);items.push({image:p.image,title:category&&category!=='All'?category:'For every little moment',category:category==='All'?'':category,reference:true});if(items.length===3)break}
