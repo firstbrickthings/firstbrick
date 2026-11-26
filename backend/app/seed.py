@@ -93,6 +93,8 @@ def run():
         setup_owner_password(db)
         from .publish_retained_catalog import publish_retained_catalog
         publish_retained_catalog(db)
+        from .owner_nov26_catalog import apply_owner_nov26_catalog
+        apply_owner_nov26_catalog(db)
         db.commit()
     print(f'Imported {added} new products. Owner catalogue changes are logged separately.')
 

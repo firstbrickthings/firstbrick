@@ -1,0 +1,1450 @@
+{
+  "batch_id": "owner-products-20261126",
+  "source_sha256": "9323486a86b75af9fda3f8cadb4028f5a5c6cde2e5b223d387a94c34d38976ab",
+  "source_image_count": 275,
+  "excluded_images": {
+    "2-017": "Unidentified packaging certification close-up; no product association or certification claim inferred."
+  },
+  "products": [
+    {
+      "id": "bo-new-261126-001",
+      "name": "Rainbow Hedgehog Fine-Motor Activity Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Learning Toys",
+      "description": "A hedgehog activity toy with colourful removable pegs and storage inside the shell.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-006.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-006.jpg",
+        "assets/owner-products/new-20261126/1-001.jpg",
+        "assets/owner-products/new-20261126/1-002.jpg",
+        "assets/owner-products/new-20261126/1-003.jpg",
+        "assets/owner-products/new-20261126/1-004.jpg",
+        "assets/owner-products/new-20261126/1-005.jpg",
+        "assets/owner-products/new-20261126/1-007.jpg",
+        "assets/owner-products/new-20261126/1-008.jpg",
+        "assets/owner-products/new-20261126/1-009.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-006",
+        "1-001",
+        "1-002",
+        "1-003",
+        "1-004",
+        "1-005",
+        "1-007",
+        "1-008",
+        "1-009"
+      ]
+    },
+    {
+      "id": "bo-new-261126-002",
+      "name": "Magnetic Building Tiles with Ball Run",
+      "category": "Toys & Learning",
+      "subcategory": "Building & Construction",
+      "description": "Colourful magnetic tiles and track pieces for building towers and ball runs.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-015.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-015.jpg",
+        "assets/owner-products/new-20261126/1-010.jpg",
+        "assets/owner-products/new-20261126/1-011.jpg",
+        "assets/owner-products/new-20261126/1-012.jpg",
+        "assets/owner-products/new-20261126/1-013.jpg",
+        "assets/owner-products/new-20261126/1-014.jpg",
+        "assets/owner-products/new-20261126/1-016.jpg",
+        "assets/owner-products/new-20261126/1-017.jpg",
+        "assets/owner-products/new-20261126/1-018.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-015",
+        "1-010",
+        "1-011",
+        "1-012",
+        "1-013",
+        "1-014",
+        "1-016",
+        "1-017",
+        "1-018"
+      ]
+    },
+    {
+      "id": "bo-new-261126-003",
+      "name": "Adventure Racing Car Game",
+      "category": "Toys & Learning",
+      "subcategory": "Cars & Vehicles",
+      "description": "A racing-car play set with handheld game controls as pictured.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-019.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-019.jpg",
+        "assets/owner-products/new-20261126/1-020.jpg",
+        "assets/owner-products/new-20261126/1-021.jpg",
+        "assets/owner-products/new-20261126/1-022.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-019",
+        "1-020",
+        "1-021",
+        "1-022"
+      ]
+    },
+    {
+      "id": "bo-new-261126-004",
+      "name": "Princess Dollhouse Play Set",
+      "category": "Toys & Learning",
+      "subcategory": "Pretend Play",
+      "description": "A pink dollhouse play set with rooms, furniture and character accessories.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-024.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-024.jpg",
+        "assets/owner-products/new-20261126/1-023.jpg",
+        "assets/owner-products/new-20261126/1-025.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-024",
+        "1-023",
+        "1-025"
+      ]
+    },
+    {
+      "id": "bo-new-261126-005",
+      "name": "Blue Castle Building Blocks Set",
+      "category": "Toys & Learning",
+      "subcategory": "Building & Construction",
+      "description": "A blue castle construction set with detailed towers and building pieces.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-027.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-027.jpg",
+        "assets/owner-products/new-20261126/1-026.jpg",
+        "assets/owner-products/new-20261126/1-028.jpg",
+        "assets/owner-products/new-20261126/1-029.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "2999.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-027",
+        "1-026",
+        "1-028",
+        "1-029"
+      ]
+    },
+    {
+      "id": "bo-new-261126-006",
+      "name": "Pretend Makeup Dressing Table Set",
+      "category": "Toys & Learning",
+      "subcategory": "Pretend Play",
+      "description": "A toy dressing table with mirror, storage compartments and pretend-play accessories.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-035.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-035.jpg",
+        "assets/owner-products/new-20261126/1-030.jpg",
+        "assets/owner-products/new-20261126/1-031.jpg",
+        "assets/owner-products/new-20261126/1-032.jpg",
+        "assets/owner-products/new-20261126/1-033.jpg",
+        "assets/owner-products/new-20261126/1-034.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1999.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-035",
+        "1-030",
+        "1-031",
+        "1-032",
+        "1-033",
+        "1-034"
+      ]
+    },
+    {
+      "id": "bo-new-261126-007",
+      "name": "Magnetic Sticks and Balls Building Set — 64 Pieces",
+      "category": "Toys & Learning",
+      "subcategory": "Building & Construction",
+      "description": "A 64-piece magnetic stick-and-ball set for making shapes and structures.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-036.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-036.jpg",
+        "assets/owner-products/new-20261126/1-037.jpg",
+        "assets/owner-products/new-20261126/1-038.jpg",
+        "assets/owner-products/new-20261126/1-039.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1599.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-036",
+        "1-037",
+        "1-038",
+        "1-039"
+      ]
+    },
+    {
+      "id": "bo-new-261126-008",
+      "name": "Flash Drum with Drumsticks — Blue & Orange",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A colourful toy drum supplied with two drumsticks.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-040.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-040.jpg",
+        "assets/owner-products/new-20261126/1-041.jpg",
+        "assets/owner-products/new-20261126/1-042.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-040",
+        "1-041",
+        "1-042"
+      ]
+    },
+    {
+      "id": "bo-new-261126-009",
+      "name": "Space Adventure Activity Table",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A space-themed activity table with turning, pressing and sliding play features.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/1-051.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/1-051.jpg",
+        "assets/owner-products/new-20261126/1-043.jpg",
+        "assets/owner-products/new-20261126/1-044.jpg",
+        "assets/owner-products/new-20261126/1-045.jpg",
+        "assets/owner-products/new-20261126/1-046.jpg",
+        "assets/owner-products/new-20261126/1-047.jpg",
+        "assets/owner-products/new-20261126/1-048.jpg",
+        "assets/owner-products/new-20261126/1-049.jpg",
+        "assets/owner-products/new-20261126/1-050.jpg",
+        "assets/owner-products/new-20261126/2-001.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "1-051",
+        "1-043",
+        "1-044",
+        "1-045",
+        "1-046",
+        "1-047",
+        "1-048",
+        "1-049",
+        "1-050",
+        "2-001"
+      ]
+    },
+    {
+      "id": "bo-new-261126-010",
+      "name": "Space-Themed Pegboard Carry Case",
+      "category": "Toys & Learning",
+      "subcategory": "Learning Toys",
+      "description": "A portable pegboard activity case with colourful pieces for picture and shape play.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-005.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-005.jpg",
+        "assets/owner-products/new-20261126/2-002.jpg",
+        "assets/owner-products/new-20261126/2-003.jpg",
+        "assets/owner-products/new-20261126/2-004.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-005",
+        "2-002",
+        "2-003",
+        "2-004"
+      ]
+    },
+    {
+      "id": "bo-new-261126-011",
+      "name": "Foldable Camera Drone with Screen Controller",
+      "category": "Toys & Learning",
+      "subcategory": "Remote Control Toys",
+      "description": "A foldable drone with screen controller, carry case and the accessories shown.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-006.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-006.jpg",
+        "assets/owner-products/new-20261126/2-007.jpg",
+        "assets/owner-products/new-20261126/2-008.jpg",
+        "assets/owner-products/new-20261126/2-009.jpg",
+        "assets/owner-products/new-20261126/2-010.jpg",
+        "assets/owner-products/new-20261126/2-011.jpg",
+        "assets/owner-products/new-20261126/2-012.jpg",
+        "assets/owner-products/new-20261126/2-013.jpg",
+        "assets/owner-products/new-20261126/2-014.jpg",
+        "assets/owner-products/new-20261126/2-015.jpg",
+        "assets/owner-products/new-20261126/2-016.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "4999.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-006",
+        "2-007",
+        "2-008",
+        "2-009",
+        "2-010",
+        "2-011",
+        "2-012",
+        "2-013",
+        "2-014",
+        "2-015",
+        "2-016"
+      ]
+    },
+    {
+      "id": "bo-new-261126-012",
+      "name": "Wooden Tumbling Tower Game",
+      "category": "Toys & Learning",
+      "subcategory": "Puzzles & Games",
+      "description": "A wooden stacking-block game for building a tower and removing blocks in turn.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-018.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-018.jpg",
+        "assets/owner-products/new-20261126/2-019.jpg",
+        "assets/owner-products/new-20261126/2-020.jpg",
+        "assets/owner-products/new-20261126/2-021.jpg",
+        "assets/owner-products/new-20261126/2-022.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-018",
+        "2-019",
+        "2-020",
+        "2-021",
+        "2-022"
+      ]
+    },
+    {
+      "id": "bo-new-261126-013",
+      "name": "Bear-Shaped Magnetic Fishing Game",
+      "category": "Toys & Learning",
+      "subcategory": "Puzzles & Games",
+      "description": "A bear-shaped fishing game with small fish and fishing rods.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-026.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-026.jpg",
+        "assets/owner-products/new-20261126/2-023.jpg",
+        "assets/owner-products/new-20261126/2-024.jpg",
+        "assets/owner-products/new-20261126/2-025.jpg",
+        "assets/owner-products/new-20261126/2-027.jpg",
+        "assets/owner-products/new-20261126/2-028.jpg",
+        "assets/owner-products/new-20261126/2-029.jpg",
+        "assets/owner-products/new-20261126/2-030.jpg",
+        "assets/owner-products/new-20261126/2-031.jpg",
+        "assets/owner-products/new-20261126/2-032.jpg",
+        "assets/owner-products/new-20261126/2-033.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-026",
+        "2-023",
+        "2-024",
+        "2-025",
+        "2-027",
+        "2-028",
+        "2-029",
+        "2-030",
+        "2-031",
+        "2-032",
+        "2-033"
+      ]
+    },
+    {
+      "id": "bo-new-261126-014",
+      "name": "Foam Dart Blaster Play Set",
+      "category": "Toys & Learning",
+      "subcategory": "Outdoor & Action Toys",
+      "description": "A toy foam-dart blaster set. See the gallery for the supplied model and accessories.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-036.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-036.jpg",
+        "assets/owner-products/new-20261126/2-034.jpg",
+        "assets/owner-products/new-20261126/2-035.jpg",
+        "assets/owner-products/new-20261126/2-037.jpg",
+        "assets/owner-products/new-20261126/2-038.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1599.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-036",
+        "2-034",
+        "2-035",
+        "2-037",
+        "2-038"
+      ]
+    },
+    {
+      "id": "bo-new-261126-015",
+      "name": "Crawling Soldier Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A crawling soldier character toy shown in assorted colours.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-039.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-039.jpg",
+        "assets/owner-products/new-20261126/2-040.jpg",
+        "assets/owner-products/new-20261126/2-041.jpg",
+        "assets/owner-products/new-20261126/2-042.jpg",
+        "assets/owner-products/new-20261126/2-043.jpg",
+        "assets/owner-products/new-20261126/2-044.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-039",
+        "2-040",
+        "2-041",
+        "2-042",
+        "2-043",
+        "2-044"
+      ]
+    },
+    {
+      "id": "bo-new-261126-016",
+      "name": "Pop-Up Panda Activity Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Activity Toys",
+      "description": "A panda-themed pop-up activity toy with colourful play features.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-047.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-047.jpg",
+        "assets/owner-products/new-20261126/2-045.jpg",
+        "assets/owner-products/new-20261126/2-046.jpg",
+        "assets/owner-products/new-20261126/2-048.jpg",
+        "assets/owner-products/new-20261126/2-049.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-047",
+        "2-045",
+        "2-046",
+        "2-048",
+        "2-049"
+      ]
+    },
+    {
+      "id": "bo-new-261126-017",
+      "name": "Hermit Crab Walking Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "An orange crab-shaped walking toy with a colourful shell.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/2-051.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/2-051.jpg",
+        "assets/owner-products/new-20261126/2-050.jpg",
+        "assets/owner-products/new-20261126/2-052.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "2-051",
+        "2-050",
+        "2-052"
+      ]
+    },
+    {
+      "id": "bo-new-261126-018",
+      "name": "Little Rabbit Walking Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A rabbit character toy with moving legs and colourful ears.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-003.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-003.jpg",
+        "assets/owner-products/new-20261126/3-001.jpg",
+        "assets/owner-products/new-20261126/3-002.jpg",
+        "assets/owner-products/new-20261126/3-004.jpg",
+        "assets/owner-products/new-20261126/3-005.jpg",
+        "assets/owner-products/new-20261126/3-006.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-003",
+        "3-001",
+        "3-002",
+        "3-004",
+        "3-005",
+        "3-006"
+      ]
+    },
+    {
+      "id": "bo-new-261126-019",
+      "name": "Remote Control Dancing Robot",
+      "category": "Toys & Learning",
+      "subcategory": "Remote Control Toys",
+      "description": "A dancing robot toy supplied with a handheld remote and disc accessories.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-009.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-009.jpg",
+        "assets/owner-products/new-20261126/3-007.jpg",
+        "assets/owner-products/new-20261126/3-008.jpg",
+        "assets/owner-products/new-20261126/3-010.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-009",
+        "3-007",
+        "3-008",
+        "3-010"
+      ]
+    },
+    {
+      "id": "bo-new-261126-020",
+      "name": "Headphone Bear Dancing Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A headphone-wearing bear character with lights and dancing action. Assorted colours are pictured.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-013.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-013.jpg",
+        "assets/owner-products/new-20261126/3-011.jpg",
+        "assets/owner-products/new-20261126/3-012.jpg",
+        "assets/owner-products/new-20261126/3-014.jpg",
+        "assets/owner-products/new-20261126/3-015.jpg",
+        "assets/owner-products/new-20261126/3-016.jpg",
+        "assets/owner-products/new-20261126/3-017.jpg",
+        "assets/owner-products/new-20261126/3-018.jpg",
+        "assets/owner-products/new-20261126/3-019.jpg",
+        "assets/owner-products/new-20261126/3-020.jpg",
+        "assets/owner-products/new-20261126/3-021.jpg",
+        "assets/owner-products/new-20261126/3-022.jpg",
+        "assets/owner-products/new-20261126/3-023.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-013",
+        "3-011",
+        "3-012",
+        "3-014",
+        "3-015",
+        "3-016",
+        "3-017",
+        "3-018",
+        "3-019",
+        "3-020",
+        "3-021",
+        "3-022",
+        "3-023"
+      ]
+    },
+    {
+      "id": "bo-new-261126-021",
+      "name": "Walking Crab Activity Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A colourful walking crab toy with large claws and moving play features.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-024.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-024.jpg",
+        "assets/owner-products/new-20261126/3-025.jpg",
+        "assets/owner-products/new-20261126/3-026.jpg",
+        "assets/owner-products/new-20261126/3-027.jpg",
+        "assets/owner-products/new-20261126/3-028.jpg",
+        "assets/owner-products/new-20261126/3-029.jpg",
+        "assets/owner-products/new-20261126/3-030.jpg",
+        "assets/owner-products/new-20261126/3-031.jpg",
+        "assets/owner-products/new-20261126/3-032.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-024",
+        "3-025",
+        "3-026",
+        "3-027",
+        "3-028",
+        "3-029",
+        "3-030",
+        "3-031",
+        "3-032"
+      ]
+    },
+    {
+      "id": "bo-new-261126-022",
+      "name": "Electric Spray Train Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Cars & Vehicles",
+      "description": "A toy locomotive with a driver figure, rolling wheels and spray feature.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-039.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-039.jpg",
+        "assets/owner-products/new-20261126/3-033.jpg",
+        "assets/owner-products/new-20261126/3-034.jpg",
+        "assets/owner-products/new-20261126/3-035.jpg",
+        "assets/owner-products/new-20261126/3-036.jpg",
+        "assets/owner-products/new-20261126/3-037.jpg",
+        "assets/owner-products/new-20261126/3-038.jpg",
+        "assets/owner-products/new-20261126/3-040.jpg",
+        "assets/owner-products/new-20261126/3-041.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-039",
+        "3-033",
+        "3-034",
+        "3-035",
+        "3-036",
+        "3-037",
+        "3-038",
+        "3-040",
+        "3-041"
+      ]
+    },
+    {
+      "id": "bo-new-261126-023",
+      "name": "Capybara Dancing Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A capybara character toy with moving arms and light-and-sound play features.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-050.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-050.jpg",
+        "assets/owner-products/new-20261126/3-042.jpg",
+        "assets/owner-products/new-20261126/3-043.jpg",
+        "assets/owner-products/new-20261126/3-044.jpg",
+        "assets/owner-products/new-20261126/3-045.jpg",
+        "assets/owner-products/new-20261126/3-046.jpg",
+        "assets/owner-products/new-20261126/3-047.jpg",
+        "assets/owner-products/new-20261126/3-048.jpg",
+        "assets/owner-products/new-20261126/3-049.jpg",
+        "assets/owner-products/new-20261126/3-051.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-050",
+        "3-042",
+        "3-043",
+        "3-044",
+        "3-045",
+        "3-046",
+        "3-047",
+        "3-048",
+        "3-049",
+        "3-051"
+      ]
+    },
+    {
+      "id": "bo-new-261126-024",
+      "name": "Glasses Rabbit Dancing Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A rabbit character toy wearing glasses, with light-and-sound play features.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-055.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-055.jpg",
+        "assets/owner-products/new-20261126/3-052.jpg",
+        "assets/owner-products/new-20261126/3-053.jpg",
+        "assets/owner-products/new-20261126/3-054.jpg",
+        "assets/owner-products/new-20261126/3-056.jpg",
+        "assets/owner-products/new-20261126/3-057.jpg",
+        "assets/owner-products/new-20261126/3-058.jpg",
+        "assets/owner-products/new-20261126/3-059.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-055",
+        "3-052",
+        "3-053",
+        "3-054",
+        "3-056",
+        "3-057",
+        "3-058",
+        "3-059"
+      ]
+    },
+    {
+      "id": "bo-new-261126-025",
+      "name": "Elephant Ball-Blowing Walking Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "An elephant walking toy with a ball-blowing feature and colourful play pieces.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-066.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-066.jpg",
+        "assets/owner-products/new-20261126/3-060.jpg",
+        "assets/owner-products/new-20261126/3-061.jpg",
+        "assets/owner-products/new-20261126/3-062.jpg",
+        "assets/owner-products/new-20261126/3-063.jpg",
+        "assets/owner-products/new-20261126/3-064.jpg",
+        "assets/owner-products/new-20261126/3-065.jpg",
+        "assets/owner-products/new-20261126/3-067.jpg",
+        "assets/owner-products/new-20261126/3-068.jpg",
+        "assets/owner-products/new-20261126/3-069.jpg",
+        "assets/owner-products/new-20261126/3-070.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-066",
+        "3-060",
+        "3-061",
+        "3-062",
+        "3-063",
+        "3-064",
+        "3-065",
+        "3-067",
+        "3-068",
+        "3-069",
+        "3-070"
+      ]
+    },
+    {
+      "id": "bo-new-261126-026",
+      "name": "Stunt Tricycle Rider Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Cars & Vehicles",
+      "description": "A toy rider on a tricycle with moving and light-up play features.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-075.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-075.jpg",
+        "assets/owner-products/new-20261126/3-071.jpg",
+        "assets/owner-products/new-20261126/3-072.jpg",
+        "assets/owner-products/new-20261126/3-073.jpg",
+        "assets/owner-products/new-20261126/3-074.jpg",
+        "assets/owner-products/new-20261126/3-076.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-075",
+        "3-071",
+        "3-072",
+        "3-073",
+        "3-074",
+        "3-076"
+      ]
+    },
+    {
+      "id": "bo-new-261126-027",
+      "name": "Skateboard Rider Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Cars & Vehicles",
+      "description": "A skateboard toy with a rider character and moving play features.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-078.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-078.jpg",
+        "assets/owner-products/new-20261126/3-077.jpg",
+        "assets/owner-products/new-20261126/3-079.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-078",
+        "3-077",
+        "3-079"
+      ]
+    },
+    {
+      "id": "bo-new-261126-028",
+      "name": "Dancing Monkey Toy",
+      "category": "Toys & Learning",
+      "subcategory": "Musical Toys",
+      "description": "A monkey character toy with lights, music and dancing action.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/3-080.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/3-080.jpg",
+        "assets/owner-products/new-20261126/3-081.jpg",
+        "assets/owner-products/new-20261126/3-082.jpg",
+        "assets/owner-products/new-20261126/3-083.jpg",
+        "assets/owner-products/new-20261126/3-084.jpg",
+        "assets/owner-products/new-20261126/3-085.jpg",
+        "assets/owner-products/new-20261126/3-086.jpg",
+        "assets/owner-products/new-20261126/3-087.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1299.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "3-080",
+        "3-081",
+        "3-082",
+        "3-083",
+        "3-084",
+        "3-085",
+        "3-086",
+        "3-087"
+      ]
+    },
+    {
+      "id": "bo-new-261126-029",
+      "name": "Mee Mee Foldable Baby Bath Tub with Temperature Display",
+      "category": "Bath & Skincare",
+      "subcategory": "Bath Tubs",
+      "description": "A blue-and-white folding baby bath tub with a temperature display and drain.",
+      "brand": "Mee Mee",
+      "image": "assets/owner-products/new-20261126/4-006.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-006.jpg",
+        "assets/owner-products/new-20261126/4-001.jpg",
+        "assets/owner-products/new-20261126/4-002.jpg",
+        "assets/owner-products/new-20261126/4-003.jpg",
+        "assets/owner-products/new-20261126/4-004.jpg",
+        "assets/owner-products/new-20261126/4-005.jpg",
+        "assets/owner-products/new-20261126/4-007.jpg",
+        "assets/owner-products/new-20261126/4-008.jpg",
+        "assets/owner-products/new-20261126/4-009.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-006",
+        "4-001",
+        "4-002",
+        "4-003",
+        "4-004",
+        "4-005",
+        "4-007",
+        "4-008",
+        "4-009"
+      ]
+    },
+    {
+      "id": "bo-new-261126-030",
+      "name": "Baby Bath Tub with Built-In Reclining Support — Grey",
+      "category": "Bath & Skincare",
+      "subcategory": "Bath Tubs",
+      "description": "A grey baby bath tub with a shaped reclining support and drain plug.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-020.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-020.jpg",
+        "assets/owner-products/new-20261126/4-021.jpg",
+        "assets/owner-products/new-20261126/4-022.jpg",
+        "assets/owner-products/new-20261126/4-023.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1799.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-020",
+        "4-021",
+        "4-022",
+        "4-023"
+      ]
+    },
+    {
+      "id": "bo-new-261126-031",
+      "name": "Foldable Baby Bath Chair — Blue",
+      "category": "Bath & Skincare",
+      "subcategory": "Bath Tubs",
+      "description": "A folding blue mesh baby bath chair with a reclining support.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-024.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-024.jpg",
+        "assets/owner-products/new-20261126/4-025.jpg",
+        "assets/owner-products/new-20261126/4-026.jpg",
+        "assets/owner-products/new-20261126/4-027.jpg",
+        "assets/owner-products/new-20261126/4-028.jpg",
+        "assets/owner-products/new-20261126/4-029.jpg",
+        "assets/owner-products/new-20261126/4-030.jpg",
+        "assets/owner-products/new-20261126/4-031.jpg",
+        "assets/owner-products/new-20261126/4-032.jpg",
+        "assets/owner-products/new-20261126/4-033.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-024",
+        "4-025",
+        "4-026",
+        "4-027",
+        "4-028",
+        "4-029",
+        "4-030",
+        "4-031",
+        "4-032",
+        "4-033"
+      ]
+    },
+    {
+      "id": "bo-new-261126-032",
+      "name": "Contoured Baby Bath Support — Green",
+      "category": "Bath & Skincare",
+      "subcategory": "Bath Tubs",
+      "description": "A green contoured bath support with shaped back and foot areas.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-034.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-034.jpg",
+        "assets/owner-products/new-20261126/4-035.jpg",
+        "assets/owner-products/new-20261126/4-036.jpg",
+        "assets/owner-products/new-20261126/4-037.jpg",
+        "assets/owner-products/new-20261126/4-038.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-034",
+        "4-035",
+        "4-036",
+        "4-037",
+        "4-038"
+      ]
+    },
+    {
+      "id": "bo-new-261126-033",
+      "name": "Baby Bath Tub and Changing Mat Set — Aqua",
+      "category": "Bath & Skincare",
+      "subcategory": "Bath Tubs",
+      "description": "An aqua baby bath tub set with a changing mat and bathing accessories shown.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-051.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-051.jpg",
+        "assets/owner-products/new-20261126/4-039.jpg",
+        "assets/owner-products/new-20261126/4-040.jpg",
+        "assets/owner-products/new-20261126/4-041.jpg",
+        "assets/owner-products/new-20261126/4-042.jpg",
+        "assets/owner-products/new-20261126/4-043.jpg",
+        "assets/owner-products/new-20261126/4-044.jpg",
+        "assets/owner-products/new-20261126/4-045.jpg",
+        "assets/owner-products/new-20261126/4-046.jpg",
+        "assets/owner-products/new-20261126/4-047.jpg",
+        "assets/owner-products/new-20261126/4-048.jpg",
+        "assets/owner-products/new-20261126/4-049.jpg",
+        "assets/owner-products/new-20261126/4-050.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Set",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-051",
+        "4-039",
+        "4-040",
+        "4-041",
+        "4-042",
+        "4-043",
+        "4-044",
+        "4-045",
+        "4-046",
+        "4-047",
+        "4-048",
+        "4-049",
+        "4-050"
+      ]
+    },
+    {
+      "id": "bo-new-261126-034",
+      "name": "Dinosaur Potty Training Chair",
+      "category": "Potty",
+      "subcategory": "Potty Set",
+      "description": "A dinosaur-shaped potty training chair with a removable inner bowl.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-057.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-057.jpg",
+        "assets/owner-products/new-20261126/4-052.jpg",
+        "assets/owner-products/new-20261126/4-053.jpg",
+        "assets/owner-products/new-20261126/4-054.jpg",
+        "assets/owner-products/new-20261126/4-055.jpg",
+        "assets/owner-products/new-20261126/4-056.jpg",
+        "assets/owner-products/new-20261126/4-058.jpg",
+        "assets/owner-products/new-20261126/4-059.jpg",
+        "assets/owner-products/new-20261126/4-060.jpg",
+        "assets/owner-products/new-20261126/4-061.jpg",
+        "assets/owner-products/new-20261126/4-062.jpg",
+        "assets/owner-products/new-20261126/4-063.jpg"
+      ],
+      "options": [
+        {
+          "label": "Blue & Yellow",
+          "price": "1299.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/new-20261126/4-052.jpg",
+            "assets/owner-products/new-20261126/4-053.jpg",
+            "assets/owner-products/new-20261126/4-054.jpg",
+            "assets/owner-products/new-20261126/4-055.jpg",
+            "assets/owner-products/new-20261126/4-056.jpg",
+            "assets/owner-products/new-20261126/4-057.jpg"
+          ]
+        },
+        {
+          "label": "Red & Blue",
+          "price": "1299.00",
+          "stock": 5,
+          "images": [
+            "assets/owner-products/new-20261126/4-058.jpg",
+            "assets/owner-products/new-20261126/4-059.jpg",
+            "assets/owner-products/new-20261126/4-060.jpg",
+            "assets/owner-products/new-20261126/4-061.jpg",
+            "assets/owner-products/new-20261126/4-062.jpg",
+            "assets/owner-products/new-20261126/4-063.jpg"
+          ]
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "colour",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-057",
+        "4-052",
+        "4-053",
+        "4-054",
+        "4-055",
+        "4-056",
+        "4-058",
+        "4-059",
+        "4-060",
+        "4-061",
+        "4-062",
+        "4-063"
+      ]
+    },
+    {
+      "id": "bo-new-261126-035",
+      "name": "Handled Toilet Training Seat — Green",
+      "category": "Potty",
+      "subcategory": "Potty Training Set",
+      "description": "A green toilet training seat with side handles and a padded seat.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-064.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-064.jpg",
+        "assets/owner-products/new-20261126/4-065.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-064",
+        "4-065"
+      ]
+    },
+    {
+      "id": "bo-new-261126-036",
+      "name": "Animal-Shaped Toilet Training Seat — Pink",
+      "category": "Potty",
+      "subcategory": "Potty Training Set",
+      "description": "A pink toilet training seat with handles and a removable cushion.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-069.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-069.jpg",
+        "assets/owner-products/new-20261126/4-066.jpg",
+        "assets/owner-products/new-20261126/4-067.jpg",
+        "assets/owner-products/new-20261126/4-068.jpg",
+        "assets/owner-products/new-20261126/4-070.jpg",
+        "assets/owner-products/new-20261126/4-071.jpg",
+        "assets/owner-products/new-20261126/4-072.jpg",
+        "assets/owner-products/new-20261126/4-073.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1199.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-069",
+        "4-066",
+        "4-067",
+        "4-068",
+        "4-070",
+        "4-071",
+        "4-072",
+        "4-073"
+      ]
+    },
+    {
+      "id": "bo-new-261126-037",
+      "name": "Cartoon Padded Toilet Training Seat — Orange",
+      "category": "Potty",
+      "subcategory": "Potty Training Set",
+      "description": "An orange toilet training seat with handles and a cartoon-print cushion.",
+      "brand": "",
+      "image": "assets/owner-products/new-20261126/4-075.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-075.jpg",
+        "assets/owner-products/new-20261126/4-074.jpg",
+        "assets/owner-products/new-20261126/4-076.jpg",
+        "assets/owner-products/new-20261126/4-077.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "1099.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-075",
+        "4-074",
+        "4-076",
+        "4-077"
+      ]
+    },
+    {
+      "id": "bo-new-261126-038",
+      "name": "Baybee Wobble 3-in-1 Ladder Potty Trainer — Grey",
+      "category": "Potty",
+      "subcategory": "Ladder Potty",
+      "description": "A grey folding potty trainer that converts between a ladder seat and potty-chair modes.",
+      "brand": "Baybee",
+      "image": "assets/owner-products/new-20261126/4-078.jpg",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-078.jpg",
+        "assets/owner-products/new-20261126/4-079.jpg",
+        "assets/owner-products/new-20261126/4-080.jpg",
+        "assets/owner-products/new-20261126/4-081.jpg",
+        "assets/owner-products/new-20261126/4-082.jpg",
+        "assets/owner-products/new-20261126/4-083.jpg",
+        "assets/owner-products/new-20261126/4-084.jpg",
+        "assets/owner-products/new-20261126/4-085.jpg"
+      ],
+      "options": [
+        {
+          "label": "Standard",
+          "price": "2499.00",
+          "stock": 10
+        }
+      ],
+      "unit": "1 Piece",
+      "option_type": "pack",
+      "logistics_tier": 2,
+      "source_indices": [
+        "4-078",
+        "4-079",
+        "4-080",
+        "4-081",
+        "4-082",
+        "4-083",
+        "4-084",
+        "4-085"
+      ]
+    }
+  ],
+  "gallery_updates": [
+    {
+      "id": "bo-photo-3bc4-008",
+      "gallery": [
+        "assets/owner-products/new-20261126/4-019.jpg",
+        "assets/owner-products/new-20261126/4-010.jpg",
+        "assets/owner-products/new-20261126/4-011.jpg",
+        "assets/owner-products/new-20261126/4-012.jpg",
+        "assets/owner-products/new-20261126/4-013.jpg",
+        "assets/owner-products/new-20261126/4-014.jpg",
+        "assets/owner-products/new-20261126/4-015.jpg",
+        "assets/owner-products/new-20261126/4-016.jpg",
+        "assets/owner-products/new-20261126/4-017.jpg",
+        "assets/owner-products/new-20261126/4-018.jpg"
+      ]
+    }
+  ]
+}
